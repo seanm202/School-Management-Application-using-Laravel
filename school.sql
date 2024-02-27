@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2023 at 09:16 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Feb 27, 2024 at 12:39 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,13 +44,7 @@ CREATE TABLE `admins` (
 
 INSERT INTO `admins` (`adminId`, `userId`, `notifications_Posted`, `adminDetailId`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
 (1, 48, 0, 29, 1, 1, '2023-09-15 09:12:12', '2023-09-15 09:12:12'),
-(2, 46, 0, 28, 0, 1, '2023-09-15 09:18:17', '2023-09-15 09:18:17'),
-(3, 58, 0, 35, 1, 1, '2023-09-17 21:37:28', '2023-09-17 21:37:28'),
-(13, 80, 0, 54, 1, 1, '2023-09-27 11:18:16', '2023-09-27 11:18:16'),
-(14, 58, 0, 34, 0, 1, '2023-09-28 00:18:27', '2023-09-28 00:18:27'),
-(15, 58, 0, 34, 0, 1, '2023-10-02 01:24:03', '2023-10-02 01:24:03'),
-(16, 123, 0, 35, 0, 1, '2023-10-02 23:54:23', '2023-10-02 23:54:23'),
-(17, 123, 0, 35, 0, 1, '2023-10-02 23:54:31', '2023-10-02 23:54:31');
+(2, 46, 0, 28, 0, 1, '2023-09-15 09:18:17', '2023-09-15 09:18:17');
 
 -- --------------------------------------------------------
 
@@ -302,6 +296,7 @@ INSERT INTO `departments` (`departmentId`, `departmentName`, `status`, `batchId`
 
 CREATE TABLE `details` (
   `detailId` bigint(20) UNSIGNED NOT NULL,
+  `sal` varchar(200) NOT NULL DEFAULT 'Mr./Ms.',
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
   `age` int(11) NOT NULL,
@@ -328,35 +323,25 @@ CREATE TABLE `details` (
 -- Dumping data for table `details`
 --
 
-INSERT INTO `details` (`detailId`, `firstname`, `lastname`, `age`, `dob`, `contactNumber`, `alternateContactNumber`, `roleId`, `userId`, `address`, `bloodGroup`, `identificationMark`, `parentNumber`, `homePhoneNumber`, `fatherSpouseName`, `motherName`, `guardianName`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(2, 'Sean', 'M', 1, '2023-09-04', 1, 1, 4, 82, 'AB', 'A', 'A', 1, 1, 'A', 'A', 'A', 1, 1, NULL, '2023-09-28 00:28:21'),
-(4, 'q', 'q', 12, '2023-08-31', 1, 1, 2, 9, 'a', 'a', 'a', 12, 1, 'ar', 'at', 'ay', 1, 1, '2023-09-07 01:04:27', '2023-09-29 08:52:50'),
-(5, 'Sean', 'M', 1, '2023-09-21', 1, 1, 2, 81, 'A', 'A', 'A', 1, 1, 'A', 'A', 'A', 1, 1, NULL, '2023-09-07 22:00:55'),
-(30, 'g', 'n', 4, '2023-09-14', 8, 6, 4, 14, 'f', 'f', 'f', 0, 0, 'd', 'd', 'd', 1, 17, '2023-09-16 07:27:04', '2023-09-16 07:27:04'),
-(31, 'A', 'd', 4, '2023-09-28', 5, 5, 2, 4, 'h', 'h', 'h', 8, 8, 'l', 'l', 'l', 1, 17, '2023-09-17 20:58:27', '2023-09-17 20:58:27'),
-(32, 'A', 'd', 4, '2023-09-28', 5, 5, 2, 57, 'h', 'h', 'h', 8, 8, 'l', 'l', 'l', 1, 17, '2023-09-17 20:59:19', '2023-09-17 20:59:19'),
-(33, 'Sharma', 'S', 12, '2023-09-21', 12, 12, 4, 8, 'g', 'g', 'g', 12, 12, 'g', 'g', 'g', 0, 1, '2023-09-17 21:28:05', '2023-09-17 21:28:05'),
-(34, 'w', 'w', 1, '2023-09-21', 1, 1, 3, 58, 'www', 'ww', 'ww', 11, 11, 'wwww', 'wwwwwww', 'wwwwwwwwww', 0, 1, '2023-09-17 21:37:09', '2023-10-02 01:24:03'),
-(35, 'w', 'w', 3, '2023-09-21', 1, 1, 3, 123, 'www', 'ww', 'ww', 11, 11, 'wwww', 'wwwwwww', 'wwwwwwwwww', 0, 1, '2023-09-17 21:37:28', '2023-10-02 23:54:31'),
-(36, 'SSS1', 'dd', 1, '2023-09-14', 5, 5, 4, 59, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:56:56', '2023-09-17 21:56:56'),
-(37, 'SSS2', 'dd', 1, '2023-09-14', 5, 5, 4, 12, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:57:45', '2023-09-17 21:57:45'),
-(38, 'SSS3', 'dd', 1, '2023-09-14', 5, 5, 4, 63, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:59:57', '2023-09-17 21:59:57'),
-(39, 'W', 'w', 1, '2023-09-29', 1, 1, 4, 64, 'd', 'e', 'e', 2, 2, 'e', 'r', 'e', 1, 1, '2023-09-21 22:25:36', '2023-09-21 22:25:36'),
-(40, 'www', 'wfrtujhjhg', 7, '2023-09-29', 7, 7, 4, 65, 'u', 'u', 'u', 7, 7, 'u', 'u', 'u', 1, 1, '2023-09-22 00:19:57', '2023-09-22 00:19:57'),
-(41, '2', '2', 2, '2023-09-21', 2, 2, 4, 66, 'h', 'h', 'h', 7, 7, 'k', 'k', 'k', 1, 1, '2023-09-22 03:30:24', '2023-09-22 03:30:24'),
-(42, 'p', 'p', 0, '2023-09-29', 0, 0, 3, 67, 'p', 'p', 'p', 0, 0, 'p', 'p', 'p', 1, 1, '2023-09-22 07:27:24', '2023-09-22 07:27:24'),
-(43, 'g', 'g', 3, '2023-09-27', 3, 3, 3, 68, 'v', 'v', 'v', 5, 5, 'v', 'v', 'v', 1, 1, '2023-09-22 07:36:14', '2023-09-22 07:36:14'),
-(44, 's', 's', 1, '2023-09-19', 1, 1, 3, 69, 's', 's', 's', 1, 1, 's', 's', 's', 1, 1, '2023-09-22 08:00:21', '2023-09-22 08:00:21'),
-(45, 'r', 'r', 3, '2023-09-14', 3, 3, 2, 70, 'v', 'v', 'v', 4, 4, 'v', 'v', 'v', 1, 1, '2023-09-22 08:05:55', '2023-09-22 08:05:55'),
-(46, 't', 't', 3, '2023-08-31', 3, 3, 2, 72, 't', 't', 't', 3, 3, 't', 't', 't', 1, 1, '2023-09-22 08:08:02', '2023-09-22 08:08:02'),
-(47, 'Rah', 'H', 23, '2023-09-07', 23, 55, 2, 73, 'g', 'g', 'g', 5, 5, 'vg', 'g', 'g', 1, 1, '2023-09-26 04:12:30', '2023-09-26 04:12:30'),
-(48, 'o', 'p', 9, '2023-08-30', 9, 9, 2, 74, 'p', 'p', 'p', 9, 9, 'p', 'p', 'p', 1, 1, '2023-09-26 04:21:41', '2023-09-26 04:21:41'),
-(49, '1', '1', 1, '2023-09-22', 1, 1, 2, 75, '1', '1', '1', 1, 1, '1', '1', '1', 1, 1, '2023-09-26 04:41:01', '2023-09-26 04:41:01'),
-(50, '5', '5', 5, '2023-09-20', 5, 5, 2, 76, '5', '5', '5', 5, 5, '5', '5', '5', 1, 1, '2023-09-26 04:42:08', '2023-09-26 04:42:08'),
-(51, 'W', 'W', 1, '2023-09-01', 1, 1, 2, 77, '1', '1', '1', 1, 1, '1', '1', '1', 1, 1, '2023-09-26 21:38:45', '2023-09-26 21:38:45'),
-(52, 's', 's', 1, '2023-09-14', 1, 1, 4, 78, '1', '1', '1', 1, 1, '1', '1', '1', 1, 1, '2023-09-26 23:36:10', '2023-09-26 23:36:10'),
-(53, 's1', 's1', 1, '2023-09-14', 1, 1, 2, 79, '1', '11', '1', 1, 1, '1', '1', '1', 1, 1, '2023-09-27 09:22:15', '2023-09-27 09:22:15'),
-(54, 'e', 'e', 1, '2023-09-15', 1, 1, 3, 80, '1', '1', '1', 1, 1, '1', '1', '1', 1, 1, '2023-09-27 11:18:16', '2023-09-27 11:18:16');
+INSERT INTO `details` (`detailId`, `sal`, `firstname`, `lastname`, `age`, `dob`, `contactNumber`, `alternateContactNumber`, `roleId`, `userId`, `address`, `bloodGroup`, `identificationMark`, `parentNumber`, `homePhoneNumber`, `fatherSpouseName`, `motherName`, `guardianName`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
+(2, 'Mr./Ms.', 'Sean', 'M', 1, '2023-09-04', 1, 1, 4, 82, 'AB', 'A', 'A', 1, 1, 'A', 'A', 'A', 1, 1, NULL, '2023-09-28 00:28:21'),
+(31, 'Mr./Ms.', 'A', 'd', 4, '2023-09-28', 5, 5, 2, 4, 'h', 'h', 'h', 8, 8, 'l', 'l', 'l', 1, 1, '2023-09-17 20:58:27', '2023-09-17 20:58:27'),
+(32, 'Mr./Ms.', 'A', 'd', 4, '2023-09-28', 5, 5, 2, 57, 'h', 'h', 'h', 8, 8, 'l', 'l', 'l', 1, 17, '2023-09-17 20:59:19', '2023-09-17 20:59:19'),
+(33, 'Mr./Ms.', 'Sharma', 'S', 12, '2023-09-21', 12, 12, 4, 8, 'g', 'g', 'g', 12, 12, 'g', 'g', 'g', 0, 1, '2023-09-17 21:28:05', '2023-09-17 21:28:05'),
+(35, 'Mr.', 'w', 'w', 3, '2023-09-21', 1, 1, 3, 123, 'www', 'ww', 'ww', 11, 11, 'wwww', 'wwwwwww', 'wwwwwwwwww', 0, 1, '2023-09-17 21:37:28', '2024-02-18 09:19:14'),
+(36, 'Mr./Ms.', 'SSS1', 'dd', 1, '2023-09-14', 5, 5, 4, 59, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:56:56', '2023-09-17 21:56:56'),
+(38, 'Mr./Ms.', 'SSS3', 'dd', 1, '2023-09-14', 5, 5, 4, 63, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:59:57', '2023-09-17 21:59:57'),
+(39, 'Mr./Ms.', 'W', 'w', 1, '2023-09-29', 1, 1, 4, 64, 'd', 'e', 'e', 2, 2, 'e', 'r', 'e', 1, 1, '2023-09-21 22:25:36', '2023-09-21 22:25:36'),
+(40, 'Mr./Ms.', 'www', 'wfrtujhjhg', 7, '2023-09-29', 7, 7, 4, 65, 'u', 'u', 'u', 7, 7, 'u', 'u', 'u', 1, 1, '2023-09-22 00:19:57', '2023-09-22 00:19:57'),
+(41, 'Mr./Ms.', '2', '2', 2, '2023-09-21', 2, 2, 4, 66, 'h', 'h', 'h', 7, 7, 'k', 'k', 'k', 1, 1, '2023-09-22 03:30:24', '2023-09-22 03:30:24'),
+(42, 'Mr./Ms.', 'p', 'p', 0, '2023-09-29', 0, 0, 3, 67, 'p', 'p', 'p', 0, 0, 'p', 'p', 'p', 1, 1, '2023-09-22 07:27:24', '2023-09-22 07:27:24'),
+(43, 'Mr./Ms.', 'g', 'g', 3, '2023-09-27', 3, 3, 3, 68, 'v', 'v', 'v', 5, 5, 'v', 'v', 'v', 1, 1, '2023-09-22 07:36:14', '2023-09-22 07:36:14'),
+(44, 'Mr./Ms.', 's', 's', 1, '2023-09-19', 1, 1, 3, 69, 's', 's', 's', 1, 1, 's', 's', 's', 1, 1, '2023-09-22 08:00:21', '2023-09-22 08:00:21'),
+(45, 'Mr./Ms.', 'r', 'r', 3, '2023-09-14', 3, 3, 2, 70, 'v', 'v', 'v', 4, 4, 'v', 'v', 'v', 1, 1, '2023-09-22 08:05:55', '2023-09-22 08:05:55'),
+(48, 'Mr./Ms.', 'o', 'p', 9, '2023-08-30', 9, 9, 2, 74, 'p', 'p', 'p', 9, 9, 'p', 'p', 'p', 1, 1, '2023-09-26 04:21:41', '2023-09-26 04:21:41'),
+(50, 'Mr./Ms.', '5', '5', 5, '2023-09-20', 5, 5, 2, 76, '5', '5', '5', 5, 5, '5', '5', '5', 1, 1, '2023-09-26 04:42:08', '2023-09-26 04:42:08'),
+(52, 'Mr./Ms.', 's', 's', 1, '2023-09-14', 1, 1, 4, 78, '1', '1', '1', 1, 1, '1', '1', '1', 1, 1, '2023-09-26 23:36:10', '2023-09-26 23:36:10'),
+(54, 'Mr./Ms.', 'e', 'e', 1, '2023-09-15', 1, 1, 3, 80, '1', '1', '1', 1, 1, '1', '1', '1', 1, 1, '2023-09-27 11:18:16', '2023-09-27 11:18:16');
 
 -- --------------------------------------------------------
 
@@ -466,7 +451,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (48, '2023_09_08_045851_create_batches_table', 3),
 (49, '2023_09_13_100012_create_statuses_table', 4),
 (50, '2023_09_17_113119_create_todos_table', 5),
-(51, '2023_09_20_045711_create_projects_table', 6);
+(51, '2023_09_20_045711_create_projects_table', 6),
+(52, '2024_02_04_045558_create_priorities_table', 7),
+(53, '2024_02_05_053804_create_timetables_table', 7);
 
 -- --------------------------------------------------------
 
@@ -495,6 +482,20 @@ CREATE TABLE `personal_access_tokens` (
   `abilities` text DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `priority`
+--
+
+CREATE TABLE `priority` (
+  `priorityId` bigint(20) UNSIGNED NOT NULL,
+  `priorityName` int(11) NOT NULL,
+  `priorityValue` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -662,9 +663,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`studentId`, `userId`, `studentDetailsId`, `studentClassroom`, `studentGrade`, `studentSection`, `studentSemester`, `studentDepartmentId`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(3, 82, 2, 18, 1, 1, 1, 3, 3, 1, NULL, '2023-09-27 02:27:54'),
 (4, 14, 37, 17, 1, 1, 1, 1, 4, 1, NULL, '2023-09-13 03:56:36'),
-(9, 6, 41, 8, 0, 0, 0, 0, 0, 1, '2023-09-28 00:28:21', '2023-09-28 00:28:21');
+(10, 1415, 3623, 17, 1, 1, 1, 1, 4, 1, NULL, '2023-09-13 03:56:36');
 
 -- --------------------------------------------------------
 
@@ -755,6 +755,8 @@ CREATE TABLE `subjects` (
   `subjectGrade` varchar(255) NOT NULL,
   `subjectMaxMarks` varchar(255) NOT NULL,
   `subjectTextName` varchar(255) NOT NULL,
+  `subjectCode` varchar(200) NOT NULL,
+  `torlab` varchar(200) NOT NULL,
   `status` int(11) NOT NULL,
   `batchId` int(20) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -765,11 +767,11 @@ CREATE TABLE `subjects` (
 -- Dumping data for table `subjects`
 --
 
-INSERT INTO `subjects` (`subjectId`, `semesterId`, `departmentId`, `subjectName`, `subjectGrade`, `subjectMaxMarks`, `subjectTextName`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Data sScience', '1', '1', 'A', 1, 1, NULL, NULL),
-(3, 1, 1, '3', '1', '1', '1', 1, 1, '2023-09-26 04:57:37', '2023-09-26 04:57:37'),
-(4, 1, 1, '4', '1', '1', '1', 1, 1, '2023-09-26 04:58:34', '2023-09-26 04:58:34'),
-(5, 1, 9, '5', '1', '3', '3', 1, 1, '2023-09-26 08:04:45', '2023-09-26 08:04:45');
+INSERT INTO `subjects` (`subjectId`, `semesterId`, `departmentId`, `subjectName`, `subjectGrade`, `subjectMaxMarks`, `subjectTextName`, `subjectCode`, `torlab`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'Data sScience', '1', '1', 'A', '', '', 1, 1, NULL, NULL),
+(3, 1, 1, '3', '1', '1', '1', '', '', 1, 1, '2023-09-26 04:57:37', '2023-09-26 04:57:37'),
+(4, 1, 1, '4', '1', '1', '1', '', '', 1, 1, '2023-09-26 04:58:34', '2023-09-26 04:58:34'),
+(5, 1, 9, '5', '1', '3', '3', '', '', 1, 1, '2023-09-26 08:04:45', '2023-09-26 08:04:45');
 
 -- --------------------------------------------------------
 
@@ -819,10 +821,29 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`teacherId`, `userId`, `teacherDetailId`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(1, 81, 5, 1, 1, NULL, NULL),
+(1, 81, 5, 1, 0, NULL, '2024-02-18 09:18:43'),
 (2, 4, 31, 1, 1, NULL, NULL),
-(9, 9, 4, 1, 1, '2023-09-26 21:38:45', '2023-09-29 08:52:50'),
+(9, 9, 4, 1, 0, '2023-09-26 21:38:45', '2024-02-18 09:19:04'),
 (10, 79, 53, 1, 1, '2023-09-27 09:22:15', '2023-09-27 09:22:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timetables`
+--
+
+CREATE TABLE `timetables` (
+  `timetableId` bigint(20) UNSIGNED NOT NULL,
+  `dayId` int(11) NOT NULL,
+  `hourId` int(11) NOT NULL,
+  `classroomId` int(11) NOT NULL,
+  `oddOrEven` int(11) NOT NULL DEFAULT 1,
+  `semesterId` int(11) NOT NULL DEFAULT 1,
+  `teacherId` int(11) NOT NULL DEFAULT 0,
+  `subjectId` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -853,9 +874,7 @@ INSERT INTO `users` (`userId`, `name`, `email`, `email_verified_at`, `password`,
 (5, 'S', 'admin@admin.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 3, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27'),
 (6, 'Sean', 'seanmanjaly@gmail.com', NULL, '$2y$10$B3zB6r7lGoIMaBVSiOSDG.LKIEi4Brjowz0ObwLD.mlzeuXc6hMIS', 3, 777, 0, 1, NULL, '2023-09-05 00:48:00', '2023-09-28 00:28:21'),
 (8, 'Sean', 'seanmanjalys@gmail.com', NULL, '$2y$10$B3zB6r7lGoIMaBVSiOSDG.LKIEi4Brjowz0ObwLD.mlzeuXc6hMIS', 33, 66, 4, 1, NULL, '2023-09-05 00:48:00', '2023-09-17 21:28:05'),
-(9, 'a a', 'a@a.com', '0000-00-00 00:00:00', '$2y$10$Q5FTjwyZ9.UkkHEZcfncIe5frwJp/N0BOdASPUo7tuE71Yb3LJ5yG', 4, 1, 0, 1, '', '2023-09-07 01:04:27', '2023-09-29 08:52:50'),
 (13, 'g g', 'g@g', '0000-00-00 00:00:00', '$2y$10$9p7vmFyQ42T6JbFo2egj4OoQEki.a5QPdHwjw2v8oMhWhjUx3toNS', 14, 7, 4, 1, '', '2023-09-07 05:08:44', '2023-09-07 05:08:44'),
-(14, 'd d', 'd@d', '0000-00-00 00:00:00', '$2y$10$NKetdoOeHSdJluwJmc5M1.osnyUcO6XcNgPl1ZDW/9AZJ576sh3Py', 37, 1, 4, 0, '', '2023-09-08 01:40:30', '2023-09-08 01:40:30'),
 (37, 'q q', 'q@a', '0000-00-00 00:00:00', '$2y$10$bMheQLoq.vwd2EUcWWQ25.TK4KwGl.YmXZACtk.PJxmrBowt.ZVGi', 23, 1, 4, 0, '', '2023-09-08 01:41:04', '2023-09-08 01:41:04'),
 (38, 'h h', 'h@h', '0000-00-00 00:00:00', '$2y$10$EX64SDLb27aV012xeRD8AOh1zkGIL2IbNehaNocG12pnHSW.WHlF.', 24, 5, 4, 0, '', '2023-09-08 01:42:01', '2023-09-08 01:42:01'),
 (39, 'b b', 'b@n', '0000-00-00 00:00:00', '$2y$10$9nzp.2lrnS5e2RPHs2pNHejDL/1CRNTwwDQWbCGWB0EsJ7ZoAkSLO', 25, 6, 4, 0, '', '2023-09-08 01:50:56', '2023-09-08 01:50:56'),
@@ -871,28 +890,18 @@ INSERT INTO `users` (`userId`, `name`, `email`, `email_verified_at`, `password`,
 (54, 'g n', 'g@ggfvbx', '0000-00-00 00:00:00', '$2y$10$1yD1aUvbDdJdGS/V7/AGb..7esWZOGeNPJ/XV5jzcBrcbhXUnNVFK', 30, 3, 4, 17, '', '2023-09-16 07:27:04', '2023-09-16 07:27:04'),
 (55, '', 'a@aui', NULL, '$2y$10$G.Wm2ux6trxXfwfbXdgsLunz1ziuV8jggafmrrjqTu0o9l2reQc7m', 0, 4, 2, 17, '', '2023-09-17 20:58:27', '2023-09-17 20:58:27'),
 (57, '', 'a@auikio', NULL, '$2y$10$8ORvKN/ir89pOyu/JfU6xuCjaZXVfJVVfJJDJF8smhLlCiAdM5pNO', 32, 4, 2, 17, '', '2023-09-17 20:59:19', '2023-09-17 20:59:19'),
-(58, 'Sharma', 'seans@gmail.com', NULL, '$2y$10$K5m03p8Y1kCsNal/v.1cZuN/A5dVZmYfHr6eNHbNabJX58vyIfAjq', 35, 0, 0, 0, '', '2023-09-17 21:26:08', '2023-10-02 01:24:03'),
 (59, '', 'd@ghgv', NULL, '$2y$10$qVGDuVaZGx5jWZr25jO80.6Iah7KWrLT3e/cI2DOuyvyiBIJ8bPre', 36, 2, 3, 1, '', '2023-09-17 21:56:56', '2023-09-17 21:56:56'),
-(61, '', 'dsx@rcghgv', NULL, '$2y$10$tzvTBtlmzIgGxNBGBtCEB.bzLM8QkEU3O5/QGhVrkGvdQczoTcqSa', 37, 2, 3, 1, '', '2023-09-17 21:57:45', '2023-09-17 21:57:45'),
 (63, '', 'dxxxsx@rcghgv', NULL, '$2y$10$wifAkY23tI/JTvM1U.HBneuI0WmRAqYgscseoWwWeekJUCcPxU0X6', 38, 2, 3, 1, '', '2023-09-17 21:59:57', '2023-09-17 21:59:57'),
 (64, '', 'w@qwxgf', NULL, '$2y$10$AbIkreiOapQ048L4tY/uNeU5CH.O/ArPPqmttqa0G3Yi5al42jTlK', 39, 1, 3, 1, NULL, '2023-09-21 22:25:36', '2023-09-21 22:25:37'),
 (65, '', 'sds@hjlkg', NULL, '$2y$10$AYLWeSCi0v6p/sLVnsA5VOzJ5fEjMwT8N.0da/6i1ztqhvX9KuD5q', 40, 7, 3, 1, NULL, '2023-09-22 00:19:57', '2023-09-22 00:19:57'),
 (66, '', 't@n', NULL, '$2y$10$4N.yVw3HWZ756E3MShBMSOUCfbBeKyh4WObMNEfM58wMmyZw/9cZW', 41, 2, 3, 1, NULL, '2023-09-22 03:30:24', '2023-09-22 03:30:24'),
-(67, '', 'p@p', NULL, '$2y$10$WwKeqFmrfZUVPx9OhdgZVuJ6S54.dOQWRhFzlPWNtv13DSHLqXcoO', 42, 0, 3, 1, NULL, '2023-09-22 07:27:24', '2023-09-22 07:27:24'),
-(68, '', 'gh@sdfdf', NULL, '$2y$10$Q2QHoz81rXJmREDnS6Z83.2Vru.Ds9L8xHq9lF5XZcOifDdH.WFHO', 43, 3, 3, 1, NULL, '2023-09-22 07:36:14', '2023-09-22 07:36:14'),
 (69, '', 's@bnv', NULL, '$2y$10$AKW0XKsR.LqKoYlMimI6h.m1yOGcy7pNyr6IC2PzUwThbSeoqjOjy', 44, 1, 3, 1, NULL, '2023-09-22 08:00:21', '2023-09-22 08:00:21'),
 (70, '', 'v@r', NULL, '$2y$10$OyNXisoC.2qAbk/KWkCazes.8RfKBxgKW/61nc8f0SiDCahtKjYZe', 0, 3, 2, 1, NULL, '2023-09-22 08:05:55', '2023-09-22 08:05:55'),
-(72, '', 't@c', NULL, '$2y$10$jLEInRUdRo1xTGuhyCjwAuNpr6p2FC/eHozJvMfS4hwSfG7JXwHL2', 46, 3, 2, 1, NULL, '2023-09-22 08:08:02', '2023-09-22 08:08:02'),
-(73, '', 'h@ra', NULL, '$2y$10$CBKyN6t3qFyactclKLJZquk8ae9sNUZjCy6Aua8vrPtY44jPYBztW', 47, 34, 2, 1, NULL, '2023-09-26 04:12:30', '2023-09-26 04:12:30'),
 (74, '', 'pa@l', NULL, '$2y$10$KLexdaXPmqIdiFlWQL8.6eNzIIg1Rvk2.d6ECxFTgd7b.CjeOlZGu', 48, 9, 2, 1, NULL, '2023-09-26 04:21:41', '2023-09-26 04:21:41'),
-(75, '', 'w@wfgbn', NULL, '$2y$10$oWHatZoLr09796TiO9Rk8.vznEUej//BKtUrjEabTUcPfDyLspA86', 49, 1, 2, 1, NULL, '2023-09-26 04:41:01', '2023-09-26 04:41:01'),
 (76, '', 't@bwew', NULL, '$2y$10$G8bkj9UpoWznKuherdewr.OzEjNGX1Q6zY0/uIjSZGfGHb/qO41g2', 50, 5, 2, 1, NULL, '2023-09-26 04:42:08', '2023-09-26 04:42:08'),
-(77, '', 'w@wfd', NULL, '$2y$10$tBSoUC5UjeFFqmltxbb/P.iqF8NEoCq25UlqDnYGk1IP9hiSLdIiG', 51, 1, 2, 1, NULL, '2023-09-26 21:38:45', '2023-09-26 21:38:45'),
 (78, 's s', 's@1', '0000-00-00 00:00:00', '$2y$10$xTGRAZ5.hqqpr4cFblpT6e3kflL6Pby9APFPzicrVy/n1lOqswDkO', 52, 1, 4, 1, NULL, '2023-09-26 23:36:10', '2023-09-26 23:36:10'),
-(79, '', 's@s11', NULL, '$2y$10$G/PcKyYv3qgFq.ctwVu1muMNoZ6iokpnrKutSKlQ5FPxV/nhAuYyC', 53, 1, 2, 1, NULL, '2023-09-27 09:22:15', '2023-09-27 09:22:15'),
-(80, '', 'e@efv', NULL, '$2y$10$L6aJpX6VjkJ1UAOoM4hYzuwNycoN9nCfEZJf5tPB/hE0rK9tGtPVe', 54, 1, 3, 1, NULL, '2023-09-27 11:18:16', '2023-09-27 11:18:16'),
-(81, 'Teacher', 'teacher@teacher.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 2, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27'),
-(82, 'Student', 'student@student.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 4, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27');
+(82, 'Student', 'student@student.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 4, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27'),
+(83, '', 'sam@s.com', NULL, '$2y$10$pkxfWbTvHJebPIzNj6u4CeO7EqgHF3.aiV5pfCVkXlTxBqUNnA1Fy', 0, 2147483647, 2, 1, NULL, '2024-02-18 10:04:38', '2024-02-18 10:04:38');
 
 --
 -- Indexes for dumped tables
@@ -992,6 +1001,12 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `priority`
+--
+ALTER TABLE `priority`
+  ADD PRIMARY KEY (`priorityId`);
+
+--
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
@@ -1064,6 +1079,12 @@ ALTER TABLE `teachers`
   ADD PRIMARY KEY (`teacherId`);
 
 --
+-- Indexes for table `timetables`
+--
+ALTER TABLE `timetables`
+  ADD PRIMARY KEY (`timetableId`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -1078,7 +1099,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `adminId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `adminId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `attendences`
@@ -1150,13 +1171,19 @@ ALTER TABLE `hours`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `priority`
+--
+ALTER TABLE `priority`
+  MODIFY `priorityId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `projects`
@@ -1198,7 +1225,7 @@ ALTER TABLE `statuses`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `studentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `studentId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `student_marks`
@@ -1231,10 +1258,16 @@ ALTER TABLE `teachers`
   MODIFY `teacherId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `timetables`
+--
+ALTER TABLE `timetables`
+  MODIFY `timetableId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
