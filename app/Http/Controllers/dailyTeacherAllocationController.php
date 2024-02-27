@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\hours;
+use App\Models\admin;
 use App\Models\batch;
 use App\Models\days;
 use App\Models\dailyTeacherAllocation;
@@ -26,17 +27,17 @@ class dailyTeacherAllocationController extends Controller
             $hours=hours::all();
             foreach($hours as $hour)
             {
-            $dailyTeacherAllocations=new dailyTeacherAllocation;
-            $dailyTeacherAllocations->classRoomId=$SubjectTeacherForEachSection->classRoomId;
-            $dailyTeacherAllocations->teacherId=$SubjectTeacherForEachSection->teacherId;
-            $dailyTeacherAllocations->subjectId=$SubjectTeacherForEachSection->subjectId;
-            $dailyTeacherAllocations->dayId=$days->dayId;
-            $dailyTeacherAllocations->hourId=$hour->hourId;
-            $dailyTeacherAllocations->date=$request->dateSelected;
-            $dailyTeacherAllocations->subjectForSectionId=$SubjectTeacherForEachSection->subjectForSectionId;
-            $dailyTeacherAllocations->batchId=$batchId->batchId;
-            $dailyTeacherAllocations->status=1;
-            $dailyTeacherAllocations->save();
+            $dailyTeacherAllocation= new dailyTeacherAllocation;
+            $dailyTeacherAllocation->classRoomId=$SubjectTeacherForEachSection->classRoomId;
+            $dailyTeacherAllocation->teacherId=$SubjectTeacherForEachSection->teacherId;
+            $dailyTeacherAllocation->subjectId=$SubjectTeacherForEachSection->subjectId;
+            $dailyTeacherAllocation->dayId=$days->dayId;
+            $dailyTeacherAllocation->hourId=$hour->hourId;
+            $dailyTeacherAllocation->date=$request->dateSelected;
+            $dailyTeacherAllocation->subjectForSectionId=$SubjectTeacherForEachSection->subjectId;
+            $dailyTeacherAllocation->batchId=$batchId->batchId;
+            $dailyTeacherAllocation->status=1;
+            $dailyTeacherAllocation->save();
           }
           }
 
@@ -48,17 +49,17 @@ class dailyTeacherAllocationController extends Controller
             $hours=hours::all();
             foreach($hours as $hour)
             {
-            $dailyTeacherAllocations=new dailyTeacherAllocation;
-            $dailyTeacherAllocations->classRoomId=0;
-            $dailyTeacherAllocations->teacherId=$admin->adminId;
-            $dailyTeacherAllocations->subjectId=0;
-            $dailyTeacherAllocations->dayId=$days->dayId;
-            $dailyTeacherAllocations->hourId=$hour->hourId;
-            $dailyTeacherAllocations->date=$request->dateSelected;
-            $dailyTeacherAllocations->subjectForSectionId=0;
-            $dailyTeacherAllocations->batchId=$batchId->batchId;
-            $dailyTeacherAllocations->status=1;
-            $dailyTeacherAllocations->save();
+            $dailyTeacherAllocation=new dailyTeacherAllocation;
+            $dailyTeacherAllocation->classRoomId=0;
+            $dailyTeacherAllocation->teacherId=$admin->adminId;
+            $dailyTeacherAllocation->subjectId=0;
+            $dailyTeacherAllocation->dayId=$days->dayId;
+            $dailyTeacherAllocation->hourId=$hour->hourId;
+            $dailyTeacherAllocation->date=$request->dateSelected;
+            $dailyTeacherAllocation->subjectForSectionId=0;
+            $dailyTeacherAllocation->batchId=$batchId->batchId;
+            $dailyTeacherAllocation->status=1;
+            $dailyTeacherAllocation->save();
           }
           }
 

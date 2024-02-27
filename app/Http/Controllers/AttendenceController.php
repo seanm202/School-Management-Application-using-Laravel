@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\batch;
 use App\Models\attendence;
 use Illuminate\Http\Request;
+use App\Models\dailyTeacherAllocation;
+use App\Models\studentSubjectAttendance;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Redirect;
@@ -29,6 +31,41 @@ class AttendenceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public static function CreateAttendance()
+     {
+       if(count($att = \App\Models\attendence::where('userRole','=',2)->where('todaysDate','=',date('Y-m-d'))->get())==0)
+       {
+         $users = User::where('role', '=', 2)
+                    ->orWhere('role', '=', 3)->get();
+
+       foreach ($users as $userd) {
+
+         $attendence = new attendence;
+
+        $attendence->yes_or_no =  0;
+        $attendence->userId =  $userd->userId;
+        $attendence->userRole = $userd->role;
+        $attendence->status = 1;
+        // $attendence->dailyReg =  0;
+        $attendence->todaysDate=date('Y-m-d');
+        $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+        $attendence->save();
+       }
+              $attendence = new attendence;
+              $attendence->yes_or_no =  1;
+              $attendence->userId =  1;
+              $attendence->userRole = $userd->role;
+              $attendence->status = 1;
+              // $attendence->dailyReg =  0;
+              $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+              $attendence->todaysDate=date('Y-m-d');
+              $attendence->save();
+            }
+      return view("/Admin/admin");
+     }
+
+///////////Manual version of above function
     public function adminCreateAttendance(Request $request)
     {
       if(count($att = \App\Models\attendence::where('userRole','=',2)->where('todaysDate','=',date('Y-m-d'))->get())==0)
@@ -73,6 +110,52 @@ class AttendenceController extends Controller
 
             return Redirect::back();
           }
+
+
+
+                    public function deleteTodaysAttendenceForAllTeachers(Request $request)
+                    {
+
+                        $attendences = attendence::where('todaysDate', '=', $request->dateSelected)->where('userRole', '=', 2)->get();
+
+                        $attendences->each->delete();
+
+                      return Redirect::back();
+                    }
+
+
+
+                              public function deleteTodaysAttendenceForAllAdmins(Request $request)
+                              {
+
+                                      $attendences = attendence::where('todaysDate', '=', $request->dateSelected)->where('userRole', '=', 3)->get();
+
+                                      $attendences->each->delete();
+
+                                    return Redirect::back();
+                              }
+
+                              public function deleteTodaysAttendenceForAllStudents(Request $request)
+                              {
+
+                                      $studentSubjectAttendances = studentSubjectAttendance::where('date', '=', $request->dateSelected)->get();
+
+                                      $studentSubjectAttendances->each->delete();
+
+                                    return Redirect::back();
+                              }
+
+                              public function deleteTodaysAttendenceForAllStudentsByTeacher(Request $request)
+                              {
+                                $daily_teacher_allocationId=dailyTeacherAllocation::where('daily_Teacher_AllocationId','=',$request->daily_teacher_allocationIdThis)->first();
+                                $daily_teacher_allocationId->status=1;
+                                $daily_teacher_allocationId->save();
+                                      $studentSubjectAttendances = studentSubjectAttendance::where('date', '=', $request->dateSelected)->get();
+
+                                      $studentSubjectAttendances->each->delete();
+
+                                    return Redirect::back();
+                              }
 
 
 
@@ -177,12 +260,23 @@ class AttendenceController extends Controller
       return view("/Admin/attendance")->with('attendences',$attendences);
    }
 
-   public function markTodaysAttendance(Request $request)
+
+public function markTodaysAttendance(Request $request)
+{
+  //View attendence details
+  $att = attendence::where('attendanceDataId','=',$request->attendanceDataId)
+                     ->first();
+  $att->yes_or_no = $request->inOrOut;
+  $att->save();
+return back()->with('success', 'Updated successfully.');
+  // return Redirect::back();
+}
+public function markTodaysAttendanceStudent(Request $request)
    {
      //View attendence details
-     $att = attendence::where('attendanceDataId','=',$request->attendanceDataId)
+     $att = studentSubjectAttendance::where('id','=',$request->attendanceDataId)
                         ->first();
-     $att->yes_or_no = 1;
+     $att->yes_or_no = $request->inOrOut;
      $att->save();
 return back()->with('success', 'Updated successfully.');
      // return Redirect::back();

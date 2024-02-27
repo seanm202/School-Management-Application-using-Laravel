@@ -45,7 +45,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You'red logged in") }} {{ Auth::user()->name }}!
+                    {{ __("You're logged in") }} {{ Auth::user()->name }}!
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                       </div>
                       @endif
                 @if(count($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
-                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get())>0)
+                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get())==NULL)
                     @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
                       ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                       <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">
@@ -78,9 +78,9 @@
                         <br>
                         <button type="submit" class="btn btn-primary form-control">Mark Attendance</button>
                         {{ Form::close() }}
-                      @endforeach
-                @elseif(count($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
-                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get())>0)
+                    @endforeach
+                @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())->yes_or_no == 0)
                      @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
                       ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                       <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">

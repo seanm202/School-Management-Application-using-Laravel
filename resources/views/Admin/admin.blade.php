@@ -82,6 +82,7 @@
           <a href="#editTheHourName" class="list-group-item list-group-item-action bg-light">Edit Hour</a>
           <a href="#addTheHour" class="list-group-item list-group-item-action bg-light">Add Hour</a>
           <a href="#generateAttendanceForTeachers" class="list-group-item list-group-item-action bg-light">Generate Timetable</a>
+          <a href="#deleteTodaysAttendence" class="list-group-item list-group-item-action bg-light">Delete Attendance</a>
           <a href="#updateTheStatus" class="list-group-item list-group-item-action bg-light">Edit Status</a>
           <a href="#createTheStatus" class="list-group-item list-group-item-action bg-light">Add Status</a>
         </li>
@@ -89,8 +90,7 @@
       </div>
     </div>
   </div>
-
-    <div>
+</div>
 
 
     @if ( Auth::user()->role != 3)
@@ -105,7 +105,6 @@
 
 
 
-<div>
     <div class="py-12" id="createTheAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -123,7 +122,15 @@
                   @csrf
                     <table class="table">
                   <thead>
-
+                    <tr>
+                      <th>Salutation</th>
+                      <td>
+                      <select name="salutation">
+                           <option value="Mr./Ms." selected>Mr./Ms.</option>
+                           <option value="Mr">Mr.</option>
+                           <option value="Mr">Mr.</option>
+                      </select></td>
+                    </tr>
                     <tr>
                       <th>First Name</th>
                     <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control','id'=>'firstName'))}} </td>
@@ -391,6 +398,7 @@
                       <thead>
                       <tr>
                         <th>Semester Name</th>
+                        <th>Semester Number</th>
                         <th>Update</th>
                       </tr>
                     </thead>
@@ -400,11 +408,11 @@
                             {{ csrf_field() }}{{ method_field('POST') }}
 
                             {{Form::hidden('semesterId',$semester->semesterId)}}
-                            <tr><td>{{Form::text('semesterName',$semester->semesterName,array('placeholder'=>'Enter Semester Name : ','class'=>'form-control'))}}</td>
+                            <tr><td>{{Form::text('semesterName',$semester->semesterName,array('placeholder'=>'Enter Semester Name : ','class'=>'form-control'))}}</td><td>{{$semester->semesterNumber}}</td>
                               <td><button type="submit" class="btn btn-primary form-control">Update</button></td></tr>
                           {{Form::close()}}
                         @endforeach
-                      </body>
+                      </tbody>
                         </table>
                     @else
                       <h3 style="color:red;">List is empty<h3>
@@ -514,7 +522,7 @@ Hour creation
                </tr>
              </thead>
            <tbody>
-               @foreach(($hours=(\App\Models\hours::all())) as $hour)
+               @foreach(($hours=(\App\Models\hours::orderBy('hourStartingTime','asc')->get())) as $hour)
                   <tr><td>{{$hour->hourName}}</td>
                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour{{$hour->hourId}}">View</button></td>
                  </tr>
@@ -535,6 +543,7 @@ Hour creation
                           {{Form::label('hourName',"Hour Name")}}{{Form::hidden('hourId',$hour->hourId)}}
                           {{Form::text('hourName',$hour->hourName,array('placeholder'=>'Hour Name','class'=>'form-control','id'=>'hourName'))}}
                           {{Form::label('startingTime','Starting Time')}}{{Form::time('hourStartingTime',$hour->hourStartingTime,array('class'=>'form-control','id'=>'hourStartingTime'))}}
+                          {{Form::label('endingTime','Ending Time')}}{{Form::time('hourEndingTime',$hour->hourEndingTime,array('class'=>'form-control','id'=>'hourEndingTime'))}}
                            <button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}
                         <form action="{{route('admin.deleteHour',['hour'=>$hour->hourId])}}" method="POST" name="deleteHour" id="deleteHour">
                           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',$hour->hourId)}}
@@ -577,6 +586,7 @@ Hour creation
                  <div><form action="{{route('admin.addHourName')}}" method="POST" name="createHour" id="createHour">
                    {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('hourName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control',))}}<br><br>
                  {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStartingTime',NULL,array('class'=>'form-control'))}}<br><br>
+               {{Form::label('Pick Hour Ending Time : ','Pick Hour ending Time : ')}}{{Form::time('hourEndingTime',NULL,array('class'=>'form-control'))}}<br><br>
                  <button type="submit" class="btn btn-primary form-control">Add</button>{{Form::close()}}
                 </div>
              </div>
@@ -595,6 +605,48 @@ Hour creation
                 {{Form::label('Select date to generate attendance : ') }}
                 {{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}<br><br><hr><br>
                 <button type="submit" class="btn btn-primary form-control">Generate</button>{{Form::close()}}
+
+             </div>
+         </div>
+     </div>
+ </div>
+
+ <div class="py-12" id="deleteTodaysAttendence">
+     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+             <div class="p-6 text-gray-900">
+              Delete attendance for teachers
+               <form action="{{route('attendence.deleteTodaysAttendenceForAllTeachers')}}" method="POST" name="deleteTodaysAttendenceForAllTeachers" id="deleteTodaysAttendenceForAllTeachers">
+               {{ csrf_field() }}{{ method_field('POST') }}
+                {{Form::label('Select date to delete attendance : ') }}
+                {{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}<br><br><hr><br>
+                <button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}
+
+             </div>
+         </div>
+     </div>
+     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+             <div class="p-6 text-gray-900">
+              Delete attendance for today for admins
+               <form action="{{route('attendence.deleteTodaysAttendenceForAllAdmins')}}" method="POST" name="deleteTodaysAttendenceForAllAdmins" id="deleteTodaysAttendanceForAllAdmins">
+               {{ csrf_field() }}{{ method_field('POST') }}
+                {{Form::label('Select date to delete attendance : ') }}
+                {{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}<br><br><hr><br>
+                <button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}
+
+             </div>
+         </div>
+     </div>
+     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+             <div class="p-6 text-gray-900">
+              Delete attendance for today for students
+               <form action="{{route('attendence.deleteTodaysAttendenceForAllStudents')}}" method="POST" name="deleteTodaysAttendenceForAllStudents" id="deleteTodaysAttendenceForAllStudents">
+               {{ csrf_field() }}{{ method_field('POST') }}
+                {{Form::label('Select date to delete attendance : ') }}
+                {{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}<br><br><hr><br>
+                <button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}
 
              </div>
          </div>
@@ -697,8 +749,6 @@ Hour creation
                  </div>
              </div>
          </div>
-     </div>
-</div>
      </div>
    </div>
 

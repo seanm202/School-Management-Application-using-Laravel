@@ -134,7 +134,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     View Marks of the previous academic years
-                @if(count(($batches=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
+                @if(count(($studentMarks=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
                                                           ->where('student_marks.batchId','=',$currentBatchId)
                                                           ->where('users.userId','=',Auth::user()->userId)
                                                           ->join('class_rooms','class_rooms.classroomDetailId','=','student_marks.classRoomId')
@@ -164,7 +164,7 @@
                                                           'batches.batchName AS batchName '
                                                           )->get()
                                                           ))>0)
-                    @foreach(($batches=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
+                    @foreach(($studentMarks=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
                                                               ->where('student_marks.batchId','=',$currentBatchId)
                                                               ->where('users.userId','=',Auth::user()->userId)
                                                               ->join('class_rooms','class_rooms.classroomDetailId','=','student_marks.classRoomId')
@@ -191,17 +191,19 @@
                                                               'student_marks.student_marksId AS student_marksId',
                                                               'details.lastname AS lastName',
                                                               'details.firstname AS firstName',
-                                                              'batches.batchName AS batchName '
+                                                              'batches.batchId AS batchId',
+                                                              'batches.batchName AS batchName',
+                                                              'class_rooms.classroomDetailId AS classRoomId'
                                                               )->get()
-                                                              ) as $batch)
+                                                              ) as $studentMark)
                                                               <div style="display:flex;">
                                                                 <div>
-                                                                  <h2>Batch Name : {{$batch->batchName}}</h2>
+                                                                  <h2>Batch Name : {{$studentMark->batchName}}</h2>
                                                                 </div> <div style="padding:20px;"></div>
                                                                 <div>
                                                                   <h2>View : </h2>
                                                                   </div> <div style="padding:20px;"></div>
-                                                                  <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#getSelectedClassStudentList{{$classRoomsThatITeach->classRoomId}}">
+                                                                  <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#getSelectedClassStudentList{{$studentMark->classRoomId}}">
                                                                       View
                                                                     </button></div>
                                                                   </div>
@@ -210,7 +212,7 @@
 Select marks of chosen year
 
  -->
- <div class="modal fade" id="getStudentsMarksForThisBatch{{$batch->batch}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+ <div class="modal fade" id="getSelectedClassStudentList{{$studentMark->classRoomId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
        <div class="modal-header">
@@ -225,7 +227,7 @@ Select marks of chosen year
                                                   ->where('student_marks.batchId','=',$currentBatchId)
                                                    ->where('users.userId','=',Auth::user()->userId)
                                                    ->where('students.status','=',1)
-                                                   ->where('students.batch','=',$batch->batch)
+                                                   ->where('students.batchId','=',$studentMark->batchId)
                                                    ->join('class_rooms','class_rooms.classroomDetailId','=','student_marks.classRoomId')
                                                    ->join('students','students.studentId','=','student_marks.studentId')
                                                    ->join('users','users.userId','=','students.userId')

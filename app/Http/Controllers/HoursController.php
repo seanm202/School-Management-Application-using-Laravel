@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Response;
 use App\Models\batch;
 use App\Models\hours;
@@ -39,6 +40,28 @@ class HoursController extends Controller
      $hours->save();
 
      return redirect()->route('Admindashboard');
+    }
+
+
+    public static function setCurrentHour()
+    {
+      $currentHour= Carbon::now();
+      $crhour=$currentHour->toTimeString();
+$currentDBHourId=0;
+            $hours =  hours::orderBy('hourStartingTime','asc')->where('hourStartingTime','>',$crhour)->first();
+
+              $hours->status=1;
+              $currentDBHourId=$hours->hourId;
+              $hours->save();
+
+              $hoursOthers =  hours::where('hourId','!=',$currentDBHourId)->get();
+              foreach($hoursOthers as $hoursOther)
+              {
+                $hoursOther->status=0;
+                $hoursOther->save();
+              }
+
+     return ;
     }
 
     /**

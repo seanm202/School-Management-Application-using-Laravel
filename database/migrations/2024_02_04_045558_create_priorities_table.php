@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hours', function (Blueprint $table) {
-            $table->id('hourId');
-            $table->string('hourName');
-            $table->time('hourStartingTime');
-            $table->time('hourEndingTime');
-            $table->integer('status');
-            $table->timestamps();
+        Schema::create('priority', function (Blueprint $table) {
+            $table->id('priorityId');
+                $table->integer('priorityName')->default(NULL);
+                $table->integer('priorityValue')->default(NULL);
+                $table->timestamps();
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hours');
+        Schema::dropIfExists('priority');
     }
 };

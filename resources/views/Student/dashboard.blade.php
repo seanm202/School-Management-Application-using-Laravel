@@ -78,6 +78,33 @@
 
 
      </script>
+     <script type="text/javascript">
+
+         $.ajaxSetup({
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             }
+         });
+
+         $(".markTodaysAttendanceStudent").click(function(e){
+
+             e.preventDefault();
+
+             var form = $("#markTodaysAttendanceStudent");
+
+             $.ajax({
+                type:'POST',
+                url:"{{ route('attendence.markTodaysAttendanceStudent') }}",
+                data:form.serialize(),
+                success: function(response){
+
+                }
+             });
+
+         });
+
+
+     </script>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -90,26 +117,46 @@
             @endphp
         </div>
         @endif
-                      @if(($att = \App\Models\attendence::where('userId','=',Auth()->user()->userId)->where('attendences.batchId','=',$currentBatchId)->where('todaysDate','=',date('Y-m-d'))->first())==NULL)
-                      <form action="{{route('attendence.markTodaysAttendance')}}" method="POST" name="markAttendance" id="markAttendance">
+                      @if(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                                                                      ->where('student_subject_attendances.date','=',date('Y-m-d'))
+                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourIdr)
+                                                                      ->select('id')->first())!=NULL)
+
+                        @foreach(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                                                                        ->where('student_subject_attendances.date','=',date('Y-m-d'))
+                                                                        ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourId)
+                                                                        ->select('id')->get()) as $atst)
+
+                      <form action="{{route('attendence.markTodaysAttendanceStudent')}}" method="POST" name="markTodaysAttendanceStudent" id="markTodaysAttendanceStudent">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control'))}}
                         <br>
                         {{Form::hidden('userRole',4)}}
                         {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,'checked',array('class'=>'form-control'))}}
                         <br>
+                        <input type="hidden" name="attendanceDataId" value="{{$atst->id}}"></input>
                         <button class="btn btn-success btn-addAdminAdmin form-control">Mark Attendance</button>
                         {{ Form::close() }}
-                      @elseif(($att = \App\Models\attendence::where('userId','=',Auth()->user()->userId)->where('attendences.batchId','=',$currentBatchId)->where('todaysDate','=',date('Y-m-d'))->first())->dailyReg==0)
+                      @endforeach
+                      @elseif(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                                                                      ->where('student_subject_attendances.date','=',date('Y-m-d'))
+                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourId)
+                                                                      ->select('id')->first())==0)
+                                                                      @foreach(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                                                                                                                      ->where('student_subject_attendances.date','=',date('Y-m-d'))
+                                                                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourId)
+                                                                                                                      ->select('id')->get()) as $atst)
                       <form action="{{route('attendence.markTodaysAttendance')}}" method="POST" name="markAttendance" id="markAttendance">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1)}}
                         <br>
                         {{Form::hidden('userRole',4)}}}}
+                        <input type="hidden" name="attendanceDataId" value="{{$atst->id}}"></input>
                         {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,'checked',array('class'=>'form-control'))}}
                         <br>
                         <button class="btn btn-success btn-addAdminAdmin form-control">Mark Attendance</button>
                         {{ Form::close() }}
+                      @endforeach
                       @else
                         {{ Form::open() }}
                         {{ Form::label('attendance', 'Attendance Marked ? ');}}<input type="checkbox" name="loggedInOrOut" checked="checked;" class="form-control" disabled="false"/>

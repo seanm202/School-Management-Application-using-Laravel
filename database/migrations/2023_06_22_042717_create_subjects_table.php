@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('subjectGrade')->default(NULL);
             $table->string('subjectMaxMarks')->default(NULL);
             $table->string('subjectTextName')->default(NULL);
+            $table->string('subjectCode')->default(NULL);
+            $table->string('torlab')->default(NULL);
+            $table->integer('priority')->default(3);
             $table->integer('status')->default(NULL);
             $table->integer('batchId')->default(NULL);
             $table->timestamps();

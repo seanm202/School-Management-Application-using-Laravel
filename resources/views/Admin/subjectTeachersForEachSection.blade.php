@@ -154,7 +154,7 @@
     </div>
   </div>
 
-    <div>
+</div>
 
     @if ( Auth::user()->role != 3)
 
@@ -209,7 +209,7 @@
 
                                    <!-- Modal Header -->
                                    <div class="modal-header">
-                                     <h4 class="modal-title">Modal Heading</h4>
+                                     <h4 class="modal-title">Details</h4>
                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
                                    </div>
 
@@ -318,6 +318,7 @@
                                 <th>Class Teacher</th>
                                 <th>Class</th>
                                 <th>Subject</th>
+                                <th>Subject Code</th>
                                 <th>Update</th>
                                 <th>Delete</th>
                               </tr>
@@ -343,7 +344,8 @@
                                                                             'class_rooms.roomNo AS roomNo',
                                                                             'departments.departmentName AS departmentName',
                                                                             'subject_teacher_for_each_sections.subjectForSectionId AS subjectForSectionId',
-                                                                            'semesters.semesterName AS semesterName')
+                                                                            'semesters.semesterName AS semesterName',
+                                                                            'subjects.subjectCode AS subjectCode')
                                                                             ->get()) as $SubjectTeacherForEachSection)
                                     <tr>
                                       <td>{{$SubjectTeacherForEachSection->departmentName}}</td>
@@ -356,7 +358,7 @@
 
                                              <!-- Modal Header -->
                                              <div class="modal-header">
-                                               <h4 class="modal-title">Modal Heading</h4>
+                                               <h4 class="modal-title">Details</h4>
                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                              </div>
 
@@ -368,6 +370,7 @@
                                                Room No :{{$SubjectTeacherForEachSection->roomNo}}
                                                Department :{{$SubjectTeacherForEachSection->departmentName}}
                                                Semester : {{$SubjectTeacherForEachSection->semesterName}}
+                                               Subject Code : {{$SubjectTeacherForEachSection->subjectCode}}
                                              </div>
 
                                              <!-- Modal footer -->
@@ -379,7 +382,8 @@
                                          </div>
                                         </div>
                                       <td>{{$SubjectTeacherForEachSection->subjectName}}</td>
-                                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateTeacherForSubject{{$classRoom->classroomDetailId}}">View</button></td>
+                                      <td>{{$SubjectTeacherForEachSection->subjectCode}}</td>
+                                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateTeacherForSubject{{$classRoom->classroomDetailId}}">Update</button></td>
 
 
                                       <div class="modal fade" id="updateTeacherForSubject{{$classRoom->classroomDetailId}}">
@@ -388,7 +392,7 @@
 
                                              <!-- Modal Header -->
                                              <div class="modal-header">
-                                               <h4 class="modal-title">Modal Heading</h4>
+                                               <h4 class="modal-title">Details</h4>
                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                              </div>
 
@@ -398,6 +402,7 @@
                                                  <form action="{{route('SubjectTeacherForEachSections.updateTeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="editTeacherForSubject" id="editTeacherForSubject">
                                                  {{ csrf_field() }}{{ method_field('POST') }}
                                                  {{Form::label('teacher','Teacher : ')}}
+                                                 <input type="hidden" name="subjectForSectionId" value="{{$SubjectTeacherForEachSection->subjectForSectionId}}"></input>
                                                  <select name="teacherId" id="teacherId" class="form-control">
                                                    <option value="0" selected>Select Teacher</option>
                                                    @foreach(($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->join('details','details.userId','=','teachers.userId')

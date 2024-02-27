@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id('id');
             $table->integer('classRoomId');
             $table->integer('studentId');
+            $table->date('date');
             $table->integer('teacherId');
             $table->integer('subjectId');
             $table->integer('dayId');

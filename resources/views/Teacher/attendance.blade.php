@@ -96,7 +96,10 @@
                         <th>Grade</th>
                         <th>Semester</th>
                         <th>Section</th>
-                        <th>View</th>
+                        <th>Submitted ?</th>
+                        <th>Submit</th>
+                        <th>Date</th>
+                        <th>Delete</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -161,13 +164,17 @@
                                                                                       ->get())>0)
                                                             <td>                          <input type="checkbox" name="createClassAttendanceTable" value="1" checked disabled></input>
                                                           </td>
-                                                          <td><button type="submit" class="btn btn-primary form-control" disabled>Submit</button></input></td>
+                                                          <td><button type="submit" class="btn btn-primary form-control">Submit</button></input></td>
                                                         @else
                                                           <td> <input type="checkbox" class="form-control" name="createClassAttendanceTable" value="1"></input>
                                                           </td>
                                                           <td><button type="submit" class="btn btn-primary form-control">Submit</button></input></td>
                                                         @endif
                                                     {{Form::close()}}
+                                                    <td>  <form action="{{route('attendence.deleteTodaysAttendenceForAllStudentsByTeacher')}}" method="POST" name="deleteTodaysAttendenceForAllStudentsByTeacher" id="deleteTodaysAttendenceForAllStudentsByTeacher">
+                                                      {{ csrf_field() }}{{ method_field('POST') }}{{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}
+                                                    </td><input type="hidden" name="daily_teacher_allocationIdThis" value="{{$classRoomsThatITeach->dailyTeacherAllocationId}}"></input>
+                                                    <td><button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}</td>
                                                   </tr>
 
                     @endforeach
@@ -308,7 +315,7 @@
                                                                 @endif
                                                       @endforeach
                                                             </table>
-                                                            <button type="submit" class="btn btn-primary form-control" disabled>Submit</button>
+                                                            <button type="submit" class="btn btn-primary form-control">Submit</button>
                                                             {{Form::close()}}
                                                                             </div>
                                                                               <div class="modal-footer">

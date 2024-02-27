@@ -25,6 +25,9 @@ class subject extends Model
         'subjectGrade',
         'subjectMaxMarks',
         'subjectTextName',
+        'subjectCode',
+        'torlab',
+        'priority',
           'status',
             'batchId',
     ];

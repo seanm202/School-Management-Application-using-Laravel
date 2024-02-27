@@ -132,12 +132,13 @@ class ClassRoomController extends Controller
     }
 
 
-    public function updateClassroomTeacher(Request $request)
+    public function updateClassroomTeacherAndDescription(Request $request)
     {
        //Update A Classroom
-        $classRoom= classRoom::where('classroomDetailId',$request->classroomId)->first();
-        $classRoom->classTeacher=$request->teacherId;
-        $classRoom->save();
+        $classRooms= classRoom::where('classroomDetailId','=',$request->classroomId)->first();
+        $classRooms->classTeacher=$request->teacherId;
+        $classRooms->description=$request->description;
+        $classRooms->save();
        //return redirect()->route('AdminStudent');
 return redirect()->route('AdminClassRoom',['id'=>'viewEditClassrooms'])->with('success', 'Updated successfully.');
     }

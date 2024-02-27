@@ -73,6 +73,7 @@ return;
     public function store(Request $request)
     {  $validated = $request->validate([
 
+              'salutation' => ['required'],
               'firstName' => ['required'],
               'lastName' => ['required'],
               'age' => ['required', 'numeric'],
@@ -110,6 +111,7 @@ return;
         $details = new detail;
 $role=$request->roleId;
 $userId=$request->userId;
+       $details->sal = $request->salutation;
        $details->firstname = $request->firstName;
        $details->lastname = $request->lastName;
        $details->age = $request->age;
@@ -258,6 +260,7 @@ $userId=$request->userId;
         //Updating classroom details
         $validated = $request->validate([
 
+                  'salutation' => ['required'],
                   'firstName' => ['required'],
                   'lastName' => ['required'],
                   'age' => ['required', 'numeric'],
@@ -292,6 +295,7 @@ $userId=$request->userId;
    ]
     ]);
         $detail = detail::where('detailId', $request->detailId)->first();
+        $detail->sal=$request->salutation;
         $detail->firstname = $request->firstName;
         $detail->lastname = $request->lastName;
         $detail->age = $request->age;
@@ -357,6 +361,7 @@ $userId=$request->userId;
    ]
     ]);
         $detail = detail::where('detailId', $request->detailId)->first();
+        $detail->sal=$request->salutation;
         $detail->firstname = $request->firstname;
         $detail->lastname = $request->lastname;
         $detail->age = $request->age;
@@ -421,6 +426,7 @@ $userId=$request->userId;
    ]
     ]);
         $detail = detail::where('detailId',$request->detailId)->first();
+        $detail->sal=$request->salutation;
         $detail->firstname = $request->firstName;
         $detail->lastname = $request->lastName;
         $detail->age = $request->age;
@@ -504,6 +510,7 @@ $userId=$request->userId;
         //Add An Entity
         $details = new detail;
 
+        $detail->sal=$request->salutation;
        $details->firstname = $request->firstName;
        $details->lastname = $request->lastName;
        $details->age = $request->age;
@@ -596,6 +603,7 @@ $userId=$request->userId;
         //Add An Entity
         $details = new detail;
 
+        $detail->sal=$request->salutation;
        $details->firstname = $request->firstName;
        $details->lastname = $request->lastName;
        $details->age = $request->age;
@@ -688,6 +696,7 @@ $userId=$request->userId;
           //Add An Entity
           $details = new detail;
 
+          $detail->sal=$request->salutation;
          $details->firstname = $request->firstName;
          $details->lastname = $request->lastName;
          $details->age = $request->age;
@@ -782,6 +791,7 @@ $userId=$request->userId;
             //Add An Entity
             $details = new detail;
 
+            $detail->sal=$request->salutation;
            $details->firstname = $request->firstName;
            $details->lastname = $request->lastName;
            $details->age = $request->age;
@@ -826,13 +836,68 @@ $userId=$request->userId;
      * @param  \App\Models\detail  $detail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(detail $details)
+
+
+
+             public function deleteAdmin($request)
+             {
+                 //Delete self - details
+                 $admin = admin::where('userId','=',$request->userId);
+                 $admin->delete();
+                  return ;
+             }
+
+
+              public function deleteStudent($request)
+              {       //Delete self - details
+                  $student = student::where('userId','=',$request->userId);
+                  $student->delete();
+                  return back()->with('success', 'Deleted successfully.');
+              }
+
+        public function deleteTeacher($request)
+        {
+                                      //Delete self - details
+        $teacher = teacher::where('userId','=',$request->userId);
+        $teacher->delete();
+        return back()->with('success', 'Deleted successfully.');
+        }
+
+        public function destroyAdmin(Request $request)
+        {
+            //Delete self - details
+            $user=User::where('userId','=',$request->userId)->first();
+            $user->delete();
+            $details = detail::where('userId','=',$request->userId);
+            $details->delete();
+            deleteAdmin($details->userId);
+
+             return back()->with('success', 'Deleted successfully.');
+        }
+
+        public function destroyStudent(Request $request)
+          {
+              //Delete self - details
+              $user=User::where('userId','=',$request->userId)->first();
+              $user->delete();
+              $details = detail::where('userId','=',$request->userId);
+              $details->delete();
+              deleteStudent($details->userId);
+
+               return back()->with('success', 'Deleted successfully.');
+          }
+    public function destroyTeacher(Request $request)
     {
         //Delete self - details
-        $details = detail::where('userId','=',$details->userId);
+        $user=User::where('userId','=',$request->userId)->first();
+        $user->delete();
+        $details = detail::where('userId','=',$request->userId);
         $details->delete();
+        deleteTeacher($details->userId);
+
          return back()->with('success', 'Deleted successfully.');
     }
+
 
    public function getDetailsAboutId()
    {

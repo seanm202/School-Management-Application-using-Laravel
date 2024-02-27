@@ -19,6 +19,10 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\dailyTeacherAllocationController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\HoursController;
+use App\Http\Controllers\PriorityController;
+use App\Http\Controllers\TimetableController;
+use App\Http\Controllers\DomPdfController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,8 +35,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+////////////For pdf download
 
-
+Route::get('/get-pdf/{studentId}',[DomPdfController::class,'getPdf'])->name('getPdf');
+Route::post('users/view-pdf', [HomeController::class, 'viewPDF'])->name('view-pdf');
+Route::post('users/download-pdf', [HomeController::class, 'downloadPDF'])->name('download-pdf');
 // Route::get('/', [ProjectController::class, 'index']);
 
 Route::resource('projects', ProjectController::class);
@@ -41,6 +48,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//////Create timetable//////
+Route::post('Timetable.generateTimetable', [TimetableController::class, 'generateTimetable'])->name('Timetable.generateTimetable');
+////////////Add Priority/////////
+
+Route::post('priority.createPriority', [PriorityController::class, 'createPriority'])->name('priority.createPriority');
+Route::post('priority.editPriority', [PriorityController::class, 'updatePriority'])->name('priority.editPriority');
 ////Assign teachers of subjects to various classes
 /////SubjectTeacherForEachSectionsController////
 Route::get('SubjectTeacherForEachSections.getDetailsOfSubjectTeacherForEachSections', [SubjectTeacherForEachSectionsController::class, 'getDetailsOfSubjectTeacherForEachSections'])->name('getDetailsOfSubjectTeacherForEachSections');
@@ -87,11 +100,22 @@ Route::resource('admin', 'AdminController');
 
 /////Attendance/////////
 
+Route::post('hours.setCurrentHour', [HoursController::class, 'setCurrentHour'])->name('hours.setCurrentHour');
+
+
 Route::post('attendence.showDaysAbsentees', [AttendenceController::class, 'showDaysAbsentees'])->name('showAbsenteesOn');
 Route::post('attendence.showAbsenteesBetweenDays', [AttendenceController::class, 'showAbsenteesBetweenDays'])->name('showAbsenteesBetween');
 
+
+
+
+Route::post('attendence.deleteTodaysAttendenceForAllTeachers', [AttendenceController::class, 'deleteTodaysAttendenceForAllTeachers'])->name('attendence.deleteTodaysAttendenceForAllTeachers');
+Route::post('attendence.deleteTodaysAttendenceForAllAdmins', [AttendenceController::class, 'deleteTodaysAttendenceForAllAdmins'])->name('attendence.deleteTodaysAttendenceForAllAdmins');
+Route::post('attendence.deleteTodaysAttendenceForAllStudents', [AttendenceController::class, 'deleteTodaysAttendenceForAllStudents'])->name('attendence.deleteTodaysAttendenceForAllStudents');
+Route::post('attendence.deleteTodaysAttendenceForAllStudentsByTeacher', [AttendenceController::class, 'deleteTodaysAttendenceForAllStudentsByTeacher'])->name('attendence.deleteTodaysAttendenceForAllStudentsByTeacher');
 Route::post('attendence.showTodaysAbsentees', [AttendenceController::class, 'showTodaysAbsentees'])->name('showTodaysAbsentees');
 Route::post('attendence.markTodaysAttendance', [AttendenceController::class, 'markTodaysAttendance'])->name('attendence.markTodaysAttendance');
+Route::post('attendence.markTodaysAttendanceStudent', [AttendenceController::class, 'markTodaysAttendanceStudent'])->name('attendence.markTodaysAttendanceStudent');
 Route::post('attendence.resetTodaysAttendance', [AttendenceController::class, 'resetTodaysAttendance'])->name('resetTodaysAttendance');
 Route::post('attendence.adminCreateAttendance', [AttendenceController::class, 'adminCreateAttendance'])->name('createAttendance');
 Route::post('attendence.adminSubmitTodaysAttendance', [AttendenceController::class, 'adminSubmitTodaysAttendance'])->name('submitTodaysAttendance');
@@ -100,7 +124,7 @@ Route::resource('attendence', 'AttendenceController');
 
 Route::get('classRoom.gatherClassRoomCreateData', [ClassRoomController::class, 'gatherClassRoomCreateData'])->name('getAdminClassRoomDetails');
 Route::post('classRoom.updateClassroomStudent', [ClassRoomController::class, 'updateClassroomStudent'])->name('classRoom.updateClassroomStudent');
-Route::post('classRoom.updateClassroomTeacher', [ClassRoomController::class, 'updateClassroomTeacher'])->name('classRoom.updateClassroomTeacher');
+Route::post('classRoom.updateClassroomTeacherAndDescription', [ClassRoomController::class, 'updateClassroomTeacherAndDescription'])->name('classRoom.updateClassroomTeacherAndDescription');
 Route::post('classRoom.assignClassroomStudent', [ClassRoomController::class, 'assignClassroomStudent'])->name('classRoom.assignClassroomStudent');
 Route::post('classRoom.createclassRoom', [ClassRoomController::class, 'createclassRoom'])->name('classRoom.createclassRoom');
 Route::post('classRoom.updateclassRoom', [ClassRoomController::class, 'updateclassRoom'])->name('classRoom.updateclassRoom');
@@ -118,6 +142,9 @@ Route::post('detail.createStudentAdmin', [DetailController::class, 'createStuden
 Route::post('detail.createStudentTeacher', [DetailController::class, 'createStudentTeacher'])->name('detail.createStudentTeacher');
 Route::post('detail.createAdmin', [DetailController::class, 'createAdmin'])->name('detail.createAdmin');
 Route::resource('detail', 'DetailController');
+Route::post('detail.deleteTeacherDetails', [DetailController::class, 'destroyTeacher'])->name('detail.deleteTeacherDetails');
+Route::post('detail.deleteStudentDetails', [DetailController::class, 'destroyStudent'])->name('detail.deleteStudentDetails');
+Route::post('detail.deleteAdminDetails', [DetailController::class, 'destroyAdmin'])->name('detail.deleteAdminDetails');
 
 ///////Role////
 Route::get('role.getRoleDetails', [RoleController::class,'getRoleDetails'])->name('getRoleDetails');
@@ -165,8 +192,13 @@ Route::resource('semester', 'SemesterController');
 
 Route::post('studentMarks.updateMarksTeacher', [StudentMarksController::class, 'updateMarksTeacher'])->name('studentMarks.updateMarksTeacher');
 Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('studentMarks.updatecreateSubject');
+Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('studentMarks.adminStudentAddStudentMarks');
+Route::post('studentMarks.deleteMarkEntry', [StudentMarksController::class, 'deleteMarkEntry'])->name('studentMarks.deleteMarksEntryAdmin');
 Route::post('studentMarks.createMarkEntry', [StudentMarksController::class, 'createMarkEntry'])->name('studentMarks.createMarkEntry');
 Route::post('studentMarks.destroy', [StudentMarksController::class, 'destroy'])->name('deleteStudentMarks');
+
+////////Print MarkSheet///////////
+Route::post('studentMarks.printMarksheetStudentByAdmin', [StudentMarksController::class, 'printMarksheetStudentByAdmin'])->name('studentMarks.printMarksheetStudentByAdmin');
 Route::resource('studentMarks', 'StudentMarksController');
 
 

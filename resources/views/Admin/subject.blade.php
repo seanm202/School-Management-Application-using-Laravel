@@ -89,7 +89,7 @@
     </div>
   </div>
 
-    <div>
+</div>
 
 
     @if ( Auth::user()->role != 3)
@@ -161,6 +161,23 @@
            <th>Subject Text Name : </th>
            <td>{{Form::text('subjectTextName',NULL,array('placeholder'=>'Textbook Name','class'=>'form-control','id'=>'subjectTextName'))}}</td></tr>
            <tr>
+             <th>Subject Code : </th>
+             <td>{{Form::text('subjectCode',NULL,array('placeholder'=>'Subject Code','class'=>'form-control','id'=>'subjectCode'))}}</td></tr>
+             <tr>
+               <th>Theory Or Lab : </th>
+               <td>
+               <select name="torLab">
+                 <option value="Theory">Theory</option>
+                   <option value="Lab">Lab</option>')
+                </select></td></tr>
+           <tr>
+             <th>Subject Priority : </th>
+             <td><select name="subjectPriority" class="form-control">
+             @foreach(($priorities = \App\Models\Priority::all()) as $priority)
+               <option value="{{$priority->priorityId}}">{{$priority->priorityName}} ( {{$priority->priorityValue}} ) </option>
+             @endforeach
+           </select></td></tr>
+           <tr>
              <th>Submit</th>
              <td><button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}</td></tr>
 
@@ -201,7 +218,8 @@
                       <th>Semester : </th>
                       <th>View List</th>
                     </tr>
-                  @foreach(($subjects = \App\Models\subject::where('subjects.batchId','=',$currentBatchId)->join('semesters','semesters.semesterId','=','subjects.semesterId')
+                  @foreach(($subjects = \App\Models\subject::where('subjects.batchId','=',$currentBatchId)
+                    ->join('semesters','semesters.semesterId','=','subjects.semesterId')
                     ->join('grades','grades.gradeId','=','subjects.subjectGrade')
                     ->join('departments','departments.departmentId','=','subjects.departmentId')
                     ->orderBy('gradeId','DESC')
@@ -216,7 +234,9 @@
                     'subjects.subjectId AS subjectId',
                     'subjects.subjectName AS subjectName',
                     'subjects.subjectMaxMarks AS subjectMaxMarks',
-                    'subjects.subjectTextName AS subjectTextName'
+                    'subjects.subjectTextName AS subjectTextName',
+                    'subjects.subjectCode AS subjectCode',
+                    'subjects.torlab AS torlab'
                     )->get()) as  $subject)
 
                          <tr style="padding:5px;padding-left:20px;padding-right:20px;">
@@ -247,12 +267,15 @@
                                                                 {{ csrf_field() }}{{ method_field('POST') }}
                                       {{Form::hidden('subjectId',$subject->subjectId)}}
                                          <h2>Subject Name : </h2>
-                                      {{Form::text('subjectName',$subject->subjectName,array('placeholder'=>'Enter Subject Name '))}}<h2>Subject Grade : </h2><select name="subjectGrade" class="form-control">
-                                        @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)) as  $grade)
+                                      {{Form::text('subjectName',$subject->subjectName,array('placeholder'=>'Enter Subject Name '))}}
+                                      <h2>Subject Grade : </h2>
+                                      <select name="subjectGrade" class="form-control">
+                                        <option value="0">Select Grade : </option class="form-control">
+                                        @foreach(($grades = \App\Models\grade::where('grades.batchId','=',1)->get()) as  $grade)
                                          @if($grade->gradeId==$subject->gradeId)
-                                          <option value="{{$grade->gradeId}}" selected>{{$grade->grade}}</option>
+                                          <option value={{$grade->gradeId}} selected>{{$grade->grade}}</option>
                                          @else
-                                          <option value="{{$grade->gradeId}}">{{$grade->grade}}</option>
+                                          <option value={{$grade->gradeId}}>{{$grade->grade}}</option>
                                          @endif
                                         @endforeach
                                       </select>
@@ -285,7 +308,21 @@
                                       {{Form::number('subjectMaxMarks',$subject->subjectMaxMarks,array('placeholder'=>'Subject Maximum Marks','class'=>'form-control'))}}<br>
                                      <h2>Subject Textbook Name : </h2>
                                      {{Form::text('subjectTextName',$subject->subjectTextName,array('placeholder'=>'Textbook Name','class'=>'form-control'))}}<br>
-                                    <h2>Update Subject : </h2>{<button type="submit" class="btn btn-primary form-control">Save</button><br>
+                                    <h2>Subject Code : </h2>
+                                    {{Form::text('subjectCode',$subject->subjectCode,array('placeholder'=>'Subject Code','class'=>'form-control'))}}<br>
+                                   <h2>Choose Theory/Lab : </h2>
+                                   <select name="theoryOrlab">
+                                     <option value="Theory">Theory</option>
+                                       <option value="Lab">Lab</option>')
+                                    </select>
+                                       <br>
+                                    <h2>Subject Priority : </h2>
+                                    <select name="subjectPriority" class="form-control">
+                                    @foreach(($priorities = \App\Models\Priority::all()) as $priority)
+                                      <option value="{{$priority->priorityId}}">{{$priority->priorityName}} ( {{$priority->priorityValue}} ) </option>
+                                    @endforeach
+                                  </select> <br>
+                                    <h2>Update Subject : </h2><button type="submit" class="btn btn-primary form-control">Save</button><br>
                                         {{Form::close()}}<br>
                                      <h2>Delete</h2>
                                       <form action="{{route('subject.destroysubject',['subject'=>$subject->subjectId])}}" method="POST" name="deleteSubject" id="deleteSubject">
@@ -317,10 +354,56 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-</div>
 
+<div class="py-12" id="createASubject">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                  <h2>Add priority</h2>
+<form action="{{route('priority.createPriority')}}" method="POST" name="createPriority" id="createPriority">
+                                                  {{ csrf_field() }}{{ method_field('POST') }}
+    <h2>Priority name  : </h2>{{Form::text('priorityName','',array('placeholder'=>'Enter Priority Name ','class'=>'form-control'))}}<br><hr>
+<h2 for="priorityValue">Priority Value : </h2>
+{{Form::text('priorityValue','',array('placeholder'=>'Enter Priority Value ','class'=>'form-control'))}}<br><hr>
+<button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}
+
+</div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="py-12" id="createASubject">
+                  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                      <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                          <div class="p-6 text-gray-900">
+            @if(count($priorities = \App\Models\Priority::all())>0)
+                <table>
+                  <tr>
+                    <th>Priority Id</th>
+                    <th>Priority Name</th>
+                    <th>Priority Value</th>
+                    <th>Update</th>
+                  </tr>
+                  @foreach(($priorities = \App\Models\Priority::all()) as  $priority)
+
+                <tr>
+                  <td>{{$priority->priorityId}}</td>
+                  <form action="{{route('priority.editPriority')}}" method="POST" name="editPriority" id="editPriority">
+                                              {{Form::hidden('priorityId',$priority->priorityId)}}              {{ csrf_field() }}{{ method_field('POST') }}
+                                              <td>{{Form::text('priorityName',$priority->priorityName,array('placeholder'=>'Enter Priority Name :','class'=>'form-control'))}}</td>
+                          <td>{{Form::text('priorityValue',$priority->priorityValue,array('placeholder'=>'Enter Priority Value:','class'=>'form-control'))}}</td>
+                          <td><button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}</td>
+                  </tr>
+                 @endforeach
+
+               </table>
+            @endif
+
+          </div>
+                        </div>
+                      </div>
+                    </div>
         <!--
 
        -->

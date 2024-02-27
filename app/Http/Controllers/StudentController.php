@@ -18,8 +18,12 @@ class StudentController extends Controller
      */
     public function index()
     {
-    }
 
+    }
+    public function search(Request $request)
+    {
+    
+    }
     public function assignClassRoomForStudent(Request $request)
     {
       //Store or add admin

@@ -17,6 +17,7 @@ class hours extends Model
     protected $primaryKey = 'hourId';
     protected $fillable = [
       'hourName',
-        'hourStartingTime'
+        'hourStartingTime',
+          'hourEndingTime'
     ];
 }

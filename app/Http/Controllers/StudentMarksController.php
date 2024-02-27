@@ -9,6 +9,7 @@ use App\Models\role;
 use App\Models\studentMarks;
 use Illuminate\Http\Request;
 use App\Models\batch;
+use App\Http\Controllers\DomPdfController;
 
 class StudentMarksController extends Controller
 {
@@ -65,6 +66,13 @@ class StudentMarksController extends Controller
       return redirect()->route('AdminStudent');
     }
 
+   public function printMarksheetStudentByAdmin(Request $request)
+   {
+     $studentId=$request->studentId;
+     \App\Http\Controllers\DomPdfController::getPdf($studentId);
+     return redirect()->route('AdminStudent');
+   }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -119,6 +127,14 @@ class StudentMarksController extends Controller
 
       return redirect()->route('AdminStudent',['id'=>'adminStudentAddStudentMarks']);
     }
+
+   public function deleteMarkEntry(Request $request)
+   {
+
+     $studentMarks = studentMarks::where('student_marksId','=',$request->subjectMarkIdDelete)->first();
+         $studentMarks->delete();
+      return redirect()->route('AdminStudent',['id'=>'adminStudentAddStudentMarks']);
+   }
 
     public function updateMarksTeacher(Request $request, studentMarks $studentMarks)
     {

@@ -3,6 +3,9 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+<!--  -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -47,7 +50,7 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-             {{ __('Students') }}
+             {{ __('Student') }}
              <br>
              <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
               @if(Session::has('success'))
@@ -92,14 +95,14 @@
     </div>
   </div>
 
-    <div>
+</div>
 
     <!--
 
    -->  @if ( Auth::user()->role != 3)
 
        <script type="text/javascript">
-       window.location = "{{url('logout')}}";//here double curly bracket
+       window.location = "{{url('logout')}}";
        </script>
      @endif
 
@@ -113,6 +116,15 @@
                   {{ csrf_field() }}{{ method_field('POST') }}
                     <table class="table">
                   <thead>
+                    <tr>
+                      <th>Salutation</th>
+                      <td>
+                      <select name="salutation">
+                           <option value="Mr./Ms." selected>Mr./Ms.</option>
+                           <option value="Mr">Mr.</option>
+                           <option value="Mr">Mr.</option>
+                      </select></td>
+                    </tr>
                     <tr>
                       <th>First Name</th>
                     <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control','id'=>'firstName'))}} </td>
@@ -398,7 +410,7 @@ Create Mark table for all the students
                                                       </div>
                                                     </div>
                                                   </div>
-                                                </div>
+  </div>
     <div class="py-12" id="adminStudentAddStudentMarks">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -430,16 +442,6 @@ Create Mark table for all the students
                                 'grades.grade AS gradeName',
                                 )->get()
                                 ))>0)
-                                <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Grade</th>
-                        <th>Section</th>
-                        <th>Semester</th>
-                        <th>Add Marks</th>
-                        <th>View Details</th>
-                      </tr>
 
               @foreach(($studentDetails = \App\Models\student::where('students.batchId','=',$currentBatchId)
                             ->join('details','details.detailId','=','students.studentDetailsId')
@@ -466,17 +468,79 @@ Create Mark table for all the students
                             ->groupBy('students.studentId')
                             ->get()
                             ) as  $studentDetail)
-                    <tr class="department{{$studentDetail->studentDepartmentId}}department semester{{$studentDetail->semesterId}}semester section{{$studentDetail->sectionId}}section grade{{$studentDetail->gradeId}}grade">
+
+                            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Section</th>
+                    <th>Semester</th>
+                    <th>Add Marks</th>
+                    <th>View Details</th>
+                  </tr><tr class="department{{$studentDetail->studentDepartmentId}}department semester{{$studentDetail->semesterId}}semester section{{$studentDetail->sectionId}}section grade{{$studentDetail->gradeId}}grade">
                       <td>{{$studentDetail->firstName}} {{$studentDetail->lastName}}</td>
                       <td>{{$studentDetail->gradeName}}</td>
                       <td>{{$studentDetail->sectionName}}</td>
                       <td>{{$studentDetail->semesterName}}</td>
                       <td><button type="button" name="submitMarkDetailsCreation{{$studentDetail->studentId}}" class="btn btn-primary form-control" data-toggle="modal" data-target="#submitMarkDetailsCreation{{$studentDetail->studentId}}">Add</button></td>
-                      <!-- <td><button type="button" name="editDeleteMarksDetailsUpdation{{$studentDetail->studentId}}" id="editDeleteMarksDetailsUpdation{{$studentDetail->studentId}}" class="btn btn-primary" data-toggle="modal" data-target="#editDeleteMarksDetailsUpdation{{$studentDetail->studentId}}">View</button></td> -->
+                      <td><button type="button" name="editDeleteMarksDetailsPrint{{$studentDetail->studentId}}" class="btn btn-primary" data-toggle="modal" data-target="#editDeleteMarksDetailsPrint{{$studentDetail->studentId}}">View</button></td>
                     </tr>
                           </thead>
                         </table>
+<!--
+Print marksheet
+ -->
+ <div class="modal fade" id="editDeleteMarksDetailsPrint{{$studentDetail->studentId}}" id="editDeleteMarksDetailsPrint"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                              <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Add marks of {{$studentDetail->firstName}} {{$studentDetail->lastName}}</h5>
 
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                  </div>
+                                                  <div class="modal-body" id="subjectsList">
+
+
+                            <h2>Grade : {{$studentDetail->gradeName}}</h2>
+                            <h2>Subject Name : </h2>
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>Subject Name</th>
+                                  <th>Marks </th>
+                                  <th>Total Marks</th>
+                                </tr>
+                              </thead>
+                                <tbody>
+
+                              @foreach(($studentMarks = \App\Models\studentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
+                                                ->where('student_marks.batchId','=',$currentBatchId)
+                                                ->where('student_marks.studentId','=',$studentDetail->studentId)
+                                                ->where('subjects.semesterId','=',$studentDetail->semesterId)
+                                                ->where('subjects.departmentId','=',$studentDetail->studentDepartmentId)
+                                                ->select('subjects.subjectName AS subjectName','subjects.subjectMaxMarks as subjectMaxMarks','student_marks.marks AS marks','student_marks.student_marksId  AS student_marksId')
+                                                ->get()) as  $subject)
+
+                                                  <tr>
+                                                    <td>{{$subject->subjectName}}</td>
+						                                        <td>{{$subject->marks}}</td>
+                                                    <td>{{$subject->subjectMaxMarks}}</td>
+                                                  </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
+                            <a href="{{ action('\App\Http\Controllers\DomPdfController@getPdf',['studentId'=>$studentDetail->studentId]) }}">Print</a>
+                                                                          </div>
+                         <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                         </div>
+
+                                            </div>
+                                          </div>
+                                        </div>
                     <!--
 Create Marks
                    -->
@@ -503,14 +567,14 @@ Create Marks
                             <table class="table">
                               <thead>
                                 <tr>
+                                  <th>Delete</th>
                                   <th>Subject Name</th>
                                   <th>Mark</th>
                                   <th>Subject Maximum Mark</th>
                                 </tr>
                               </thead>
                                 <tbody>
-                                  <form action="{{route('studentMarks.update',['studentMark'=>$studentDetail->student_marksId])}}" method="POST" name="createStudentSubjectMarks" id="createStudentSubjectMarks">
-                                  {{ csrf_field() }}{{ method_field('POST')}}
+
                               @foreach(($studentMarks = \App\Models\studentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
                                                 ->where('student_marks.batchId','=',$currentBatchId)
                                                 ->where('student_marks.studentId','=',$studentDetail->studentId)
@@ -519,7 +583,11 @@ Create Marks
                                                 ->select('subjects.subjectName AS subjectName','subjects.subjectMaxMarks as subjectMaxMarks','student_marks.marks AS marks','student_marks.student_marksId  AS student_marksId')
                                                 ->get()) as  $subject)
 
-                                                  <tr>
+                                                  <tr><form action="{{route('studentMarks.deleteMarksEntryAdmin',['studentMark'=>$studentDetail->student_marksId])}}" method="POST" name="deleteStudentSubjectMarks" id="deleteStudentSubjectMarks">
+                                                    {{ csrf_field() }}{{ method_field('POST')}}<input type="hidden" name="subjectMarkIdDelete" value="{{$subject->student_marksId}}"></input>
+                                                    <td><input type="hidden" name="subjectMarkIdDelete[]" value="{{$subject->student_marksId}}"></input><button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}</td>
+                                                    <form action="{{route('studentMarks.updateMarksTeacher',['studentMark'=>$studentDetail->student_marksId])}}" method="POST" name="createStudentSubjectMarks" id="createStudentSubjectMarks">
+                                                    {{ csrf_field() }}{{ method_field('POST')}}
                                                     <td>{{$subject->subjectName}}</td>
                                                     <td><input type="hidden" name="student_marksId[]" value="{{$subject->student_marksId}}"></input>
                                                     <input type="number" class='form-control' name="subjectMark[]" value="{{$subject->marks}}"></input></td>
@@ -537,7 +605,7 @@ Create Marks
                                             </div>
                                           </div>
                                         </div>
-                    @endforeach
+                  @endforeach
               @else
                 <h2 style="color:red;">List is empty</h2>
               @endif
@@ -545,9 +613,6 @@ Create Marks
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
 
 
     <!--
@@ -558,7 +623,4 @@ Marks Creation
                      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
                      <script src="{{ asset('js/Admin/student.js') }}" defer></script>
-
-
-
 </x-app-layout>

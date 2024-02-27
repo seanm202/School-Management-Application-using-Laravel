@@ -1,4 +1,35 @@
-<style>
+@media only screen and (min-width: 768px) {
+
+#createTheAdmin{
+  width:100%;
+}
+
+  }
+
+
+#parentMod > * {
+    margin: 30px 20;
+}
+
+.hourNamesNow{
+  font-size:10px;
+   width:100px;
+   height: 100px;
+   border: 1px solid green;
+}
+.dayNames{
+  font-size:10px;
+   width:100px;
+   height: 100px;
+   border: 1px solid green;
+ }
+ .timeTablesNames{
+   font-size:10px;
+    width:100px;
+    height: 100px;
+    border: 1px solid red;
+  }
+
     body {
 overflow-x: scroll;
 }
@@ -43,4 +74,3 @@ margin-left: 0;
     margin-left: -15rem;
 }
 }
-</style>

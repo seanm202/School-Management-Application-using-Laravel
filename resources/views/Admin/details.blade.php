@@ -74,9 +74,7 @@
       </div>
     </div>
   </div>
-
-    <div>
-
+</div>
 
 
             @if ( Auth::user()->role != 3)
@@ -98,7 +96,8 @@
                           <table class="table">
                             <thead>
                               <tr>
-                                <th>First name</th>
+                                <th>Salutation</th>
+                                <th>Name</th>
                                 <th>Age</th>
                                 <th>Email</th>
                                 <th>Edit Details</th>
@@ -106,6 +105,7 @@
                             </thead>
                             <tbody>
                           <tr>
+                            <td>{{$user->sal}}</td>
                           <td>{{$user->name}} </td>
                           <td>{{$user->age}} </td>
                           <td>{{$user->email}}</td>
@@ -135,8 +135,18 @@
                                   <div class="modal-body">
                                     <form action="{{route('detail.store')}}" method="POST" name="addDetailsToNewUser" id="addDetailsToNewUser">
                                     {{ csrf_field() }}{{ method_field('POST') }}
-                                      <table class="table"><tr>
-                                        <th>First name</th>{{Form::hidden('userId',$user->userId)}}
+                                      <table class="table">
+                                        <tr>
+                                          <th>Salutation</th>
+                                          <td>
+                                        <select name="salutation">
+                                           <option value="Mr./Ms." selected>Mr./Ms.</option>
+                                             <option value="Mr.">Mr.</option>
+                                             <option value="Ms.">Ms.</option>
+                                        </select>
+                                      </td>
+                                    </tr>
+                                        <tr></th>First name</th>{{Form::hidden('userId',$user->userId)}}
                                       <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                       </tr>
                                       <tr>
@@ -227,8 +237,13 @@
                      View/Edit details
                      <br>
                      Admins<br>
-                     @if(count($admins = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get())>0)
-                       @foreach(($admins = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get()) as $admin)
+            @if(count($admins = (\App\Models\detail::join('admins','admins.adminDetailId','=','details.detailId')
+            ->join('users','users.detailsId','=','details.detailId')
+            ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get())>0)
+              @foreach(($admins = (\App\Models\detail::join('admins','admins.adminDetailId','=','details.detailId')
+              ->join('users','users.detailsId','=','details.detailId')
+              ->select('details.*','admins.*')
+              ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get()) as $admin)
                        <div class="modal fade" id="exampleModalLongAdminAdminUserId{{$admin->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                <div class="modal-dialog" role="document">
                  <div class="modal-content">
@@ -248,8 +263,24 @@
                                        {{ csrf_field() }}{{ method_field('POST') }}
                                        {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
                                        <tr>
-                                         <th>First name</th>
-                                       <td>{{Form::text('firstName',$admin->firstname,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
+                                         <th>Salutation</th>
+                                       <td>
+                                       <select name="salutation">
+                                          @if($admin->sal=="Mr.")
+                                            <option value="Mr." selected>Mr.</option>;
+                                            <option value="Ms.">Ms.</option>
+                                          @elseif($admin->sal=="Ms.")
+                                            <option value="Ms." selected>Ms.</option>;
+                                            <option value="Mr.">Mr.</option>
+                                          @else
+                                            <option value="Mr./Ms." selected>Mr./Ms.</option>;
+                                            <option value="Mr.">Mr.</option>
+                                            <option value="Ms.">Ms.</option>
+                                          @endif
+                                       </select></td></tr>
+                                       <tr>
+                                         <th>First Name</th>
+                                         <td>{{Form::text('firstName',$admin->firstname,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                               </tr>
                                               <tr>
                                          <th>Last name</th>
@@ -297,8 +328,7 @@
                                         <tr>
                                           </tr>
                                         </thead>
-                                      </table>
-                                        </table></div>
+                                      </table></div>
                                         <div class="modal-footer">
                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                            <button type="submit" class="btn btn-primary form-control">Submit</button>{{Form::close()}}
@@ -306,30 +336,39 @@
                                       </div>
                                     </div>
                                   </div>
-                       <table class="table">
+                                  <table class="table">
                          <thead>
                            <tr>
                              <th>First name</th>
                              <th>Last name</th>
                              <th>Age</th>
                              <th>Edit Details</th>
+                             <th>Delete</th>
                            </tr>
                          </thead>
                          <tbody>
                            <tr>
-                           <td>{{$admin->firstname}} </td>
+                           <td>{{$admin->sal}}{{$admin->firstname}} </td>
                            <td>{{$admin->lastname}} </td>
                            <td>{{$admin->age}}</td>
                            <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongAdminAdminUserId{{$admin->userId}}">
                                View/Edit Details
                              </button></td>
+                             <td><form action="{{route('detail.deleteAdminDetails')}}" method="POST" name="deleteAdminDetails" id="deleteAdminDetails">
+                             {{ csrf_field() }}{{ method_field('POST') }}
+                             {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
+                             <input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
+                           {{Form::hidden('userRole',3)}}</form>
+                               </button>
+                           </td>
+                           </form>
+                                                    </tr>
 
-                         </tr>
 
 
                        </tbody>
                        </table>
-                @endforeach
+                    @endforeach
               @else
                 <h3 style="color:red;">List is empty</h3>
               @endif
@@ -354,8 +393,13 @@
                      View/Edit details
                      <br>
                      Teachers<br>
-                     @if(count($teachers = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get())>0)
-                       @foreach(($teachers = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get()) as $teacher)
+                     @if(count($teachers = (\App\Models\detail::join('teachers','teachers.teacherDetailId','=','details.detailId')
+                     ->join('users','users.detailsId','=','details.detailId')
+                     ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get())>0)
+                       @foreach(($teachers = (\App\Models\detail::join('teachers','teachers.teacherDetailId','=','details.detailId')
+                       ->join('users','users.detailsId','=','details.detailId')
+                       ->select('details.*','teachers.*')
+                                            ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get()) as $teacher)
                        <div class="modal fade" id="exampleModalLongTeacherTeacherUserId{{$teacher->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -375,7 +419,23 @@
                                                   {{Form::hidden('detailId',$teacher->detailId,array('id'=>'detailId'))}}
                                                   {{Form::hidden('userId',$teacher->userId,array('id'=>'userId'))}}
                                                   <tr>
-                                                    <th>First name</th>
+                                                    <th>Salutation</th>
+                                                    <td>
+                                                    <select name="salutation">
+                                                       @if($teacher->sal=="Mr.")
+                                                         <option value="Mr." selected>Mr.</option>;
+                                                         <option value="Ms.">Ms.</option>
+                                                       @elseif($teacher->sal=="Ms.")
+                                                         <option value="Ms." selected>Ms.</option>;
+                                                         <option value="Mr.">Mr.</option>
+                                                       @else
+                                                         <option value="Mr./Ms." selected>Mr./Ms.</option>;
+                                                         <option value="Mr.">Mr.</option>
+                                                         <option value="Ms.">Ms.</option>
+                                                       @endif
+                                                    </select></td>
+                                                  </tr>
+                                                  <tr><th>First name</th>
                                                   <td>{{Form::text('firstName',$teacher->firstname,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                                 </tr>
                                                 <tr>
@@ -438,16 +498,25 @@
                              <th>Last name</th>
                              <th>Age</th>
                              <th>Edit Details</th>
+                             <th>Delete</th>
                            </tr>
                          </thead>
                          <tbody>
                            <tr>
-                           <td>{{$teacher->firstname}} </td>
+                           <td>{{$teacher->sal}}{{$teacher->firstname}} </td>
                            <td>{{$teacher->lastname}} </td>
                            <td>{{$teacher->age}}</td>
                            <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongTeacherTeacherUserId{{$teacher->userId}}">
                                View/Edit Details
                              </button></td>
+                             <td><form action="{{route('detail.deleteTeacherDetails')}}" method="POST" name="deleteTeacherDetails" id="deleteTeacherDetails">
+                             {{ csrf_field() }}{{ method_field('POST') }}
+                             {{Form::hidden('detailId',$teacher->detailId)}}{{Form::hidden('userId',$teacher->userId)}}
+                             {{Form::hidden('userRole',2)}}{{Form::hidden('userId',$teacher->userId)}}
+                             <input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
+                           </form>
+                               </button>
+                           </td>
 
                          </tr>
 
@@ -535,6 +604,7 @@
                       <br>
                       Students<br>
                     @if(count($students = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',4)
+                                                                                  ->join('users','users.detailsId','=','details.detailId')
                                                                                   ->join('students','students.studentDetailsId','=','details.detailId')
                                                                                   ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
                                                                                   ->join('grades','grades.gradeId','=','class_rooms.grade')
@@ -566,6 +636,7 @@
                                                                                   'semesters.semesterId AS semesterId')
                                                                                   )->get())>0)
                         @foreach(($students = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',4)
+                                                                                      ->join('users','users.detailsId','=','details.detailId')
                                                                                       ->join('students','students.studentDetailsId','=','details.detailId')
                                                                                       ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
                                                                                       ->join('grades','grades.gradeId','=','class_rooms.grade')
@@ -587,6 +658,7 @@
                                                                                       'details.fatherSpouseName AS fatherSpouseName',
                                                                                       'details.guardianName AS guardianName',
                                                                                       'details.motherName AS motherName',
+                                                                                      'details.sal AS sal',
                                                                                       'sections.sectionName AS sectionName',
                                                                                       'grades.grade AS grade',
                                                                                       'departments.departmentName AS departmentName',
@@ -614,7 +686,22 @@
                                       <thead>
 
                                         <tr>
-                                          <th>First name</th>
+                                          <th>Salutation</th>
+                                          <td>
+                                          <select name="salutation">
+                                             @if($student->sal=="Mr.")
+                                               <option value="Mr." selected>Mr.</option>;
+                                               <option value="Ms.">Ms.</option>
+                                             @elseif($student->sal=="Ms.")
+                                               <option value="Ms." selected>Ms.</option>;
+                                               <option value="Mr.">Mr.</option>
+                                             @else
+                                               <option value="Mr./Ms." selected>Mr./Ms.</option>;
+                                               <option value="Mr.">Mr.</option>
+                                               <option value="Ms.">Ms.</option>
+                                             @endif
+                                          </select></td></tr>
+                                          <tr><th>First Name</th>
                                         <td>{{Form::text('firstName',$student->firstName,array('placeholder'=>'Enter first name','class'=>'form-control','id'=>'firstName'))}}
                                         {{Form::hidden('detailId',$student->detailId)}} </td>{{Form::hidden('userId',$student->userId,array('id'=>'userId'))}}
                                         </tr>
@@ -682,16 +769,24 @@
                               <th>Last name</th>
                               <th>Age</th>
                               <th>Edit Details</th>
+                              <th>Delete</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                            <td>{{$student->firstName}} </td>
+                            <td>{{$student->sal}}{{$student->firstName}} </td>
                             <td>{{$student->lastName}} </td>
                             <td>{{$student->age}}</td>
                             <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongStudentStudentUserId{{$student->userId}}">
                                 View/Edit Details
                                 </button></td>
+                                <td><form action="{{route('detail.deleteStudentDetails')}}" method="POST" name="deleteStudentDetails" id="deleteStudentDetails">
+                                {{ csrf_field() }}{{ method_field('POST') }}
+                                {{Form::hidden('detailId',$student->detailId)}}{{Form::hidden('userId',$student->userId)}}
+                                {{Form::hidden('userRole',4)}}<input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
+                              </form>
+                                  </button>
+                              </td>
 
                           </tr>
 
@@ -714,8 +809,6 @@
 
       </div>
       </div>
-      </div>
-
 
 
 

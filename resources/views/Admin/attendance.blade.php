@@ -65,7 +65,7 @@
     </div>
   </div>
 
-    <div>
+</div>
 
 
     @if ( Auth::user()->role != 3)
@@ -229,7 +229,6 @@
         </div>
     </div>
 
-    </div>
     </div>
     </div>
 

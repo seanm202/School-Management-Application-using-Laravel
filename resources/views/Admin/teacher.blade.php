@@ -81,7 +81,7 @@
     </div>
   </div>
 
-    <div>
+</div>
 
 
     @if ( Auth::user()->role != 3)
@@ -101,7 +101,15 @@
                   @csrf
                     <table class="table">
                   <thead>
-
+                      <tr>
+                        <th>Salutation</th>
+                        <td>
+                        <select name="salutation">
+                             <option value="Mr./Ms." selected>Mr./Ms.</option>
+                             <option value="Mr.">Mr.</option>
+                             <option value="Ms.">Ms.</option>
+                        </select></td>
+                      </tr>
                     <tr>
                       <th>First Name</th>
                     <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control','id'=>'firstName'))}} </td>

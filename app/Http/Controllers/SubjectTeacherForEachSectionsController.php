@@ -72,7 +72,7 @@ class SubjectTeacherForEachSectionsController extends Controller
 
 
 public function deleteEntryTeacher(Request $request)
-[
+{
   $role= new role;
   $role->roleName="Test";
   $role->status=1;
@@ -80,13 +80,10 @@ public function deleteEntryTeacher(Request $request)
   $SubjectTeacherForEachSections=SubjectTeacherForEachSections::where('subjectForSectionId',$request->subjectForSectionId)->first();
   $SubjectTeacherForEachSections->delete();
   return redirect()->route('AdminSubjectTeachersForEachSection');
-]
+}
          public function updateTeacherForClassSubject(Request $request)
          {
-           $role= new role;
-           $role->roleName="Test";
-           $role->status=1;
-           $role->save();
+           
              //Updating classroom details
              $validated = $request->validate([
 
@@ -97,7 +94,7 @@ public function deleteEntryTeacher(Request $request)
              ]);
              $subjectTeacherForEachSections = SubjectTeacherForEachSections::where('subjectForSectionId', $request->subjectForSectionId)->first();
              $subjectTeacherForEachSections->teacherId =  $request->teacherId;
-          $SubjectTeacherForEachSections->save();
+             $subjectTeacherForEachSections->save();
 
 
            return redirect()->route('AdminSubjectTeachersForEachSection',['id'=>'editTeacherForSubject']);

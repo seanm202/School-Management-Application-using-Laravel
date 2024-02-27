@@ -19,6 +19,7 @@ class studentSubjectAttendance extends Model
     protected $fillable = [
     'classRoomId',
     'studentId',
+    'date',
         'teacherId',
         'subjectId',
         'dayId',

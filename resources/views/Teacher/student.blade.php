@@ -219,7 +219,7 @@ Edit student details
                              'grades.grade AS gradeName',
                              'grades.gradeId AS gradeId',
                              'teachers.teacherId AS teacherId',
-                             'student_marks.studentMarks AS studentMarks',
+                             'student_marks.marks AS studentMarks',
                              'class_rooms.classroomDetailId AS classroomDetailId'
                              )
                              ->groupBy('students.studentId')

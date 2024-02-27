@@ -58,10 +58,10 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
 
     public function storeSubject(Request $request)
     {
-      $role = new role;
-           $role->roleName = "Test";
-           $role->status = 1;
-  $role->save();
+  //     $role = new role;
+  //          $role->roleName = "Test";
+  //          $role->status = 1;
+  // $role->save();
 
       //Add A Subject
           $validated = $request->validate([
@@ -69,6 +69,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
               'semesterId' => ['required'],
               'departmentId' => ['required'],
               'subjectName' => ['required'],
+              'torlab' => ['required'],
               'subjectGrade' => ['required'],
               'subjectMaxMarks' => ['required'],
          [
@@ -76,7 +77,8 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
           'departmentId.required'=> 'Department must be seleted',
           'subjectName.required'=> 'Subject name must be filled in',
           'subjectGrade.required'=> 'Subject grade must be entered.',
-          'subjectMaxMarks.required'=> 'Subject maximum marks must be filled in.'
+          'subjectMaxMarks.required'=> 'Subject maximum marks must be filled in.',
+          'subjectPriority.required'=> 'Default priority is 3 out of 6.'
          ]
           ]);
 
@@ -87,6 +89,8 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
          $subject->subjectGrade = $request->subjectGrade;
          $subject->subjectMaxMarks = $request->subjectMaxMarks;
          $subject->subjectTextName = $request->subjectTextName;
+         $subject->torlab = $request->torlab;
+         $subject->priority = $request->subjectPriority;
          $subject->status = 1;
          $subject->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
          $subject->save();
@@ -131,11 +135,13 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     public function updatesubject(Request $request)
     {$validated = $request->validate([
 
-        'semesterId' => ['required', 'confirmed'],
-        'departmentId' => ['required', 'confirmed'],
-        'subjectName' => ['required',  'confirmed'],
-        'subjectGrade' => ['required',  'confirmed'],
-        'subjectMaxMarks' => ['required', 'numeric', 'confirmed'],
+        'semesterId' => ['required'],
+        'departmentId' => ['required'],
+        'subjectName' => ['required'],
+        'subjectGrade' => ['required'],
+        'theoryOrlab' => ['required'],
+        'subjectMaxMarks' => ['required', 'numeric'],
+        'subjectPriority.required'=> 'Default priority is 3 out of 6.',
    [
     'semesterId.required'=> 'Semester must be seleted',
     'departmentId.required'=> 'Department must be seleted',
@@ -143,6 +149,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     'subjectGrade.required'=> 'Subject grade must be entered.',
     'subjectMaxMarks.required'=> 'Subject maximum marks must be filled in.',
     'subjectMaxMarks.numeric'=> 'Subject maximum marks should be numeric',
+    'subjectPriority.required'=> 'Default priority is 3 out of 6.'
    ]
     ]);
       $subject = subject::where('subjectId',$request->subjectId)->first();
@@ -152,6 +159,8 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     $subject->subjectGrade = $request->subjectGrade;
     $subject->subjectMaxMarks = $request->subjectMaxMarks;
     $subject->subjectTextName = $request->subjectTextName;
+    $subject->torlab = $request->theoryOrlab;
+    $subject->priority = $request->subjectPriority;
     $subject->save();
     return redirect()->route('AdminSubject',['id'=>'updateSubject']);
     }
