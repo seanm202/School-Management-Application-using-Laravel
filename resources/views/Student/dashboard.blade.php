@@ -118,12 +118,10 @@
         </div>
         @endif
                       @if(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                      ->where('student_subject_attendances.date','=',date('Y-m-d'))
                                                                       ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourIdr)
                                                                       ->select('id')->first())!=NULL)
 
                         @foreach(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                        ->where('student_subject_attendances.date','=',date('Y-m-d'))
                                                                         ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourId)
                                                                         ->select('id')->get()) as $atst)
 
