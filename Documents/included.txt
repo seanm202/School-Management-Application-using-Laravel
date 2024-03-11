@@ -1,0 +1,14 @@
+Prepare attendance review chart
+Prepare marks review chart
+Add/Edit Marks
+Add/Edit Subjects
+Add/Edit Classrooms
+Add/Edit Sections
+Add/Edit Students
+Add/Edit Teachers
+Add/Edit Admins
+Generate Attendance table
+Add/Edit Mark Attendance
+Generate timely notification
+
+Generate timetable

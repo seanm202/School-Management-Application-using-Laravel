@@ -1,0 +1,19 @@
+https://codeanddeploy.com/blog/laravel/how-to-generate-barcode-in-laravel-8#vvasXAYky9S0pGNHfQu2QAiqV
+
+composer require milon/barcode
+
+ public function index() 
+    {
+        $productCode = rand(1234567890,50);
+
+        return view('barcode', [
+            'productCode' => $productCode
+        ]);
+    }
+
+
+<div class="mb-3">{!! DNS2D::getBarcodeHTML("$productCode", 'QRCODE') !!}</div>
+            <div class="mb-3">{!! DNS2D::getBarcodeHTML("$productCode", 'DATAMATRIX') !!}</div>
+            <div class="mb-3">{!! DNS1D::getBarcodeHTML("$productCode", 'C39') !!}</div>
+            <div class="mb-3">{!! DNS1D::getBarcodeHTML("$productCode", 'C39+') !!}</div>
+            <div class="mb-3">{!! DNS1D::getBarcodeHTML("$productCode", 'C39E') !!}</div>
