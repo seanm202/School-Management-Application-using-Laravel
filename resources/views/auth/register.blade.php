@@ -4,7 +4,7 @@
     <title>Login</title>
 </head>
 <body>
-    <a href="route('register')">Click here to register</a>
+    <a href="route('login')">Click here to log in if already registered.</a>
     <form method="POST" action="{{ route('register') }}">
        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
