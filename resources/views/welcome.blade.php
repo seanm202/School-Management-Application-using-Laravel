@@ -22,13 +22,13 @@
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
 
-            @if (Route::has('/loginpage'))
+            @if (Route::has('loginpage'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                         <a href="{{ url('dashboard') }}"  style="color:black;" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a><br><hr>
                     @else
                         <a href="{{ route('loginpage') }}"  style="color:black;" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a><br><hr>
-                        @if (Route::has('/registerpage'))
+                        @if (Route::has('registerpage'))
                             <a href="{{ route('registerpage') }}" style="color:black;"  class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
                         @endif
                     @endauth
