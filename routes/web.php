@@ -204,12 +204,12 @@ Route::resource('studentMarks', 'StudentMarksController');
 
 Route::get('/login', function () {
     return view('auth/login');
-})->name('login');
+})->name('loginpage');
 
 
 Route::get('/register', function () {
     return view('auth/register');
-})->name('register');
+})->name('registerpage');
 
 
 Route::get('/logout', [DashboardController::class,'logout'])->name('logout');
