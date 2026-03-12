@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-use App\Models\batch;
+use App\Models\Batch;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
 {
     if (Schema::hasTable('batches')) {
 
-        $currentBatch = batch::where('status',1)->select('batchId')->first();
+        $currentBatch = Batch::where('status',1)->select('batchId')->first();
 
         $currentBatchIdNow = $currentBatch ? $currentBatch->batchId : null;
 
