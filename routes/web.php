@@ -17,7 +17,7 @@ use App\Http\Controllers\StudentSubjectAttendanceController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\StatusController;
-use App\Http\Controllers\dailyTeacherAllocationController;
+use App\Http\Controllers\DailyTeacherAllocationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\HoursController;
 use App\Http\Controllers\PriorityController;
@@ -76,7 +76,7 @@ Route::post('destroybatch', [BatchController::class, 'destroybatch'])->name('bat
 Route::post('currentBatch', [BatchController::class, 'currentBatch'])->name('batch.currentBatch');
 Route::resource('batch', 'BatchController');
 ////Generate daily teacher enabled attendance
-Route::post('createDailyAttendanceForAllTeachers', [dailyTeacherAllocationController::class, 'createDailyAttendanceForAllTeachers'])->name('dailyTeacherAllocation.createDailyAttendanceForAllTeachers');
+Route::post('createDailyAttendanceForAllTeachers', [DailyTeacherAllocationController::class, 'createDailyAttendanceForAllTeachers'])->name('dailyTeacherAllocation.createDailyAttendanceForAllTeachers');
 Route::resource('dailyTeacherAllocation', 'dailyTeacherAllocationController');
 
 ////Generate daily teacher enabled attendance for students
