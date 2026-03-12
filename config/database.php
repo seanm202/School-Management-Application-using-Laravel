@@ -46,7 +46,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => db-a14798a2-761c-4508-b2e6-d9eb5ca3d400.us-east-2.public.db.laravel.cloud,
+            'host' => 'db-a14798a2-761c-4508-b2e6-d9eb5ca3d400.us-east-2.public.db.laravel.cloud',
             'port' => 3306,
             'database' => env('DB_DATABASE', 'forge'),
             'username' => 'jhy8yv3yafwpyqfj',
