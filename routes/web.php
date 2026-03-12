@@ -202,6 +202,16 @@ Route::post('studentMarks.printMarksheetStudentByAdmin', [StudentMarksController
 Route::resource('studentMarks', 'StudentMarksController');
 
 
+Route::get('/login', function () {
+    return view('/auth/login');
+})->middleware(['auth', 'verified'])->name('login');
+
+
+Route::get('/register', function () {
+    return view('/auth/login');
+})->middleware(['auth', 'verified'])->name('register');
+
+
 Route::get('/logout', [DashboardController::class,'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class, 'chooseDashboard'])->name('selectDashboard');
 Route::get('/guestDashboard', function () {
