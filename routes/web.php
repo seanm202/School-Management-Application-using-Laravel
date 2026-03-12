@@ -211,7 +211,7 @@ Route::get('/registerpage', function () {
     return view('auth.register');
 })->name('registerpage');
 
-Route::get('/register', function () {
+Route::get('register', function () {
     return view('auth.register');
 })->name('registerpage');
 
