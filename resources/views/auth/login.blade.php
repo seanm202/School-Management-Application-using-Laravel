@@ -7,6 +7,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <a href="route('register')">Click here to register</a>
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
