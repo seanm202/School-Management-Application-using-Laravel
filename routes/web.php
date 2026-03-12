@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Route;
 */
 ////////////For pdf download
 
-Route::get('/get-pdf/{studentId}',[DomPdfController::class,'getPdf'])->name('getPdf');
+Route::get('get-pdf/{studentId}',[DomPdfController::class,'getPdf'])->name('getPdf');
 Route::post('users/view-pdf', [HomeController::class, 'viewPDF'])->name('view-pdf');
 Route::post('users/download-pdf', [HomeController::class, 'downloadPDF'])->name('download-pdf');
 // Route::get('/', [ProjectController::class, 'index']);
@@ -202,107 +202,107 @@ Route::post('studentMarks.printMarksheetStudentByAdmin', [StudentMarksController
 Route::resource('studentMarks', 'StudentMarksController');
 
 
-Route::get('/login', function () {
+Route::get('login', function () {
     return view('/auth/login');
 })->name('loginpage');
 
 
-Route::get('/register', function () {
+Route::get('register', function () {
     return view('/auth/register');
 })->name('registerpage');
 
 
-Route::get('/logout', [DashboardController::class,'logout'])->name('logout');
-Route::get('/dashboard', [DashboardController::class, 'chooseDashboard'])->name('selectDashboard');
-Route::get('/guestDashboard', function () {
+Route::get('logout', [DashboardController::class,'logout'])->name('logout');
+Route::get('dashboard', [DashboardController::class, 'chooseDashboard'])->name('selectDashboard');
+Route::get('guestDashboard', function () {
     return view('/dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/Admindashboard',function () {
+Route::get('Admindashboard',function () {
     return view('/Admin/dashboard');
 })->middleware(['auth', 'verified'])->name('Admindashboard');
-Route::get('/Teacherdashboard', function () {
+Route::get('Teacherdashboard', function () {
     return view('/Teacher/dashboard');
 })->middleware(['auth', 'verified'])->name('Teacherdashboard');
-Route::get('/Studentdashboard', function () {
+Route::get('Studentdashboard', function () {
     return view('/Student/dashboard');
 })->middleware(['auth', 'verified'])->name('Studentdashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 /////Admin Pages/////////////////////////////////////
 
-Route::any('/Admin', function () {
+Route::any('Admin', function () {
     return view('/Admin/admin');
 })->middleware(['auth', 'verified'])->name('Admin');
-Route::any('/AdminAttendance', function () {
+Route::any('AdminAttendance', function () {
     return view('/Admin/attendance');
 })->middleware(['auth', 'verified'])->name('AdminAttendance');
-Route::any('/AdminClassRoom', function () {
+Route::any('AdminClassRoom', function () {
     return view('/Admin/classRoom');
 })->middleware(['auth', 'verified'])->name('AdminClassRoom');
-Route::any('/AdminDetails', function () {
+Route::any('AdminDetails', function () {
     return view('/Admin/details');
 })->middleware(['auth', 'verified'])->name('AdminDetails');
-Route::any('/AdminGrade', function () {
+Route::any('AdminGrade', function () {
     return view('/Admin/grade');
 })->middleware(['auth', 'verified'])->name('AdminGrade');
-Route::any('/AdminRole', function () {
+Route::any('AdminRole', function () {
     return view('/Admin/role');
 })->middleware(['auth', 'verified'])->name('AdminRole');
-Route::any('/AdminSection', function () {
+Route::any('AdminSection', function () {
     return view('/Admin/section');
 })->middleware(['auth', 'verified'])->name('AdminSection');
-Route::any('/AdminStudent', function () {
+Route::any('AdminStudent', function () {
     return view('/Admin/student');
 })->middleware(['auth', 'verified'])->name('AdminStudent');
-Route::any('/AdminSubject',function () {
+Route::any('AdminSubject',function () {
     return view('/Admin/subject');
 })->middleware(['auth', 'verified'])->name('AdminSubject');
-Route::any('/AdminTeacher', function () {
+Route::any('AdminTeacher', function () {
     return view('/Admin/teacher');
 })->middleware(['auth', 'verified'])->name('AdminTeacher');
-Route::any('/subjectTeachersForEachSection', function () {
+Route::any('subjectTeachersForEachSection', function () {
     return view('/Admin/subjectTeachersForEachSection');
 })->middleware(['auth', 'verified'])->name('AdminSubjectTeachersForEachSection');
 
 ////Teacher Pages ///////////
 
 
-// Route::get('/Teacher', function () {
+// Route::get('Teacher', function () {
 //     return view('/Teacher/admin');
 // })->middleware(['auth', 'verified'])->name('Teacher');
-Route::any('/TeacherAttendance', function () {
+Route::any('TeacherAttendance', function () {
     return view('/Teacher/attendance');
 })->middleware(['auth', 'verified'])->name('TeacherAttendance');
-Route::any('/TeacherDetails', function () {
+Route::any('TeacherDetails', function () {
     return view('/Teacher/details');
 })->middleware(['auth', 'verified'])->name('TeacherDetails');
-Route::any('/TeacherStudent', function () {
+Route::any('TeacherStudent', function () {
     return view('/Teacher/student');
 })->middleware(['auth', 'verified'])->name('TeacherStudent');
-Route::any('/TeacherSubject', function () {
+Route::any('TeacherSubject', function () {
     return view('/Teacher/subject');
 })->middleware(['auth', 'verified'])->name('TeacherSubject');
 
 ////Student Pages///////////
 
-Route::any('/StudentDashboard', function () {
+Route::any('StudentDashboard', function () {
     return view('/Student/dashboard');
 })->middleware(['auth', 'verified'])->name('StudentDashboard');
-Route::any('/teachersDetails', function () {
+Route::any('teachersDetails', function () {
     return view('/Student/teachersDetails');
 })->middleware(['auth', 'verified'])->name('StudentTeachersDetails');
-Route::any('/StudentAttendance', function () {
+Route::any('StudentAttendance', function () {
     return view('/Student/attendance');
 })->middleware(['auth', 'verified'])->name('StudentAttendance');
-Route::any('/StudentMarks', function () {
+Route::any('StudentMarks', function () {
     return view('/Student/mark');
 })->middleware(['auth', 'verified'])->name('StudentMarks');
-Route::any('/StudentDetails', function () {
+Route::any('StudentDetails', function () {
     return view('/Student/details');
 })->middleware(['auth', 'verified'])->name('StudentDetails');
 
