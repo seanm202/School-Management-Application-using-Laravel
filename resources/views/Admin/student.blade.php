@@ -122,7 +122,8 @@
                       <select name="salutation">
                            <option value="Mr./Ms." selected>Mr./Ms.</option>
                            <option value="Mr">Mr.</option>
-                           <option value="Mr">Mr.</option>
+                           <option value="Ms">Ms.</option>
+                           <option value="Mrs">Mrs.</option>
                       </select></td>
                     </tr>
                     <tr>
@@ -139,7 +140,7 @@
                       <th>Phone</th>
                     <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','class'=>'form-control','id'=>'phone'))}} </td></tr>
                       <tr>
-                      <th>Age</th>{{Form::hidden('password',(\App\Models\ConstantController::where('constantName','defaultPassword')->select('constantValue')->first()),array('id'=>'password'))}}
+                      <th>Age</th>{{Form::hidden('password','abcd1234',array('id'=>'password'))}}
                     <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','class'=>'form-control','id'=>'age'))}}</td></tr>
                       <tr>
                       <th>Date of birth</th>
@@ -187,7 +188,7 @@
                     </tr>
                     </thead>
                   </table>
-                  <button type="submit" class="btn btn-primary form-control">Submit</button>
+                  <button type="button" id="buttonForAddStudentAdmin" class="btn btn-primary form-control">Add</button>
 
                                         {{Form::close()}}
                 </div>

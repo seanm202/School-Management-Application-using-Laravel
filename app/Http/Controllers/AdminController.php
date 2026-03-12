@@ -126,8 +126,11 @@ class AdminController extends Controller
        $days->status = 1;
        $days->save();
 
-      return redirect()->route('Admin',['id'=>'addTheDay'])
-->with('success', 'Day added successfully.');
+
+       return response()->json([
+       'status' => true,
+       'message' => 'Day added successfully.'
+       ]);
     }
 
         public function deleteDay(Request $request)
@@ -147,12 +150,15 @@ class AdminController extends Controller
     public function updateDayName(Request $request)
     {
         //Store or add admin
-        $days = days::where('dayId','=',$request->dayId)->first();
+        $days = days::where('dayId',$request->dayId)->first();
         $days->dayName = $request->dayName;
         $days->status = 1;
         $days->save();
 
-            return redirect()->route('Admin',['id'=>'editDayName']);
+               return response()->json([
+               'status' => true,
+               'message' => 'Day updated successfully.'
+               ]);
     }
 
 
@@ -170,11 +176,13 @@ class AdminController extends Controller
 
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
-       $hours->hourEndingTime = $request->hourEndingTime;
        $hours->status = 1;
        $hours->save();
 
-       return redirect()->route('Admin',['id'=>'addTheHour']);
+       return response()->json([
+       'status' => true,
+       'message' => 'Hour added!'
+       ]);
     }
 
 
@@ -185,11 +193,13 @@ class AdminController extends Controller
         $hours = hours::where('hourId','=',$request->hourId)->first();
         $hours->hourName = $request->hourName;
         $hours->hourStartingTime = $request->hourStartingTime;
-        $hours->hourEndingTime = $request->hourEndingTime;
         $hours->status = 1;
         $hours->save();
 
-        return redirect()->route('Admin',['id'=>'editTheHourName']);
+        return response()->json([
+        'status' => true,
+        'message' => 'Hour details updated!'
+        ]);
 
     }
 

@@ -1,113 +1,25 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-  <script src="https://malsup.github.io/jquery.form.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
-<script src="{{ asset('js/sidebar.js') }}"></script>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"
-               integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-               crossorigin="anonymous">
-</script>
+<!-- Bootstrap 5.2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+<!-- Material Icons -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<!-- jQuery (FULL version for plugins like jquery.form) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
+<!-- jQuery Form Plugin -->
+<script src="https://malsup.github.io/jquery.form.js"></script>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap 5 Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Your Custom Files -->
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-  <script src="{{ asset('js/sidebar.js') }}"></script>
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-                 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                 crossorigin="anonymous">
-  </script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-        <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin = "anonymous">
-    </script>
-    <script src =
-  "https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-        integrity =
-  "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-        crossorigin = "anonymous">
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<!--
-
-
-
-
- -->
 
 <x-app-layout>
     <x-slot name="header">
@@ -168,18 +80,128 @@
 
 
  -->
+ <script>
+ $(document).ready(function () {
 
+   $('#createTeachersForSubjects').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+
+   var classRoomDetailId = button.attr('data-bs-class-room-detailid');
+   var gradeForAllotting = button.attr('data-bs-grade-for-allotting');
+   var sectionForAllotting = button.attr('data-bs-section-for-allotting');
+   var capacityForAllotting = button.attr('data-bs-capacity-for-allotting');
+   var departmentForAllotting = button.attr('data-bs-department-for-allotting');
+
+
+   var modal = $(this);
+
+   modal.find('#classRoomDetailId').val(classRoomDetailId);
+   modal.find('#gradeForAllotting').html("<h3>Grade : " + gradeForAllotting+"</h3>");
+   modal.find('#sectionForAllotting').html("<h3>Section : " + sectionForAllotting+"</h3>");
+   modal.find('#capacityForAllotting').html("<h3>Capacity : " + capacityForAllotting+"</h3>");
+   modal.find('#departmentForAllotting').html("<h3>Department : " + departmentForAllotting+"</h3>");
+
+ });
+
+ });
+ </script>
 <!--
 
  -->
+ <div class="modal fade" id="createTeachersForSubjects">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
 
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Details</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+
+         <form action="{{route('SubjectTeacherForEachSections.TeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="createTeacherForSubject" id="createTeacherForSubject">
+         @csrf
+            <div id="gradeForAllotting"></div>
+            <div id="sectionForAllotting"></div>
+            <div id="capacityForAllotting"></div>
+            <div id="departmentForAllotting"></div>
+        @if(count($departments=\App\Models\Department::all())>0)
+             <select name="departmentId" id="departmentId" class="form-control">
+              @foreach($departments=\App\Models\Department::all() as $department)
+                <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
+              @endforeach
+            </select>
+        @else
+          <h3 style="color:red;">List is empty</h3>
+        @endif<br>
+            <h3 id="semesterForAllotting"></h3>{{Form::label('semester','Semester : ')}}
+           @if(count($semesters = \App\Models\semester::all())>0)
+               <select name="semesterId" id="semesterId" class="form-control">
+                @foreach(($semesters = \App\Models\semester::all()) as  $semester)
+                <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
+                @endforeach
+               </select>
+           @else
+             <h3 style="color:red;">List is empty</h3>
+           @endif
+            <br>
+              <h3 id="subjectForAllotting"></h3>{{Form::label('subject','Subject : ')}}
+        @if(count($subjects=\App\Models\subject::all())>0)
+              <select name="subjectId" id="subjectId" class="form-control">
+              @foreach($subjects=\App\Models\subject::all() as $subject)
+                <option value="{{$subject->subjectId}}">{{$subject->subjectName}}</option>
+              @endforeach
+            </select>
+        @else
+          <h3 style="color:red;">List is empty</h3>
+        @endif
+        <br>
+            <h3 id="teacherForAllotting"></h3>{{Form::label('teacher','Teacher : ')}}
+        @if(count($teachers=\App\Models\teacher::all())>0)
+             <select name="teacherId" id="teacherId" class="form-control">
+              @foreach(
+              $teachers = \App\Models\Teacher::join('details', 'details.userId', '=', 'teachers.userId')
+              ->select(
+              'details.lastname as lastName',
+              'details.firstname as firstName',
+              'teachers.teacherId as teacherId'
+              )
+              ->get()
+              as $teacher
+              )
+                <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
+              @endforeach
+            </select>
+        @else
+          <h3 style="color:red;">List is empty</h3>
+        @endif
+            <br>{{Form::hidden('classRoomId',null,array('id'=>'classRoomDetailId'))}}
+            <br><button type="button" id="buttonForCreateTeacherForSubject" class="btn btn-primary form-control">Submit</button>
+              {{Form::close()}}<br>
+
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+   </div>
+<!--
+
+ -->
     <div class="py-12" id="createsTeacherForSubjects">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         Assign teachers to each class according to subject
-                  @if(count(\App\Models\classRoom::where('class_rooms.batchId','=',$currentBatchId)
-                      ->join('sections','sections.sectionId','=','class_rooms.section')
+                  @if(count(\App\Models\classRoom::join('sections','sections.sectionId','=','class_rooms.section')
                       ->join('grades','grades.gradeId','=','class_rooms.grade')
                       ->select('class_rooms.classroomDetailId AS classroomDetailId',
                       'class_rooms.capacity AS Capacity',
@@ -192,98 +214,25 @@
                             <th>Grade</th>
                             <th>View</th>
                           </tr>
-                          @foreach(($classRoomss=\App\Models\classRoom::where('class_rooms.batchId','=',$currentBatchId)
-                          ->join('sections','sections.sectionId','=','class_rooms.section')
+                          @foreach(($classRoomss=\App\Models\classRoom::join('sections','sections.sectionId','=','class_rooms.section')
                           ->join('grades','grades.gradeId','=','class_rooms.grade')
+                          ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                           ->select('class_rooms.classroomDetailId AS classroomDetailId',
                           'class_rooms.capacity AS Capacity',
                           'grades.grade AS grade',
+                          'departments.departmentId AS departmentId',
                           'sections.sectionName AS sectionName')->get()
                           ) as $classRoom)
                              <tr><td>{{$classRoom->grade}}</td>
-                              <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTeachersForSubjectss{{$classRoom->classroomDetailId}}">View</button></td>
+                              <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                 data-bs-class-room-detailid="{{$classRoom->classroomDetailId}}"
+                                 data-bs-grade-for-allotting="{{$classRoom->grade}}"
+                                 data-bs-section-for-allotting="{{$classRoom->sectionName}}"
+                                 data-bs-capacity-for-allotting="{{$classRoom->Capacity}}"
+                                 data-bs-department-for-allotting="{{$classRoom->departmentId}}"
+                                data-bs-target="#createTeachersForSubjects">View</button></td>
                             </tr>
-                            <div class="modal fade" id="createTeachersForSubjectss{{$classRoom->classroomDetailId}}">
-                               <div class="modal-dialog modal-sm">
-                                 <div class="modal-content">
 
-                                   <!-- Modal Header -->
-                                   <div class="modal-header">
-                                     <h4 class="modal-title">Details</h4>
-                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                   </div>
-
-                                   <!-- Modal body -->
-                                   <div class="modal-body">
-
-                                    <form action="{{route('SubjectTeacherForEachSections.TeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="createTeacherForSubject" id="createTeacherForSubject">
-                                    @csrf
-                                       {{Form::label('grade','Grade : ')}} {{$classRoom->grade}}<br>
-                                       {{Form::label('section','Section : ')}} {{$classRoom->sectionName}}<br>
-                                       {{Form::label('capacity','Capacity : ')}} {{$classRoom->Capacity}}<br>
-                                       {{Form::label('department','Department : ')}}
-                                   @if(count($departments=\App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
-                                        <select name="departmentId" id="departmentId" class="form-control">
-                                         <option value="0" selected>Select Department</option>
-                                         @foreach($departments=\App\Models\Department::where('departments.batchId','=',$currentBatchId)->get() as $department)
-                                           <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
-                                         @endforeach
-                                       </select>
-                                   @else
-                                     <h3 style="color:red;">List is empty</h3>
-                                   @endif<br>
-                                       {{Form::label('semester','Semester : ')}}
-                                      @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-                                          <select name="semesterId" id="semesterId" class="form-control">
-                                           <option value="0" selected>Select Semester</option>
-                                           @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
-                                           <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
-                                           @endforeach
-                                          </select>
-                                      @else
-                                        <h3 style="color:red;">List is empty</h3>
-                                      @endif
-                                       <br>
-                                         {{Form::label('subject','Subject : ')}}
-                                   @if(count($subjects=\App\Models\subject::where('subjects.batchId','=',$currentBatchId)->get())>0)
-                                         <select name="subjectId" id="subjectId" class="form-control">
-                                         <option value="0" selected>Select Subject : </option>
-                                         @foreach($subjects=\App\Models\subject::where('subjects.batchId','=',$currentBatchId)->get() as $subject)
-                                           <option value="{{$subject->subjectId}}">{{$subject->subjectName}}</option>
-                                         @endforeach
-                                       </select>
-                                   @else
-                                     <h3 style="color:red;">List is empty</h3>
-                                   @endif
-                                   <br>
-                                       {{Form::label('teacher','Teacher : ')}}
-                                   @if(count($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->get())>0)
-                                        <select name="teacherId" id="teacherId" class="form-control">
-                                         <option value="0" selected>Select Teacher</option>
-                                         @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->join('details','details.userId','=','teachers.userId')
-                                           ->select('details.lastname AS lastName','details.firstname AS firstName','teachers.teacherId AS teacherId')->get()
-                                           as $teacher)
-                                           <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                         @endforeach
-                                       </select>
-                                   @else
-                                     <h3 style="color:red;">List is empty</h3>
-                                   @endif
-                                       <br>{{Form::hidden('classRoomId',$classRoom->classroomDetailId,array('id'=>'classRoomId'))}}
-                                       <br><button type="submit" class="btn btn-primary form-control">Submit</button>
-                                         {{Form::close()}}<br>
-
-
-                                   </div>
-
-                                   <!-- Modal footer -->
-                                   <div class="modal-footer">
-                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                   </div>
-
-                                 </div>
-                               </div>
-                              </div>
                           @endforeach
                           </thead>
                         </table>
@@ -300,7 +249,77 @@
                 </div>
             </div>
         </div>
+<!--
 
+ -->
+
+
+ <script>
+ $(document).ready(function () {
+
+   $('#classRoomAssigned').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+
+   var classRoomDetailId = button.attr('data-bs-class-room-detailid');
+   var assignedTeacherFname = button.attr('data-bs-assigned-teacher-fname');
+   var assignedTeacher = button.attr('data-bs-assigned-teacher-lname');
+   var assignedGrade = button.attr('data-bs-assigned-grade');
+   var assignedSection = button.attr('data-bs-assigned-section');
+   var assignedRoomNo = button.attr('data-bs-assigned-room-no');
+   var assignedDepartment = button.attr('data-bs-assigned-department');
+   var assignedSemester = button.attr('data-bs-assigned-semester');
+   var assignedSubjectCode = button.attr('data-bs-assigned-subject-code');
+
+
+   var modal = $(this);
+
+   modal.find('#classRoomDetailId').val(classRoomDetailId);
+   modal.find('#assignedTeacher').html("<h3>Teacher : " + assignedTeacher+"</h3>");
+   modal.find('#assignedGrade').html("<h3>Grade : " + assignedGrade+"</h3>");
+   modal.find('#assignedSection').html("<h3>Section : " + assignedSection+"</h3>");
+   modal.find('#assignedRoomNo').html("<h3>Room No : " + assignedRoomNo+"</h3>");
+   modal.find('#assignedDepartment').html("<h3>Department : " + assignedDepartment+"</h3>");
+   modal.find('#assignedSemester').html("<h3>Semester : " + assignedSemester+"</h3>");
+   modal.find('#assignedSubjectCode').html("<h3>Subject Code : " + assignedSubjectCode+"</h3>");
+
+ });
+
+ });
+ </script>
+ <div class="modal fade" id="classRoomAssigned">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Details</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div id="assignedTeacher"></div>
+          <div id="assignedGrade"></div>
+          <div id="assignedSection"></div>
+          <div id="assignedRoomNo"></div>
+          <div id="assignedDepartment"></div>
+          <div id="assignedSemester"></div>
+          <div id="assignedSubjectCode"></div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+   </div>
+
+ <!--
+
+ -->
     <div class="py-12" id="editTeacherForSubjects">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -322,8 +341,7 @@
                                 <th>Update</th>
                                 <th>Delete</th>
                               </tr>
-                                @foreach((\App\Models\SubjectTeacherForEachSections::where('subject_teacher_for_each_sections.batchId','=',$currentBatchId)
-                                                                            ->where('subject_teacher_for_each_sections.status','=',1)
+                                @foreach((\App\Models\SubjectTeacherForEachSections::where('subject_teacher_for_each_sections.status','=',1)
                                                                             ->join('class_rooms','class_rooms.classroomDetailId','=','subject_teacher_for_each_sections.classRoomId')
                                                                             ->join('sections','sections.sectionId','=','class_rooms.section')
                                                                             ->join('grades','grades.gradeId','=','class_rooms.grade')
@@ -351,36 +369,19 @@
                                       <td>{{$SubjectTeacherForEachSection->departmentName}}</td>
                                         <td>{{$SubjectTeacherForEachSection->semesterName}}</td>
                                       <td>{{$SubjectTeacherForEachSection->firstName}} {{$SubjectTeacherForEachSection->lastName}}</td>
-                                      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#classRoomAssigned{{$classRoom->classroomDetailId}}">View</button></td>
-                                      <div class="modal fade" id="classRoomAssigned{{$classRoom->classroomDetailId}}">
-                                         <div class="modal-dialog modal-sm">
-                                           <div class="modal-content">
 
-                                             <!-- Modal Header -->
-                                             <div class="modal-header">
-                                               <h4 class="modal-title">Details</h4>
-                                               <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                             </div>
+                                      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                         data-bs-class-room-detailid="{{$SubjectTeacherForEachSection->classroomId}}"
+                                         data-bs-assigned-teacher-fname="{{$SubjectTeacherForEachSection->firstName}}"
+                                         data-bs-assigned-teacher-lname="{{$SubjectTeacherForEachSection->lastName}}"
+                                         data-bs-assigned-grade="{{$SubjectTeacherForEachSection->grade}}"
+                                         data-bs-assigned-section="{{$SubjectTeacherForEachSection->sectionName}}"
+                                         data-bs-assigned-room-no="{{$SubjectTeacherForEachSection->roomNo}}"
+                                         data-bs-assigned-department="{{$SubjectTeacherForEachSection->departmentName}}"
+                                         data-bs-assigned-semester="{{$SubjectTeacherForEachSection->semesterName}}"
+                                         data-bs-assigned-subject-code="{{$SubjectTeacherForEachSection->subjectCode}}"
+                                        data-bs-target="#classRoomAssigned">View</button></td>
 
-                                             <!-- Modal body -->
-                                             <div class="modal-body">
-                                               Class Teacher : {{$SubjectTeacherForEachSection->firstName}} {{$SubjectTeacherForEachSection->lastName}}
-                                               Grade :{{$SubjectTeacherForEachSection->grade}}
-                                               Section :{{$SubjectTeacherForEachSection->sectionName}}
-                                               Room No :{{$SubjectTeacherForEachSection->roomNo}}
-                                               Department :{{$SubjectTeacherForEachSection->departmentName}}
-                                               Semester : {{$SubjectTeacherForEachSection->semesterName}}
-                                               Subject Code : {{$SubjectTeacherForEachSection->subjectCode}}
-                                             </div>
-
-                                             <!-- Modal footer -->
-                                             <div class="modal-footer">
-                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                             </div>
-
-                                           </div>
-                                         </div>
-                                        </div>
                                       <td>{{$SubjectTeacherForEachSection->subjectName}}</td>
                                       <td>{{$SubjectTeacherForEachSection->subjectCode}}</td>
                                         <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateTeacherForSubject{{$classRoom->classroomDetailId}}">Update</button></td>
@@ -405,7 +406,7 @@
                                                  <input type="hidden" name="subjectForSectionId" value="{{$SubjectTeacherForEachSection->subjectForSectionId}}"></input>
                                                  <select name="teacherId" id="teacherId" class="form-control">
                                                    <option value="0" selected>Select Teacher</option>
-                                                   @foreach(($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->join('details','details.userId','=','teachers.userId')
+                                                   @foreach(($teachers=\App\Models\teacher::join('details','details.userId','=','teachers.userId')
                                                      ->select('details.lastname AS lastName','details.firstname AS firstName','teachers.teacherId AS teacherId','teachers.userId AS teacherUserId')->get())
                                                      as $teacher)
                                                      <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>

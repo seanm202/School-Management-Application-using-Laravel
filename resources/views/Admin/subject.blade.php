@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+<script src="{{ asset('js/Admin/subject.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -17,15 +18,10 @@
                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
                crossorigin="anonymous">
 </script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
   </script>
   <script src =
 "https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
@@ -33,9 +29,6 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!--
 
@@ -82,7 +75,7 @@
         <ul>
           <li>
           <a href="#createASubject" class="list-group-item list-group-item-action bg-light">Add Subjects</a>
-          <a href="#updateSubject" class="list-group-item list-group-item-action bg-light">Update Subjects</a>
+          <a href="#updateForSubject" class="list-group-item list-group-item-action bg-light">Update Subjects</a>
         </li>
           </ul>
       </div>
@@ -134,8 +127,8 @@
 <th>Department : </th>
 <td><select name="departmentId" id="departmentId" class="form-control">
     <option value="0" selected>Select Department : </option>
-@if(count($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
- @foreach(($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get()) as  $department)
+@if(count($departments = \App\Models\Department::all())>0)
+ @foreach(($departments = \App\Models\Department::all()) as  $department)
     <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
  @endforeach
 @endif
@@ -179,7 +172,7 @@
            </select></td></tr>
            <tr>
              <th>Submit</th>
-             <td><button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}</td></tr>
+             <td><button type="button" id="buttonForAddSubject" class="btn btn-primary form-control">Save</button>{{Form::close()}}</td></tr>
 
 
 
@@ -201,7 +194,7 @@
 
 
 
-    <div class="py-12" id="updateSubject">
+    <div class="py-12" id="updateForSubject">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
@@ -246,104 +239,19 @@
                            </td>
                       <td style="padding:5px;padding-left:20px;padding-right:20px;">{{$subject->semesterName}}
                          </td>
-                         <td style="padding:5px;padding-left:20px;padding-right:20px;"><button type="button" name="submitSelectedSubjectDetails{{$subject->subjectId}}" id="submitSelectedSubjectDetail{{$subject->subjectId}}" class="btn btn-primary" data-toggle="modal" data-target="#submitSelectedSubjectDetails{{$subject->subjectId}}">View</button></td>
+                         <td style="padding:5px;padding-left:20px;padding-right:20px;"><button type="button" name="submitSelectedSubjectDetails" id="submitSelectedSubjectDetail" class="btn btn-primary"
+                           data-subjectid="{{$subject->subjectId}}"
+                           data-subject-name="{{$subject->subjectName}}"
+                            data-subject-gradeid="{{$subject->gradeId}}"
+                            data-departmentid="{{$subject->departmentId}}"
+                            data-semesterid="{{$subject->semesterId}}"
+                            data-max-marks="{{$subject->subjectMaxMarks}}"
+                            data-subject-text-name="{{$subject->subjectTextName}}"
+                            data-subject-code="{{$subject->subjectCode}}"
+                            data-theory-lab="{{$subject->torlab}}"
+                            data-priority="{{$subject->priority}}"
+                            data-toggle="modal" data-target="#myModalUpdateSubjects">View</button></td>
                     </tr>
-                            <!--
-
-                            -->
-                            <div class="modal fade" id="submitSelectedSubjectDetails{{$subject->subjectId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                                          <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                              <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLongTitle">Subject List</h5>
-
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                  <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                              </div>
-                                                              <div class="modal-body" id="subjectsList">
-
-                                                                <form action="{{route('subject.updatesubject',['subject'=>$subject->subjectId])}}" method="POST" name="updateSubject" id="updateSubject">
-                                                                {{ csrf_field() }}{{ method_field('POST') }}
-                                      {{Form::hidden('subjectId',$subject->subjectId)}}
-                                         <h2>Subject Name : </h2>
-                                      {{Form::text('subjectName',$subject->subjectName,array('placeholder'=>'Enter Subject Name '))}}
-                                      <h2>Subject Grade : </h2>
-                                      <select name="subjectGrade" class="form-control">
-                                        <option value="0">Select Grade : </option class="form-control">
-                                        @foreach(($grades = \App\Models\grade::where('grades.batchId','=',1)->get()) as  $grade)
-                                         @if($grade->gradeId==$subject->gradeId)
-                                          <option value={{$grade->gradeId}} selected>{{$grade->grade}}</option>
-                                         @else
-                                          <option value={{$grade->gradeId}}>{{$grade->grade}}</option>
-                                         @endif
-                                        @endforeach
-                                      </select>
-                                      <h2>Department : </h2>
-                                      <select name="departmentId">
-                                          <option value="0">Select Department : </option class="form-control">
-                                      @if(count($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
-                                       @foreach(($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get()) as  $department)
-                                        @if($department->departmentId==$subject->departmentId)
-                                          <option value={{$department->departmentId}} selected>{{$department->departmentName}}</option>
-                                         @else
-                                          <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
-                                         @endif
-                                       @endforeach
-                                      @endif
-                                      </select>
-                                      <h2>Semester : </h2><select name="semesterId" class="form-control">
-                                         <option value="0">Select Semester : </option>
-                                        @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-                                          @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
-                                            @if($semester->semesterId==$subject->semesterId)
-                                              <option value={{$semester->semesterId}} selected>{{$semester->semesterName}}</option>
-                                              @else
-                                              <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
-                                              @endif
-                                          @endforeach
-                                        @endif
-                                        </select><br>
-                                     <h2>Subject Maximum Marks : </h2>
-                                      {{Form::number('subjectMaxMarks',$subject->subjectMaxMarks,array('placeholder'=>'Subject Maximum Marks','class'=>'form-control'))}}<br>
-                                     <h2>Subject Textbook Name : </h2>
-                                     {{Form::text('subjectTextName',$subject->subjectTextName,array('placeholder'=>'Textbook Name','class'=>'form-control'))}}<br>
-                                    <h2>Subject Code : </h2>
-                                    {{Form::text('subjectCode',$subject->subjectCode,array('placeholder'=>'Subject Code','class'=>'form-control'))}}<br>
-                                   <h2>Choose Theory/Lab : </h2>
-                                   <select name="theoryOrlab">
-                                     <option value="Theory">Theory</option>
-                                       <option value="Lab">Lab</option>')
-                                    </select>
-                                       <br>
-                                    <h2>Subject Priority : </h2>
-                                    <select name="subjectPriority" class="form-control">
-                                    @foreach(($priorities = \App\Models\Priority::all()) as $priority)
-                                      <option value="{{$priority->priorityId}}">{{$priority->priorityName}} ( {{$priority->priorityValue}} ) </option>
-                                    @endforeach
-                                  </select> <br>
-                                    <h2>Update Subject : </h2><button type="submit" class="btn btn-primary form-control">Save</button><br>
-                                        {{Form::close()}}<br>
-                                     <h2>Delete</h2>
-                                      <form action="{{route('subject.destroysubject',['subject'=>$subject->subjectId])}}" method="POST" name="deleteSubject" id="deleteSubject">
-                                      {{ csrf_field() }}{{ method_field('POST') }}
-           {{Form::hidden('subjectId',$subject->subjectId)}}  <button type="submit" class="btn btn-primary form-control">Delete</button>
-               {{Form::close()}}<br>
-            <hr><hr>
-                                     <div class="modal-footer">
-                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                                     </div>
-
-                                                                                    </div>
-                                                                                  </div>
-                                                                                </div>
-                                                                              </div>
-
-
-                            <!--
-
-                           -->
                    @endforeach
                     </thead>
                     </table>
@@ -355,6 +263,131 @@
             </div>
         </div>
 
+<!--
+
+ -->
+
+ <script>
+ $(document).ready(function () {
+
+   $('#myModalUpdateSubjects').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+
+   var subjectid = button.data('subjectid');
+   var subjectName = button.data('subjectName');
+   var subjectGradeid = button.data('subjectGradeid');
+   var departmentid = button.data('departmentid');
+   var semesterid = button.data('semesterid');
+   var maxMarks = button.data('maxMarks');
+   var subjectTextName = button.data('subjectTextName');
+   var subjectCode = button.data('subjectCode');
+   var theoryLab = button.data('theoryLab');
+   var priority = button.data('priority');
+
+   var modal = $(this);
+
+   modal.find('#updateSubjectId').val(subjectid);
+   modal.find('#updateSubjectName').val(subjectName);
+   modal.find('#subjectGradeUpdate').val(subjectGradeid).trigger('change');
+   modal.find('#subjectDepartmentUpdate').val(departmentid).trigger('change');
+   modal.find('#subjectSemesterUpdate').val(semesterid).trigger('change');
+   modal.find('#subjectMaxMarksUpdate').val(maxMarks);
+   modal.find('#subjectTextBookNameUpdate').val(subjectTextName);
+   modal.find('#subjectCodeUpdate').val(subjectCode);
+   modal.find('#subjectTypeUpdate').val(theoryLab);
+   modal.find('#subjectPriorityUpdate').val(priority);
+
+   modal.find('#deleteSubjectId').val(subjectid);
+});
+
+ });
+ </script>
+
+ <!--
+
+ -->
+
+ <div class="modal fade" id="myModalUpdateSubjects" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                               <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                   <div class="modal-header">
+                                     <h5 class="modal-title" id="exampleModalLongTitle">Subject List</h5>
+
+                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                     </button>
+                                   </div>
+                                   <div class="modal-body" id="subjectsList">
+
+                                     <form action="{{route('subject.updatesubject')}}" method="POST" name="updateSubject" id="updateSubject">
+                                     {{ csrf_field() }}{{ method_field('POST') }}
+           {{Form::hidden('subjectId',null,array('id' => 'updateSubjectId'))}}
+              <h2>Subject Name : </h2>
+           {{Form::text('subjectName',null,array('placeholder'=>'Enter Subject Name ','id' =>'updateSubjectName'))}}
+           <h2>Subject Grade : </h2>
+           <select name="subjectGrade" class="form-control" id="subjectGradeUpdate">
+             <option value="0">Select Grade : </option class="form-control">
+             @foreach(($grades = \App\Models\grade::where('grades.batchId','=',1)->get()) as  $grade)
+               <option value={{$grade->gradeId}}>{{$grade->grade}}</option>
+             @endforeach
+           </select>
+           <h2>Department : </h2>
+           <select name="departmentId" id="subjectDepartmentUpdate">
+               <option value="0">Select Department : </option class="form-control">
+           @if(count($departments = \App\Models\Department::all())>0)
+            @foreach(($departments = \App\Models\Department::all()) as  $department)
+             <option value={{$department->departmentId}}>{{$department->departmentName}}</option>
+            @endforeach
+           @endif
+           </select>
+           <h2>Semester : </h2><select name="semesterId" class="form-control" id="subjectSemesterUpdate">
+              <option value="0">Select Semester : </option>
+             @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
+               @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
+                <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
+               @endforeach
+             @endif
+             </select><br>
+          <h2>Subject Maximum Marks : </h2>
+           {{Form::number('subjectMaxMarks',null,array('placeholder'=>'Subject Maximum Marks','class'=>'form-control','id'=>'subjectMaxMarksUpdate'))}}<br>
+          <h2>Subject Textbook Name : </h2>
+          {{Form::text('subjectTextName',null,array('placeholder'=>'Textbook Name','class'=>'form-control','id'=>'subjectTextBookNameUpdate'))}}<br>
+         <h2>Subject Code : </h2>
+         {{Form::text('subjectCode',null,array('placeholder'=>'Subject Code','class'=>'form-control','id' =>'subjectCodeUpdate'))}}<br>
+        <h2>Choose Theory/Lab : </h2>
+        <select name="theoryOrlab" id="subjectTypeUpdate">
+          <option value="Theory">Theory</option>
+            <option value="Lab">Lab</option>')
+         </select>
+            <br>
+         <h2>Subject Priority : </h2>
+         <select name="subjectPriority" class="form-control" id="subjectPriorityUpdate">
+         @foreach(($priorities = \App\Models\Priority::all()) as $priority)
+           <option value="{{$priority->priorityId}}">{{$priority->priorityName}} ( {{$priority->priorityValue}} ) </option>
+         @endforeach
+       </select> <br>
+         <h2>Update Subject : </h2><button type="button" id="updateSubjectDetails" class="btn btn-primary form-control">Save</button><br>
+             {{Form::close()}}<br>
+          <h2>Delete</h2>
+           <form action="{{route('subject.destroysubject')}}" method="POST" name="deleteSubject" id="deleteSubject">
+           {{ csrf_field() }}{{ method_field('POST') }}
+ {{Form::hidden('subjectId',null,array('id' => 'deleteSubjectId'))}}  <button type="button" id="buttonForSubjectDelete" class="btn btn-primary form-control">Delete</button>
+ {{Form::close()}}<br>
+ <hr><hr>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+
+                                                         </div>
+                                                       </div>
+                                                     </div>
+                                                   </div>
+
+<!--
+
+ -->
 <div class="py-12" id="createASubject">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -365,7 +398,7 @@
     <h2>Priority name  : </h2>{{Form::text('priorityName','',array('placeholder'=>'Enter Priority Name ','class'=>'form-control'))}}<br><hr>
 <h2 for="priorityValue">Priority Value : </h2>
 {{Form::text('priorityValue','',array('placeholder'=>'Enter Priority Value ','class'=>'form-control'))}}<br><hr>
-<button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}
+<button type="button" id="buttonForAddPriority" class="btn btn-primary form-control">Save</button>{{Form::close()}}
 
 </div>
               </div>
@@ -378,26 +411,49 @@
                       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                           <div class="p-6 text-gray-900">
             @if(count($priorities = \App\Models\Priority::all())>0)
-                <table>
-                  <tr>
-                    <th>Priority Id</th>
-                    <th>Priority Name</th>
-                    <th>Priority Value</th>
-                    <th>Update</th>
-                  </tr>
-                  @foreach(($priorities = \App\Models\Priority::all()) as  $priority)
+            <table class="table">
+<tr>
+    <th>Priority Id</th>
+    <th>Priority Name</th>
+    <th>Priority Value</th>
+    <th>Update</th>
+</tr>
 
-                <tr>
-                  <td>{{$priority->priorityId}}</td>
-                  <form action="{{route('priority.editPriority')}}" method="POST" name="editPriority" id="editPriority">
-                                              {{Form::hidden('priorityId',$priority->priorityId)}}              {{ csrf_field() }}{{ method_field('POST') }}
-                                              <td>{{Form::text('priorityName',$priority->priorityName,array('placeholder'=>'Enter Priority Name :','class'=>'form-control'))}}</td>
-                          <td>{{Form::text('priorityValue',$priority->priorityValue,array('placeholder'=>'Enter Priority Value:','class'=>'form-control'))}}</td>
-                          <td><button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}</td>
-                  </tr>
-                 @endforeach
+@foreach(($priorities = \App\Models\Priority::all()) as $priority)
+<tr>
+    <td>{{ $priority->priorityId }}</td>
 
-               </table>
+    <td colspan="3">
+        <form action="{{ route('priority.editPriority') }}" method="POST" class="editPriority">
+            @csrf
+            {{ Form::hidden('priorityId', $priority->priorityId) }}
+
+            <div class="row">
+                <div class="col-md-4">
+                    {{ Form::text('priorityName', $priority->priorityName, [
+                        'placeholder' => 'Enter Priority Name',
+                        'class' => 'form-control'
+                    ]) }}
+                </div>
+
+                <div class="col-md-4">
+                    {{ Form::text('priorityValue', $priority->priorityValue, [
+                        'placeholder' => 'Enter Priority Value',
+                        'class' => 'form-control'
+                    ]) }}
+                </div>
+
+                <div class="col-md-4">
+                    <button type="button" class="buttonForUpdatePriority btn btn-primary form-control">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </form>
+    </td>
+</tr>
+@endforeach
+</table>
             @endif
 
           </div>
@@ -407,8 +463,6 @@
         <!--
 
        -->
-       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-       <script src="{{ asset('js/Admin/subject.js') }}" defer></script>
+
 
 </x-app-layout>

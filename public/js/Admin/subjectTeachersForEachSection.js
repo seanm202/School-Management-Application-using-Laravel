@@ -1,77 +1,25 @@
+$(function () {
 
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
 
-$(document).ready(function(){
-
-    $('#createTeacherForSubject').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
+                $('#buttonForCreateTeacherForSubject').click(function (e) {
+                e.preventDefault();
+                  var urlcreateGradeByAdmin = $('#createTeacherForSubject').attr('action');
+      $.ajax({
+            data: $('#createTeacherForSubject').serialize(),
+      url: urlcreateGradeByAdmin,
+type: "POST",
+dataType: 'json',
+      success: function (data) {
+                    alert('Success');
+      },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+      }
+      });
         });
-    });
-
-});
-
-
-
-$(document).ready(function(){
-
-        $('#editTeacherForSubject').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});
-
-$(document).ready(function(){
-    $('#deleteEntryTeacher').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
-        });
-    });
-
 });

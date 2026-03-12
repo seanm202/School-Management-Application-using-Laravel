@@ -72,7 +72,10 @@ class PriorityController extends Controller
              $priority->priorityName = $request->priorityName;
    $priority->save();
 
-return redirect()->route('AdminSubject',['id'=>'createAPriority'])->with('success', 'Priority added successfully.');
+   return response()->json([
+   'status' => true,
+   'message' =>'Priority added successfully.'
+   ]);
 }
     /**
      * Show the form for editing the specified resource.
@@ -100,7 +103,10 @@ return redirect()->route('AdminSubject',['id'=>'createAPriority'])->with('succes
       $priority->priorityValue = $request->priorityValue;
       $priority->priorityName = $request->priorityName;
     $priority->save();
-    return redirect()->route('AdminSubject',['id'=>'prioritySubject']);
+    return response()->json([
+    'status' => true,
+    'message' =>'Priority updated successfully.'
+    ]);
     }
 
 

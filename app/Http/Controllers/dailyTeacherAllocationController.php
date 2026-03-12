@@ -63,7 +63,10 @@ class dailyTeacherAllocationController extends Controller
           }
           }
 
-         return redirect()->route('Admin',['id'=>'generateAttendanceForTeachers'])->with('success', 'Updated successfully.');
+          return response()->json([
+          'status' => true,
+          'message' => 'Updated Successfully!'
+          ]);
       }
 
   }

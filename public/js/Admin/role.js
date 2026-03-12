@@ -1,29 +1,37 @@
+$(document).ready(function () {
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
+    // ✅ delegated event (works for all rows)
+    $(document).on('click', '.buttonForUpdateRoleByAdmin', function (e) {
+        e.preventDefault();
 
-$(document).ready(function(){
+        // console.log('clicked'); // 🔥 MUST appear
 
+        var form = $(this).closest('form');
+        console.log(form.serialize()); // 🔥 MUST show data
 
-
-   $('#updateRoleByAdmin').ajaxForm(function() {
-        event.preventDefault();
-alert('Role');
-      
+        var url = form.attr('action');
 
         $.ajax({
             url: url,
-            method: 'POST',
-            data: $(this).serialize(),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
+            type: "POST",
+            data: form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                alert('Success');
             },
-            error: function(response) {
+            error: function (xhr) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
             }
         });
+
     });
 
 });

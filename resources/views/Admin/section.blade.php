@@ -94,7 +94,7 @@
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::label('sectionName', 'Enter section name :')}}
                     {{Form::text('sectionName',NULL,array('placeholder'=>'Name of the section','class'=>'form-control','id'=>'sectionName'))}}<br>
-                    <button type="submit" class="btn btn-primary form-control">Submit</button>
+                    <button type="button" id="buttonForCreateSectionByAdmin" class="btn btn-primary form-control">Submit</button>
                     {{ Form::close() }}
                 </div>
             </div>
@@ -109,32 +109,62 @@
                 <div class="p-6 text-gray-900">
                     Update sections
                   @if(count($sections=App\Models\section::where('sections.batchId','=',$currentBatchId)->get())>0)
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Section</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          @foreach(($sections=App\Models\section::where('batchId','=',$currentBatchId)->get()) as $section)
-                          <tr>
-                            <form action="{{route('section.updateSection',['section'=>$section->sectionId])}}" method="POST" name="updateSectionByAdmin" id="updateSectionByAdmin">
-                            {{ csrf_field() }}{{ method_field('POST') }}
-                            <td>{{Form::text('sectionName',$section->sectionName,array('placeholder'=>'Section Name','class'=>'form-control','id'=>'sectionName'))}}</td>
-                            {{Form::hidden('sectionId',$section->sectionId,array('id'=>'sectionId'))}}
-                            <td><button type="submit" class="btn btn-primary form-control">Update</button></td>
-                            {{ Form::close() }}
-                            <form action="{{route('section.destroySection',['section'=>$section->sectionId])}}" method="POST" name="deleteSectionByAdmin" id="deleteSectionByAdmin">
-                            {{ csrf_field() }}{{ method_field('POST') }}
-                            {{Form::hidden('sectionId',$section->sectionId,array('id'=>'sectionId'))}}
-                            <td><button type="submit" class="btn btn-primary form-control">Delete</button></td>
-                            {{ Form::close()}}
-                          </tr>
-                        @endforeach
-                        </tbody>
-                      </table>
+                  <table class="table">
+    <thead>
+        <tr>
+            <th>Section</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(App\Models\Section::where('batchId','=',$currentBatchId)->get() as $section)
+        <tr>
+            <td colspan="2">
+                <form action="{{ route('section.updateSection') }}"
+                      method="POST"
+                      class="updateSectionByAdmin d-flex align-items-center gap-2">
+                    @csrf
+
+                    <input type="hidden"
+                           name="sectionId"
+                           value="{{ $section->sectionId }}">
+
+                    <input type="text"
+                           name="sectionName"
+                           value="{{ $section->sectionName }}"
+                           placeholder="Section Name"
+                           class="form-control section-input">
+
+                    <button type="button"
+                            class="btn btn-primary saveSectionBtn">
+                        Update
+                    </button>
+                </form>
+            </td>
+
+            <td>
+                <form action="{{ route('section.destroySection') }}"
+                      method="POST"
+                      class="deleteSectionByAdmin text-center">
+                    @csrf
+
+                    <input type="hidden"
+                           name="sectionId"
+                           value="{{ $section->sectionId }}">
+
+                    <button type="button"
+                            class="btn btn-danger deleteSectionBtn">
+                        Delete
+                    </button>
+                </form>
+            </td>
+
+        </tr>
+        @endforeach
+    </tbody>
+</table>
                   @else
                     <h3 style="color:red;">List is empty</h3>
                   @endif

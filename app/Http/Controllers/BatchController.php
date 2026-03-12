@@ -43,8 +43,10 @@ class BatchController extends Controller
           $batches->status=0;
           $batches->save();
         // return Redirect::back();
-        return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
-
+        return response()->json([
+        'status' => true,
+        'message' => 'Class created successfully.'
+        ]);
         }
        public function currentBatch(Request $request)
        {
@@ -56,8 +58,10 @@ class BatchController extends Controller
                  $batches= batch::where('batchId','=',$request->batchId)->first();
                  $batches->status=1;
                  $batches->save();
-            return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
-
+            return response()->json([
+            'status' => true,
+            'message' => 'Class created successfully.'
+            ]);
 
            }
 
@@ -103,24 +107,30 @@ class BatchController extends Controller
      */
     public function updatebatch(Request $request)
     {
-      $validated = $request->validate([
-        'batchName' => ['required'],
-          'batchStartingYear' => ['required'],
-            'batchEndingYear' => ['required'],
-   [
+      $validated = $request->validate(
+[
+    'batchName' => ['required'],
+    'batchStartingYear' => ['required'],
+    'batchEndingYear' => ['required'],
+],
+[
     'batchName.required'=> 'A name must be specified for the batch.',
-     'batchStartingYear.required'=> 'Year of beginning of the batch should be specified',
-      'batchEndingYear.required'=> 'Year of end of the batch should be specified',
-   ]
-    ]);
+    'batchStartingYear.required'=> 'Year of beginning of the batch should be specified',
+    'batchEndingYear.required'=> 'Year of end of the batch should be specified',
+]
+);
       $batches = batch::where('batchId','=',$request->batchId)->first();
       $batches->batchName=$request->batchName;
       $batches->batchStartingYear=$request->batchStartingYear;
       $batches->batchEndingYear=$request->batchEndingYear;
+      $batches->status=0;
       $batches->save();
-      return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
-//       return redirect()->route('Admin',['id'=>'updateTheBatches'])
-// ->with('success', 'Updated successfully.');
+      // return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
+      return response()->json([
+      'status' => true,
+      'message' => 'Class created successfully.'
+      ]);
+
     }
 
     /**

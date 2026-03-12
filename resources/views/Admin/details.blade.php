@@ -1,9 +1,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- Bootstrap 4 CSS -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+<!-- jQuery (FULL version — only once) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Popper -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap 4 JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
@@ -13,13 +20,7 @@
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/Admin/admin.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
   <script src =
 "https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
       integrity =
@@ -67,7 +68,7 @@
           <li>
           <a href="#detailsToNewUser" class="list-group-item list-group-item-action bg-light">Add details to new user</a>
           <a href="#createOrUpdateAdminDetails" class="list-group-item list-group-item-action bg-light">Create/Update admins's details</a>
-          <a href="#createOrUpdateTeacherDetails" class="list-group-item list-group-item-action bg-light">Create/Update teachers's details</a>
+          <a href="#createOrUpdateTeacherDetailsSection" class="list-group-item list-group-item-action bg-light">Create/Update teachers's details</a>
           <a href="#createOrUpdateStudentDetails" class="list-group-item list-group-item-action bg-light">Create/Update students's details</a>
         </li>
           </ul>
@@ -378,15 +379,146 @@
          </div>
      </div>
  <!--
+ -->
+ <script>
+ $(document).ready(function () {
+
+   $('#exampleModalLongTeacherTeacherUserId').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+
+   var inModalDetailId = button.data('inModalDetailId');
+ var inModalUserId = button.data('inModalUserId');
+var inModalSal = button.data('inModalSal');
+ var inModalFirstName = button.data('inModalFirstName');
+ var inModalLastName = button.data('inModalLastName');
+ var inModalAge = button.data('inModalAge');
+alert(inModalFirstName+inModalLastName);
+    var inModalDOB = button.data('inModalDob');
+  var inModalContactNumber = button.data('inModalContactNumber');
+  var inModalAlternateContactNumber = button.data('inModalAlternateContactNumber');
+  var inModalAddress = button.data('inModalAddress');
+  var inModalBloodGroup = button.data('inModalBloodGroup');
+     var inModalIDMark = button.data('inModalIdMark');
+   var inModalParentNumber = button.data('inModalParentNumber');
+   var inModalHomePhoneNumber = button.data('inModalHomePhoneNumber');
+   var inModalFSName = button.data('inModalFsName');
+   var inModalMothersName = button.data('inModalMothersName');
+   var inModalGuardianName = button.data('inModalGuardianName');
 
 
+   var modal = $(this);
+     modal.find('#inModalDetailId').val(inModalDetailId);
+     modal.find('#inModalUserId').val(inModalUserId);
+     modal.find('#inModalSal').val(inModalSal);
+     modal.find('#exampleModalNameLongTitle').val("Name : "+inModalSal+inModalFirstName+" "+inModalLastName);
+     modal.find('#inModalFirstName').val(inModalFirstName);
+     modal.find('#inModalLastName').val(inModalLastName);
+     modal.find('#inModalAge').val(inModalAge);
+     modal.find('#inModalDOB').val(inModalDOB);
+       modal.find('#inModalContactNumber').val(inModalContactNumber);
+       modal.find('#inModalAlternateContactNumber').val(inModalAlternateContactNumber);
+       modal.find('#inModalAddress').val(inModalAddress);
+       modal.find('#inModalBloodGroup').val(inModalBloodGroup);
+       modal.find('#inModalIDMark').val(inModalIDMark);
+       modal.find('#inModalParentNumber').val(inModalParentNumber);
+         modal.find('#inModalHomePhoneNumber').val(inModalHomePhoneNumber);
+         modal.find('#inModalFSName').val(inModalFSName);
+         modal.find('#inModalMothersName').val(inModalMothersName);
+         modal.find('#inModalGuardianName').val(inModalGuardianName);
+ });
 
+ });
+ </script>
 
+ <div class="modal fade" id="exampleModalLongTeacherTeacherUserId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalNameLongTitle"></h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">Role : Teacher</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{{route('detail.updateTeacherDetails')}}" method="POST" name="createOrUpdateTeacherDetails" id="createOrUpdateTeacherDetails">
+          {{ csrf_field() }}{{ method_field('POST') }}
+          {{Form::hidden('detailId',null,array('id'=>'inModalDetailId'))}}
+          {{Form::hidden('userId',null,array('id'=>'inModalUserId'))}}
+          <table>
+                          <thead>
 
+                            <tr>
+                              <th>Salutation</th>
+                              <td>
+                              <select name="salutation" id="inModalSal">
+                                   <option value="Mr./Ms." selected>Mr./Ms.</option>;
+                                   <option value="Mr.">Mr.</option>
+                                   <option value="Ms.">Ms.</option>
+                              </select></td>
+                            </tr>
+                            <tr><th>First name</th>
+                            <td>{{Form::text('firstName',null,array('placeholder'=>'Enter first name','id'=>'inModalFirstName','class'=>'form-control'))}} </td>
+                          </tr>
+                          <tr>
+                              <th>Last name</th>
+                            <td>{{Form::text('lastName',null,array('placeholder'=>'Enter last name','id'=>'inModalLastName','class'=>'form-control'))}} </td></tr>
+                            <tr>
+                              <th>Age</th>
+                            <td>{{Form::text('age',null,array('placeholder'=>'Enter age','id'=>'inModalAge','class'=>'form-control'))}}</td></tr>
+                            <tr>
+                              <th>Date of birth :</th>
+                            <td>{{Form::date('dob',null,array('placeholder'=>'Enter date of birth','id'=>'inModalDOB','class'=>'form-control'))}}</td></tr>
+                            <tr>
+                              <th>Contact Number</th>
+                            <td>{{Form::text('contactNumber',null,array('placeholder'=>'Enter contact Number','id'=>'inModalContactNumber','class'=>'form-control'))}}</td></tr>
+                            <tr>
+                              <th>Alternate Contact Number</th>
+                            <td>{{Form::text('alternateContactNumber',null,array('placeholder'=>'Enter Alternate Contact Number','id'=>'inModalAlternateContactNumber','class'=>'form-control'))}}</td></tr>
+                            <tr>
+                              <th>Current Role</th>
+                            <td>Teacher</td></tr>
+                              <tr>
+                              <th>Address</th>
+                            <td>{{Form::text('address',null,array('placeholder'=>'Enter Address','id'=>'inModalAddress','class'=>'form-control'))}}</td></tr>
+                              <tr>
+                              <th>Blood group</th>
+                            <td>{{Form::text('bloodGroup',null,array('placeholder'=>'Enter Blood Group','id'=>'inModalBloodGroup','class'=>'form-control'))}}</td></tr>
+                              <tr>
+                              <th>Identification Mark</th>
+                            <td>{{Form::text('identificationMark',null,array('placeholder'=>'Enter identification mark','id'=>'inModalIDMark','class'=>'form-control'))}}</td></tr>
+                              <tr>
+                              <th>Parent's Number</th>
+                            <td>{{Form::text('parentNumber',null,array('placeholder'=>"Enter parent's number",'id'=>'inModalParentNumber','class'=>'form-control'))}}</td></tr>
+                              <tr>
+                              <th>Home Phone Number</th>
+                            <td>{{Form::text('homePhoneNumber',null,array('placeholder'=>'Enter Home Phone Number','id'=>'inModalHomePhoneNumber','class'=>'form-control'))}}</td></tr>
+                              <tr>
+                              <th>Father's/Spouse's Name</th>
+                            <td>{{Form::text('fatherSpouseName',null,array('placeholder'=>"Enter Father's/Spouse's Name",'id'=>'inModalFSName','class'=>'form-control'))}}</td></tr>
+                              <tr>
+                                  <th>Mother's Name</th>
+                                  <td>{{Form::text('motherName',null,array('placeholder'=>"Enter mother's name",'id'=>'inModalMothersName','class'=>'form-control'))}}</td></tr>
+                                  <tr>
+                                    <th>Guardian's Name</th>
+                                    <td>{{Form::text('guardianName',null,array('placeholder'=>"Enter Guardian's Name",'id'=>'inModalGuardianName','class'=>'form-control'))}}</td></tr>
+                                    <tr>
+                                    </tr>
+                                  </table>   <button type="button" id="closeModalForUpdateTeacher" class="btn btn-primary form-control">Submit</button>{{Form::close()}}</div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+<!--
   -->
 
 
-     <div class="py-12" id="createOrUpdateTeacherDetails">
+     <div class="py-12" id="createOrUpdateTeacherDetailsSection">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                  <div class="p-6 text-gray-900">
@@ -400,97 +532,7 @@
                        ->join('users','users.detailsId','=','details.detailId')
                        ->select('details.*','teachers.*')
                                             ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get()) as $teacher)
-                       <div class="modal fade" id="exampleModalLongTeacherTeacherUserId{{$teacher->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Name : {{$teacher->firstname}} {{$teacher->lastname}}</h5>
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Role : Teacher</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                              <table>
-                                                <thead>
 
-                                                  <form action="{{route('detail.updateTeacherDetails')}}" method="POST" name="createOrUpdateTeacherDetails" id="createOrUpdateTeacherDetails">
-                                                  {{ csrf_field() }}{{ method_field('POST') }}
-                                                  {{Form::hidden('detailId',$teacher->detailId,array('id'=>'detailId'))}}
-                                                  {{Form::hidden('userId',$teacher->userId,array('id'=>'userId'))}}
-                                                  <tr>
-                                                    <th>Salutation</th>
-                                                    <td>
-                                                    <select name="salutation">
-                                                       @if($teacher->sal=="Mr.")
-                                                         <option value="Mr." selected>Mr.</option>;
-                                                         <option value="Ms.">Ms.</option>
-                                                       @elseif($teacher->sal=="Ms.")
-                                                         <option value="Ms." selected>Ms.</option>;
-                                                         <option value="Mr.">Mr.</option>
-                                                       @else
-                                                         <option value="Mr./Ms." selected>Mr./Ms.</option>;
-                                                         <option value="Mr.">Mr.</option>
-                                                         <option value="Ms.">Ms.</option>
-                                                       @endif
-                                                    </select></td>
-                                                  </tr>
-                                                  <tr><th>First name</th>
-                                                  <td>{{Form::text('firstName',$teacher->firstname,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Last name</th>
-                                                  <td>{{Form::text('lastName',$teacher->lastname,array('placeholder'=>'Enter last name','class'=>'form-control'))}} </td></tr>
-                                                  <tr>
-                                                    <th>Age</th>
-                                                  <td>{{Form::text('age',$teacher->age,array('placeholder'=>'Enter age','class'=>'form-control'))}}</td></tr>
-                                                  <tr>
-                                                    <th>Date of birth : {{$teacher->dob}}</th>
-                                                  <td>{{Form::date('dob',$teacher->dob,array('placeholder'=>'Enter date of birth','class'=>'form-control'))}}</td></tr>
-                                                  <tr>
-                                                      {{Form::hidden('userId',$teacher->userId)}}
-                                                    <th>Contact Number</th>
-                                                  <td>{{Form::text('contactNumber',$teacher->contactNumber,array('placeholder'=>'Enter contact Number','class'=>'form-control'))}}</td></tr>
-                                                  <tr>
-                                                    <th>Alternate Contact Number</th>
-                                                  <td>{{Form::text('alternateContactNumber',$teacher->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control'))}}</td></tr>
-                                                  <tr>
-                                                    <th>Current Role</th>
-                                                  <td>Teacher</td></tr>
-                                                    <tr>
-                                                    <th>Address</th>
-                                                  <td>{{Form::text('address',$teacher->address,array('placeholder'=>'Enter Address','class'=>'form-control'))}}</td></tr>
-                                                    <tr>
-                                                    <th>Blood group</th>
-                                                  <td>{{Form::text('bloodGroup',$teacher->bloodGroup,array('placeholder'=>'Enter Blood Group','class'=>'form-control'))}}</td></tr>
-                                                    <tr>
-                                                    <th>Identification Mark</th>
-                                                  <td>{{Form::text('identificationMark',$teacher->identificationMark,array('placeholder'=>'Enter identification mark','class'=>'form-control'))}}</td></tr>
-                                                    <tr>
-                                                    <th>Parent's Number</th>
-                                                  <td>{{Form::text('parentNumber',$teacher->parentNumber,array('placeholder'=>"Enter parent's number",'class'=>'form-control'))}}</td></tr>
-                                                    <tr>
-                                                    <th>Home Phone Number</th>
-                                                  <td>{{Form::text('homePhoneNumber',$teacher->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number','class'=>'form-control'))}}</td></tr>
-                                                    <tr>
-                                                    <th>Father's/Spouse's Name</th>
-                                                  <td>{{Form::text('fatherSpouseName',$teacher->fatherSpouseName,array('placeholder'=>"Enter Father's/Spouse's Name",'class'=>'form-control'))}}</td></tr>
-                                                    <tr>
-                                                        <th>Mother's Name</th>
-                                                        <td>{{Form::text('motherName',$teacher->motherName,array('placeholder'=>"Enter mother's name",'class'=>'form-control'))}}</td></tr>
-                                                        <tr>
-                                                          <th>Guardian's Name</th>
-                                                          <td>{{Form::text('guardianName',$teacher->guardianName,array('placeholder'=>"Enter Guardian's Name",'class'=>'form-control'))}}</td></tr>
-                                                          <tr>
-                                                          </tr>
-                                                        </table>   <button type="submit" class="btn btn-primary form-control">Submit</button>{{Form::close()}}</div>
-                                                        <div class="modal-footer">
-                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
                        <table class="table">
                          <thead>
                            <tr>
@@ -506,14 +548,33 @@
                            <td>{{$teacher->sal}}{{$teacher->firstname}} </td>
                            <td>{{$teacher->lastname}} </td>
                            <td>{{$teacher->age}}</td>
-                           <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongTeacherTeacherUserId{{$teacher->userId}}">
-                               View/Edit Details
-                             </button></td>
+                           <td><button type="button" class="btn btn-primary form-control"
+ data-in-modal-detail-id="{{$teacher->teacherDetailId}}"
+ data-in-modal-sal="{{$teacher->sal}}"
+ data-in-modal-user-id="{{$teacher->userId}}"
+ data-in-modal-first-name="{{$teacher->firstname}}"
+ data-in-modal-last-name="{{$teacher->lastname}}"
+ data-in-modal-age="{{$teacher->age}}"
+ data-in-modal-dob="{{$teacher->dob}}"
+ data-in-modal-contact-number="{{$teacher->contactNumber}}"
+ data-in-modal-alternate-contact-number="{{$teacher->alternateContactNumber}}"
+ data-in-modal-address="{{$teacher->address}}"
+ data-in-modal-blood-group="{{$teacher->bloodGroup}}"
+ data-in-modal-id-mark="{{$teacher->identificationMark}}"
+ data-in-modal-parent-number="{{$teacher->parentNumber}}"
+ data-in-modal-home-phone-number="{{$teacher->homePhoneNumber}}"
+ data-in-modal-fs-name="{{$teacher->fatherSpouseName}}"
+ data-in-modal-mothers-name="{{$teacher->motherName}}"
+ data-in-modal-guardian-name="{{$teacher->guardianName}}"
+ data-toggle="modal"
+ data-target="#exampleModalLongTeacherTeacherUserId">
+ View/Edit Details
+</button></td>
                              <td><form action="{{route('detail.deleteTeacherDetails')}}" method="POST" name="deleteTeacherDetails" id="deleteTeacherDetails">
                              {{ csrf_field() }}{{ method_field('POST') }}
                              {{Form::hidden('detailId',$teacher->detailId)}}{{Form::hidden('userId',$teacher->userId)}}
                              {{Form::hidden('userRole',2)}}{{Form::hidden('userId',$teacher->userId)}}
-                             <input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
+                             <button type="submit" id="buttonForDeleteTeacherDetails" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" >Delete</button>
                            </form>
                                </button>
                            </td>
@@ -815,7 +876,7 @@
 
 
       <script src="{{ asset('js/filter.js') }}" defer></script>
-                  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
                   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
                   <script src="{{ asset('js/Admin/details.js') }}" defer></script>
 

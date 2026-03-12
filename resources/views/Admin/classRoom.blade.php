@@ -24,6 +24,22 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
+  <!--
+
+
+ -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+     <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+
+ <!--
+
+
+ -->
   <style>
 
   /* Media Query for Mobile Devices */
@@ -191,7 +207,89 @@ generateTimetable
                 </div>
             </div>
         </div>
+<!--
 
+ -->
+
+ <script>
+ $(document).ready(function () {
+
+   $('#viewClasses').on('show.bs.modal', function (event) {
+
+          var button = $(event.relatedTarget);
+          var classRoomId = button.data('classRoomid');
+          var classRoomGrade = button.data('classRoomGrade');
+          var classRoomNumber = button.data('classRoomNumber');
+          var classRoomSection = button.data('classRoomSection');
+          var classRoomDepartment = button.data('classRoomDepartment');
+          var classRoomSemester = button.data('classRoomSemester');
+
+
+   var modal = $(this);
+
+   modal.find('#classroomIdForModalForm').val(classRoomId);
+   modal.find('#classroomIdForDeleteClassRoom').val(classRoomId);
+   modal.find('#classRoomGrade').val(classRoomGrade);
+   modal.find('#classRoomNumber').val(classRoomNumber);
+   modal.find('#classRoomSection').val(classRoomSection);
+   modal.find('#classRoomDepartment').val(classRoomDepartment);
+   modal.find('#classRoomSemester').val(classRoomSemester);
+});
+
+ });
+ </script>
+
+<!--
+
+ -->
+
+ <div class="modal fade" id="viewClasses">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Classroom Details</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form action="{{route('classRoom.updateClassroomTeacherAndDescription')}}" method="POST"  enctype="multipart/form-data"  name="updateClassRoomInModalForm" id="updateClassRoomInModalForm">
+              {{ csrf_field() }}
+            <div style="display:flex;"><h3 id="classRoomGrade"></h3><h3 id="classRoomNumber"></h3><h3 id="classRoomSection"></h3></div>
+            <div style="display:flex;"><h3 id="classRoomDepartment"></h3><h3 id="classRoomSemester"></h3></div>
+            <div style="display:flex;"><h3>Class Teacher : </h3>
+              <select name="teacherId" class="form-control" id="teacherIdForFormView">
+          @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+                                                      ->join('details','details.detailId','=','teachers.teacherDetailId')
+                                                      ->select('details.lastname AS lastName',
+                                                      'details.firstname AS firstName',
+                                                      'teachers.teacherId AS teacherId')
+                                                      ->get() as $teacher)
+                                              <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
+          @endforeach
+        </select>
+      </div>{{Form::hidden('classroomId',null,array('id'=>'classroomIdForModalForm'))}}
+            <div style="display:flex;"><h3 id="classDescriptionId"></h3><h3 id="classCapacityIdForModalForm"></h3></div>
+            <button type="button" id="updateClassRoomForView" class="btn btn-primary form-control">Update</button>{{Form::close()}}
+           <!-- <form action="{{route('classRoom.destroyclassRoom')}}" method="POST" enctype="multipart/form-data" name="currentBatch" id="deleteClassRoomInModalForm">
+            {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('classroomId',null,array('id'=>'classroomIdForDeleteClassRoom'))}}
+           <button type="button" id="deleteClassroomForView" class="btn btn-primary form-control">Assign</button>{{Form::close()}} -->
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+   </div>
+ <!--
+
+ -->
     <div class="py-12" id="viewEditClassrooms">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -271,54 +369,7 @@ generateTimetable
 
 
 
-                                                         <div class="modal fade" id="viewClasses{{$classRoom->classroomDetailId}}">
-                                                            <div class="modal-dialog modal-sm">
-                                                              <div class="modal-content">
 
-                                                                <!-- Modal Header -->
-                                                                <div class="modal-header">
-                                                                  <h4 class="modal-title">Classroom Details</h4>
-                                                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                </div>
-
-                                                                <!-- Modal body -->
-                                                                <div class="modal-body">
-                                                                  <form action="{{route('classRoom.updateClassroomTeacherAndDescription')}}" method="POST"  enctype="multipart/form-data"  name="updateBatches" id="updateBatches">
-                                                                      {{ csrf_field() }}
-                                                                    <div style="display:flex;"><h3>Grade : {{$classRoom->grade}}</h3><h3>Room No : {{$classRoom->roomNo}}</h3><h3>Section : {{$classRoom->sectionName}}</h3></div>
-                                                                    <div style="display:flex;"><h3>Department : {{$classRoom->departmentName}}</h3><h3>Semester : {{$classRoom->semesterName}}</h3></div>
-                                                                    <div style="display:flex;"><h3>Class Teacher : </h3>
-                                                                      <select name="teacherId" class="form-control" id="teacherId">
-                                                                  @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
-                                                                                                              ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                                                                                              ->select('details.lastname AS lastName',
-                                                                                                              'details.firstname AS firstName',
-                                                                                                              'teachers.teacherId AS teacherId')
-                                                                                                              ->get() as $teacher)
-                                                                    @if($classRoom->classTeacher==$teacher->teacherId)
-                                                                       <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                                                    @else
-                                                                       <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                                                    @endif
-                                                                  @endforeach
-                                                                </select>
-                                                                    </div>{{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
-                                                                    <div style="display:flex;"><h3>Description : {{Form::text('description',$classRoom->description)}}</h3><h3>Capacity : {{$classRoom->grade}}</h3></div>
-                                                                    <button type="submit" class="btn btn-primary form-control">Update</button>{{Form::close()}}
-                                                                   <form action="{{route('classRoom.destroyclassRoom')}}" method="POST"   enctype="multipart/form-data" name="currentBatch" id="currentBatch">
-                                                                    {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
-                                                                   <button type="submit" class="btn btn-primary form-control">Assign</button>{{Form::close()}}
-
-                                                                </div>
-
-                                                                <!-- Modal footer -->
-                                                                <div class="modal-footer">
-                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                </div>
-
-                                                              </div>
-                                                            </div>
-                                                           </div>
                                                            <form action="{{route('classRoom.updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
                                                           {{ csrf_field() }}{{ method_field('POST') }}
                                                           {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
@@ -343,15 +394,15 @@ generateTimetable
                                                                                @endforeach</td>
                                                           <td>{{Form::text('description',$classRoom->description)}}</td>
                                                           <td>{{$classRoom->capacity}}</td>
-                                                          <td><button type="submit" class="btn btn-primary form-control">Submit</button>
+                                                          <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
                                                           {{ Form::close()}}</td>
                                                           <form action="{{route('classRoom.destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
                                                           {{ csrf_field() }}{{ method_field('POST') }}
 
                                                           {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
-                                                          <td><button type="submit" class="btn btn-primary form-control">Delete</button>
+                                                          <td><button type="button" class="btn btn-primary form-control">Delete</button>
                                                           {{ Form::close()}}</td>
-                                                          <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#viewClasses{{$classRoom->classroomDetailId}}">View</button></td>
+                                                          <td><button type="button" class="btn btn-primary form-control" data-class-roomid ="{{$classRoom->classroomDetailId }}" data-class-room-grade="{{$classRoom->grade}}" data-class-room-number="{{$classRoom->roomNo}}" data-class-room-section="{{$classRoom->section}}" data-class-room-department="{{$classRoom->departmentId}}" data-class-room-semester="{{$classRoom->semester}}" data-toggle="modal" data-target="#viewClasses">View</button></td>
                                                           <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#viewTimetable{{$classRoom->classTimeTableId}}">View</button></td>
                                                           </tr>
                                                           </tbody>
@@ -384,7 +435,6 @@ generateTimetable
                                                                                                                                'hours.hourId AS hourId',
                                                                                                                                'hours.hourName AS hourName',
                                                                                                                                'hours.hourStartingTime AS hourStartingTime',
-                                                                                                                               'hours.hourEndingTime AS hourEndingTime',
                                                                                                                                'subjects.subjectName AS subjectName',
                                                                                                                                'details.sal AS sal',
                                                                                                                                'details.firstName AS firstName',
@@ -399,8 +449,7 @@ generateTimetable
                                                                                                                    <div  class="timeTablesNames">
                                                                                                                      <div>{{$classTimetable->hourName}} <br>{{$classTimetable->subjectName}}<br>
                                                                                                                      {{$classTimetable->sal}}{{$classTimetable->firstName}}{{$classTimetable->lastName}}<br>
-                                                                                                                     {{$classTimetable->hourStartingTime}} <br> {{$classTimetable->hourEndingTime}}
-                                                                                                                   </div>
+                                                                                                                    </div>
                                                                                                                  </div>
                                                                                                                   @endif
                                                                                                              @endif
@@ -436,6 +485,36 @@ generateTimetable
 
 
 
+                                                          <script type="text/javascript">
+                                                            $(function () {
+
+                                                                $.ajaxSetup({
+                                                                    headers: {
+                                                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                    }
+                                                              });
+
+
+                                                              $('#addClassroom').click(function (e) {
+      e.preventDefault();
+
+      $.ajax({
+          data: $('#FormToCreateClassRoom').serialize(),
+          url: "{{ route('classRoom.createclassRoom') }}",
+          type: "POST",
+          dataType: 'json',
+          success: function (data) {
+              alert('Success');
+          },
+          error: function (xhr) {
+              console.log(xhr.responseText); // 🔥 very useful
+              alert('Error');
+          }
+      });
+  });
+
+                                                            });
+                                                          </script>
 
     <!--
 
@@ -446,12 +525,12 @@ generateTimetable
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                   Create classroom
-                  <form action="{{route('classRoom.createclassRoom')}}" method="POST" name="createClassRoom" id="createClassRoom">
+                  <form method="POST" name="createClassRoom" id="FormToCreateClassRoom">
                   {{ csrf_field() }}{{ method_field('POST') }}
                   {{Form::label('departments','Department')}}
                   <select name="departmentId" class="form-control">
-                    @if(count($departments = \App\Models\Department::where('departments.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($departments = \App\Models\Department::where('departments.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get()) as $department)
+                    @if(count($departments = \App\Models\Department::all())>0)
+                      @foreach(($departments = \App\Models\Department::all()) as $department)
                         <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
                       @endforeach
                     @endif
@@ -516,7 +595,7 @@ generateTimetable
                       @endforeach
                     </select>
                   @endisset
-                  <br><button type="submit" class="btn btn-primary form-control">Create Classroom</button>
+                  <br><button type="button" id="addClassroom" class="btn btn-primary form-control">Create Classroom</button>
                   {{ Form::close() }}
                 </div>
             </div>

@@ -1,106 +1,26 @@
+$(function () {
 
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
 
-$(document).ready(function(){
-  $('#addStudentAdmin').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
+                $('#buttonForAddStudentAdmin').click(function (e) {
+                e.preventDefault();
+                  var url = $('#addStudentAdmin').attr('action');
+                
+      $.ajax({
+            data: $('#addStudentAdmin').serialize(),
+      url: url,
+type: "POST",
+dataType: 'json',
+      success: function (data) {
+                    alert('Success');
+      },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+      }
+      });
         });
-    });
-
-});
-
-
-
-$(document).ready(function(){
-
-    $('#createMarkEntry').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});
-
-
-
-$(document).ready(function(){
-
-    $('#assignClassRoomToStudentss').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});
-
-
-
-$(document).ready(function(){
-
-    $('#createStudentSubjectMarks').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
-        });
-    });
-
 });

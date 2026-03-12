@@ -51,15 +51,15 @@ class DepartmentController extends Controller
            ]
            ]);
        //Add A Subject
-          $batchh=batch::where('status',1)->select('batchId')->first();
           $department = new Department;
           $department->departmentName = $request->departmentName;
           $department->status = 1;
-          $department->batchId = $batchh->batchId;
           $department->save();
 
-                return redirect()->route('Admin',['id'=>'addTheDepartments'])
-->with('success', 'Created successfully.');
+          return response()->json([
+          'status' => true,
+          'message' => 'Class created successfully.'
+          ]);
      }
 
     /**
@@ -90,9 +90,11 @@ class DepartmentController extends Controller
       $department = Department::where('departmentId','=',$request->departmentId)->first();
       $department->departmentName = $request->departmentName;
       $department->save();
-                 return redirect()->route('Admin',['id'=>'deleteTheDepartments'])
-->with('success', 'Updated successfully.');
 
+      return response()->json([
+      'status' => true,
+      'message' => 'Department updated successfully.'
+      ]);
     }
 
     /**
@@ -118,6 +120,10 @@ class DepartmentController extends Controller
         //
         $department = Department::where('departmentId', $request->departmentId)->first();
          $department->delete();
-                    return redirect()->route('Admin',['id'=>'deleteTheDepartments'])->with('success', 'Deleted successfully.');
+
+         return response()->json([
+         'status' => true,
+         'message' => 'Department deleted successfully.'
+         ]);
     }
 }

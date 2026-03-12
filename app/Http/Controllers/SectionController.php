@@ -47,7 +47,10 @@ class SectionController extends Controller
      $section->batchId=$batchId;
    $section->save();
 
-          return redirect()->route('AdminSection',['id'=>'createSectionByAdmin']);
+   return response()->json([
+   'status' => true,
+   'message' => 'Data Submitted!'
+   ]);
      }
 
 
@@ -106,7 +109,7 @@ class SectionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function updateSection(Request $request, section $section)
-    { 
+    {
     //Updating classroom details
                    $validated = $request->validate([
                      'sectionName' => ['required'],

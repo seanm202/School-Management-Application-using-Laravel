@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\batch;
-use App\Models\grade;
+use App\Models\Grade;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -20,7 +20,7 @@ class GradeController extends Controller
     }
     public function getGradeDetails()
     {
-      $grades = \App\Models\grade::all();
+      $grades = \App\Models\Grade::all();
       return view("/Admin/details")->with('grades',$grades);
     }
     /**
@@ -28,16 +28,19 @@ class GradeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function creategrade(Request $request)
+     public function createGrade(Request $request)
      {
-$grade= new grade;
+$grade= new Grade;
 $grade->grade=$request->gradeName;
 $grade->status=1;
 $grade->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
 $grade->save();
            //Add An Entity
 
-        return redirect()->route('AdminGrade',['id'=>'createGradeByAdmin']);
+           return response()->json([
+           'status' => true,
+           'message' => 'Data Submitted!'
+           ]);
      }
     /**
      * Store a newly created resource in storage.
@@ -48,7 +51,7 @@ $grade->save();
     public function store(Request $request)
     {
       //Create a record
-      $grades = new grade;
+      $grades = new Grade;
 
      $grades->yes_or_no = $request->yes_or_no;
      $grades->userId = $request->userId;
@@ -61,54 +64,76 @@ $grade->save();
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\grade  $grade
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function show(grade $grade)
+    public function show(Grade $grade)
     {
 
           //
-          $grades=grade::all();
+          $grades=Grade::all();
           return $grades;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\grade  $grade
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function edit(grade $grade)
-    {
-        //
+    // public function updategrade(Request $request)
+    // {
+    //   $grades = Grade::where('gradeId',$request->gradeId)->first();
+    //   $grades->grade = $request->gradeName;
+    //   $grades->save();
+    //
+    //   return response()->json([
+    //   'status' => true,
+    //   'message' => 'Data Updated!'
+    //   ]);
+    // }
+    public function updateGrade(Request $request)
+{
+    $grade = Grade::where('gradeId', $request->gradeId)->first();
+
+    if (!$grade) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Grade not found'
+        ]);
     }
+
+    $grade->grade = $request->gradeName;
+    $grade->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Data Updated!'
+    ]);
+}
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\grade  $grade
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-     public function updategrade(Request $request)
-     {
-         //Updating classroom details
-         $grade= grade::where('gradeId','=',$request->gradeId)->first();
-         $grade->grade=$request->gradeName;
-         $grade->save();
-           return redirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
-     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\grade  $grade
+     * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function destroygrade(Request $request)
+    public function destroyGrade(Request $request)
     {
       //Retrieve  details about grade
-      $grade= grade::where('gradeId','=',$request->gradeId)->first();
+      $grade= Grade::where('gradeId','=',$request->gradeId)->first();
       $grade->delete();
-    return redirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
+      return response()->json([
+      'status' => true,
+      'message' => 'Grade Deleted!'
+      ]);
     }
 }

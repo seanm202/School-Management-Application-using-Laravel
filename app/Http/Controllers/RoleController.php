@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\role;
+use App\Models\Role;
 use App\Models\batch;
 use Illuminate\Http\Request;
 
@@ -21,7 +21,7 @@ class RoleController extends Controller
     }
     public function getRoleDetails()
     {
-      $roles = \App\Models\role::all();
+      $roles = \App\Models\Role::all();
       return view("/Admin/role")->with('roles',$roles);
     }
 
@@ -35,7 +35,7 @@ class RoleController extends Controller
 
           //Add An Entity
         $roleNameNew=$request->roleName;
-         role::updateOrCreate(['roleName'=> $roleNameNew]);
+         Role::updateOrCreate(['roleName'=> $roleNameNew]);
          return view("/Admin/role");
     }
 
@@ -48,7 +48,7 @@ class RoleController extends Controller
     public function store(Request $request)
     {
       //Add An Entity
-      $roles = new role;
+      $roles = new Role;
 
      $roles->roleName = $request->roleName;
      $roles->save();
@@ -57,10 +57,10 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\role  $role
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function show(role $role)
+    public function show(Role $role)
     {
         //
     }
@@ -68,10 +68,10 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\role  $role
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function edit(role $role)
+    public function edit(Role $role)
     {
         //
     }
@@ -80,29 +80,52 @@ class RoleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\role  $role
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function updateRole(Request $request,role $role)
-    {
-        //Updating classroom details
-          $role= role::where('roles.roleId','=',$request->roleId)->first();
-          $role->roleName=$request->roleName;
-          $role->save();
-          return view("/Admin/role",['id'=>'updateRoleByAdmin']);
+    // public function updateRole(Request $request)
+    // {
+    //     //Updating classroom details
+    //       $roles= Role::where('roleId','=',$request->roleId)->first();
+    //       $roles->roleName=$request->roleName;
+    //       $roles->save();
+    //       return response()->json([
+    //       'status' => true,
+    //       'message' => 'Role Details Updated!'
+    //       ]);
+    // }
+    public function updateRole(Request $request)
+{
+    $role = Role::where('roleId', $request->roleId)->first();
+
+    if (!$role) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Role not found',
+            'received_id' => $request->roleId
+        ]);
     }
+
+    $role->roleName = $request->roleName;
+    $role->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Role Details Updated!'
+    ]);
+}
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\role  $role
+     * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
     public function destroyRole(Request $request)
     {
 
 
-      $role = role::where('roleId','=',$request->roleId)->delete();
+      $role = Role::where('roleId','=',$request->roleId)->delete();
           return view("/Admin/role");
     }
 }

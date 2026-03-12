@@ -1,55 +1,26 @@
+$(function () {
 
-$(document).ready(function(){
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
 
-  
+                $('#buttonForAddTeacherAdmin').click(function (e) {
+                e.preventDefault();
+                  var url = $('#addTeacherAdmin').attr('action');
 
-  $('#addTeacherAdmin').ajaxForm(function() {
-        event.preventDefault();
-alert('teacher');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
+      $.ajax({
+            data: $('#addTeacherAdmin').serialize(),
+      url: url,
+type: "POST",
+dataType: 'json',
+      success: function (data) {
+                    alert('Success');
+      },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+      }
+      });
         });
-    });
-
-});
-
-$(document).ready(function(){
-
-    var form = '#editTeacherForSubject';
-
-    $(form).on('submit', function(event){
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
-        });
-    });
-
 });

@@ -69,7 +69,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
               'semesterId' => ['required'],
               'departmentId' => ['required'],
               'subjectName' => ['required'],
-              'torlab' => ['required'],
+              'torLab' => ['required'],
               'subjectGrade' => ['required'],
               'subjectMaxMarks' => ['required'],
          [
@@ -89,13 +89,17 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
          $subject->subjectGrade = $request->subjectGrade;
          $subject->subjectMaxMarks = $request->subjectMaxMarks;
          $subject->subjectTextName = $request->subjectTextName;
-         $subject->torlab = $request->torlab;
+         $subject->subjectCode = $request->subjectCode;
+         $subject->torlab = $request->torLab;
          $subject->priority = $request->subjectPriority;
          $subject->status = 1;
          $subject->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
          $subject->save();
 
-      return redirect()->route('AdminSubject',['id'=>'createASubject'])->with('success', 'Subject created successfully.');
+         return response()->json([
+         'status' => true,
+         'message' => 'Subject created successfully.'
+         ]);
     }
 
     /**
@@ -162,7 +166,10 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     $subject->torlab = $request->theoryOrlab;
     $subject->priority = $request->subjectPriority;
     $subject->save();
-    return redirect()->route('AdminSubject',['id'=>'updateSubject']);
+    return response()->json([
+    'status' => true,
+    'message' => 'Data Submitted!'
+    ]);
     }
 
     /**

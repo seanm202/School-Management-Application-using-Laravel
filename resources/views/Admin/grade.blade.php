@@ -2,7 +2,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -24,6 +24,17 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
+  <!-- jQuery (FULL version — only once) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script src="{{ asset('js/Admin/grade.js') }}"></script>
+  <!-- Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+  <!-- Bootstrap 4 JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -89,12 +100,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Create grade
-                    <form action="{{route('grade.creategrade')}}" method="POST" name="createGradeByAdmin" id="createGradeByAdmin">
+                    <form action="{{route('Grade.createGrade')}}" method="POST" name="createGradeByAdmin" id="formForCreateGradeByAdmin">
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::label('gradeName', 'Enter grade name :')}}
                     {{Form::text('gradeName',NULL,array('placeholder'=>'Name of the grade','class'=>'form-control'))}}
-
-                    <button type="submit" class="btn btn-primary form-control">Submit</button>
+                    <button type="button" id="saveGrade" class="btn btn-primary form-control">Submit</button>
                     {{ Form::close() }}
                 </div>
             </div>
@@ -109,33 +119,55 @@
                     Update grades
                     @if(count(App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)
                     <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Grade Name</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          @foreach(App\Models\grade::where('grades.batchId','=',$currentBatchId)->get() as $grade)
-                          <tr>
-                            <form action="{{route('grade.updategrade',['grade'=>$grade->gradeId])}}" method="POST" name="updateGradeByAdmin" id="updateGradeByAdmin">
-                            {{ csrf_field() }}{{ method_field('POST') }}
-                            <td>{{Form::text('gradeName',$grade->grade,array('class'=>'form-control'))}}</td>
-                            {{Form::hidden('gradeId',$grade->gradeId)}}
+    <thead>
+        <tr>
+            <th>Grade Name</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+      @foreach(App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get() as $grade)
+<tr>
+    <td colspan="2">
+        <form action="{{ route('Grade.updateGrade') }}"
+              method="POST"
+              class="updateGradeByAdmin d-flex align-items-center gap-2">
+            @csrf
 
-                              <td><button type="submit" class="btn btn-primary form-control">Submit</button>
+            <input type="text"
+                   name="gradeName"
+                   value="{{ $grade->grade }}"
+                   class="form-control">
 
-                            {{ Form::close() }}</td>
-                            <form action="{{route('grade.destroygrade',['grade'=>$grade->gradeId])}}" method="POST" name="deleteGradeByAdmin" id="deleteGradeByAdmin">
-                            {{ csrf_field() }}{{ method_field('POST') }}
-                            {{Form::hidden('gradeId',$grade->gradeId)}}
-                            <td><button type="submit" class="btn btn-primary form-control">Delete</button>
-                            {{ Form::close() }}</td>
-                          </tr>
-                        @endforeach
-                        </tbody>
-                      </table>
+            <input type="hidden"
+                   name="gradeId"
+                   value="{{ $grade->gradeId }}">
+
+            <button type="button"
+                    class="buttonForFormForUpdateGradeByAdmin btn btn-primary">
+                Update
+            </button>
+        </form>
+    </td>
+
+    <td>
+        <form action="{{ route('Grade.destroyGrade') }}"
+              method="POST"
+              class="deleteGradeByAdmin">
+            @csrf
+            <input type="hidden" name="gradeId" value="{{ $grade->gradeId }}">
+
+            <button type="button"
+                    class="buttonForDeleteGradeByAdmin btn btn-danger">
+                Delete
+            </button>
+        </form>
+    </td>
+</tr>
+@endforeach
+    </tbody>
+</table>
                     @else
                      <h3 style="color:red;">List is empty!</h3>
                     @endif
@@ -143,12 +175,4 @@
             </div>
         </div>
     </div>
-
-
-
-                  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-                  <script src="{{ asset('js/Admin/grade.js') }}" defer></script>
-
-
 </x-app-layout>

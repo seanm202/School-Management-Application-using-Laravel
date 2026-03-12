@@ -1,509 +1,646 @@
 //Add admin
+  $(function () {
 
-$(document).ready(function(){
-
-    $('#addAdminAdmin').ajaxForm(function() {
-        event.preventDefault();
-alert('admin');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
     });
 
+
+    $('#addAdminButton').click(function (e) {
+e.preventDefault();
+var createAdminUrl =$('#FormAddAdminAdmin').attr('action');
+$.ajax({
+data: $('#FormAddAdminAdmin').serialize(),
+url: createAdminUrl,
+type: "POST",
+dataType: 'json',
+success: function (data) {
+alert('Success');
+},
+error: function (xhr) {
+console.log(xhr.responseText); // 🔥 very useful
+alert('Error');
+}
+});
 });
 
-//Update Batches
-$(document).ready(function(){
+  });
+//
+//
+//
 
-  $('#updateBatches').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
+  $(function () {
 
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
     });
 
+
+    $('#updateBatch').click(function (e) {
+e.preventDefault();
+var updateBatchForm = $('#updateBatches').attr('action');
+console.log(updateBatchForm);
+$.ajax({
+data: $('#updateBatches').serialize(),
+url: updateBatchForm,
+type: "POST",
+dataType: 'json',
+success: function (data) {
+alert('Success');
+},
+error: function (xhr) {
+console.log(xhr.responseText); // 🔥 very useful
+alert('Error');
+}
+});
 });
 
+  });
 
-//Make current batch valid
-$(document).ready(function(){
+  //
+  //
+  //
+  $(function () {
 
-  $('#currentBatch').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
     });
 
+
+    $('#assignCurrentBatch').click(function (e) {
+e.preventDefault();
+var assignCurrentBatches = $('#currentBatch').attr('action');
+$.ajax({
+data: $('#currentBatch').serialize(),
+url: assignCurrentBatches,
+type: "POST",
+dataType: 'json',
+success: function (data) {
+alert('Success');
+},
+error: function (xhr) {
+console.log(xhr.responseText); // 🔥 very useful
+alert('Error');
+}
+});
 });
 
+  });
 
+    //
+    //
+    //
+    $(function () {
 
-//Create the batches
-$(document).ready(function(){
-
-  $('#createBatches').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        });
+      });
+
+
+      $('#createBatchButton').click(function (e) {
+  e.preventDefault();
+  var assignCreateBatch = $('#createBatches').attr('action');
+  $.ajax({
+  data: $('#createBatches').serialize(),
+  url: assignCreateBatch,
+  type: "POST",
+  dataType: 'json',
+  success: function (data) {
+  alert('Success');
+  },
+  error: function (xhr) {
+  console.log(xhr.responseText); // 🔥 very useful
+  alert('Error');
+  }
+  });
+  });
+
     });
 
-});
 
+      //
+      //
+      //
+      $(function () {
 
-
-
-//Update department
-$(document).ready(function(){
-
-  $('#updateDepartment').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
         });
+
+
+        $('#createDepartmentButton').click(function (e) {
+    e.preventDefault();
+    var createDepartment = $('#createDepartment').attr('action');
+    $.ajax({
+    data: $('#createDepartment').serialize(),
+    url: createDepartment,
+    type: "POST",
+    dataType: 'json',
+    success: function (data) {
+    alert('Success');
+    },
+    error: function (xhr) {
+    console.log(xhr.responseText); // 🔥 very useful
+    alert('Error');
+    }
+    });
     });
 
-});
+      });
 
 
-//Delete the department
-$(document).ready(function(){
 
-  $('#deleteDepartment').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
+        //
+        //
+        //
+        $(function () {
 
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+          });
 
-            },
-            error: function(response) {
-            }
+
+          $('#saveEditDepartment').click(function (e) {
+      e.preventDefault();
+      var updateDepartment = $('#updateDepartment').attr('action');
+      $.ajax({
+      data: $('#updateDepartment').serialize(),
+      url: updateDepartment,
+      type: "POST",
+      dataType: 'json',
+      success: function (data) {
+      alert('Success');
+      },
+      error: function (xhr) {
+      console.log(xhr.responseText); // 🔥 very useful
+      alert('Error');
+      }
+      });
+      });
+
         });
+
+                //
+                //
+                //
+                $(function () {
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                  });
+
+
+                  $('#removeDepartment').click(function (e) {
+              e.preventDefault();
+              var deleteDepartment = $('#deleteDepartment').attr('action');
+              $.ajax({
+              data: $('#deleteDepartment').serialize(),
+              url: deleteDepartment,
+              type: "POST",
+              dataType: 'json',
+              success: function (data) {
+              alert('Success');
+              },
+              error: function (xhr) {
+              console.log(xhr.responseText); // 🔥 very useful
+              alert('Error');
+              }
+              });
+              });
+
+                });
+
+
+                                //
+                                //
+                                //
+                                $(document).ready(function () {
+
+                                  $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+
+                                    // ✅ delegated event (works for all rows)
+                                    $(document).on('click', '.saveSemesterDetails', function (e) {
+                                      e.preventDefault();
+
+                                      var form = $(this).closest('form');
+                                      console.log(form.serialize());
+
+                                      var url = form.attr('action');
+                                      console.log(url);
+                                      $.ajax({
+                                          url: url,
+                                          type: "POST",
+                                          data: form.serialize(),
+                                          dataType: 'json',
+                                          success: function (data) {
+                                              console.log("SUCCESS FIRED");
+                                              console.log(data);
+                                              alert("Updated!");
+                                          },
+                                          error: function (xhr) {
+                                              console.log(xhr.status);
+                                              console.log(xhr.responseText);
+                                          }
+                                      });
+                                  });
+                                });
+
+
+
+                                                                //
+                                                                //
+                                                                //
+      $(function () {
+
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+        });
+
+
+        $('#addSemester').click(function (e) {
+    e.preventDefault();
+    var createSemester = $('#createSemester').attr('action');
+    $.ajax({
+    data: $('#createSemester').serialize(),
+    url: createSemester,
+    type: "POST",
+    dataType: 'json',
+    success: function (data) {
+    alert('Success');
+    },
+    error: function (xhr) {
+    console.log(xhr.responseText);
+    alert('Error');
+    }
+                                    });
+                                    });
+
+                                      });
+
+
+
+    $(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+      });
+
+
+      $('#addDay').click(function (e) {
+  e.preventDefault();
+  var createDay = $('#createDay').attr('action');
+  $.ajax({
+  data: $('#createDay').serialize(),
+  url: createDay,
+  type: "POST",
+  dataType: 'json',
+  success: function (data) {
+  alert('Success');
+  },
+  error: function (xhr) {
+  console.log(xhr.responseText);
+  }
+                                  });
+                                  });
+
+                                    });
+
+
+
+                                    $(document).ready(function () {
+
+                                      $.ajaxSetup({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        }
+                                    });
+
+                                        // ✅ delegated event (works for all rows)
+                                        $(document).on('click', '.saveDayDetails', function (e) {
+                                          e.preventDefault();
+
+                                          var form = $(this).closest('form');
+                                          console.log(form.length);
+                                          console.log(form.serialize());
+
+                                          var url = form.attr('action');
+                                          console.log(url);
+                                          $.ajax({
+                                              url: url,
+                                              type: "POST",
+                                              data: form.serialize(),
+                                              dataType: 'json',
+                                              success: function (data) {
+                                                  console.log("SUCCESS FIRED");
+                                                  console.log(data);
+                                                  alert("Updated!");
+                                              },
+                                              error: function (xhr) {
+                                                  console.log(xhr.status);
+                                                  console.log(xhr.responseText);
+                                              }
+                                          });
+                                      });
+                                    });
+
+
+    $(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+      });
+
+
+      $('#saveHourDetails').click(function (e) {
+  e.preventDefault();
+  var updateHourDetails = $('#updateHourDetails').attr('action');
+  $.ajax({
+  data: $('#updateHourDetails').serialize(),
+  url: updateHourDetails,
+  type: "POST",
+  dataType: 'json',
+  success: function (data) {
+  alert('Success');
+  },
+  error: function (xhr) {
+  console.log(xhr.responseText);
+  }
+                                  });
+                                  });
+
+                                    });
+
+
+  $(function () {
+
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+  });
+
+        $('#addHourButton').click(function (e) {
+    e.preventDefault();
+    var updateHourDetails = $('#createHour').attr('action');
+    $.ajax({
+    data: $('#createHour').serialize(),
+    url: updateHourDetails,
+    type: "POST",
+    dataType: 'json',
+    success: function (data) {
+    alert('Success');
+    },
+    error: function (xhr) {
+    console.log(xhr.responseText);
+    }
+                                    });
+                                    });
+
+                                      });
+
+
+$(function () {
+
+  $.ajaxSetup({
+      headers: {
+  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
     });
 
-});
-
-//Create department
-$(document).ready(function(){
-
-  $('#createDepartment').ajaxForm(function() {
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
+      $('#buttonForCreateDailyAttendance').click(function (e) {
+  e.preventDefault();
+        var forCreateDailyAttendance = $('#createDailyAttendance').attr('action');
+    $.ajax({
+      data: $('#createDailyAttendance').serialize(),
+    url: forCreateDailyAttendance,
+      type: "POST",
+      dataType: 'json',
+      success: function (data) {
+      alert('Success');
+        },
+        error: function (xhr) {
+        console.log(xhr.responseText);
+      }
+      });
         });
+  });
+
+  $(function () {
+
+  $.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                              });
+
+                  $('#buttonFordDeleteTodaysAttendenceForAllTeachers').click(function (e) {
+                  e.preventDefault();
+                    var deleteTodaysAttendenceForAllTeachers = $('#deleteTodaysAttendenceForAllTeachers').attr('action');
+        $.ajax({
+              data: $('#deleteTodaysAttendenceForAllTeachers').serialize(),
+        url: deleteTodaysAttendenceForAllTeachers,
+  type: "POST",
+  dataType: 'json',
+        success: function (data) {
+                      alert('Success');
+        },
+      error: function (xhr) {
+    console.log(xhr.responseText);
+        }
+        });
+          });
+  });
+
+
+  $(function () {
+
+  $.ajaxSetup({
+  headers: {
+  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+                              });
+
+                  $('#buttonForDeleteTodaysAttendanceForAllAdmins').click(function (e) {
+                  e.preventDefault();
+                    var deleteTodaysAttendanceForAllAdmins = $('#deleteTodaysAttendanceForAllAdmins').attr('action');
+        $.ajax({
+              data: $('#deleteTodaysAttendanceForAllAdmins').serialize(),
+        url: deleteTodaysAttendanceForAllAdmins,
+  type: "POST",
+  dataType: 'json',
+        success: function (data) {
+                      alert('Success');
+        },
+      error: function (xhr) {
+    console.log(xhr.responseText);
+        }
+        });
+          });
+  });
+
+    $(function () {
+
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                                });
+
+                    $('#buttonForDeleteTodaysAttendenceForAllStudents').click(function (e) {
+                    e.preventDefault();
+                      var dodeleteTodaysAttendenceForAllStudents = $('#deleteTodaysAttendenceForAllStudents').attr('action');
+          $.ajax({
+                data: $('#deleteTodaysAttendenceForAllStudents').serialize(),
+          url: dodeleteTodaysAttendenceForAllStudents,
+    type: "POST",
+    dataType: 'json',
+          success: function (data) {
+                        alert('Success');
+          },
+        error: function (xhr) {
+      console.log(xhr.responseText);
+          }
+          });
+            });
     });
 
-});
+        $(function () {
 
-//update semester
-$(document).ready(function(){
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                                    });
 
-  $('#updateSemester').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
+                        $('#addStatus').click(function (e) {
+                        e.preventDefault();
+                          var urlstatusAddAdmin = $('#statusAddAdmin').attr('action');
+              $.ajax({
+                    data: $('#statusAddAdmin').serialize(),
+              url: urlstatusAddAdmin,
+        type: "POST",
+        dataType: 'json',
+              success: function (data) {
+                            alert('Success');
+              },
+            error: function (xhr) {
+          console.log(xhr.responseText);
+              }
+              });
+                });
         });
-    });
 
-});
+//
+//
+//
 
-//Create semester
-$(document).ready(function(){
+        $(function () {
 
-  $('#createSemester').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                                    });
 
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
+                        $('#saveGrade').click(function (e) {
+                        e.preventDefault();
+                          var urlcreateGradeByAdmin = $('#createGradeByAdmin').attr('action');
+              $.ajax({
+                    data: $('#createGradeByAdmin').serialize(),
+              url: urlcreateGradeByAdmin,
+        type: "POST",
+        dataType: 'json',
+              success: function (data) {
+                            alert('Success');
+              },
+            error: function (xhr) {
+          console.log(xhr.responseText);
+              }
+              });
+                });
         });
-    });
 
-});
+        $(function () {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+          });
 
 
-//Update Day Details
-$(document).ready(function(){
-
-  $('#updateDayDetails').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
+          $('#buttonForUpdateStatus').click(function (e) {
+        e.preventDefault();
+        var updateBatchForm = $('#updateStatusDetails').attr('action');
+        console.log(updateBatchForm);
         $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
+        data: $('#updateStatusDetails').serialize(),
+        url: updateBatchForm,
+        type: "POST",
+        dataType: 'json',
+        success: function (data) {
+        alert('Success');
+        },
+        error: function (xhr) {
+        console.log(xhr.responseText); // 🔥 very useful
+        alert('Error');
+        }
         });
-    });
+        });
 
-});
+        });
 
 
+        $(function () {
 
-//Update Day Details
-$(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+          });
 
-  $('#createDay').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
 
+          $('#buttonForStatusDelete').click(function (e) {
+        e.preventDefault();
+        var updateBatchForm = $('#deleteStatusDetails').attr('action');
+        console.log(updateBatchForm);
         $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
+        data: $('#deleteStatusDetails').serialize(),
+        url: updateBatchForm,
+        type: "POST",
+        dataType: 'json',
+        success: function (data) {
+        alert('Success');
+        },
+        error: function (xhr) {
+        console.log(xhr.responseText); // 🔥 very useful
+        alert('Error');
+        }
         });
-    });
-
-});
-
-
-
-//Update Day Details
-$(document).ready(function(){
-
-  $('#updateHourDetails').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
         });
-    });
 
-});
-
-
-
-
-//Update Day Details
-$(document).ready(function(){
-
-  $('#deleteHour').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
         });
-    });
-
-});
-
-
-
-
-//Update Day Details
-$(document).ready(function(){
-
-  $('#createHour').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});
-
-
-
-//Update Day Details
-$(document).ready(function(){
-
-  $('#createDailyAttendance').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});
-
-
-//Update Day Details
-$(document).ready(function(){
-
-  $('#updateStatusDetails').ajaxForm(function() {
-        event.preventDefault();
-
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});
-
-
-//Update Day Details
-$(document).ready(function(){
-
-  $('#deleteStatusDetails').ajaxForm(function() {
-        event.preventDefault();
-
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});
-
-
-
-//Update Day Details
-$(document).ready(function(){
-
-  $('#statusAddAdmin').ajaxForm(function() {
-        event.preventDefault();
-
-        var url = $(this).attr('data-action');
-
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-
-            },
-            error: function(response) {
-            }
-        });
-    });
-
-});

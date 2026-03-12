@@ -190,6 +190,11 @@ $userId=$request->userId;
         return $details;
     }
 
+    public function getAdminAllDetails()
+    {
+      $details=detail::all();
+      return view("Admin/details")->with('userDetails',$details);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -238,7 +243,7 @@ $userId=$request->userId;
       $batchIds=batch::where('status',1)->select('batchId')->first();
       $teacher= teacher::where('userId','=',$userId)->where('batchId','=',$batchIds->batchId)->first();
       $teacher->teacherDetailId=$detailId;
-      $teacher->batchId=$batchIds;
+      $teacher->batchId=$batchIds->batchId;
       $teacher->save();
       return;
 
@@ -362,8 +367,8 @@ $userId=$request->userId;
     ]);
         $detail = detail::where('detailId', $request->detailId)->first();
         $detail->sal=$request->salutation;
-        $detail->firstname = $request->firstname;
-        $detail->lastname = $request->lastname;
+        $detail->firstname = $request->firstName;
+        $detail->lastname = $request->lastName;
         $detail->age = $request->age;
         $detail->dob = $request->dob;
         $detail->contactNumber = $request->contactNumber;
@@ -510,7 +515,7 @@ $userId=$request->userId;
         //Add An Entity
         $details = new detail;
 
-        $detail->sal=$request->salutation;
+        $details->sal=$request->salutation;
        $details->firstname = $request->firstName;
        $details->lastname = $request->lastName;
        $details->age = $request->age;
@@ -540,52 +545,57 @@ $userId=$request->userId;
        $teachers->save();
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($userId,2);
-        return redirect()->route('AdminTeacher',['id'=>'addTeachersAdmin'])->with('success', 'Teacher created successfully.');
+       return response()->json([
+       'status' => true,
+       'message' => 'Teacher created successfully.'
+       ]);
     }
 
 
     public function createAdmin(Request $request)
     {
 
-        $validated = $request->validate([
-          'password' => ['required', Password::defaults()],
-          'email' => ['email' => 'email'],
-          'phone' => ['required', 'numeric'],
-          'firstName' => ['required'],
-          'lastName' => ['required'],
-          'age' => ['required', 'numeric'],
-          'dob' => ['required', 'date'],
-          'contactNumber' => ['required', 'numeric'],
-          'alternateContactNumber' => ['required','numeric'],
-          'address' => ['required'],
-          'bloodGroup' => ['required'],
-          'identificationMark' => ['required'],
-          'parentNumber' => ['required', 'numeric'],
-          'homePhoneNumber' => ['required', 'numeric'],
-          'fatherSpouseName' => ['required'],
-          'motherName' => ['required'],
-          'guardianName' => ['required'],
-     [
-      'phone.required'=> 'Your Phone Number is Required',
-      'phone.numeric'=> 'Phone number must be numeric',
-      'firstName.required'=> 'Your First Name is Required',
-      'lastName.required'=> 'Your Last Name is Required',
-      'age.numeric'=> 'Age should be numeric',
-      'dob.required'=> 'Your date of birth is Required',
-      'contactNumber.required'=> 'Your Contact Number is Required',
-      'contactNumber.numeric'=> 'Contact Number Should be numeric',
-      'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
-      'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
-      'address.required'=> 'Address is required',
-      'bloodGroup.required'=> 'Your blood group is Required',
-      'identificationMark.required'=> 'Please provide an identification mark',
-      'parentNumber.required'=> 'Contact number of your parents is required',
-      'homePhoneNumber.required'=> 'Home phone number is required',
-      'fatherSpouseName.required'=> 'Contact number of your father or spouse is Required',
-      'motherName.required'=> 'Name of your mother is Required',
-      'guardianName.required'=> 'Name of your guardian is Required',
-     ]
-      ]);
+      $validated = $request->validate(
+[
+  'password' => ['required', Password::defaults()],
+  'email' => ['required', 'email'],
+  'phone' => ['required', 'numeric'],
+  'firstName' => ['required'],
+  'lastName' => ['required'],
+  'age' => ['required', 'numeric'],
+  'dob' => ['required', 'date'],
+  'contactNumber' => ['required', 'numeric'],
+  'alternateContactNumber' => ['required', 'numeric'],
+  'address' => ['required'],
+  'bloodGroup' => ['required'],
+  'identificationMark' => ['required'],
+  'parentNumber' => ['required', 'numeric'],
+  'homePhoneNumber' => ['required', 'numeric'],
+  'fatherSpouseName' => ['required'],
+  'motherName' => ['required'],
+  'guardianName' => ['required'],
+],
+[
+  'phone.required'=> 'Your Phone Number is Required',
+  'phone.numeric'=> 'Phone number must be numeric',
+  'firstName.required'=> 'Your First Name is Required',
+  'lastName.required'=> 'Your Last Name is Required',
+  'age.numeric'=> 'Age should be numeric',
+  'dob.required'=> 'Your date of birth is Required',
+  'contactNumber.required'=> 'Your Contact Number is Required',
+  'contactNumber.numeric'=> 'Contact Number Should be numeric',
+  'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+  'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+  'address.required'=> 'Address is required',
+  'bloodGroup.required'=> 'Your blood group is Required',
+  'identificationMark.required'=> 'Please provide an identification mark',
+  'parentNumber.required'=> 'Contact number of your parents is required',
+  'homePhoneNumber.required'=> 'Home phone number is required',
+  'fatherSpouseName.required'=> 'Contact number of your father or spouse is Required',
+  'motherName.required'=> 'Name of your mother is Required',
+  'guardianName.required'=> 'Name of your guardian is Required',
+]
+);
 
       $passwords = DB::table('constant_controllers')
             ->where('constantName','=','defaultPassword')
@@ -603,7 +613,7 @@ $userId=$request->userId;
         //Add An Entity
         $details = new detail;
 
-        $detail->sal=$request->salutation;
+        $details->sal=$request->salutation;
        $details->firstname = $request->firstName;
        $details->lastname = $request->lastName;
        $details->age = $request->age;
@@ -634,7 +644,11 @@ $userId=$request->userId;
        $admin->save();
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($userId,3);
-        return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
+        // return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
+        return response()->json([
+      'status' => true,
+      'message' => 'Class created successfully.'
+  ]);
     }
 
     public function createStudentTeacher(Request $request)
@@ -696,7 +710,7 @@ $userId=$request->userId;
           //Add An Entity
           $details = new detail;
 
-          $detail->sal=$request->salutation;
+          $details->sal=$request->salutation;
          $details->firstname = $request->firstName;
          $details->lastname = $request->lastName;
          $details->age = $request->age;
@@ -791,7 +805,7 @@ $userId=$request->userId;
             //Add An Entity
             $details = new detail;
 
-            $detail->sal=$request->salutation;
+            $details->sal=$request->salutation;
            $details->firstname = $request->firstName;
            $details->lastname = $request->lastName;
            $details->age = $request->age;
@@ -827,7 +841,10 @@ $userId=$request->userId;
            $student->save();
            \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
            \App\Http\Controllers\DetailController::updateRoleInUsers($userId,4);
-           return redirect()->route('AdminStudent',['id'=>'adminStudentAddStudent'])->with('success', 'Student added successfully.');
+           return response()->json([
+           'status' => true,
+           'message' => 'Data Submitted!'
+           ]);
         }
 
     /**
@@ -855,10 +872,10 @@ $userId=$request->userId;
                   return back()->with('success', 'Deleted successfully.');
               }
 
-        public function deleteTeacher($request)
+        public function deleteTeacher($userId)
         {
                                       //Delete self - details
-        $teacher = teacher::where('userId','=',$request->userId);
+        $teacher = teacher::where('userId','=',$userId);
         $teacher->delete();
         return back()->with('success', 'Deleted successfully.');
         }
@@ -889,7 +906,7 @@ $userId=$request->userId;
     public function destroyTeacher(Request $request)
     {
         //Delete self - details
-        $user=User::where('userId','=',$request->userId)->first();
+        $user=User::where('userId',$request->userId)->first();
         $user->delete();
         $details = detail::where('userId','=',$request->userId);
         $details->delete();

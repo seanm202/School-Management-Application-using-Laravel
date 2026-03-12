@@ -31,7 +31,10 @@ class StatusController extends Controller
         $statuses->statusName=$request->statusName;
         $statuses->statusForRoles=$request->roleForStatus;
         $statuses->save();
-        return redirect()->route('Admin',['id'=>'createTheStatus']);
+        return response()->json([
+        'status' => true,
+        'message' => 'Added!'
+        ]);
     }
 
     /**
@@ -81,7 +84,10 @@ class StatusController extends Controller
           $status->statusName=$request->statusName;
           $status->statusForRoles=$request->roleForStatus;
           $status->save();
-          return redirect()->route('Admin',['id'=>'updateTheStatus']);
+          return response()->json([
+          'status' => true,
+          'message' => 'Data Submitted!'
+          ]);
     }
 
     /**

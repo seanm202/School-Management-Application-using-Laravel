@@ -42,16 +42,19 @@ class ClassRoomController extends Controller
     public function createclassRoom(Request $request)
     {
 
-        $validated = $request->validate([
-          'grade' => ['required'],
-              'section' => ['required'],
-                'classTeacher' => ['required'],
-      [
-      'grade.required'=> 'A name must be specified for the grade(May be the grade in digits).',
-        'section.required'=> 'A section must be selected',
-         'classTeacher.date'=> 'Class teacher must be selected',
-      ]
-      ]);
+      $validated = $request->validate(
+  [
+      'grade' => ['required'],
+      'section' => ['required'],
+      'classTeacher' => ['required'],
+  ],
+  [
+      'grade.required' => 'A name must be specified for the grade.',
+      'section.required' => 'A section must be selected',
+      'classTeacher.required' => 'Class teacher must be selected',
+  ]
+);
+
       //createClassRoom
 
                $classRoom = new classRoom;
@@ -63,11 +66,16 @@ class ClassRoomController extends Controller
                $classRoom->classTeacher =    $request->classTeacher;
                $classRoom->description =$request->classDescription;
                $classRoom->capacity =$request->classCapacity;
-               $classRoom->classTimeTableId = $request->classTimeTableId ? $request->classTimeTableId:"";
+               $classRoom->classTimeTableId = $request->classTimeTableId ? $request->classTimeTableId:1;
                $classRoom->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
                $classRoom->save();
 
-      return redirect()->route('AdminClassRoom',['id'=>'createClassRoom'])->with('success', 'Class created successfully.');
+      // return redirect()->route('AdminClassRoom',['id'=>'createClassRoom'])->with('success', 'Class created successfully.');
+      return response()->json([
+    'status' => true,
+    'message' => 'Class created successfully.'
+]);
+
     }
 
     /**
@@ -140,7 +148,10 @@ class ClassRoomController extends Controller
         $classRooms->description=$request->description;
         $classRooms->save();
        //return redirect()->route('AdminStudent');
-return redirect()->route('AdminClassRoom',['id'=>'viewEditClassrooms'])->with('success', 'Updated successfully.');
+       return response()->json([
+       'status' => true,
+       'message' => 'Data Updated!'
+       ]);
     }
 
 
@@ -168,7 +179,10 @@ return redirect()->route('AdminStudent',['id'=>'assignClassRoomToStudents'])->wi
     {
         $classRoom=classRoom::where('classroomDetailId','=',$request->classroomId)->first();
         $classRoom->delete();
-          return redirect()->route('getAdminClassRoomDetails');
+        return response()->json([
+        'status' => true,
+        'message' => 'ClassRoom Deleted!'
+        ]);
     }
 
 

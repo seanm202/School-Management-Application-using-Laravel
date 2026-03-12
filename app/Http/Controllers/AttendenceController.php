@@ -120,7 +120,10 @@ class AttendenceController extends Controller
 
                         $attendences->each->delete();
 
-                      return Redirect::back();
+                        return response()->json([
+                        'status' => true,
+                        'message' => 'Deleted Successfully!'
+                        ]);
                     }
 
 
@@ -132,17 +135,30 @@ class AttendenceController extends Controller
 
                                       $attendences->each->delete();
 
-                                    return Redirect::back();
+                                      return response()->json([
+                                      'status' => true,
+                                      'message' => 'Deleted Successfully!'
+                                      ]);
                               }
 
                               public function deleteTodaysAttendenceForAllStudents(Request $request)
                               {
 
-                                      $studentSubjectAttendances = studentSubjectAttendance::where('date', '=', $request->dateSelected)->get();
-
-                                      $studentSubjectAttendances->each->delete();
-
-                                    return Redirect::back();
+                                      $studentSubjectAttendances = studentSubjectAttendance::where('todaysDate', '=', $request->dateSelected)->get();
+                                      if($studentSubjectAttendances)
+                                      {
+                                        $studentSubjectAttendances->each->delete();
+                                      }
+                                      else {
+                                        return response()->json([
+                                        'status' => true,
+                                        'message' => 'Already Deleted!'
+                                        ]);
+                                      }
+                                      return response()->json([
+                                      'status' => true,
+                                      'message' => 'Deleted Successfully!'
+                                      ]);
                               }
 
                               public function deleteTodaysAttendenceForAllStudentsByTeacher(Request $request)
@@ -154,7 +170,10 @@ class AttendenceController extends Controller
 
                                       $studentSubjectAttendances->each->delete();
 
-                                    return Redirect::back();
+                                      return response()->json([
+                                      'status' => true,
+                                      'message' => 'Deleted Successfully!'
+                                      ]);
                               }
 
 

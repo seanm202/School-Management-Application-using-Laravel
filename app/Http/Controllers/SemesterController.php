@@ -58,8 +58,10 @@ class SemesterController extends Controller
             $semester->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
            $semester->save();
 
-           return redirect()->route('Admin',['id'=>'addTheSemesters']);
-
+           return response()->json([
+           'status' => true,
+           'message' => 'Semester created successfully.'
+           ]);
       }
 
       /**
@@ -108,7 +110,11 @@ class SemesterController extends Controller
       $semester->semesterName = $request->semesterName;
       $semester->save();
 
-                 return redirect()->route('Admin',['id'=>'editTheSemesters']);
+
+      return response()->json([
+      'status' => true,
+      'message' => 'Semester updated successfully.'
+      ]);
       }
 
       /**
