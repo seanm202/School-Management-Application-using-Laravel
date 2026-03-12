@@ -1,4 +1,9 @@
-<x-guest-layout>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -50,4 +55,5 @@
             </x-primary-button>
         </div>
     </form>
-</x-guest-layout>
+</body>
+</html>
