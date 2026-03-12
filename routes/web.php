@@ -204,12 +204,12 @@ Route::resource('studentMarks', 'StudentMarksController');
 
 Route::get('/login', function () {
     return view('/auth/login');
-})->middleware(['auth', 'verified'])->name('login');
+})->name('login');
 
 
 Route::get('/register', function () {
-    return view('/auth/login');
-})->middleware(['auth', 'verified'])->name('register');
+    return view('/auth/register');
+})->name('register');
 
 
 Route::get('/logout', [DashboardController::class,'logout'])->name('logout');
