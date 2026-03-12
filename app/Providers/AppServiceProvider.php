@@ -3,6 +3,7 @@
 namespace App\Providers;
 use App\Models\batch;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,9 +23,14 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
-      $currentBatchId=batch::where('batches.status','=',1)->select('batchId')->first();
-      $currentBatchIdNow=$currentBatchId->batchId;
-      view()->share('currentBatchId', $currentBatchIdNow);
+{
+    if (Schema::hasTable('batches')) {
+
+        $currentBatch = batch::where('status',1)->select('batchId')->first();
+
+        $currentBatchIdNow = $currentBatch ? $currentBatch->batchId : null;
+
+        view()->share('currentBatchId', $currentBatchIdNow);
     }
+}
 }
