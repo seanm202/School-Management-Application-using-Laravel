@@ -202,13 +202,13 @@ Route::post('studentMarks.printMarksheetStudentByAdmin', [StudentMarksController
 Route::resource('studentMarks', 'StudentMarksController');
 
 
-Route::get('/login', function () {
-    return view('/auth/login');
+Route::get('/loginpage', function () {
+    return view('auth.login');
 })->name('loginpage');
 
 
-Route::get('/register', function () {
-    return view('/auth/register');
+Route::get('/registerpage', function () {
+    return view('auth.register');
 })->name('registerpage');
 
 
