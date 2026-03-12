@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\batch;
-use App\Models\role;
-use App\Models\section;
+use App\Models\Batch;
+use App\Models\Role;
+use App\Models\Section;
 use Illuminate\Http\Request;
 
 class SectionController extends Controller
@@ -21,7 +21,7 @@ class SectionController extends Controller
     }
     public function getDetails()
     {
-      $sections = \App\Models\section::all();
+      $sections = \App\Models\Section::all();
       return view("/Admin/section")->with('sections',$sections);
     }
 
@@ -40,8 +40,8 @@ class SectionController extends Controller
              ]
              ]);
            //Add An Entity
-           $batchId=batch::where('status',1)->select('batchId')->first()->batchId;
-           $section=new section;
+           $batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+           $section=new Section;
          $section->sectionName=$request->sectionName;
        $section->status=1;
      $section->batchId=$batchId;
@@ -69,8 +69,8 @@ class SectionController extends Controller
                      'sectionName.required'=> 'A name must be specified for the section/division.',
                      ]
                      ]);
-        $sections = new section;
-        $sections->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+        $sections = new Section;
+        $sections->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        $sections->secionName = $request->secionName;
        $details->save();
 
@@ -83,20 +83,20 @@ class SectionController extends Controller
      * @param  \App\Models\section  $section
      * @return \Illuminate\Http\Response
      */
-    public function show(section $section)
+    public function show(Section $section)
     {
       //
-      $sections=section::all();
+      $sections=Section::all();
       return $sections;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\section  $section
+     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function edit(section $section)
+    public function edit(Section $section)
     {
         //
     }
@@ -105,10 +105,10 @@ class SectionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\section  $section
+     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function updateSection(Request $request, section $section)
+    public function updateSection(Request $request, Section $section)
     {
     //Updating classroom details
                    $validated = $request->validate([
@@ -117,7 +117,7 @@ class SectionController extends Controller
                  'sectionName.required'=> 'A name must be specified for the section/division.',
                  ]
                  ]);
-      $section=section::where('sections.sectionId','=',$request->sectionId)->first();
+      $section=Section::where('sections.sectionId','=',$request->sectionId)->first();
       $section->sectionName=$request->sectionName;
       $section->save();
     return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
@@ -126,13 +126,13 @@ class SectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\section  $section
+     * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
     public function destroySection(Request $request)
     {
       //Delete self - details
-      $section = section::where('sections.sectionId','=',$request->sectionId)->first();
+      $section = Section::where('sections.sectionId','=',$request->sectionId)->first();
       $section->delete();
 
       return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\subject;
-use App\Models\batch;
-use App\Models\role;
+use App\Models\Subject;
+use App\Models\Batch;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Session;
 
@@ -18,7 +18,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-      $subjects = \App\Models\subject::all();
+      $subjects = \App\Models\Subject::all();
       return view("/Admin/subject")->with('subjects',$subjects);
     }
     // public function getSubjects()
@@ -31,7 +31,7 @@ class SubjectController extends Controller
       $gradeId=$request->gradeId;
       $departmentId=$request->departmentId;
       $semesterId=$request->semesterId;
-      $subjectWithSelectedConditions=subject::where('subjectGrade','=',$gradeId)
+      $subjectWithSelectedConditions=Subject::where('subjectGrade','=',$gradeId)
                        ->where('subjectDepartment','=',$departmentId)
                        ->where('subjectSemester','=',$semesterId)->get();
 Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
@@ -82,7 +82,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
          ]
           ]);
 
-              $subject = new subject;
+              $subject = new Subject;
                    $subject->semesterId = $request->semesterId;
                    $subject->departmentId = $request->departmentId;
          $subject->subjectName = $request->subjectName;
@@ -93,7 +93,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
          $subject->torlab = $request->torLab;
          $subject->priority = $request->subjectPriority;
          $subject->status = 1;
-         $subject->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+         $subject->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
          $subject->save();
 
          return response()->json([
@@ -108,23 +108,23 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
      * @param  \App\Models\subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function show(subject $subject)
+    public function show(Subject $subject)
     {
       ////
-      $subjects=subject::all();
+      $subjects=Subject::all();
       return $subjects;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\subject  $subject
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function edit(subject $subject)
+    public function edit(Subject $subject)
     {
       //get old values
-      $subject = subject::where('subjectId', $subject->subjectId)
+      $subject = Subject::where('subjectId', $subject->subjectId)
              ->get();
              return 1;
     }
@@ -133,11 +133,12 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\subject  $subject
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
     public function updatesubject(Request $request)
-    {$validated = $request->validate([
+    {
+      $validated = $request->validate([
 
         'semesterId' => ['required'],
         'departmentId' => ['required'],
@@ -156,7 +157,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     'subjectPriority.required'=> 'Default priority is 3 out of 6.'
    ]
     ]);
-      $subject = subject::where('subjectId',$request->subjectId)->first();
+      $subject = Subject::where('subjectId',$request->subjectId)->first();
     $subject->semesterId =$request->semesterId;
     $subject->departmentId = $request->departmentId;
     $subject->subjectName = $request->subjectName;
@@ -175,13 +176,13 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\subject  $subject
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
      public function destroysubject(Request $request)
      {
        //Delete Subject
-      $subject = subject::where('subjectId', $request->subjectId)->first();
+      $subject = Subject::where('subjectId', $request->subjectId)->first();
        $subject->delete();
        return redirect()->route('AdminSubject',['id'=>'updateSubject']);
      }

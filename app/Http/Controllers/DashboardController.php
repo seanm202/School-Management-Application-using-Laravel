@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use Illuminate\Http\Request;
-use App\Models\batch;
+use App\Models\Batch;
 use Auth;
 use DB;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use Response;
-use App\Models\semester;
-use App\Models\batch;
+use App\Models\Semester;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 
 class SemesterController extends Controller
@@ -22,7 +22,7 @@ class SemesterController extends Controller
 
       public function getSemesterDetails()
       {
-        $semesters = \App\Models\semester::all();
+        $semesters = \App\Models\Semester::all();
         return view("/Admin/admin")->with('semesters',$semesters);
       }
 
@@ -53,9 +53,9 @@ class SemesterController extends Controller
                      'semesterName.required'=> 'A name must be specified for the semester.',
                      ]
                      ]);
-            $semester = new semester;
+            $semester = new Semester;
             $semester->semesterName = $request->semesterName;
-            $semester->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
+            $semester->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
            $semester->save();
 
            return response()->json([
@@ -67,26 +67,26 @@ class SemesterController extends Controller
       /**
        * Display the specified resource.
        *
-       * @param  \App\Models\semester  $subject
+       * @param  \App\Models\Semester  $subject
        * @return \Illuminate\Http\Response
        */
-      public function show(semester $subject)
+      public function show(Semester $subject)
       {
         ////
-        $subjects=semester::all();
+        $subjects=Semester::all();
         return $subjects;
       }
 
       /**
        * Show the form for editing the specified resource.
        *
-       * @param  \App\Models\semester  $subject
+       * @param  \App\Models\Semester  $subject
        * @return \Illuminate\Http\Response
        */
-      public function edit(semester $semester)
+      public function edit(Semester $semester)
       {
         //get old values
-        $semester = semester::where('semesterId', $semester->semesterId)
+        $semester = Semester::where('semesterId', $semester->semesterId)
                ->get();
                return 1;
       }
@@ -95,10 +95,10 @@ class SemesterController extends Controller
        * Update the specified resource in storage.
        *
        * @param  \Illuminate\Http\Request  $request
-       * @param  \App\Models\semester  $subject
+       * @param  \App\Models\Semester  $subject
        * @return \Illuminate\Http\Response
        */
-      public function updatesemester(Request $request, semester $semester)
+      public function updatesemester(Request $request, Semester $semester)
       {
                      $validated = $request->validate([
                        'semesterName' => ['required'],
@@ -106,7 +106,7 @@ class SemesterController extends Controller
                    'semesterName.required'=> 'A name must be specified for the semester.',
                    ]
                    ]);
-        $semester = semester::where('semesterId',$request->semesterId)->first();
+        $semester = Semester::where('semesterId',$request->semesterId)->first();
       $semester->semesterName = $request->semesterName;
       $semester->save();
 
@@ -120,13 +120,13 @@ class SemesterController extends Controller
       /**
        * Remove the specified resource from storage.
        *
-       * @param  \App\Models\semester  $subject
+       * @param  \App\Models\Semester  $subject
        * @return \Illuminate\Http\Response
        */
        public function destroy(Request $request)
        {
          //Delete Subject
-        $semester = semester::where('semesterId', $request->semesterId)->first();
+        $semester = Semester::where('semesterId', $request->semesterId)->first();
          $semester->delete();
          return redirect()->route('Admin');
        }

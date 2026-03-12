@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\batch;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -20,12 +20,12 @@ class BatchController extends Controller
     }
     public function getBatchDetails()
     {
-      $batchs = \App\Models\batch::all();
+      $batchs = \App\Models\Batch::all();
       return view("/Admin/admin")->with('batchs',$batchs);
     }
     public function getDetailsOfAdmins()
     {
-      $admin = \App\Models\admin::all();
+      $admin = \App\Models\Admin::all();
       return redirect()->route('Admin')->with(compact($admin));
     }
 
@@ -36,7 +36,7 @@ class BatchController extends Controller
      */
     public function createbatch(Request $request)
     {
-          $batches= new batch;
+          $batches= new Batch;
           $batches->batchName=$request->batchName;
           $batches->batchStartingYear=$request->batchStartingYear;
           $batches->batchEndingYear=$request->batchEndingYear;
@@ -51,11 +51,11 @@ class BatchController extends Controller
        public function currentBatch(Request $request)
        {
 
-             $batches= batch::where('status','=',1)->first();
+             $batches= Batch::where('status','=',1)->first();
              $batches->status=0;
              $batches->save();
 
-                 $batches= batch::where('batchId','=',$request->batchId)->first();
+                 $batches= Batch::where('batchId','=',$request->batchId)->first();
                  $batches->status=1;
                  $batches->save();
             return response()->json([
@@ -79,10 +79,10 @@ class BatchController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\batch  $batch
+     * @param  \App\Models\Batch  $batch
      * @return \Illuminate\Http\Response
      */
-    public function show(batch $batch)
+    public function show(Batch $batch)
     {
         //
     }
@@ -90,10 +90,10 @@ class BatchController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\batch  $batch
+     * @param  \App\Models\Batch  $batch
      * @return \Illuminate\Http\Response
      */
-    public function edit(batch $batch)
+    public function edit(Batch $batch)
     {
         //
     }
@@ -102,7 +102,7 @@ class BatchController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\batch  $batch
+     * @param  \App\Models\Batch  $batch
      * @return \Illuminate\Http\Response
      */
     public function updatebatch(Request $request)
@@ -119,7 +119,7 @@ class BatchController extends Controller
     'batchEndingYear.required'=> 'Year of end of the batch should be specified',
 ]
 );
-      $batches = batch::where('batchId','=',$request->batchId)->first();
+      $batches = Batch::where('batchId','=',$request->batchId)->first();
       $batches->batchName=$request->batchName;
       $batches->batchStartingYear=$request->batchStartingYear;
       $batches->batchEndingYear=$request->batchEndingYear;
@@ -136,12 +136,12 @@ class BatchController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\batch  $batch
+     * @param  \App\Models\Batch  $batch
      * @return \Illuminate\Http\Response
      */
     public function destroybatch(Request $request)
     {
-      $batches = batch::where('batchId','=',$request->batchId)->first();
+      $batches = Batch::where('batchId','=',$request->batchId)->first();
       $batches->delete();
       return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
     }

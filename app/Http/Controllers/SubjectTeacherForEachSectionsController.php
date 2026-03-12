@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\subjectTeacherForEachSections;
-use App\Models\batch;
-use App\Models\role;
+use App\Models\SubjectTeacherForEachSections;
+use App\Models\Batch;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -22,7 +22,7 @@ class SubjectTeacherForEachSectionsController extends Controller
     }
     public function getDetailsOfSubjectTeacherForEachSections()
     {
-      $SubjectTeacherForEachSections = \App\Models\subjectTeacherForEachSections::all();
+      $SubjectTeacherForEachSections = \App\Models\SubjectTeacherForEachSections::all();
       return view("/Admin/subjectTeachersForEachSection")->with('SubjectTeacherForEachSections',$SubjectTeacherForEachSections);
     }
     /**
@@ -44,7 +44,7 @@ class SubjectTeacherForEachSectionsController extends Controller
 
      public function TeacherForClassSubject(Request $request)
      {
-       $role = new role;
+       $role = new Role;
        $role->roleName="Test";
        $role->status=1;
        $role->save();
@@ -57,7 +57,7 @@ class SubjectTeacherForEachSectionsController extends Controller
          'teacherId.required'=> 'A subject must be seleted',
         ]
          ]);
-         $subjectTeacherForEachSections = new subjectTeacherForEachSections;
+         $subjectTeacherForEachSections = new SubjectTeacherForEachSections;
            $subjectTeacherForEachSections->teacherId = $request->teacherId;
            $subjectTeacherForEachSections->classRoomId =  $request->classRoomId;
            $subjectTeacherForEachSections->subjectId =  $request->subjectId;
@@ -73,7 +73,7 @@ class SubjectTeacherForEachSectionsController extends Controller
 
 public function deleteEntryTeacher(Request $request)
 {
-  $role= new role;
+  $role= new Role;
   $role->roleName="Test";
   $role->status=1;
   $role->save();
@@ -83,7 +83,7 @@ public function deleteEntryTeacher(Request $request)
 }
          public function updateTeacherForClassSubject(Request $request)
          {
-           
+
              //Updating classroom details
              $validated = $request->validate([
 

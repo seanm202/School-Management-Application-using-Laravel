@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\User;
-use App\Models\student;
-use App\Models\teacher;
-use App\Models\subject;
-use App\Models\admin;
-use App\Models\detail;
-use App\Models\role;
-use App\Models\grade;
-use App\Models\classRoom;
-use App\Models\batch;
-use App\Models\hours;
-use App\Models\days;
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\Subject;
+use App\Models\Admin;
+use App\Models\Detail;
+use App\Models\Role;
+use App\Models\Grade;
+use App\Models\ClassRoom;
+use App\Models\Batch;
+use App\Models\Hours;
+use App\Models\Days;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,7 +38,7 @@ class AdminController extends Controller
     public function create()
     {
         //Create an add admin form
-        $roles=role::where('roleName', 'admin')
+        $roles=Role::where('roleName', 'admin')
                ->get();
         return back()->with('success', 'Role created successfully.');
     }
@@ -87,7 +87,7 @@ class AdminController extends Controller
        'guardianName.required'=> 'Your Guardian\'s name is Required',
        ]
        ]);
-        $details = new detail;
+        $details = new Detail;
 
        $details->firstname = $request->firstname;
        $details->lastname = $request->lastname;
@@ -105,7 +105,7 @@ class AdminController extends Controller
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
        $details->guardianName = $request->guardianName;
-       $details->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
+       $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
        $details->save();
 
        return back()->with('success', 'Added successfully.');
@@ -120,7 +120,7 @@ class AdminController extends Controller
         'dayName.required'=> 'A name for the day is required',
        ]
         ]);
-        $days = new days;
+        $days = new Days;
 
        $days->dayName = $request->dayName;
        $days->status = 1;
@@ -136,7 +136,7 @@ class AdminController extends Controller
         public function deleteDay(Request $request)
         {
             //Store or add admin
-            $days = days::where('dayId',$request->dayId)->first();
+            $days = Days::where('dayId',$request->dayId)->first();
            $days->delete();
 
 
@@ -150,7 +150,7 @@ class AdminController extends Controller
     public function updateDayName(Request $request)
     {
         //Store or add admin
-        $days = days::where('dayId',$request->dayId)->first();
+        $days = Days::where('dayId',$request->dayId)->first();
         $days->dayName = $request->dayName;
         $days->status = 1;
         $days->save();
@@ -172,7 +172,7 @@ class AdminController extends Controller
         'hourName.required'=> 'A name for the hour is required',
        ]
         ]);
-        $hours = new hours;
+        $hours = new Hours;
 
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
@@ -190,7 +190,7 @@ class AdminController extends Controller
     public function updateHourName(Request $request)
     {
         //Store or add admin
-        $hours = hours::where('hourId','=',$request->hourId)->first();
+        $hours = Hours::where('hourId','=',$request->hourId)->first();
         $hours->hourName = $request->hourName;
         $hours->hourStartingTime = $request->hourStartingTime;
         $hours->status = 1;
@@ -206,7 +206,7 @@ class AdminController extends Controller
     public function deleteHour(Request $request)
     {
         //Store or add admin
-        $hours =hours::where('hourId','=',$request->hourId)->first();
+        $hours =Hours::where('hourId','=',$request->hourId)->first();
 
         $hours->delete();
 
@@ -221,13 +221,13 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\admin  $admin
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function show(admin $admin)
+    public function show(Admin $admin)
     {
       return view('user.profile', [
-         'user' => admin::findOrFail($id)
+         'user' => Admin::findOrFail($id)
      ]);
     }
 
@@ -237,10 +237,10 @@ class AdminController extends Controller
      * @param  \App\Models\admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function edit(admin $admin)
+    public function edit(Admin $admin)
     {
         // get old values
-        $admins = admin::where('userId', $admin->userId)
+        $admins = Admin::where('userId', $admin->userId)
                ->get();
                return 1;
     }
@@ -249,10 +249,10 @@ class AdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\admin  $admin
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, admin $admin)
+    public function update(Request $request, Admin $admin)
     {
         //Update admin details
 
@@ -262,15 +262,15 @@ return 1;
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\admin  $admin
+     * @param  \App\Models\Admin  $admin
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
       //Delete self - admin
-      $admins = admin::where('adminId',$request->userId)->first();
+      $admins = Admin::where('adminId',$request->userId)->first();
       $admins->delete();
-      $detail = detail::where('userId',$request->userId)->first();
+      $detail = Detail::where('userId',$request->userId)->first();
       $detail->delete();
       return 1;
     }
@@ -279,7 +279,7 @@ return 1;
     ///////////////////////////////////////////////////////////
     public function getAdminDetails(Request $request)
     {
-      $admin = admin::where('adminId', '==',$request->adminId)->firstOrFail();
+      $admin = Admin::where('adminId', '==',$request->adminId)->firstOrFail();
       return 1;
     }
     public function getUserRoleDetails(Request $request)
@@ -293,12 +293,12 @@ return 1;
     // }
     public function getDailyRegister()
     {
-      $dailyRegister = attendence::where('dailyReg', '==',$request->todayDate)->get();
+      $dailyRegister = Attendence::where('dailyReg', '==',$request->todayDate)->get();
       return $dailyRegister;
     }
     public function getClassRoomDetails(Request $request)
     {
-      $classRoom = classRoom::where('classroomDetailId', '==',$request->classroomDetailId)->firstOrFail();
+      $classRoom = ClassRoom::where('classroomDetailId', '==',$request->classroomDetailId)->firstOrFail();
       return $classRoom;
     }
     public function getUserDetails(Request $request)
@@ -312,12 +312,12 @@ return 1;
     // }
     public function getGradeDetails(Request $request)
     {
-      $grades= grade::where('gradeId', '==',$request->gradeId)->firstOrFail();
+      $grades= Grade::where('gradeId', '==',$request->gradeId)->firstOrFail();
       return 1;
     }
     public function getRoleDetails(Request $request)
     {
-      $roles = role::where('roleId', '==',$request->roleId)->firstOrFail();
+      $roles = Role::where('roleId', '==',$request->roleId)->firstOrFail();
       return 1;
     }
     public function assignOrChangeRole(Request $request)
@@ -340,7 +340,7 @@ return 1;
     // }
     public function getStudentDetails(Request $request)
     {
-      $affected = student::where('studentId', '==',$request->studentId)->firstOrFail();
+      $affected = Student::where('studentId', '==',$request->studentId)->firstOrFail();
       return $affected;
     }
     public function searchStudent()
@@ -349,29 +349,29 @@ return 1;
     }
     public function getSubjectDetails(Request $request)
     {
-      $affected = subject::where('subjectId', '==',$request->subjectId)->firstOrFail();
+      $affected = Subject::where('subjectId', '==',$request->subjectId)->firstOrFail();
       return $affected;
     }
     public function getTeacherAttendance(Request $request)
     {
-      $affected = subject::where('subjectId', '==',$request->subjectId)->firstOrFail();
+      $affected = Subject::where('subjectId', '==',$request->subjectId)->firstOrFail();
       return $affected;
     }
     public function getCurrentDayUserRoleAbsentDetails(Request $request)
     {
-      $dailyRegister = attendence::where('dailyReg','==',$request->todayDate)
+      $dailyRegister = Attendence::where('dailyReg','==',$request->todayDate)
       ->where('userRole','==',$request->userRole)->get();
       return $dailyRegister;
     }
     public function getCurrentDayTeacherAbsentDetails(Request $request)
     {
-      $dailyRegister = attendence::where('dailyReg','==',$request->todayDate)
+      $dailyRegister = Attendence::where('dailyReg','==',$request->todayDate)
       ->where('userRole','==',2)->get();
       return $dailyRegister;
     }
     public function getCurrentDayStudentAbsentDetails()
     {
-      $dailyRegister = attendence::where('dailyReg','==',$request->todayDate)
+      $dailyRegister = Attendence::where('dailyReg','==',$request->todayDate)
       ->where('userRole','==',3)->get();
       return $dailyRegister;
     }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\batch;
-use App\Models\securityFacility;
+use App\Models\Batch;
+use App\Models\SecurityFacility;
 use Illuminate\Http\Request;
 
 class SecurityFacilityController extends Controller
@@ -38,7 +38,7 @@ class SecurityFacilityController extends Controller
     public function store(Request $request)
     {
       //Add An Entity
-          $securityFacility = new securityFacility;
+          $securityFacility = new SecurityFacility;
 
          $securityFacility->detail1 = $request->detail1;
          $securityFacility->detail2 = $request->detail2;
@@ -51,26 +51,26 @@ class SecurityFacilityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\securityFacility  $securityFacility
+     * @param  \App\Models\SecurityFacility  $securityFacility
      * @return \Illuminate\Http\Response
      */
-    public function show(securityFacility $securityFacility)
+    public function show(SecurityFacility $securityFacility)
     {
         ////
-        $securityFacilitys=securityFacility::all();
+        $securityFacilitys=SecurityFacility::all();
         return $securityFacilitys;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\securityFacility  $securityFacility
+     * @param  \App\Models\SecurityFacility  $securityFacility
      * @return \Illuminate\Http\Response
      */
-    public function edit(securityFacility $securityFacility)
+    public function edit(SecurityFacility $securityFacility)
     {
       // get old values
-      $securityFacility = securityFacility::all()//where('userId', $securityFacility->userId)
+      $securityFacility = SecurityFacility::all()//where('userId', $securityFacility->userId)
              ->get();
              return 1;
     }
@@ -79,14 +79,14 @@ class SecurityFacilityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\securityFacility  $securityFacility
+     * @param  \App\Models\SecurityFacility  $securityFacility
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, securityFacility $securityFacility)
+    public function update(Request $request, SecurityFacility $securityFacility)
     {
 
           //Updating classroom details
-          securityFacility::where('securityId', $request->securityId)
+          SecurityFacility::where('securityId', $request->securityId)
         ->update(['detail1' => $request->detail1,
       'detail2' =>$request->detail2,
     'detail3' => $request->detail3,]);
@@ -97,10 +97,10 @@ class SecurityFacilityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\securityFacility  $securityFacility
+     * @param  \App\Models\SecurityFacility  $securityFacility
      * @return \Illuminate\Http\Response
      */
-    public function destroy(securityFacility $securityFacility)
+    public function destroy(SecurityFacility $securityFacility)
     {
       //Delete security facilities
     //  $securityFacility = securityFacility::where('userId'=>$details->userId);

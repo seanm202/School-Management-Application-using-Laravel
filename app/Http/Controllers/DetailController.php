@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\batch;
+use App\Models\Batch;
 use App\Models\detail;
 use App\Models\User;
-use App\Models\admin;
+use App\Models\Admin;
 use App\Models\ConstantController;
-use App\Models\student;
-use App\Models\teacher;
-use App\Models\role;
-use App\Models\attendence;
+use App\Models\Student;
+use App\Models\Teacher;
+use App\Models\Role;
+use App\Models\Attendence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -108,7 +108,7 @@ return;
    ]
     ]);
         //Add An Entity
-        $details = new detail;
+        $details = new Detail;
 $role=$request->roleId;
 $userId=$request->userId;
        $details->sal = $request->salutation;
@@ -128,7 +128,7 @@ $userId=$request->userId;
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
        $details->guardianName = $request->guardianName;
-       $details->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
+       $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
        $details->save();
        $detailsId=$details->detailId;
        $roleIdForRoleDetailIdUpdation=$request->roleId;
@@ -139,25 +139,25 @@ $userId=$request->userId;
        }
        else if($role==2)
        {
-         $teacher =new teacher;
+         $teacher =new Teacher;
          $teacher->userId	=$userId;
          $teacher->teacherDetailId=$detailsId;
          $teacher->status=1;
-         $teacher->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+         $teacher->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
          $teacher->save();
        }
        else if($role==3)
        {
-         $admin=new admin;
+         $admin=new Admin;
          $admin->userId=$userId;
          $admin->notifications_Posted=0;
          $admin->adminDetailId=$detailsId;
-         $admin->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+         $admin->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
          $admin->status = 1;
          $admin->save();
        }
        else {
-         $student=new student;
+         $student=new Student;
          $student->userId=$userId;
          $student->studentDetailsId=$detailsId;
          $student->studentClassroom=0;
@@ -166,7 +166,7 @@ $userId=$request->userId;
          $student->studentSemester=0;
          $student->studentDepartmentId=0;
          $student->status=3;
-         $student->batchId= batch::where('status',1)->select('batchId')->first()->batchId;
+         $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
          $student->save();
        }
 
@@ -180,28 +180,28 @@ $userId=$request->userId;
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\detail  $detail
+     * @param  \App\Models\Detail  $detail
      * @return \Illuminate\Http\Response
      */
     public function show(detail $detail)
     {
         //
-        $details=detail::all();
+        $details=Detail::all();
         return $details;
     }
 
     public function getAdminAllDetails()
     {
-      $details=detail::all();
+      $details=Detail::all();
       return view("Admin/details")->with('userDetails',$details);
     }
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\detail  $detail
+     * @param  \App\Models\Detail  $detail
      * @return \Illuminate\Http\Response
      */
-    public function edit(detail $detail)
+    public function edit(Detail $detail)
     {
         //
     }
@@ -210,7 +210,7 @@ $userId=$request->userId;
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\detail  $detail
+     * @param  \App\Models\Detail  $detail
      * @return \Illuminate\Http\Response
      */
 
@@ -228,11 +228,11 @@ $userId=$request->userId;
 
     public function addToAdminTable($userId,$adminDetailId)
     {
-      $admin= new admin;
+      $admin= new Admin;
       $admin->userId=$userId;
       $admin->notifications_Posted="";
       $admin->adminDetailId=$adminDetailId;
-      $admin->batchId=batch::where('status','=',1)->select('batchId')->first()->batchId;
+      $admin->batchId=Batch::where('status','=',1)->select('batchId')->first()->batchId;
       $admin->save();
       return;
     }
@@ -240,8 +240,8 @@ $userId=$request->userId;
 
     public function addToTeacherTable($userId,$detailId)
     {
-      $batchIds=batch::where('status',1)->select('batchId')->first();
-      $teacher= teacher::where('userId','=',$userId)->where('batchId','=',$batchIds->batchId)->first();
+      $batchIds=Batch::where('status',1)->select('batchId')->first();
+      $teacher= Teacher::where('userId','=',$userId)->where('batchId','=',$batchIds->batchId)->first();
       $teacher->teacherDetailId=$detailId;
       $teacher->batchId=$batchIds->batchId;
       $teacher->save();
@@ -252,10 +252,10 @@ $userId=$request->userId;
 
     public function addToStudentTable($userId,$studentDetailId)
     {
-      $student = new student;
+      $student = new Student;
       $student->userId=$userId;
       $student->studentDetailsId=$studentDetailId;
-      $student->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+      $student->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       $student->save();
       return;
     }
@@ -299,7 +299,7 @@ $userId=$request->userId;
     'guardianName.required'=> 'Your Guardian\'s name is Required',
    ]
     ]);
-        $detail = detail::where('detailId', $request->detailId)->first();
+        $detail = Detail::where('detailId', $request->detailId)->first();
         $detail->sal=$request->salutation;
         $detail->firstname = $request->firstName;
         $detail->lastname = $request->lastName;
@@ -365,7 +365,7 @@ $userId=$request->userId;
     'guardianName.required'=> 'Your Guardian\'s name is Required',
    ]
     ]);
-        $detail = detail::where('detailId', $request->detailId)->first();
+        $detail = Detail::where('detailId', $request->detailId)->first();
         $detail->sal=$request->salutation;
         $detail->firstname = $request->firstName;
         $detail->lastname = $request->lastName;
@@ -430,7 +430,7 @@ $userId=$request->userId;
     'guardianName.required'=> 'Your Guardian\'s name is Required',
    ]
     ]);
-        $detail = detail::where('detailId',$request->detailId)->first();
+        $detail = Detail::where('detailId',$request->detailId)->first();
         $detail->sal=$request->salutation;
         $detail->firstname = $request->firstName;
         $detail->lastname = $request->lastName;
@@ -508,12 +508,12 @@ $userId=$request->userId;
       $user->password=Hash::make($passwords->constantValue);
       $user->phone=$request->phone;
       $user->role=2;
-      $user->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+      $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       $user->save();
       $userId=$user->userId;
       event(new Registered($user));
         //Add An Entity
-        $details = new detail;
+        $details = new Detail;
 
         $details->sal=$request->salutation;
        $details->firstname = $request->firstName;
@@ -532,16 +532,16 @@ $userId=$request->userId;
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
        $details->status = 1;
-       $details->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        $details->guardianName = $request->guardianName;
        $details->save();
        $detailsId=$details->detailId;
        $roleIdForRoleDetailIdUpdation=3;
-       $teachers=new teacher;
+       $teachers=new Teacher;
        $teachers->userId=$userId;
        $teachers->teacherDetailId=$detailsId;
        $teachers->status = 1;
-       $teachers->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $teachers->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        $teachers->save();
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($userId,2);
@@ -606,12 +606,12 @@ $userId=$request->userId;
       $user->password=Hash::make($passwords->constantValue);
       $user->phone=$request->phone;
       $user->role=3;
-      $user->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+      $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       $user->save();
       $userId=$user->userId;
       event(new Registered($user));
         //Add An Entity
-        $details = new detail;
+        $details = new Detail;
 
         $details->sal=$request->salutation;
        $details->firstname = $request->firstName;
@@ -630,16 +630,16 @@ $userId=$request->userId;
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
        $details->status = 1;
-       $details->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        $details->guardianName = $request->guardianName;
        $details->save();
        $detailsId=$details->detailId;
        $roleIdForRoleDetailIdUpdation=3;
-       $admin=new admin;
+       $admin=new Admin;
        $admin->userId=$userId;
        $admin->notifications_Posted=0;
        $admin->adminDetailId=$detailsId;
-       $admin->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $admin->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        $admin->status = 1;
        $admin->save();
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
@@ -702,13 +702,13 @@ $userId=$request->userId;
         $user->password=Hash::make($request->password);
         $user->detailsId=0;
         $user->phone=$request->phone;
-        $user->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+        $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
         $user->role=4;
         $user->save();
         $userId=$user->userId;
         event(new Registered($user));
           //Add An Entity
-          $details = new detail;
+          $details = new Detail;
 
           $details->sal=$request->salutation;
          $details->firstname = $request->firstName;
@@ -728,11 +728,11 @@ $userId=$request->userId;
          $details->motherName = $request->motherName;
          $details->guardianName = $request->guardianName;
          $details->status = 1;
-         $details->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
+         $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
          $details->save();
          $detailsId=$details->detailId;
          $roleIdForRoleDetailIdUpdation=4;
-         $student=new student;
+         $student=new Student;
          $student->userId=$userId;
          $student->studentDetailsId=$detailsId;
          $student->studentClassroom=0;
@@ -741,7 +741,7 @@ $userId=$request->userId;
          $student->studentSemester=0;
          $student->studentDepartmentId=0;
          $student->status=3;
-         $student->batchId= batch::where('status',1)->select('batchId')->first()->batchId;
+         $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
          $student->save();
          \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
          \App\Http\Controllers\DetailController::updateRoleInUsers($userId,4);
@@ -798,12 +798,12 @@ $userId=$request->userId;
           $user->detailsId=0;
           $user->phone=$request->phone;
           $user->role=4;
-          $user->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+          $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
           $user->save();
           $userId=$user->userId;
           event(new Registered($user));
             //Add An Entity
-            $details = new detail;
+            $details = new Detail;
 
             $details->sal=$request->salutation;
            $details->firstname = $request->firstName;
@@ -823,12 +823,12 @@ $userId=$request->userId;
            $details->motherName = $request->motherName;
            $details->guardianName = $request->guardianName;
            $details->status = 1;
-           $details->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+           $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
            $details->save();
            $detailsId=$details->detailId;
            $roleIdForRoleDetailIdUpdation=4;
 
-           $student=new student;
+           $student=new Student;
            $student->userId=$userId;
            $student->studentDetailsId=$detailsId;
            $student->studentClassroom=0;
@@ -837,7 +837,7 @@ $userId=$request->userId;
            $student->studentSemester=0;
            $student->studentDepartmentId=0;
            $student->status=3;
-           $student->batchId= batch::where('status',1)->select('batchId')->first()->batchId;
+           $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
            $student->save();
            \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
            \App\Http\Controllers\DetailController::updateRoleInUsers($userId,4);
@@ -850,7 +850,7 @@ $userId=$request->userId;
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\detail  $detail
+     * @param  \App\Models\Detail  $detail
      * @return \Illuminate\Http\Response
      */
 
@@ -859,7 +859,7 @@ $userId=$request->userId;
              public function deleteAdmin($request)
              {
                  //Delete self - details
-                 $admin = admin::where('userId','=',$request->userId);
+                 $admin = Admin::where('userId','=',$request->userId);
                  $admin->delete();
                   return ;
              }
@@ -867,7 +867,7 @@ $userId=$request->userId;
 
               public function deleteStudent($request)
               {       //Delete self - details
-                  $student = student::where('userId','=',$request->userId);
+                  $student = Student::where('userId','=',$request->userId);
                   $student->delete();
                   return back()->with('success', 'Deleted successfully.');
               }
@@ -875,7 +875,7 @@ $userId=$request->userId;
         public function deleteTeacher($userId)
         {
                                       //Delete self - details
-        $teacher = teacher::where('userId','=',$userId);
+        $teacher = Teacher::where('userId','=',$userId);
         $teacher->delete();
         return back()->with('success', 'Deleted successfully.');
         }
@@ -885,7 +885,7 @@ $userId=$request->userId;
             //Delete self - details
             $user=User::where('userId','=',$request->userId)->first();
             $user->delete();
-            $details = detail::where('userId','=',$request->userId);
+            $details = Detail::where('userId','=',$request->userId);
             $details->delete();
             deleteAdmin($details->userId);
 
@@ -897,7 +897,7 @@ $userId=$request->userId;
               //Delete self - details
               $user=User::where('userId','=',$request->userId)->first();
               $user->delete();
-              $details = detail::where('userId','=',$request->userId);
+              $details = Detail::where('userId','=',$request->userId);
               $details->delete();
               deleteStudent($details->userId);
 
@@ -908,7 +908,7 @@ $userId=$request->userId;
         //Delete self - details
         $user=User::where('userId',$request->userId)->first();
         $user->delete();
-        $details = detail::where('userId','=',$request->userId);
+        $details = Detail::where('userId','=',$request->userId);
         $details->delete();
         deleteTeacher($details->userId);
 
@@ -919,7 +919,7 @@ $userId=$request->userId;
    public function getDetailsAboutId()
    {
          //Retrieve  details
-         $infoDetails = detail::all();
+         $infoDetails = Detail::all();
          return $infoDetails;
    }
 }

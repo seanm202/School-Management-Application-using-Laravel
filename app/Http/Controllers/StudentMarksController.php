@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\student;
-use App\Models\subject;
-use App\Models\role;
-use App\Models\studentMarks;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Role;
+use App\Models\StudentMarks;
 use Illuminate\Http\Request;
-use App\Models\batch;
+use App\Models\Batch;
 use App\Http\Controllers\DomPdfController;
 
 class StudentMarksController extends Controller
@@ -20,19 +20,19 @@ class StudentMarksController extends Controller
      */
     public function createMarkEntry(Request $request)
     {
-        $batchId=batch::where('status',1)->select('batchId')->first();
+        $batchId=Batch::where('status',1)->select('batchId')->first();
       $students = student::where('students.batchId','=',$batchId->batchId)->get();
       $i=1;
     foreach($students as $student)
         {
-          $subjects = subject::where('subjects.semesterId','=',$student->studentSemester)
+          $subjects = Subject::where('subjects.semesterId','=',$student->studentSemester)
                               ->where('subjects.departmentId','=',$student->studentDepartmentId)
                               ->where('subjects.subjectGrade','=',$student->studentGrade)
                               ->where('subjects.batchId','=',$student->batchId)->get();
 
           foreach($subjects as $subject)
           {
-            $studentMark= new studentMarks;
+            $studentMark= new StudentMarks;
             $studentMark->userId = $student->userId;
               $studentMark->studentId = $student->studentId;
               $studentMark->classRoomId = $student->studentClassroom;
@@ -53,7 +53,7 @@ class StudentMarksController extends Controller
      */
     public function create(Request $request)
     {
-      $studentMarks = new studentMarks;
+      $studentMarks = new StudentMarks;
 
       $studentMarks->userId = $request->userId;
       $studentMarks->studentId = $request->studentId;
@@ -61,7 +61,7 @@ class StudentMarksController extends Controller
       $studentMarks->subjectId =  $request->subjectId;
       $studentMarks->marks = $request->subjectMarks;
       $studentMarks->status = 2;
-      $studentMarks->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+      $studentMarks->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       $studentMarks->save();
       return redirect()->route('AdminStudent');
     }
@@ -87,10 +87,10 @@ class StudentMarksController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\studentMarks  $studentMarks
+     * @param  \App\Models\StudentMarks  $studentMarks
      * @return \Illuminate\Http\Response
      */
-    public function show(studentMarks $studentMarks)
+    public function show(StudentMarks $studentMarks)
     {
         //
     }
@@ -98,10 +98,10 @@ class StudentMarksController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\studentMarks  $studentMarks
+     * @param  \App\Models\StudentMarks  $studentMarks
      * @return \Illuminate\Http\Response
      */
-    public function edit(studentMarks $studentMarks)
+    public function edit(StudentMarks $studentMarks)
     {
         //
     }
@@ -110,7 +110,7 @@ class StudentMarksController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\studentMarks  $studentMarks
+     * @param  \App\Models\StudentMarks  $studentMarks
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
@@ -120,7 +120,7 @@ class StudentMarksController extends Controller
 
 
           foreach($inputs as $key => $value) {
-        $studentMarks = studentMarks::where('student_marksId','=',$request->student_marksId[$key])->first();
+        $studentMarks = StudentMarks::where('student_marksId','=',$request->student_marksId[$key])->first();
           $studentMarks->marks=$request->input('subjectMark')[$key];
           $studentMarks->save();
           }
@@ -131,7 +131,7 @@ class StudentMarksController extends Controller
    public function deleteMarkEntry(Request $request)
    {
 
-     $studentMarks = studentMarks::where('student_marksId','=',$request->subjectMarkIdDelete)->first();
+     $studentMarks = StudentMarks::where('student_marksId','=',$request->subjectMarkIdDelete)->first();
          $studentMarks->delete();
       return redirect()->route('AdminStudent',['id'=>'adminStudentAddStudentMarks']);
    }
@@ -143,7 +143,7 @@ class StudentMarksController extends Controller
 
 
           foreach($inputs as $key => $value) {
-        $studentMarks = studentMarks::where('student_marksId','=',$request->student_marksId[$key])->first();
+        $studentMarks = StudentMarks::where('student_marksId','=',$request->student_marksId[$key])->first();
           $studentMarks->marks=$request->input('subjectMark')[$key];
           $studentMarks->save();
           }
@@ -154,13 +154,13 @@ class StudentMarksController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\studentMarks  $studentMarks
+     * @param  \App\Models\StudentMarks  $studentMarks
      * @return \Illuminate\Http\Response
      */
-     public function destroy(studentMarks $studentMark)
+     public function destroy(StudentMarks $studentMark)
      {
        //Delete self - admin
-       $studentMark = studentMarks::where('student_marksId','=',$studentMark->student_marksId);
+       $studentMark = StudentMarks::where('student_marksId','=',$studentMark->student_marksId);
        $studentMark->delete();
        return redirect()->route('AdminStudent');
      }

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Timetable;
-use App\Models\hours;
-use App\Models\days;
-use App\Models\subject;
-use App\Models\teacher;
-use App\Models\classrooms;
-use App\Models\section;
+use App\Models\Hours;
+use App\Models\Hays;
+use App\Models\Hubject;
+use App\Models\Heacher;
+use App\Models\Hlassrooms;
+use App\Models\Hection;
 use App\Models\Priority;
 use App\Models\SubjectTeacherForEachSections;
 use Illuminate\Http\Request;
@@ -20,8 +20,8 @@ class TimetableController extends Controller
   public function repeatingPossibilities($teacherId,$oddOrEven)
   {
     $oddOrEvenSemesters=$oddOrEven;
-    $days=days::all();
-    $hours=hours::all();
+    $days=Days::all();
+    $hours=Hours::all();
     foreach($days as $day)
     {
       $dayIdOne=$day->dayId;
@@ -136,7 +136,7 @@ return;
 
   public function regenerateTimetable()
   {
-    $priorityOfSubjects = subjects::join('priority','priority.priorityId','=','subjects.priority')
+    $priorityOfSubjects = Subjects::join('priority','priority.priorityId','=','subjects.priority')
                           ->select('priority.priorityValue AS priorityValue')
                           ->select('subjects.subjectId AS subjectId')->get();
     $timetables=Timetable::join('subjects','subjects.priority','=','timetables.subjectId')
@@ -170,8 +170,8 @@ return;
   {
     $timetableToDelete=TimeTable::where('oddOrEven','=',$request->oddOrEven);
     $timetableToDelete->delete();
-    $days=days::all();
-    $hours=hours::all();
+    $days=Days::all();
+    $hours=Hours::all();
     for($i=0;$i<7;$i++)
     {
       $l=1;

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class securityFacility extends Model
+class SecurityFacility extends Model
 {
     use HasFactory;
     /**

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\days;
-use App\Models\batch;
+use App\Models\Days;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 
 class DaysController extends Controller
@@ -22,7 +22,7 @@ class DaysController extends Controller
           'dayName.required'=> 'A name must be specified for the day.',
           ]
           ]);
-      $days = new days;
+      $days = new Days;
 
      $days->dayDate = $request->dayDate;
 
@@ -55,10 +55,10 @@ class DaysController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\days  $days
+     * @param  \App\Models\Days  $days
      * @return \Illuminate\Http\Response
      */
-    public function show(days $days)
+    public function show(Days $days)
     {
         //
     }
@@ -66,10 +66,10 @@ class DaysController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\days  $days
+     * @param  \App\Models\Days  $days
      * @return \Illuminate\Http\Response
      */
-    public function edit(days $days)
+    public function edit(Days $days)
     {
         //
     }
@@ -78,10 +78,10 @@ class DaysController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\days  $days
+     * @param  \App\Models\Days  $days
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, days $days)
+    public function update(Request $request, Days $days)
     {
             $validated = $request->validate([
               'dayName' => ['required'],
@@ -89,7 +89,7 @@ class DaysController extends Controller
           'dayName.required'=> 'A name must be specified for the day.',
           ]
           ]);
-      $day=\App\Models\days::where('dayId','=',$request->dayId)->first();
+      $day=\App\Models\Days::where('dayId','=',$request->dayId)->first();
       $day->dayName=$request->dayName;
       $day->save();
       return redirect()->route('\Admindashboard')->with('success', 'Updated successfully.');
@@ -98,7 +98,7 @@ class DaysController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\days  $days
+     * @param  \App\Models\Days  $days
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)

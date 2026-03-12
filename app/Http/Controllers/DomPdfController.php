@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 use PDF;
-use App\Models\student;
-use App\Models\studentMarks;
+use App\Models\Student;
+use App\Models\StudentMarks;
 use Illuminate\Http\Request;
 
 class DomPdfController extends Controller
 {
     public static function getPdf($studentId)
     {
-      $studentDetails=\App\Models\student::join('details','details.detailId','=','students.studentDetailsId')
+      $studentDetails=\App\Models\Student::join('details','details.detailId','=','students.studentDetailsId')
                               ->where('studentId','=',$studentId)
                               ->select('details.sal AS sal',
                               'details.firstname AS firstName',
@@ -19,7 +19,7 @@ class DomPdfController extends Controller
                               'details.dob AS dob')
                               ->first();
       $studentId=4;
-      $getStudentMarkData=\App\Models\studentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
+      $getStudentMarkData=\App\Models\StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
                       ->join('students','students.studentId','=','student_marks.studentId')
                       ->join('class_rooms','class_rooms.classroomDetailId','=','student_marks.classroomId')
                       ->join('sections','sections.sectionId','=','class_rooms.section')

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\studentSubjectAttendance;
-use App\Models\student;
-use App\Models\batch;
-use App\Models\days;
-use App\Models\dailyTeacherAllocation;
-use App\Models\hours;
+use App\Models\StudentSubjectAttendance;
+use App\Models\Student;
+use App\Models\Batch;
+use App\Models\Days;
+use App\Models\DailyTeacherAllocation;
+use App\Models\Hours;
 use Carbon;
 use Illuminate\Http\Request;
 
@@ -28,11 +28,11 @@ class StudentSubjectAttendanceController extends Controller
     }
     public function storestudentSubjectAttendance(Request $request)
     {
-      $dailyTeacherAllocations=dailyTeacherAllocation::where('daily_Teacher_AllocationId','=',$request->dailyTeacherAllocationId)->first();
+      $dailyTeacherAllocations=DailyTeacherAllocation::where('daily_Teacher_AllocationId','=',$request->dailyTeacherAllocationId)->first();
       $dailyTeacherAllocations->status=2;
       $dailyTeacherAllocations->save();
 
-      $students = student::all();
+      $students = Student::all();
       $dateId=$request->dateId;
 
       $hoursId=$request->hourId;
@@ -53,7 +53,7 @@ class StudentSubjectAttendanceController extends Controller
         $StudentSubjectAttendanceController->submitted=0;
         $StudentSubjectAttendanceController->status=0;
         $StudentSubjectAttendanceController->dailyTeacherAllocationId=$request->dailyTeacherAllocationId;
-        $StudentSubjectAttendanceController->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+        $StudentSubjectAttendanceController->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
         $StudentSubjectAttendanceController->save();
                 // $StudentSubjectAttendanceController->insertOrIgnore();
       }
@@ -80,10 +80,10 @@ class StudentSubjectAttendanceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\studentSubjectAttendance  $studentSubjectAttendance
+     * @param  \App\Models\StudentSubjectAttendance  $studentSubjectAttendance
      * @return \Illuminate\Http\Response
      */
-    public function show(studentSubjectAttendance $studentSubjectAttendance)
+    public function show(StudentSubjectAttendance $studentSubjectAttendance)
     {
         //
     }
@@ -91,10 +91,10 @@ class StudentSubjectAttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\studentSubjectAttendance  $studentSubjectAttendance
+     * @param  \App\Models\StudentSubjectAttendance  $studentSubjectAttendance
      * @return \Illuminate\Http\Response
      */
-    public function edit(studentSubjectAttendance $studentSubjectAttendance)
+    public function edit(StudentSubjectAttendance $studentSubjectAttendance)
     {
         //
     }
@@ -103,7 +103,7 @@ class StudentSubjectAttendanceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\studentSubjectAttendance  $studentSubjectAttendance
+     * @param  \App\Models\StudentSubjectAttendance  $studentSubjectAttendance
      * @return \Illuminate\Http\Response
      */
     public function updatestudentSubjectAttendance(Request $request)
@@ -113,7 +113,7 @@ $inputs = $request->input('id');
 
 
     foreach($inputs as $key => $value) {
-  $StudentSubjectAttendanceController = studentSubjectAttendance::where('id','=',$request->id[$key])->first();
+  $StudentSubjectAttendanceController = StudentSubjectAttendance::where('id','=',$request->id[$key])->first();
     $StudentSubjectAttendanceController->presentOrAbsent=$request->input('presentOrAbsent')[$key];
       $StudentSubjectAttendanceController->submitted=1;
     $StudentSubjectAttendanceController->save();
@@ -124,10 +124,10 @@ $inputs = $request->input('id');
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\studentSubjectAttendance  $studentSubjectAttendance
+     * @param  \App\Models\StudentSubjectAttendance  $studentSubjectAttendance
      * @return \Illuminate\Http\Response
      */
-    public function destroy(studentSubjectAttendance $studentSubjectAttendance)
+    public function destroy(StudentSubjectAttendance $studentSubjectAttendance)
     {
         //
     }

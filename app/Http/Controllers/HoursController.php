@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Response;
-use App\Models\batch;
-use App\Models\hours;
+use App\Models\Batch;
+use App\Models\Hours;
 use Illuminate\Http\Request;
 
 class HoursController extends Controller
@@ -33,7 +33,7 @@ class HoursController extends Controller
           'hourName.required'=> 'A name must be specified for the hour.',
           ]
           ]);
-      $hours = new hours;
+      $hours = new Hours;
 
      $hours->hourName = $request->hourName;
 
@@ -48,13 +48,13 @@ class HoursController extends Controller
       $currentHour= Carbon::now();
       $crhour=$currentHour->toTimeString();
 $currentDBHourId=0;
-            $hours =  hours::orderBy('hourStartingTime','asc')->where('hourStartingTime','>',$crhour)->first();
+            $hours =  Hours::orderBy('hourStartingTime','asc')->where('hourStartingTime','>',$crhour)->first();
 
               $hours->status=1;
               $currentDBHourId=$hours->hourId;
               $hours->save();
 
-              $hoursOthers =  hours::where('hourId','!=',$currentDBHourId)->get();
+              $hoursOthers =  Hours::where('hourId','!=',$currentDBHourId)->get();
               foreach($hoursOthers as $hoursOther)
               {
                 $hoursOther->status=0;
@@ -78,10 +78,10 @@ $currentDBHourId=0;
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\hours  $hours
+     * @param  \App\Models\Hours  $hours
      * @return \Illuminate\Http\Response
      */
-    public function show(hours $hours)
+    public function show(Hours $hours)
     {
         //
     }
@@ -89,10 +89,10 @@ $currentDBHourId=0;
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\hours  $hours
+     * @param  \App\Models\Hours  $hours
      * @return \Illuminate\Http\Response
      */
-    public function edit(hours $hours)
+    public function edit(Hours $hours)
     {
         //
     }
@@ -101,10 +101,10 @@ $currentDBHourId=0;
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\hours  $hours
+     * @param  \App\Models\Hours  $hours
      * @return \Illuminate\Http\Response
      */
-     public function update(Request $request, hours $hours)
+     public function update(Request $request, Hours $hours)
      {
              $validated = $request->validate([
                'hourName' => ['required'],
@@ -112,7 +112,7 @@ $currentDBHourId=0;
            'hourName.required'=> 'A name must be specified for the hour.',
            ]
            ]);
-       $hour=\App\Models\hours::where('hourId','=',$request->dayId)->first();
+       $hour=\App\Models\Hours::where('hourId','=',$request->dayId)->first();
        $hour->hourName=$request->hourName;
        $hour->save();
        return redirect()->route('\Admindashboard');
@@ -122,7 +122,7 @@ $currentDBHourId=0;
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\hours  $hours
+     * @param  \App\Models\Hours  $hours
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)

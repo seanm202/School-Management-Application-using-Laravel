@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\batch;
+use App\Models\Batch;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 
@@ -33,7 +33,7 @@ class GradeController extends Controller
 $grade= new Grade;
 $grade->grade=$request->gradeName;
 $grade->status=1;
-$grade->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+$grade->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
 $grade->save();
            //Add An Entity
 

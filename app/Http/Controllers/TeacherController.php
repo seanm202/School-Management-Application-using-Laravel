@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\teacher;
-use App\Models\batch;
-use App\Models\detail;
-use App\Models\role;
+use App\Models\Teacher;
+use App\Models\Batch;
+use App\Models\Detail;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -29,7 +29,7 @@ class TeacherController extends Controller
     public function create()
     {
       //Create an add admin form
-      $roles=role::where('roleName', 'teacher')
+      $roles=Role::where('roleName', 'teacher')
              ->get();
       return 1;
     }
@@ -78,7 +78,7 @@ class TeacherController extends Controller
       'guardianName.required'=> 'Your Guardian\'s name is Required',
      ]
       ]);
-      $details = new detail;
+      $details = new Detail;
 
      $details->firstname = $request->firstname;
      $details->lastname = $request->lastname;
@@ -96,7 +96,7 @@ class TeacherController extends Controller
      $details->fatherSpouseName = $request->fatherSpouseName;
      $details->motherName = $request->motherName;
      $details->guardianName = $request->guardianName;
-     $details->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
+     $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
      $details->save();
 
             return 1;
@@ -105,26 +105,26 @@ class TeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function show(teacher $teacher)
+    public function show(Teacher $teacher)
     {
       return view('user.profile', [
-         'user' => teacher::findOrFail($id)
+         'user' => Teacher::findOrFail($id)
      ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function edit(teacher $teacher)
+    public function edit(Teacher $teacher)
     {
       // get old values
-      $teacher = teacher::where('userId', $teacher->userId)
+      $teacher =Teacher::where('userId', $teacher->userId)
              ->get();
              return 1;
     }
@@ -133,15 +133,15 @@ class TeacherController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, teacher $teacher)
+    public function update(Request $request, Teacher $teacher)
     {
 
           //Update admin details
-          $detail = detail::where('userId'=>$teacher->userId);
-          $detail = detail::updateOrCreate(
+          $detail = Detail::where('userId'=>$teacher->userId);
+          $detail = Detail::updateOrCreate(
       ['firstname' => $teacher->, 'lastname' => $teacher->,
       'age' => $teacher->, 'dob' => $teacher->, 'contactNumber' => $teacher->,
       'alternateContactNumber' => $teacher->, 'roleId' => $teacher->, 'address' => $teacher->,
@@ -155,15 +155,15 @@ class TeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(teacher $teacher)
+    public function destroy(Teacher $teacher)
     {
       //Delete self - admin
-      $teachers = teacher::where('adminId'=> $teacher->userId);
+      $teachers = Teacher::where('adminId'=> $teacher->userId);
       $teachers->delete();
-      $detail = detail::where('userId'=>$teacher->userId);
+      $detail = Detail::where('userId'=>$teacher->userId);
       $detail->delete();
       return 1;
     }

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\detail;
-use App\Models\role;
-use App\Models\student;
-use App\Models\batch;
+use App\Models\Detail;
+use App\Models\Role;
+use App\Models\Student;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -22,7 +22,7 @@ class StudentController extends Controller
     }
     public function search(Request $request)
     {
-    
+
     }
     public function assignClassRoomForStudent(Request $request)
     {
@@ -33,7 +33,7 @@ class StudentController extends Controller
                    'studentClassroom.required'=> 'A classroom must be selected for the student.',
                    ]
                    ]);
-      $student = students::where('studentId','=',$studentId);
+      $student = Students::where('studentId','=',$studentId);
 
      $details->userId = $request->userId;
      $details->studentDetailsId = $request->studentDetailsId;
@@ -54,7 +54,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-      $roles=role::where('roleName', 'student')
+      $roles=Role::where('roleName', 'student')
              ->get();
       return 1;
     }
@@ -102,7 +102,7 @@ class StudentController extends Controller
    ]
     ]);
       //Store or add admin
-      $details = new detail;
+      $details = new Detail;
 
      $details->firstname = $request->firstname;
      $details->lastname = $request->lastname;
@@ -120,7 +120,7 @@ class StudentController extends Controller
      $details->fatherSpouseName = $request->fatherSpouseName;
      $details->motherName = $request->motherName;
      $details->guardianName = $request->guardianName;
-     $details->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+     $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
      $details->save();
 
             return 1;
@@ -129,26 +129,26 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function show(student $student)
+    public function show(Student $student)
     {
       return view('student.profile', [
-         'student' => student::findOrFail($id)
+         'student' => Student::findOrFail($id)
      ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function edit(student $student)
+    public function edit(Student $student)
     {
       // get old values
-      $student = student::where('userId', $student->userId)
+      $student = Student::where('userId', $student->userId)
              ->get();
              return 1;
     }
@@ -157,10 +157,10 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, student $student)
+    public function update(Request $request, Student $student)
     {
       //Update admin details  $validated = $request->validate([
       $validated = $request->validate([
@@ -198,8 +198,8 @@ class StudentController extends Controller
      'guardianName.required'=> 'Your Guardian\'s name is Required',
      ]
      ]);
-            $detail = detail::where('userId'=>$student->userId);
-            $detail = detail::updateOrCreate(
+            $detail = Detail::where('userId'=>$student->userId);
+            $detail = Detail::updateOrCreate(
         ['firstname' => $request->, 'lastname' => $request->,
         'age' => $request->, 'dob' => $request->, 'contactNumber' => $request->,
         'alternateContactNumber' => $request->, 'roleId' => $request->, 'address' => $request->,
@@ -213,15 +213,15 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function destroy(student $student)
+    public function destroy(Student $student)
     {
       //Delete self - admin
-      $students = student::where('adminId'=> $student->userId);
+      $students = Student::where('adminId'=> $student->userId);
       $students->delete();
-      $detail = detail::where('userId'=>$student->userId);
+      $detail = Detail::where('userId'=>$student->userId);
       $detail->delete();
       return 1;
     }

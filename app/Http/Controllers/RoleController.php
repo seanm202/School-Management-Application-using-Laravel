@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\Role;
-use App\Models\batch;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
