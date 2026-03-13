@@ -29,4 +29,55 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
-  Hi
+<x-app-layout>
+    
+    <div class="d-flex" id="wrapper">
+      <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
+        <div class="sidebar-heading">MySchool </div>
+        <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
+          <ul>
+            <li>
+            <a href="#markAttendance" class="list-group-item list-group-item-action bg-light">Mark attendance</a>
+                
+          </li>
+            </ul>
+        </div>
+      </div>
+    <!-- Sidebar -->
+    <div>
+
+
+
+  </div>
+
+</div>
+a
+    @if ( Auth::user()->role != 3)
+
+      <script type="text/javascript">
+      window.location = "{{url('logout')}}";//here double curly bracket
+      </script>
+    @endif
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    {{ __("You'red logged in") }} {{ Auth::user()->name}}!
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+
+   -->
+
+
+
+
+        
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/Admin/dashboard.js') }}" defer></script>
+</x-app-layout>
