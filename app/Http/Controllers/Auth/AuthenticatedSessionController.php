@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
         }
         else if($role->role==3)
         {
-          return redirect(RouteServiceProvider::ADMIN);
+          return redirect()->route('Admindashboard');
         }
         else if($role->role==2)
         {
