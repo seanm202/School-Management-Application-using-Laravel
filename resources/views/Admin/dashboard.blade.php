@@ -83,6 +83,12 @@
       
       -->
 
+    @if ( Auth::user()->role != 3)
+
+      <script type="text/javascript">
+      window.location = "{{url('logout')}}";//here double curly bracket
+      </script>
+    @endif
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
