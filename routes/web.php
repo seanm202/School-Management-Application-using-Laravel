@@ -219,16 +219,16 @@ Route::get('register', function () {
 Route::get('logout', [DashboardController::class,'logout'])->name('logout');
 Route::get('dashboard', [DashboardController::class, 'chooseDashboard'])->name('selectDashboard');
 Route::get('guestDashboard', function () {
-    return view('/dashboard');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('Admindashboard',function () {
-    return view('/Admin/dashboard');
+    return view('Admin.dashboard');
 })->middleware(['auth', 'verified'])->name('Admindashboard');
 Route::get('Teacherdashboard', function () {
-    return view('/Teacher/dashboard');
+    return view('Teacher.dashboard');
 })->middleware(['auth', 'verified'])->name('Teacherdashboard');
 Route::get('Studentdashboard', function () {
-    return view('/Student/dashboard');
+    return view('Student.dashboard');
 })->middleware(['auth', 'verified'])->name('Studentdashboard');
 
 Route::middleware('auth')->group(function () {
@@ -240,70 +240,70 @@ Route::middleware('auth')->group(function () {
 /////Admin Pages/////////////////////////////////////
 
 Route::any('Admin', function () {
-    return view('/Admin/admin');
+    return view('Admin.admin');
 })->middleware(['auth', 'verified'])->name('Admin');
 Route::any('AdminAttendance', function () {
-    return view('/Admin/attendance');
+    return view('Admin.attendance');
 })->middleware(['auth', 'verified'])->name('AdminAttendance');
 Route::any('AdminClassRoom', function () {
-    return view('/Admin/classRoom');
+    return view('Admin.classRoom');
 })->middleware(['auth', 'verified'])->name('AdminClassRoom');
 Route::any('AdminDetails', function () {
-    return view('/Admin/details');
+    return view('Admin.details');
 })->middleware(['auth', 'verified'])->name('AdminDetails');
 Route::any('AdminGrade', function () {
-    return view('/Admin/grade');
+    return view('Admin.grade');
 })->middleware(['auth', 'verified'])->name('AdminGrade');
 Route::any('AdminRole', function () {
-    return view('/Admin/role');
+    return view('Admin.role');
 })->middleware(['auth', 'verified'])->name('AdminRole');
 Route::any('AdminSection', function () {
-    return view('/Admin/section');
+    return view('Admin.section');
 })->middleware(['auth', 'verified'])->name('AdminSection');
 Route::any('AdminStudent', function () {
-    return view('/Admin/student');
+    return view('Admin.student');
 })->middleware(['auth', 'verified'])->name('AdminStudent');
 Route::any('AdminSubject',function () {
-    return view('/Admin/subject');
+    return view('Admin.subject');
 })->middleware(['auth', 'verified'])->name('AdminSubject');
 Route::any('AdminTeacher', function () {
-    return view('/Admin/teacher');
+    return view('Admin.teacher');
 })->middleware(['auth', 'verified'])->name('AdminTeacher');
 Route::any('subjectTeachersForEachSection', function () {
-    return view('/Admin/subjectTeachersForEachSection');
+    return view('Admin.subjectTeachersForEachSection');
 })->middleware(['auth', 'verified'])->name('AdminSubjectTeachersForEachSection');
 
 ////Teacher Pages ///////////
 
 Route::any('TeacherAttendance', function () {
-    return view('/Teacher/attendance');
+    return view('Teacher.attendance');
 })->middleware(['auth', 'verified'])->name('TeacherAttendance');
 Route::any('TeacherDetails', function () {
-    return view('/Teacher/details');
+    return view('Teacher.details');
 })->middleware(['auth', 'verified'])->name('TeacherDetails');
 Route::any('TeacherStudent', function () {
-    return view('/Teacher/student');
+    return view('Teacher.student');
 })->middleware(['auth', 'verified'])->name('TeacherStudent');
 Route::any('TeacherSubject', function () {
-    return view('/Teacher/subject');
+    return view('Teacher.subject');
 })->middleware(['auth', 'verified'])->name('TeacherSubject');
 
 ////Student Pages///////////
 
 Route::any('StudentDashboard', function () {
-    return view('/Student/dashboard');
+    return view('Student.dashboard');
 })->middleware(['auth', 'verified'])->name('StudentDashboard');
 Route::any('teachersDetails', function () {
-    return view('/Student/teachersDetails');
+    return view('Student.teachersDetails');
 })->middleware(['auth', 'verified'])->name('StudentTeachersDetails');
 Route::any('StudentAttendance', function () {
-    return view('/Student/attendance');
+    return view('Student.attendance');
 })->middleware(['auth', 'verified'])->name('StudentAttendance');
 Route::any('StudentMarks', function () {
-    return view('/Student/mark');
+    return view('Student.mark');
 })->middleware(['auth', 'verified'])->name('StudentMarks');
 Route::any('StudentDetails', function () {
-    return view('/Student/details');
+    return view('Student.details');
 })->middleware(['auth', 'verified'])->name('StudentDetails');
 
 ////////////Logout/////////////
