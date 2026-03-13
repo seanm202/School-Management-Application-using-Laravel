@@ -133,6 +133,7 @@
                                 {{ Form::close() }}
                       @endforeach
                   @else
+                        <h2>No record</h2>
                         {{ Form::open() }}
                         {{ Form::label('attendance', 'Attendance Marked ? ');}}<input type="checkbox" name="loggedInOrOut" class="form-control" checked="checked;" disabled="false"/>
                         {{ Form::close() }}
