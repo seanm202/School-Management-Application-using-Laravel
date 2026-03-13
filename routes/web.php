@@ -222,7 +222,7 @@ Route::get('guestDashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('Admindashboard',function () {
-    return view('Admin.dashboard');
+    return view('/Admin/dashboard');
 })->middleware(['auth', 'verified'])->name('Admindashboard');
 Route::get('Teacherdashboard', function () {
     return view('Teacher.dashboard');
