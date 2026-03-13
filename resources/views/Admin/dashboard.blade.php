@@ -30,7 +30,32 @@
       crossorigin = "anonymous">
   </script>
   <x-app-layout>
-    
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+           {{ __('Dashboard') }}
+           <br>
+           <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+           @if(Session::has('success'))
+        <div class="alert alert-success" style="position: fixed;">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ Session::get('success') }}
+            @php
+                Session::forget('success');
+            @endphp
+        </div>
+        @endif
+        </h2>
+        @if ($errors->any())
+           <div class="alert alert-danger">
+             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+               <ul>
+                   @foreach ($errors->all() as $error)
+                       <li>{{ $error }}</li>
+                   @endforeach
+               </ul>
+           </div>
+        @endif
+    </x-slot>
     <div class="d-flex" id="wrapper">
       <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
         <div class="sidebar-heading">MySchool </div>
