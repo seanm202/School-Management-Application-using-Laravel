@@ -31,6 +31,7 @@
   </script>
   <x-app-layout>
     
+
     @if ( Auth::user()->role != 3)
 
       <script type="text/javascript">
@@ -59,9 +60,9 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                       <h2>Mark Attendence</h2>
-                @if(($att = \App\Models\attendence::where('attendences.batchId','=',1)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->first())==NULL)
-                    @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',1)
-                        ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->get()) as $attendance)
+                @if(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())==NULL)
+                    @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                        ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                           <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                               {{ csrf_field() }}{{ method_field('POST') }}
                               {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
@@ -73,9 +74,9 @@
                               <button type="submit" class="btn btn-primary form-control">Submit</button>
                               {{ Form::close() }}
                       @endforeach
-                @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',1)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->first())->yes_or_no == 0)
-                      @foreach(($att= \App\Models\attendence::where('attendences.batchId','=',1)
-                          ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->get()) as $attendance)
+                @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())->yes_or_no == 0)
+                      @foreach(($att= \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                          ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                         <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                                 {{ csrf_field() }}{{ method_field('POST') }}
                                 {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
