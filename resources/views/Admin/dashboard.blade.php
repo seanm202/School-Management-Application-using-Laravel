@@ -30,52 +30,7 @@
       crossorigin = "anonymous">
   </script>
   <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-           {{ __('Dashboard') }}
-           <br>
-           <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
-           @if(Session::has('success'))
-        <div class="alert alert-success" style="position: fixed;">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            {{ Session::get('success') }}
-            @php
-                Session::forget('success');
-            @endphp
-        </div>
-        @endif
-        </h2>
-        @if ($errors->any())
-           <div class="alert alert-danger">
-             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-               <ul>
-                   @foreach ($errors->all() as $error)
-                       <li>{{ $error }}</li>
-                   @endforeach
-               </ul>
-           </div>
-        @endif
-    </x-slot>
-    <div class="d-flex" id="wrapper">
-      <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
-        <div class="sidebar-heading">MySchool </div>
-        <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
-          <ul>
-            <li>
-            <a href="#markAttendance" class="list-group-item list-group-item-action bg-light">Mark attendance</a>
-          </li>
-            </ul>
-        </div>
-      </div>
-    <!-- Sidebar -->
-    <div>
-
-
-
-  </div>
-
-</div>
-
+    
     @if ( Auth::user()->role != 3)
 
       <script type="text/javascript">
@@ -104,9 +59,9 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                       <h2>Mark Attendence</h2>
-                @if(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())==NULL)
-                    @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
-                        ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
+                @if(($att = \App\Models\attendence::where('attendences.batchId','=',1)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->first())==NULL)
+                    @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',1)
+                        ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->get()) as $attendance)
                           <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                               {{ csrf_field() }}{{ method_field('POST') }}
                               {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
@@ -118,8 +73,8 @@
                               <button type="submit" class="btn btn-primary form-control">Submit</button>
                               {{ Form::close() }}
                       @endforeach
-                @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->first())->yes_or_no == 0)
-                      @foreach(($att= \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',1)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->first())->yes_or_no == 0)
+                      @foreach(($att= \App\Models\attendence::where('attendences.batchId','=',1)
                           ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=','2026-03-13')->get()) as $attendance)
                         <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                                 {{ csrf_field() }}{{ method_field('POST') }}
