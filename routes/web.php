@@ -221,9 +221,16 @@ Route::get('dashboard', [DashboardController::class, 'chooseDashboard'])->name('
 Route::get('guestDashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/Admindashboard',function () {
-    return view('Admin.dashboard');
-})->middleware(['auth', 'verified'])->name('Admindashboard');
+// Route::get('/Admindashboard',function () {
+//     return view('Admin.dashboard');
+// })->middleware(['auth', 'verified'])->name('Admindashboard');
+Route::get('Admindashboard', function () {
+
+    $currentBatchId = 1; // example value
+
+    return view('Admin.dashboard', compact('currentBatchId'));
+
+})->middleware(['auth','verified'])->name('Admindashboard');
 Route::get('Teacherdashboard', function () {
     return view('Teacher.dashboard');
 })->middleware(['auth', 'verified'])->name('Teacherdashboard');
