@@ -52,70 +52,70 @@ Route::get('/', function () {
 Route::post('generateTimetable', [TimetableController::class, 'generateTimetable'])->name('generateTimetable');
 ////////////Add Priority/////////
 
-Route::post('priority.createPriority', [PriorityController::class, 'createPriority'])->name('priority.createPriority');
-Route::post('priority.editPriority', [PriorityController::class, 'updatePriority'])->name('priority.editPriority');
+Route::post('createPriority', [PriorityController::class, 'createPriority'])->name('createPriority');
+Route::post('editPriority', [PriorityController::class, 'updatePriority'])->name('editPriority');
 ////Assign teachers of subjects to various classes
 /////SubjectTeacherForEachSectionsController////
-Route::get('SubjectTeacherForEachSections.getDetailsOfSubjectTeacherForEachSections', [SubjectTeacherForEachSectionsController::class, 'getDetailsOfSubjectTeacherForEachSections'])->name('getDetailsOfSubjectTeacherForEachSections');
-Route::post('SubjectTeacherForEachSections.TeacherForClassSubject', [SubjectTeacherForEachSectionsController::class, 'TeacherForClassSubject'])->name('SubjectTeacherForEachSections.TeacherForClassSubject');
-Route::post('SubjectTeacherForEachSections.deleteEntryTeacher', [SubjectTeacherForEachSectionsController::class, 'deleteEntryTeacher'])->name('SubjectTeacherForEachSections.deleteEntryTeacher');
-Route::post('SubjectTeacherForEachSections.updateTeacherForClassSubject', [SubjectTeacherForEachSectionsController::class, 'updateTeacherForClassSubject'])->name('SubjectTeacherForEachSections.updateTeacherForClassSubject');
+Route::get('getDetailsOfSubjectTeacherForEachSections', [SubjectTeacherForEachSectionsController::class, 'getDetailsOfSubjectTeacherForEachSections'])->name('getDetailsOfSubjectTeacherForEachSections');
+Route::post('TeacherForClassSubject', [SubjectTeacherForEachSectionsController::class, 'TeacherForClassSubject'])->name('TeacherForClassSubject');
+Route::post('deleteEntryTeacher', [SubjectTeacherForEachSectionsController::class, 'deleteEntryTeacher'])->name('deleteEntryTeacher');
+Route::post('updateTeacherForClassSubject', [SubjectTeacherForEachSectionsController::class, 'updateTeacherForClassSubject'])->name('updateTeacherForClassSubject');
 Route::resource('SubjectTeacherForEachSections', 'SubjectTeacherForEachSectionsController');
 //////Role creation////////
 
-Route::get('getDetailsOfStatus', [StatusController::class, 'getDetailsOfStatus'])->name('Status.getDetailsOfStatus');
-Route::post('createStatus', [StatusController::class, 'createStatus'])->name('Status.createStatus');
-Route::post('updateStatus', [StatusController::class, 'updateStatus'])->name('Status.updateStatus');
-Route::post('destroyStatus', [StatusController::class, 'destroyStatus'])->name('Status.destroyStatus');
+Route::get('getDetailsOfStatus', [StatusController::class, 'getDetailsOfStatus'])->name('getDetailsOfStatus');
+Route::post('createStatus', [StatusController::class, 'createStatus'])->name('createStatus');
+Route::post('updateStatus', [StatusController::class, 'updateStatus'])->name('updateStatus');
+Route::post('destroyStatus', [StatusController::class, 'destroyStatus'])->name('destroyStatus');
 Route::resource('Status', 'StatusController');
 ////Create Batches
-Route::get('getDetailsOfAdmins', [BatchController::class, 'getDetailsOfAdmins'])->name('batch.getDetailsOfAdmins');
-Route::post('updatebatch', [BatchController::class, 'updatebatch'])->name('batch.updatebatch');
-Route::post('createbatch', [BatchController::class, 'createbatch'])->name('batch.createbatch');
-Route::post('destroybatch', [BatchController::class, 'destroybatch'])->name('batch.destroybatch');
-Route::post('currentBatch', [BatchController::class, 'currentBatch'])->name('batch.currentBatch');
+Route::get('getDetailsOfAdmins', [BatchController::class, 'getDetailsOfAdmins'])->name('getDetailsOfAdmins');
+Route::post('updatebatch', [BatchController::class, 'updatebatch'])->name('updatebatch');
+Route::post('createbatch', [BatchController::class, 'createbatch'])->name('createbatch');
+Route::post('destroybatch', [BatchController::class, 'destroybatch'])->name('destroybatch');
+Route::post('currentBatch', [BatchController::class, 'currentBatch'])->name('currentBatch');
 Route::resource('batch', 'BatchController');
 ////Generate daily teacher enabled attendance
-Route::post('createDailyAttendanceForAllTeachers', [DailyTeacherAllocationController::class, 'createDailyAttendanceForAllTeachers'])->name('dailyTeacherAllocation.createDailyAttendanceForAllTeachers');
+Route::post('createDailyAttendanceForAllTeachers', [DailyTeacherAllocationController::class, 'createDailyAttendanceForAllTeachers'])->name('createDailyAttendanceForAllTeachers');
 Route::resource('dailyTeacherAllocation', 'dailyTeacherAllocationController');
 
 ////Generate daily teacher enabled attendance for students
-Route::get('studentSubjectAttendance.indexstudentSubjectAttendance', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'indexstudentSubjectAttendance'])->name('studentSubjectAttendance.indexstudentSubjectAttendance');
-Route::post('studentSubjectAttendance.store', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'storestudentSubjectAttendance'])->name('createStudentsDailyAttendance');
-Route::post('studentSubjectAttendance.storestudentSubjectAttendance', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'storestudentSubjectAttendance'])->name('studentSubjectAttendance.storestudentSubjectAttendance');
-Route::put('studentSubjectAttendance.updatestudentSubjectAttendance', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'updatestudentSubjectAttendance'])->name('studentSubjectAttendance.updatestudentSubjectAttendance');
+Route::get('indexstudentSubjectAttendance', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'indexstudentSubjectAttendance'])->name('indexstudentSubjectAttendance');
+Route::post('store', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'storestudentSubjectAttendance'])->name('createStudentsDailyAttendance');
+Route::post('storestudentSubjectAttendance', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'storestudentSubjectAttendance'])->name('storestudentSubjectAttendance');
+Route::put('updatestudentSubjectAttendance', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'updatestudentSubjectAttendance'])->name('updatestudentSubjectAttendance');
 Route::resource('studentSubjectAttendance', 'App\Http\Controllers\StudentSubjectAttendanceController');
 ////Hour creation and updation/////
-Route::get('admin.index', [AdminController::class, 'index'])->name('admin.index');
-Route::post('updateHourName', [AdminController::class, 'updateHourName'])->name('admin.updateHourName');
-Route::post('deleteHour', [AdminController::class, 'deleteHour'])->name('admin.deleteHour');
-Route::post('addHourName', [AdminController::class, 'addHourName'])->name('admin.addHourName');
+Route::get('index', [AdminController::class, 'index'])->name('index');
+Route::post('updateHourName', [AdminController::class, 'updateHourName'])->name('updateHourName');
+Route::post('deleteHour', [AdminController::class, 'deleteHour'])->name('deleteHour');
+Route::post('addHourName', [AdminController::class, 'addHourName'])->name('addHourName');
 
 ////Day creation and updation/////
-Route::post('addDayName', [AdminController::class, 'addDayName'])->name('admin.addDayName');
-Route::post('updateDayName', [AdminController::class, 'updateDayName'])->name('admin.updateDayName');
+Route::post('addDayName', [AdminController::class, 'addDayName'])->name('addDayName');
+Route::post('updateDayName', [AdminController::class, 'updateDayName'])->name('updateDayName');
 Route::post('deleteDay', [AdminController::class, 'deleteDay'])->name('deleteDay');
 Route::resource('admin', 'AdminController');
 
 
 /////Attendance/////////
 
-Route::post('hours.setCurrentHour', [HoursController::class, 'setCurrentHour'])->name('hours.setCurrentHour');
+Route::post('setCurrentHour', [HoursController::class, 'setCurrentHour'])->name('setCurrentHour');
 
 
-Route::post('attendence.showDaysAbsentees', [AttendenceController::class, 'showDaysAbsentees'])->name('showAbsenteesOn');
-Route::post('attendence.showAbsenteesBetweenDays', [AttendenceController::class, 'showAbsenteesBetweenDays'])->name('showAbsenteesBetween');
+Route::post('showDaysAbsentees', [AttendenceController::class, 'showDaysAbsentees'])->name('showAbsenteesOn');
+Route::post('showAbsenteesBetweenDays', [AttendenceController::class, 'showAbsenteesBetweenDays'])->name('showAbsenteesBetween');
 
 
 
 
-Route::post('deleteTodaysAttendenceForAllTeachers', [AttendenceController::class, 'deleteTodaysAttendenceForAllTeachers'])->name('attendence.deleteTodaysAttendenceForAllTeachers');
-Route::post('deleteTodaysAttendenceForAllAdmins', [AttendenceController::class, 'deleteTodaysAttendenceForAllAdmins'])->name('attendence.deleteTodaysAttendenceForAllAdmins');
-Route::post('deleteTodaysAttendenceForAllStudents', [AttendenceController::class, 'deleteTodaysAttendenceForAllStudents'])->name('attendence.deleteTodaysAttendenceForAllStudents');
-Route::post('deleteTodaysAttendenceForAllStudentsByTeacher', [AttendenceController::class, 'deleteTodaysAttendenceForAllStudentsByTeacher'])->name('attendence.deleteTodaysAttendenceForAllStudentsByTeacher');
+Route::post('deleteTodaysAttendenceForAllTeachers', [AttendenceController::class, 'deleteTodaysAttendenceForAllTeachers'])->name('deleteTodaysAttendenceForAllTeachers');
+Route::post('deleteTodaysAttendenceForAllAdmins', [AttendenceController::class, 'deleteTodaysAttendenceForAllAdmins'])->name('deleteTodaysAttendenceForAllAdmins');
+Route::post('deleteTodaysAttendenceForAllStudents', [AttendenceController::class, 'deleteTodaysAttendenceForAllStudents'])->name('deleteTodaysAttendenceForAllStudents');
+Route::post('deleteTodaysAttendenceForAllStudentsByTeacher', [AttendenceController::class, 'deleteTodaysAttendenceForAllStudentsByTeacher'])->name('deleteTodaysAttendenceForAllStudentsByTeacher');
 Route::post('showTodaysAbsentees', [AttendenceController::class, 'showTodaysAbsentees'])->name('showTodaysAbsentees');
-Route::post('markTodaysAttendance', [AttendenceController::class, 'markTodaysAttendance'])->name('attendence.markTodaysAttendance');
-Route::post('markTodaysAttendanceStudent', [AttendenceController::class, 'markTodaysAttendanceStudent'])->name('attendence.markTodaysAttendanceStudent');
+Route::post('markTodaysAttendance', [AttendenceController::class, 'markTodaysAttendance'])->name('markTodaysAttendance');
+Route::post('markTodaysAttendanceStudent', [AttendenceController::class, 'markTodaysAttendanceStudent'])->name('markTodaysAttendanceStudent');
 Route::post('resetTodaysAttendance', [AttendenceController::class, 'resetTodaysAttendance'])->name('resetTodaysAttendance');
 Route::post('adminCreateAttendance', [AttendenceController::class, 'adminCreateAttendance'])->name('createAttendance');
 Route::post('adminSubmitTodaysAttendance', [AttendenceController::class, 'adminSubmitTodaysAttendance'])->name('submitTodaysAttendance');
@@ -176,11 +176,11 @@ Route::post('destroyDepartment', [DepartmentController::class, 'destroyDepartmen
 Route::resource('Department', 'DepartmentController');
 ////Subject//////
 
-Route::get('subject.index', [SubjectController::class, 'index'])->name('subjectIndex');
-Route::post('subject.getDepartmentFromGradeForSubject', [SubjectController::class, 'getDepartmentFromGradeForSubject'])->name('getDepartmentFromGradeForSubject');
-Route::post('subject.storeSubject', [SubjectController::class, 'storeSubject'])->name('storeSubject');
-Route::post('subject.updatesubject', [SubjectController::class, 'updatesubject'])->name('updatesubject');
-Route::post('subject.destroysubject', [SubjectController::class, 'destroysubject'])->name('destroysubject');
+Route::get('index', [SubjectController::class, 'index'])->name('subjectIndex');
+Route::post('getDepartmentFromGradeForSubject', [SubjectController::class, 'getDepartmentFromGradeForSubject'])->name('getDepartmentFromGradeForSubject');
+Route::post('storeSubject', [SubjectController::class, 'storeSubject'])->name('storeSubject');
+Route::post('updatesubject', [SubjectController::class, 'updatesubject'])->name('updatesubject');
+Route::post('destroysubject', [SubjectController::class, 'destroysubject'])->name('destroysubject');
 Route::resource('subject', 'SubjectController');
 ////Semester//////
 
@@ -190,15 +190,15 @@ Route::post('updatesemester', [SemesterController::class, 'updatesemester'])->na
 Route::resource('semester', 'SemesterController');
 //////StudentMarks//////////
 
-Route::post('studentMarks.updateMarksTeacher', [StudentMarksController::class, 'updateMarksTeacher'])->name('updateMarksTeacher');
+Route::post('updateMarksTeacher', [StudentMarksController::class, 'updateMarksTeacher'])->name('updateMarksTeacher');
 Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('updatecreateSubject');
 Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('adminStudentAddStudentMarks');
-Route::post('studentMarks.deleteMarkEntry', [StudentMarksController::class, 'deleteMarkEntry'])->name('deleteMarksEntryAdmin');
-Route::post('studentMarks.createMarkEntry', [StudentMarksController::class, 'createMarkEntry'])->name('createMarkEntry');
-Route::post('studentMarks.destroy', [StudentMarksController::class, 'destroy'])->name('deleteStudentMarks');
+Route::post('deleteMarkEntry', [StudentMarksController::class, 'deleteMarkEntry'])->name('deleteMarksEntryAdmin');
+Route::post('createMarkEntry', [StudentMarksController::class, 'createMarkEntry'])->name('createMarkEntry');
+Route::post('destroy', [StudentMarksController::class, 'destroy'])->name('deleteStudentMarks');
 
 ////////Print MarkSheet///////////
-Route::post('studentMarks.printMarksheetStudentByAdmin', [StudentMarksController::class, 'printMarksheetStudentByAdmin'])->name('studentMarks.printMarksheetStudentByAdmin');
+Route::post('printMarksheetStudentByAdmin', [StudentMarksController::class, 'printMarksheetStudentByAdmin'])->name('studentMarks.printMarksheetStudentByAdmin');
 Route::resource('studentMarks', 'StudentMarksController');
 
 
