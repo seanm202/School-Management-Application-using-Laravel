@@ -15,8 +15,8 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
           <h2>{{ __('Admin') }}</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
           <br>
           <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
             @if ($errors->any())
@@ -189,7 +189,7 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                <tbody>
                @foreach(($batches = \App\Models\Batch::all()) as $batch)
                   @if($batch->status!=1)
-                     <tr>{{Form::hidden('currentBatchId',$batch->batchId,array('id'=>'batchId'))}}
+                     <tr>{{Form::hidden('currentBatchId',1,array('id'=>'batchId'))}}
                        <td>{{$batch->batchName}}</td>
                    <td><button type="button"
     class="btn btn-primary form-control"
@@ -442,7 +442,7 @@ var bookBatchStatus = button.data('batchStatus');
                 <div class="p-6 text-gray-900">
                       Edit Semesters
 
-                   @if(count(\App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
+                   @if(count(\App\Models\Semester::where('semesters.batchId','=',1)->get())>0)
                    <table class="table">
      <thead>
          <tr>
@@ -860,9 +860,6 @@ Hour creation
           </div>
       </div>
 
-
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-
      <div class="py-12" id="createTheStatus">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -896,8 +893,7 @@ Hour creation
      <!-- /#sidebar-wrapper -->
 
          <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-         <script src="{{ asset('js/Admin/admin.js') }}" defer></script>
+       <script src="{{ asset('js/Admin/admin.js') }}" defer></script>
          <!-- jQuery (FULL version — REQUIRED for AJAX) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
