@@ -398,7 +398,7 @@ display:none;
                                                                    <div style="display:flex;">
 
                                                                                 </div>
-                                                                                  @foreach(($days=\App\Models\days::all()) as $day)
+                                                                                  @foreach(($days=\App\Models\Days::all()) as $day)
                                                                                   <div style="display:flex;">
                                                                                      <div class="dayNames">{{$day->dayName}}</div>
                                                                                      @foreach(($timetables=\App\Models\Timetable::join('hours','hours.hourId','=','timetables.hourId')
