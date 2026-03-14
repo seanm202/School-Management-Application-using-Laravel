@@ -273,7 +273,7 @@ display:none;
                   View Classroom details<br>
 
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showFilters">Filter</button>
-          @if(count($classRooms=\App\Models\classRoom::join('grades','grades.gradeId','=','class_rooms.grade')
+          @if(count($classRooms=\App\Models\ClassRoom::join('grades','grades.gradeId','=','class_rooms.grade')
                                 ->join('sections','sections.sectionId','=','class_rooms.section')
                                 ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                                 ->join('semesters','semesters.semesterId','=','class_rooms.semester')
@@ -315,7 +315,7 @@ display:none;
                                       </tr>
                                      </thead>
                                    <tbody>
-                                     @foreach(($classRooms=\App\Models\classRoom::join('grades','grades.gradeId','=','class_rooms.grade')
+                                     @foreach(($classRooms=\App\Models\ClassRoom::join('grades','grades.gradeId','=','class_rooms.grade')
                                                          ->join('sections','sections.sectionId','=','class_rooms.section')
                                                          ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                                                          ->join('semesters','semesters.semesterId','=','class_rooms.semester')
@@ -417,7 +417,7 @@ display:none;
                                                                                                                                ->where('timetables.classroomId','=',$classRoom->classroomDetailId)
                                                                                                                                ->where('timetables.dayId','=',$day->dayId)
                                                                                                                                  ->get()) as $classTimetable)
-                                                                                                           @foreach(($hours=\App\Models\hours::all()) as $hour)
+                                                                                                           @foreach(($hours=\App\Models\Hours::all()) as $hour)
                                                                                                              @if($day->dayId==$classTimetable->dayId)
 
                                                                                                                  @if($hour->hourId==$classTimetable->hourId)
@@ -514,8 +514,8 @@ display:none;
                   <br>
                   {{Form::label('semesters','Semester')}}
                   <select name="semesterId" class="form-control">
-                    @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get() as $semester)
+                    @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach($semesters = \App\Models\Semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get() as $semester)
                         <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
                       @endforeach
                     @endif
@@ -537,8 +537,8 @@ display:none;
                   <br>
                   {{Form::label('grade','Grade : ')}}
                   <select name="grade" class="form-control">
-                    @if(count($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $graded)
+                    @if(count($grades = \App\Models\Grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $graded)
                         <option value="{{$graded->gradeId}}">{{$graded->grade}}</option>
                         @endforeach
                     @endif
@@ -549,8 +549,8 @@ display:none;
                   <br>
                   {{Form::label('sectionName','Section Name : ')}}
                   <select name="section" class="form-control">
-                    @if(count($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $section)
+                    @if(count($sections = \App\Models\Section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($sections = \App\Models\Section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $section)
                         <option value="{{$section->sectionId}}">{{$section->sectionName}}</option>
                       @endforeach
                     @endif
