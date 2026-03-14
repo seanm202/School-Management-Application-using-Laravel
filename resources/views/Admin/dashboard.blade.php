@@ -29,7 +29,8 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
-
+<x-app-layout>
+    <x-slot name="header">
 
     <div class="d-flex" id="wrapper">
       <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
@@ -44,18 +45,11 @@
       </div>
     <!-- Sidebar -->
     <div>
-
-
-
   </div>
 
 </div>
 
-      <!-- 
-      
-      
-      
-      
+      <!--
       -->
 
     @if ( Auth::user()->role != 3)
@@ -120,12 +114,7 @@
                 </div>
             </div>
         </div>
-
-
-
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
     <script src="{{ asset('js/Admin/dashboard.js') }}" ></script>
-
-    
-
+</x-app-layout>
