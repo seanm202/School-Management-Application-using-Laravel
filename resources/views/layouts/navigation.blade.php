@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('detail.getAdminAllDetails')" :active="request()->routeIs('detail.getAdminAllDetails')">
+                    <x-nav-link :href="route('getAdminAllDetails')" :active="request()->routeIs('getAdminAllDetails')">
                         {{ __('Details') }}
                     </x-nav-link>
                 </div>
