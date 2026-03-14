@@ -260,7 +260,7 @@
                                      <thead>
 
 
-                                       <form action="{{route('detail.updateAdminDetails')}}" method="POST" name="createOrUpdateAdminDetails" id="createOrUpdateAdminDetails">
+                                       <form action="{{route('updateAdminDetails')}}" method="POST" name="createOrUpdateAdminDetails" id="createOrUpdateAdminDetails">
                                        {{ csrf_field() }}{{ method_field('POST') }}
                                        {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
                                        <tr>
