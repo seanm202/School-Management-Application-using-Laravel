@@ -218,12 +218,12 @@ $userId=$request->userId;
     public function getDetails()
     {
       $users = \App\Models\User::all();
-      return view("/Admin/details")->with('users',$users);
+      return view("Admin.details")->with('users',$users);
     }
         public function getDetailsToTeacher()
         {
           $users = \App\Models\User::all();
-          return view("/Admin/teacher")->with('users',$users);
+          return view("Admin.teacher")->with('users',$users);
         }
 
     public function addToAdminTable($userId,$adminDetailId)
