@@ -412,7 +412,6 @@ display:none;
                                                                                                                                'hours.hourName AS hourName',
                                                                                                                                'hours.hourStartingTime AS hourStartingTime',
                                                                                                                                'subjects.subjectName AS subjectName',
-                                                                                                                               'details.sal AS sal',
                                                                                                                                'details.firstName AS firstName',
                                                                                                                                'details.lastName AS lastName')
                                                                                                                                ->where('timetables.classroomId','=',$classRoom->classroomDetailId)
@@ -424,7 +423,7 @@ display:none;
                                                                                                                  @if($hour->hourId==$classTimetable->hourId)
                                                                                                                    <div  class="timeTablesNames">
                                                                                                                      <div>{{$classTimetable->hourName}} <br>{{$classTimetable->subjectName}}<br>
-                                                                                                                     {{$classTimetable->sal}}{{$classTimetable->firstName}}{{$classTimetable->lastName}}<br>
+                                                                                                                     {{$classTimetable->firstName}}{{$classTimetable->lastName}}<br>
                                                                                                                     </div>
                                                                                                                  </div>
                                                                                                                   @endif
