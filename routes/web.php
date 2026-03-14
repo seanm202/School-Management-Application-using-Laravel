@@ -91,6 +91,8 @@ Route::post('updateHourName', [AdminController::class, 'updateHourName'])->name(
 Route::post('deleteHour', [AdminController::class, 'deleteHour'])->name('deleteHour');
 Route::post('addHourName', [AdminController::class, 'addHourName'])->name('addHourName');
 
+Route::post('unsetAllSessions', [AdminController::class, 'logoutAllUsers'])->name('unsetAllSessions');
+
 ////Day creation and updation/////
 Route::post('addDayName', [AdminController::class, 'addDayName'])->name('addDayName');
 Route::post('updateDayName', [AdminController::class, 'updateDayName'])->name('updateDayName');
