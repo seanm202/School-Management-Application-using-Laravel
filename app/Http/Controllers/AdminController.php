@@ -17,6 +17,7 @@ use App\Models\Hours;
 use App\Models\Days;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class AdminController extends Controller
 {
@@ -30,6 +31,12 @@ class AdminController extends Controller
           return view('/Admin/admin');
     }
 
+    public function logoutAllUsers()
+{
+    File::cleanDirectory(storage_path('framework/sessions'));
+
+    return redirect()->route('login');
+}
     /**
      * Show the form for creating a new resource.
      *
