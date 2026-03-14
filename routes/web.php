@@ -49,7 +49,7 @@ Route::get('/', function () {
 });
 
 //////Create timetable//////
-Route::post('Timetable.generateTimetable', [TimetableController::class, 'generateTimetable'])->name('Timetable.generateTimetable');
+Route::post('generateTimetable', [TimetableController::class, 'generateTimetable'])->name('generateTimetable');
 ////////////Add Priority/////////
 
 Route::post('priority.createPriority', [PriorityController::class, 'createPriority'])->name('priority.createPriority');
