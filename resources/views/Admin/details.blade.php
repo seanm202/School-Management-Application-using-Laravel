@@ -169,8 +169,8 @@
                                             <tr>
                                         <th>Current Role</th>
                                       <td><select name="roleId" class="form-control">
-                                        @if(count($roles = \App\Models\role::all())>0)
-                                          @foreach(($roles = \App\Models\role::all()) as  $role)
+                                        @if(count($roles = \App\Models\Role::all())>0)
+                                          @foreach(($roles = \App\Models\Role::all()) as  $role)
                                             @if($role->roleId==1)
                                               <option value={{$role->roleId}} selected>{{$role->roleName}}</option>
                                             @else
@@ -238,13 +238,13 @@
                      View/Edit details
                      <br>
                      Admins<br>
-            @if(count($admins = (\App\Models\detail::join('admins','admins.adminDetailId','=','details.detailId')
+            @if(count($admins = (\App\Models\Detail::join('admins','admins.adminDetailId','=','details.detailId')
             ->join('users','users.detailsId','=','details.detailId')
-            ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get())>0)
-              @foreach(($admins = (\App\Models\detail::join('admins','admins.adminDetailId','=','details.detailId')
+            ->where('details.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get())>0)
+              @foreach(($admins = (\App\Models\Detail::join('admins','admins.adminDetailId','=','details.detailId')
               ->join('users','users.detailsId','=','details.detailId')
               ->select('details.*','admins.*')
-              ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get()) as $admin)
+              ->where('details.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',3))->get()) as $admin)
                        <div class="modal fade" id="exampleModalLongAdminAdminUserId{{$admin->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                <div class="modal-dialog" role="document">
                  <div class="modal-content">
@@ -525,13 +525,13 @@ alert(inModalFirstName+inModalLastName);
                      View/Edit details
                      <br>
                      Teachers<br>
-                     @if(count($teachers = (\App\Models\detail::join('teachers','teachers.teacherDetailId','=','details.detailId')
+                     @if(count($teachers = (\App\Models\Detail::join('teachers','teachers.teacherDetailId','=','details.detailId')
                      ->join('users','users.detailsId','=','details.detailId')
-                     ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get())>0)
-                       @foreach(($teachers = (\App\Models\detail::join('teachers','teachers.teacherDetailId','=','details.detailId')
+                     ->where('details.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get())>0)
+                       @foreach(($teachers = (\App\Models\Detail::join('teachers','teachers.teacherDetailId','=','details.detailId')
                        ->join('users','users.detailsId','=','details.detailId')
                        ->select('details.*','teachers.*')
-                                            ->where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get()) as $teacher)
+                                            ->where('details.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',2))->get()) as $teacher)
 
                        <table class="table">
                          <thead>
@@ -615,7 +615,7 @@ alert(inModalFirstName+inModalLastName);
                                  <hr>
                                    Department<br>
                                    <div style="display:flex;padding:30px;">
-                                   @foreach($departments=\App\Models\department::all() as $department)
+                                   @foreach($departments=\App\Models\Department::all() as $department)
                                     <button class="button-value form-control" onclick="myDepartment({{$department->departmentId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #4CAF50;">{{$department->departmentName}}</button>
                                    @endforeach
                                    </div>
@@ -623,7 +623,7 @@ alert(inModalFirstName+inModalLastName);
                                    <hr>
                                    Semester<br>
                                      <div style="display:flex;padding:30px;">
-                                     @foreach($semesters=\App\Models\semester::all() as $semester)
+                                     @foreach($semesters=\App\Models\Semester::all() as $semester)
                                       <button class="button-value form-control" onclick="mySemester({{$semester->semesterId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #3A4BDC;">{{$semester->semesterName}}</button>
                                      @endforeach
                                      </div>
@@ -631,7 +631,7 @@ alert(inModalFirstName+inModalLastName);
                                      <hr>
                                      Grade<br>
                                        <div style="display:flex;padding:30px;">
-                                       @foreach($grades=\App\Models\grade::all() as $grade)
+                                       @foreach($grades=\App\Models\Grade::all() as $grade)
                                         <button class="button-value form-control" onclick="myGrade({{$grade->gradeId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #EA3D1A;">{{$grade->grade}}</button>
                                        @endforeach
                                        </div>
@@ -639,7 +639,7 @@ alert(inModalFirstName+inModalLastName);
                                        <hr>
                                        Section<br>
                                          <div style="display:flex;padding:30px;">
-                                         @foreach($sections=\App\Models\section::all() as $section)
+                                         @foreach($sections=\App\Models\Section::all() as $section)
                                           <button class="button-value form-control" onclick="mySection({{$section->sectionId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #130401;">{{$section->sectionName}}</button>
                                          @endforeach
                                          </div>
@@ -664,7 +664,7 @@ alert(inModalFirstName+inModalLastName);
 
                       <br>
                       Students<br>
-                    @if(count($students = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',4)
+                    @if(count($students = (\App\Models\Detail::where('details.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',4)
                                                                                   ->join('users','users.detailsId','=','details.detailId')
                                                                                   ->join('students','students.studentDetailsId','=','details.detailId')
                                                                                   ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
@@ -696,7 +696,7 @@ alert(inModalFirstName+inModalLastName);
                                                                                   'departments.departmentId AS departmentId',
                                                                                   'semesters.semesterId AS semesterId')
                                                                                   )->get())>0)
-                        @foreach(($students = (\App\Models\detail::where('details.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',4)
+                        @foreach(($students = (\App\Models\Detail::where('details.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->where('roleId','=',4)
                                                                                       ->join('users','users.detailsId','=','details.detailId')
                                                                                       ->join('students','students.studentDetailsId','=','details.detailId')
                                                                                       ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
