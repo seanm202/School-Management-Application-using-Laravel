@@ -54,6 +54,10 @@
     <br>
 <hr>
 <br>
+                <form method="POST" action="{{ route('unsetAllSessions') }}">
+        @csrf
+<input type="submit" name="unsetAllSessions" value="Unset" />
+                </form>
 <hr>
 <br>
     <form method="POST" action="{{ route('login') }}">
