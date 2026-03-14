@@ -100,7 +100,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Create grade
-                    <form action="{{route('Grade.createGrade')}}" method="POST" name="createGradeByAdmin" id="formForCreateGradeByAdmin">
+                    <form action="{{route('createGrade')}}" method="POST" name="createGradeByAdmin" id="formForCreateGradeByAdmin">
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::label('gradeName', 'Enter grade name :')}}
                     {{Form::text('gradeName',NULL,array('placeholder'=>'Name of the grade','class'=>'form-control'))}}
