@@ -132,69 +132,69 @@ Route::post('destroyclassRoom', [ClassRoomController::class, 'destroyclassRoom']
 Route::resource('classRoom', 'ClassRoomController');
 ///Details/////
 
-Route::get('getAdminAllDetails', [DetailController::class, 'getAdminAllDetails'])->name('detail.getAdminAllDetails');
-Route::post('store', [DetailController::class, 'store'])->name('detail.store');
-Route::post('updateAdminDetails', [DetailController::class, 'updateAdminDetails'])->name('detail.updateAdminDetails');
-Route::post('updateTeacherDetails', [DetailController::class, 'updateTeacherDetails'])->name('detail.updateTeacherDetails');
-Route::post('updateStudentDetails', [DetailController::class, 'updateStudentDetails'])->name('detail.updateStudentDetails');
-Route::post('createTeacher', [DetailController::class, 'createTeacher'])->name('detail.createTeacher');
-Route::post('createStudentAdmin', [DetailController::class, 'createStudentAdmin'])->name('detail.createStudentAdmin');
-Route::post('createStudentTeacher', [DetailController::class, 'createStudentTeacher'])->name('detail.createStudentTeacher');
-Route::post('createAdmin', [DetailController::class, 'createAdmin'])->name('detail.createAdmin');
+Route::get('getAdminAllDetails', [DetailController::class, 'getAdminAllDetails'])->name('getAdminAllDetails');
+Route::post('store', [DetailController::class, 'store'])->name('store');
+Route::post('updateAdminDetails', [DetailController::class, 'updateAdminDetails'])->name('updateAdminDetails');
+Route::post('updateTeacherDetails', [DetailController::class, 'updateTeacherDetails'])->name('.updateTeacherDetails');
+Route::post('updateStudentDetails', [DetailController::class, 'updateStudentDetails'])->name('updateStudentDetails');
+Route::post('createTeacher', [DetailController::class, 'createTeacher'])->name('createTeacher');
+Route::post('createStudentAdmin', [DetailController::class, 'createStudentAdmin'])->name('createStudentAdmin');
+Route::post('createStudentTeacher', [DetailController::class, 'createStudentTeacher'])->name('createStudentTeacher');
+Route::post('createAdmin', [DetailController::class, 'createAdmin'])->name('createAdmin');
 Route::resource('detail', 'DetailController');
-Route::post('deleteTeacherDetails', [DetailController::class, 'destroyTeacher'])->name('detail.deleteTeacherDetails');
-Route::post('deleteStudentDetails', [DetailController::class, 'destroyStudent'])->name('detail.deleteStudentDetails');
-Route::post('deleteAdminDetails', [DetailController::class, 'destroyAdmin'])->name('detail.deleteAdminDetails');
+Route::post('deleteTeacherDetails', [DetailController::class, 'destroyTeacher'])->name('deleteTeacherDetails');
+Route::post('deleteStudentDetails', [DetailController::class, 'destroyStudent'])->name('deleteStudentDetails');
+Route::post('deleteAdminDetails', [DetailController::class, 'destroyAdmin'])->name('deleteAdminDetails');
 
 ///////Role////
 Route::get('getRoleDetails', [RoleController::class,'getRoleDetails'])->name('getRoleDetails');
-Route::post('createRole', [RoleController::class,'createRole'])->name('role.createRole');
-Route::post('updateRole', [RoleController::class,'updateRole'])->name('role.updateRole');
-Route::post('destroyRole', [RoleController::class,'destroyRole'])->name('role.destroyRole');
+Route::post('createRole', [RoleController::class,'createRole'])->name('createRole');
+Route::post('updateRole', [RoleController::class,'updateRole'])->name('updateRole');
+Route::post('destroyRole', [RoleController::class,'destroyRole'])->name('destroyRole');
 Route::resource('role', 'RoleController');
 // Route::post('/destroyRole', [RoleController::class, 'destroy'])->name('deleteRoleByAdmin');
 ///////Section/////
 
 Route::get('getDetails', [SectionController::class, 'getDetails'])->name('getSectionDetails');
-Route::post('createSection', [SectionController::class, 'createSection'])->name('section.createSection');
-Route::post('updateSection', [SectionController::class, 'updateSection'])->name('section.updateSection');
-Route::post('destroySection', [SectionController::class, 'destroySection'])->name('section.destroySection');
+Route::post('createSection', [SectionController::class, 'createSection'])->name('createSection');
+Route::post('updateSection', [SectionController::class, 'updateSection'])->name('updateSection');
+Route::post('destroySection', [SectionController::class, 'destroySection'])->name('destroySection');
 Route::resource('section', 'SectionController');
 /////Grade////////
 
-Route::get('getGradeDetails', [GradeController::class, 'getGradeDetails'])->name('Grade.getGradeDetails');
-Route::post('creategrade', [GradeController::class, 'creategrade'])->name('Grade.createGrade');
-Route::post('updategrade', [GradeController::class, 'updategrade'])->name('Grade.updateGrade');
-Route::post('destroygrade', [GradeController::class, 'destroygrade'])->name('Grade.destroyGrade');
+Route::get('getGradeDetails', [GradeController::class, 'getGradeDetails'])->name('getGradeDetails');
+Route::post('creategrade', [GradeController::class, 'creategrade'])->name('createGrade');
+Route::post('updategrade', [GradeController::class, 'updategrade'])->name('updateGrade');
+Route::post('destroygrade', [GradeController::class, 'destroygrade'])->name('destroyGrade');
 Route::resource('Grade', 'GradeController');
 ////Department//////
 
 Route::get('getDepartmentDetails', [DepartmentController::class, 'getDepartmentDetails'])->name('getDepartmentDetails');
-Route::post('storeDepartment', [DepartmentController::class, 'storeDepartment'])->name('Department.storeDepartment');
-Route::post('editDepartment', [DepartmentController::class, 'editDepartment'])->name('Department.editDepartment');
-Route::post('destroyDepartment', [DepartmentController::class, 'destroyDepartment'])->name('Department.destroyDepartment');
+Route::post('storeDepartment', [DepartmentController::class, 'storeDepartment'])->name('storeDepartment');
+Route::post('editDepartment', [DepartmentController::class, 'editDepartment'])->name('editDepartment');
+Route::post('destroyDepartment', [DepartmentController::class, 'destroyDepartment'])->name('destroyDepartment');
 Route::resource('Department', 'DepartmentController');
 ////Subject//////
 
 Route::get('subject.index', [SubjectController::class, 'index'])->name('subjectIndex');
-Route::post('subject.getDepartmentFromGradeForSubject', [SubjectController::class, 'getDepartmentFromGradeForSubject'])->name('subject.getDepartmentFromGradeForSubject');
-Route::post('subject.storeSubject', [SubjectController::class, 'storeSubject'])->name('subject.storeSubject');
-Route::post('subject.updatesubject', [SubjectController::class, 'updatesubject'])->name('subject.updatesubject');
-Route::post('subject.destroysubject', [SubjectController::class, 'destroysubject'])->name('subject.destroysubject');
+Route::post('subject.getDepartmentFromGradeForSubject', [SubjectController::class, 'getDepartmentFromGradeForSubject'])->name('getDepartmentFromGradeForSubject');
+Route::post('subject.storeSubject', [SubjectController::class, 'storeSubject'])->name('storeSubject');
+Route::post('subject.updatesubject', [SubjectController::class, 'updatesubject'])->name('updatesubject');
+Route::post('subject.destroysubject', [SubjectController::class, 'destroysubject'])->name('destroysubject');
 Route::resource('subject', 'SubjectController');
 ////Semester//////
 
 Route::get('getSemesterDetails', [SemesterController::class, 'getSemesterDetails'])->name('getSemesterDetails');
-Route::post('storesemester', [SemesterController::class, 'storesemester'])->name('semester.storesemester');
-Route::post('updatesemester', [SemesterController::class, 'updatesemester'])->name('semester.updatesemester');
+Route::post('storesemester', [SemesterController::class, 'storesemester'])->name('storesemester');
+Route::post('updatesemester', [SemesterController::class, 'updatesemester'])->name('updatesemester');
 Route::resource('semester', 'SemesterController');
 //////StudentMarks//////////
 
-Route::post('studentMarks.updateMarksTeacher', [StudentMarksController::class, 'updateMarksTeacher'])->name('studentMarks.updateMarksTeacher');
-Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('studentMarks.updatecreateSubject');
-Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('studentMarks.adminStudentAddStudentMarks');
-Route::post('studentMarks.deleteMarkEntry', [StudentMarksController::class, 'deleteMarkEntry'])->name('studentMarks.deleteMarksEntryAdmin');
-Route::post('studentMarks.createMarkEntry', [StudentMarksController::class, 'createMarkEntry'])->name('studentMarks.createMarkEntry');
+Route::post('studentMarks.updateMarksTeacher', [StudentMarksController::class, 'updateMarksTeacher'])->name('updateMarksTeacher');
+Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('updatecreateSubject');
+Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('adminStudentAddStudentMarks');
+Route::post('studentMarks.deleteMarkEntry', [StudentMarksController::class, 'deleteMarkEntry'])->name('deleteMarksEntryAdmin');
+Route::post('studentMarks.createMarkEntry', [StudentMarksController::class, 'createMarkEntry'])->name('createMarkEntry');
 Route::post('studentMarks.destroy', [StudentMarksController::class, 'destroy'])->name('deleteStudentMarks');
 
 ////////Print MarkSheet///////////
