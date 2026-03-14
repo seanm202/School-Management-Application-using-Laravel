@@ -104,8 +104,8 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                       <h2>Mark Attendence</h2>
-                @if(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())==NULL)
-                    @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                @if(($att = \App\Models\Attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())==NULL)
+                    @foreach(($att = \App\Models\Attendence::where('attendences.batchId','=',$currentBatchId)
                         ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                           <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                               {{ csrf_field() }}{{ method_field('POST') }}
@@ -118,8 +118,8 @@
                               <button type="submit" class="btn btn-primary form-control">Submit</button>
                               {{ Form::close() }}
                       @endforeach
-                @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())->yes_or_no == 0)
-                      @foreach(($att= \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                @elseif(($att = \App\Models\Attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())->yes_or_no == 0)
+                      @foreach(($att= \App\Models\Attendence::where('attendences.batchId','=',$currentBatchId)
                           ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                         <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                                 {{ csrf_field() }}{{ method_field('POST') }}
