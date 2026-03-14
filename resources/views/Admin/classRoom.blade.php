@@ -1,20 +1,13 @@
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
   
   <!--
 
@@ -22,7 +15,6 @@
  -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
      <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
 
  <!--
@@ -37,14 +29,14 @@
        display:none;
      }
      #withModal {
-       display:show;
+       display:block;
      }
          }
 
          /* Media Query for low resolution  Tablets, Ipads */
          @media (min-width: 481px) and (max-width: 767px) {
                #withoutModal {
-       display:show;
+       display:block;
      }
      #withModal {
        display:none;
@@ -54,7 +46,7 @@
          /* Media Query for Tablets Ipads portrait mode */
          @media (min-width: 768px) and (max-width: 1024px){
                    #withoutModal {
-       display:show;
+       display:block;
      }
      #withModal {
        display:none;
@@ -64,7 +56,7 @@
          /* Media Query for Laptops and Desktops */
          @media (min-width: 1025px) and (max-width: 1280px){
            #withoutModal {
-display:show;
+display:block;
 }
 #withModal {
 display:none;
@@ -74,18 +66,13 @@ display:none;
          /* Media Query for Large screens */
          @media (min-width: 1281px) {
                     #withoutModal {
-       display:show;
+       display:block;
      }
      #withModal {
        display:none;
      }
          }
 
-         /* //
-generateTimetable
-
-
-          */
           @media (max-width: 480px) {
                #generateTimetable {
         width:auto;
@@ -95,28 +82,28 @@ generateTimetable
           /* Media Query for low resolution  Tablets, Ipads */
           @media (min-width: 481px) and (max-width: 767px) {
                 #generateTimetable {
-        display:show;
+        display:block;
       }
           }
 
           /* Media Query for Tablets Ipads portrait mode */
           @media (min-width: 768px) and (max-width: 1024px){
                     #generateTimetable {
-        display:show;
+        display:block;
       }
           }
 
           /* Media Query for Laptops and Desktops */
           @media (min-width: 1025px) and (max-width: 1280px){
-            #                    #generateTimetable {
- {
- display:show;
+            #generateTimetable {
+ 
+ display:block;
  }
           }
                   /* Media Query for Large screens */
                   @media (min-width: 1281px) {
                              #generateTimetable {
-                display:show;
+                display:block;
               }
                   }
 
@@ -359,11 +346,11 @@ generateTimetable
 
 
 
-                                                           <form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}
-                                                          {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
+                                                           
                                                           <tr>
-                                                          <td>{{$classRoom->grade}} </td>
+                                                          <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
+                                                          {{ csrf_field() }}{{ method_field('POST') }}
+                                                          {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}{{$classRoom->grade}} </td>
                                                           <td>{{$classRoom->roomNo}} </td>
                                                           <td>{{$classRoom->sectionName}} </td>
                                                           <td>{{$classRoom->departmentName}} </td>
@@ -593,7 +580,5 @@ generateTimetable
 
 
 
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
             <script src="{{ asset('js/Admin/classRoom.js') }}" defer></script>
 </x-app-layout>
