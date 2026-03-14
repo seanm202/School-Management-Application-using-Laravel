@@ -92,7 +92,7 @@
                     Add details to new user
                     <br>
                     New Users<br>
-                    @if(count($users=\App\Models\User::where('users.batchId','=',$currentBatchId)->where('role','=',1)->get())>0)
+                    @if(count($users=\App\Models\User::where('users.batchId','=',1)->where('role','=',1)->get())>0)
                       @foreach(($users=\App\Models\User::where('role','=',1)->get()) as $user)
                           <table class="table">
                             <thead>
