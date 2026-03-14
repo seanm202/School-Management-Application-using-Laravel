@@ -123,12 +123,12 @@ Route::resource('attendence', 'AttendenceController');
 ////ClassRoom///////////
 
 Route::get('gatherClassRoomCreateData', [ClassRoomController::class, 'gatherClassRoomCreateData'])->name('getAdminClassRoomDetails');
-Route::post('updateClassroomStudent', [ClassRoomController::class, 'updateClassroomStudent'])->name('classRoom.updateClassroomStudent');
-Route::post('updateClassroomTeacherAndDescription', [ClassRoomController::class, 'updateClassroomTeacherAndDescription'])->name('classRoom.updateClassroomTeacherAndDescription');
-Route::post('assignClassroomStudent', [ClassRoomController::class, 'assignClassroomStudent'])->name('classRoom.assignClassroomStudent');
-Route::post('createclassRoom', [ClassRoomController::class, 'createclassRoom'])->name('classRoom.createclassRoom');
-Route::post('updateclassRoom', [ClassRoomController::class, 'updateclassRoom'])->name('classRoom.updateclassRoom');
-Route::post('destroyclassRoom', [ClassRoomController::class, 'destroyclassRoom'])->name('classRoom.destroyclassRoom');
+Route::post('updateClassroomStudent', [ClassRoomController::class, 'updateClassroomStudent'])->name('updateClassroomStudent');
+Route::post('updateClassroomTeacherAndDescription', [ClassRoomController::class, 'updateClassroomTeacherAndDescription'])->name('updateClassroomTeacherAndDescription');
+Route::post('assignClassroomStudent', [ClassRoomController::class, 'assignClassroomStudent'])->name('assignClassroomStudent');
+Route::post('createclassRoom', [ClassRoomController::class, 'createclassRoom'])->name('createclassRoom');
+Route::post('updateclassRoom', [ClassRoomController::class, 'updateclassRoom'])->name('updateclassRoom');
+Route::post('destroyclassRoom', [ClassRoomController::class, 'destroyclassRoom'])->name('destroyclassRoom');
 Route::resource('classRoom', 'ClassRoomController');
 ///Details/////
 
