@@ -245,7 +245,7 @@
                           <x-responsive-nav-link :href="route('getAdminClassRoomDetails')" :active="request()->routeIs('getAdminClassRoomDetails')">
                             {{ __('Classroom') }}
                           </x-responsive-nav-link>
-                          <x-responsive-nav-link :href="route('detail.getAdminAllDetails')" :active="request()->routeIs('detail.getAdminAllDetails')">
+                          <x-responsive-nav-link :href="route('getAdminAllDetails')" :active="request()->routeIs('getAdminAllDetails')">
                             {{ __('Details') }}
                           </x-responsive-nav-link>
                           <x-responsive-nav-link :href="route('AdminGrade')" :active="request()->routeIs('AdminGrade')">
