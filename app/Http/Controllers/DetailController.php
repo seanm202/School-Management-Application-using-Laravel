@@ -192,8 +192,8 @@ $userId=$request->userId;
 
     public function getAdminAllDetails()
     {
-      $details=Detail::all();
-      return view("Admin.details")->with('userDetails',$details);
+      $userDetails=Detail::all();
+      return view("Admin.details")->with('userDetails',$userDetails);
     }
     /**
      * Show the form for editing the specified resource.
