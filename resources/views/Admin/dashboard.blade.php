@@ -105,7 +105,7 @@
                     <div class="p-6 text-gray-900">
                       <h2>Mark Attendence</h2>
                 @if(($att = \App\Models\Attendance::where('userId','=',Auth()->user()->userId)->where('todaysDate','=',"2026-03-14")->first())==NULL)
-                    @foreach(($att = \App\Models\Attendance::->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',"2026-03-14")->get()) as $attendance)
+                    @foreach(($att = \App\Models\Attendance::where('userId','=',Auth()->user()->userId)->where('todaysDate','=',"2026-03-14")->get()) as $attendance)
                           <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                               {{ csrf_field() }}{{ method_field('POST') }}
                               {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
