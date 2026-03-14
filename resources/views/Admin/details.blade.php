@@ -355,7 +355,7 @@
                            <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongAdminAdminUserId{{$admin->userId}}">
                                View/Edit Details
                              </button></td>
-                             <td><form action="{{route('detail.deleteAdminDetails')}}" method="POST" name="deleteAdminDetails" id="deleteAdminDetails">
+                             <td><form action="{{route('deleteAdminDetails')}}" method="POST" name="deleteAdminDetails" id="deleteAdminDetails">
                              {{ csrf_field() }}{{ method_field('POST') }}
                              {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
                              <input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
