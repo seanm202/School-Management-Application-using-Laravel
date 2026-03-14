@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\Batch;
-use App\Models\detail;
+use App\Models\Detail;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\ConstantController;
@@ -180,7 +180,7 @@ $userId=$request->userId;
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Detail  $detail
+     * @param  \App\Models\Detail  $Detail
      * @return \Illuminate\Http\Response
      */
     public function show(detail $detail)
@@ -193,12 +193,12 @@ $userId=$request->userId;
     public function getAdminAllDetails()
     {
       $details=Detail::all();
-      return view("Admin/details")->with('userDetails',$details);
+      return view("Admin.details")->with('userDetails',$details);
     }
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Detail  $detail
+     * @param  \App\Models\Detail  $Detail
      * @return \Illuminate\Http\Response
      */
     public function edit(Detail $detail)
@@ -210,7 +210,7 @@ $userId=$request->userId;
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Detail  $detail
+     * @param  \App\Models\Detail  $Detail
      * @return \Illuminate\Http\Response
      */
 
@@ -850,7 +850,7 @@ $userId=$request->userId;
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Detail  $detail
+     * @param  \App\Models\Detail  $Detail
      * @return \Illuminate\Http\Response
      */
 
