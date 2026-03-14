@@ -255,7 +255,7 @@ generateTimetable
 
         <!-- Modal body -->
         <div class="modal-body">
-          <form action="{{route('classRoom.updateClassroomTeacherAndDescription')}}" method="POST"  enctype="multipart/form-data"  name="updateClassRoomInModalForm" id="updateClassRoomInModalForm">
+          <form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST"  enctype="multipart/form-data"  name="updateClassRoomInModalForm" id="updateClassRoomInModalForm">
               {{ csrf_field() }}
             <div style="display:flex;"><h3 id="classRoomGrade"></h3><h3 id="classRoomNumber"></h3><h3 id="classRoomSection"></h3></div>
             <div style="display:flex;"><h3 id="classRoomDepartment"></h3><h3 id="classRoomSemester"></h3></div>
@@ -273,7 +273,7 @@ generateTimetable
       </div>{{Form::hidden('classroomId',null,array('id'=>'classroomIdForModalForm'))}}
             <div style="display:flex;"><h3 id="classDescriptionId"></h3><h3 id="classCapacityIdForModalForm"></h3></div>
             <button type="button" id="updateClassRoomForView" class="btn btn-primary form-control">Update</button>{{Form::close()}}
-           <!-- <form action="{{route('classRoom.destroyclassRoom')}}" method="POST" enctype="multipart/form-data" name="currentBatch" id="deleteClassRoomInModalForm">
+           <!-- <form action="{{route('destroyclassRoom')}}" method="POST" enctype="multipart/form-data" name="currentBatch" id="deleteClassRoomInModalForm">
             {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('classroomId',null,array('id'=>'classroomIdForDeleteClassRoom'))}}
            <button type="button" id="deleteClassroomForView" class="btn btn-primary form-control">Assign</button>{{Form::close()}} -->
 
@@ -370,7 +370,7 @@ generateTimetable
 
 
 
-                                                           <form action="{{route('classRoom.updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
+                                                           <form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
                                                           {{ csrf_field() }}{{ method_field('POST') }}
                                                           {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
                                                           <tr>
@@ -396,7 +396,7 @@ generateTimetable
                                                           <td>{{$classRoom->capacity}}</td>
                                                           <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
                                                           {{ Form::close()}}</td>
-                                                          <form action="{{route('classRoom.destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
+                                                          <form action="{{route('destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
                                                           {{ csrf_field() }}{{ method_field('POST') }}
 
                                                           {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
@@ -500,7 +500,7 @@ generateTimetable
 
       $.ajax({
           data: $('#FormToCreateClassRoom').serialize(),
-          url: "{{ route('classRoom.createclassRoom') }}",
+          url: "{{ route('createclassRoom') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
