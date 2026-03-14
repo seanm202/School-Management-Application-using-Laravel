@@ -30,7 +30,7 @@ class ClassRoomController extends Controller
 
       $classRooms = ClassRoom::all();
 
-      return view("/Admin/classRoom")
+      return view("Admin.classRoom")
       ->with('classRooms',$classRooms);
     }
 
