@@ -261,7 +261,7 @@ generateTimetable
             <div style="display:flex;"><h3 id="classRoomDepartment"></h3><h3 id="classRoomSemester"></h3></div>
             <div style="display:flex;"><h3>Class Teacher : </h3>
               <select name="teacherId" class="form-control" id="teacherIdForFormView">
-          @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+          @foreach($teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
                                                       ->join('details','details.detailId','=','teachers.teacherDetailId')
                                                       ->select('details.lastname AS lastName',
                                                       'details.firstname AS firstName',
@@ -316,7 +316,7 @@ generateTimetable
                                 'class_rooms.classTimeTableId AS classTimeTableId',
                                 'class_rooms.classroomDetailId AS classroomDetailId',
                                 'class_rooms.batchId AS batchId'
-                                )->where('class_rooms.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+                                )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
                                 ->get())>0)
 
 
@@ -359,7 +359,7 @@ generateTimetable
                                                          'class_rooms.classroomDetailId AS classroomDetailId',
                                                          'class_rooms.batchId AS batchId',
                                                          'class_rooms.classTeacher AS classTeacher'
-                                                         )->where('class_rooms.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+                                                         )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
                                                          ->get()) as $classRoom)
 
 
@@ -380,7 +380,7 @@ generateTimetable
                                                           <td>{{$classRoom->departmentName}} </td>
                                                           <td>{{$classRoom->semesterName}} </td>
                                                           <td><select name="teacherId" class="form-control" id="teacherId">
-                                                                               @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+                                                                               @foreach($teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
                                                                                    ->join('details','details.detailId','=','teachers.teacherDetailId')
                                                                                    ->select('details.lastname AS lastName',
                                                                                    'details.firstname AS firstName',
@@ -539,8 +539,8 @@ generateTimetable
                   <br>
                   {{Form::label('semesters','Semester')}}
                   <select name="semesterId" class="form-control">
-                    @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get() as $semester)
+                    @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get() as $semester)
                         <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
                       @endforeach
                     @endif
@@ -549,10 +549,10 @@ generateTimetable
                   <br>
                   {{Form::label('classTeacher','Class Teacher')}}
                   <select name="classTeacher" class="form-control">
-                    @if(count($teachers = \App\Models\teacher::where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($teachers = \App\Models\teacher::join('details','details.userId','=','teachers.userId')
+                    @if(count($teachers = \App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($teachers = \App\Models\Teacher::join('details','details.userId','=','teachers.userId')
                                           ->select('details.firstname AS firstName','details.lastname AS lastName','teachers.teacherId AS teacherId')
-                                                              ->where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+                                                              ->where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
                                           ->get()) as $teacher)
                         <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
                       @endforeach
@@ -562,8 +562,8 @@ generateTimetable
                   <br>
                   {{Form::label('grade','Grade : ')}}
                   <select name="grade" class="form-control">
-                    @if(count($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get()) as $graded)
+                    @if(count($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $graded)
                         <option value="{{$graded->gradeId}}">{{$graded->grade}}</option>
                         @endforeach
                     @endif
@@ -574,8 +574,8 @@ generateTimetable
                   <br>
                   {{Form::label('sectionName','Section Name : ')}}
                   <select name="section" class="form-control">
-                    @if(count($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get()) as $section)
+                    @if(count($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $section)
                         <option value="{{$section->sectionId}}">{{$section->sectionName}}</option>
                       @endforeach
                     @endif
