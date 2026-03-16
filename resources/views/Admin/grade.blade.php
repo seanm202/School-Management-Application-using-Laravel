@@ -94,7 +94,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Update grades
-                    @if(count(App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get())>0)
+                    @if(count(App\Models\Grade::where('grades.batchId','=',1)->get())>0)
                     <table class="table">
     <thead>
         <tr>
@@ -104,10 +104,10 @@
         </tr>
     </thead>
     <tbody>
-      @foreach(App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get() as $grade)
+      @foreach(App\Models\Grade::where('grades.batchId','=',1)->get() as $grade)
 <tr>
     <td colspan="2">
-        <form action="{{ route('Grade.updateGrade') }}"
+        <form action="{{ route('updateGrade') }}"
               method="POST"
               class="updateGradeByAdmin d-flex align-items-center gap-2">
             @csrf
@@ -129,7 +129,7 @@
     </td>
 
     <td>
-        <form action="{{ route('Grade.destroyGrade') }}"
+        <form action="{{ route('destroyGrade') }}"
               method="POST"
               class="deleteGradeByAdmin">
             @csrf
