@@ -217,10 +217,10 @@ Create Mark table for all the students
                  Assign students to classes
                  <br>
                  New Users<br>
-                 @if(count($studentsNotAssignedToClasses=\App\Models\student::where('students.status','=',3)->join('details','details.userId','=','students.userId')->join('users','users.userId','=','students.userId')
+                 @if(count($studentsNotAssignedToClasses=\App\Models\Student::where('students.status','=',3)->join('details','details.userId','=','students.userId')->join('users','users.userId','=','students.userId')
                                 ->select('details.firstname AS firstName','details.lastname AS lastName','users.email AS Email','users.phone AS Phone','students.studentId AS studentId')
                                 ->get())>0)
-                                @foreach(($studentsNotAssignedToClasses=\App\Models\student::where('students.status','=',3)->join('details','details.userId','=','students.userId')->join('users','users.userId','=','students.userId')
+                                @foreach(($studentsNotAssignedToClasses=\App\Models\Student::where('students.status','=',3)->join('details','details.userId','=','students.userId')->join('users','users.userId','=','students.userId')
                                 ->select('details.firstname AS firstName','details.lastname AS lastName','users.email AS Email','users.phone AS Phone','students.studentId AS studentId')
                                 ->get()) as $studentsNotAssignedToClass)
                                 <table class="table">
@@ -275,7 +275,7 @@ Create Mark table for all the students
                                                 <th>Select</th></tr>
                                      </thead>
                                        <tbody>
-                              @foreach($classRooms=\App\Models\classRoom::join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
+                              @foreach($classRooms=\App\Models\ClassRoom::join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
                                  ->join('details','details.userId','=','teachers.userId')
                                  ->join('grades','grades.gradeId','=','class_rooms.grade')
                                  ->join('sections','sections.sectionId','=','class_rooms.section')
@@ -359,7 +359,7 @@ Create Mark table for all the students
                                 <hr>
                                   Department<br>
                                   <div style="display:flex;padding:30px;">
-                                  @foreach($departments=\App\Models\department::all() as $department)
+                                  @foreach($departments=\App\Models\Department::all() as $department)
                                    <button class="button-value form-control" onclick="myDepartment({{$department->departmentId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #4CAF50;">{{$department->departmentName}}</button>
                                   @endforeach
                                   </div>
@@ -367,7 +367,7 @@ Create Mark table for all the students
                                   <hr>
                                   Semester<br>
                                     <div style="display:flex;padding:30px;">
-                                    @foreach($semesters=\App\Models\semester::all() as $semester)
+                                    @foreach($semesters=\App\Models\Semester::all() as $semester)
                                      <button class="button-value form-control" onclick="mySemester({{$semester->semesterId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #3A4BDC;">{{$semester->semesterName}}</button>
                                     @endforeach
                                     </div>
@@ -375,7 +375,7 @@ Create Mark table for all the students
                                     <hr>
                                     Grade<br>
                                       <div style="display:flex;padding:30px;">
-                                      @foreach($grades=\App\Models\grade::all() as $grade)
+                                      @foreach($grades=\App\Models\Grade::all() as $grade)
                                        <button class="button-value form-control" onclick="myGrade({{$grade->gradeId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #EA3D1A;">{{$grade->grade}}</button>
                                       @endforeach
                                       </div>
@@ -383,7 +383,7 @@ Create Mark table for all the students
                                       <hr>
                                       Section<br>
                                         <div style="display:flex;padding:30px;">
-                                        @foreach($sections=\App\Models\section::all() as $section)
+                                        @foreach($sections=\App\Models\Section::all() as $section)
                                          <button class="button-value form-control" onclick="mySection({{$section->sectionId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #130401;">{{$section->sectionName}}</button>
                                         @endforeach
                                         </div>
@@ -405,7 +405,7 @@ Create Mark table for all the students
                     Filter
                   </button>
 
-                  @if(count(($studentDetails = \App\Models\student::where('students.batchId','=',$currentBatchId)
+                  @if(count(($studentDetails = \App\Models\Student::where('students.batchId','=',$currentBatchId)
                                 ->join('details','details.detailId','=','students.studentDetailsId')
                                 ->join('semesters','semesters.semesterId','=','students.studentSemester')
                                 ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
@@ -428,7 +428,7 @@ Create Mark table for all the students
                                 )->get()
                                 ))>0)
 
-              @foreach(($studentDetails = \App\Models\student::where('students.batchId','=',$currentBatchId)
+              @foreach(($studentDetails = \App\Models\Student::where('students.batchId','=',$currentBatchId)
                             ->join('details','details.detailId','=','students.studentDetailsId')
                             ->join('semesters','semesters.semesterId','=','students.studentSemester')
                             ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
@@ -501,7 +501,7 @@ Print marksheet
                               </thead>
                                 <tbody>
 
-                              @foreach(($studentMarks = \App\Models\studentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
+                              @foreach(($studentMarks = \App\Models\StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
                                                 ->where('student_marks.batchId','=',$currentBatchId)
                                                 ->where('student_marks.studentId','=',$studentDetail->studentId)
                                                 ->where('subjects.semesterId','=',$studentDetail->semesterId)
@@ -560,7 +560,7 @@ Create Marks
                               </thead>
                                 <tbody>
 
-                              @foreach(($studentMarks = \App\Models\studentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
+                              @foreach(($studentMarks = \App\Models\StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
                                                 ->where('student_marks.batchId','=',$currentBatchId)
                                                 ->where('student_marks.studentId','=',$studentDetail->studentId)
                                                 ->where('subjects.semesterId','=',$studentDetail->semesterId)
