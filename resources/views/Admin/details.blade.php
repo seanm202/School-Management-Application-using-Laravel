@@ -1,32 +1,15 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<!-- Bootstrap 4 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-<!-- jQuery (FULL version — only once) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Popper -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
-<!-- Bootstrap 4 JS -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://malsup.github.io/jquery.form.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/Admin/admin.css') }}" rel="stylesheet">
-<script src="{{ asset('js/sidebar.js') }}"></script>
 
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
+<script src="{{ asset('js/sidebar.js') }}"></script>
 
 <x-app-layout>
     <x-slot name="header">
@@ -121,7 +104,7 @@
                       </table>
 
 
-                            <div class="modal fade" id="exampleModalLongNewUserUserId{{$user->userId}}" id="addDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal fade" id="exampleModalLongNewUserUserId{{$user->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
@@ -147,7 +130,7 @@
                                         </select>
                                       </td>
                                     </tr>
-                                        <tr></th>First name</th>{{Form::hidden('userId',$user->userId)}}
+                                        <tr><th>First name</th>{{Form::hidden('userId',$user->userId)}}
                                       <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                       </tr>
                                       <tr>
@@ -354,13 +337,12 @@
                            <td>{{$admin->age}}</td>
                            <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongAdminAdminUserId{{$admin->userId}}">
                                View/Edit Details
-                             </button></td>
+                             </button></form></td>
                              <td><form action="{{route('deleteAdminDetails')}}" method="POST" name="deleteAdminDetails" id="deleteAdminDetails">
                              {{ csrf_field() }}{{ method_field('POST') }}
                              {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
                              <input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
-                           {{Form::hidden('userRole',3)}}</form>
-                               </button>
+                           {{Form::hidden('userRole',3)}}
                            </td>
                            </form>
                                                     </tr>
@@ -575,8 +557,7 @@ alert(inModalFirstName+inModalLastName);
                              {{Form::hidden('detailId',$teacher->detailId)}}{{Form::hidden('userId',$teacher->userId)}}
                              {{Form::hidden('userRole',2)}}{{Form::hidden('userId',$teacher->userId)}}
                              <button type="submit" id="buttonForDeleteTeacherDetails" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" >Delete</button>
-                           </form>
-                               </button>
+                          </form>
                            </td>
 
                          </tr>
@@ -845,8 +826,8 @@ alert(inModalFirstName+inModalLastName);
                                 {{ csrf_field() }}{{ method_field('POST') }}
                                 {{Form::hidden('detailId',$student->detailId)}}{{Form::hidden('userId',$student->userId)}}
                                 {{Form::hidden('userRole',4)}}<input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
+                                
                               </form>
-                                  </button>
                               </td>
 
                           </tr>
@@ -877,7 +858,6 @@ alert(inModalFirstName+inModalLastName);
 
       <script src="{{ asset('js/filter.js') }}" defer></script>
 
-                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
                   <script src="{{ asset('js/Admin/details.js') }}" defer></script>
 
 
