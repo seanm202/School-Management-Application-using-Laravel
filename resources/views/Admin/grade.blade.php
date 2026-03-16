@@ -94,7 +94,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Update grades
-                    @if(count(App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)
+                    @if(count(App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get())>0)
                     <table class="table">
     <thead>
         <tr>
