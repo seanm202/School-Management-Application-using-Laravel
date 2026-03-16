@@ -65,18 +65,18 @@ $batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       ->first();
     if($user->role==4)
     {
-      return redirect(RouteServiceProvider::STUDENT);
+      return redirect()->route(RouteServiceProvider::STUDENT);
     }
     else if($user->role==3)
     {
-      return redirect(RouteServiceProvider::ADMIN);
+      return redirect()->route(RouteServiceProvider::ADMIN);
     }
     else if($user->role==2)
     {
-      return redirect(RouteServiceProvider::TEACHER);
+      return redirect()->route(RouteServiceProvider::TEACHER);
     }
     else {
-      return redirect(RouteServiceProvider::HOME);
+      return redirect()->route(RouteServiceProvider::HOME);
     }
   }
 }
