@@ -79,10 +79,10 @@
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach(($roles=App\Models\role::all()) as $role)
+                          @foreach(($roles=App\Models\Role::all()) as $role)
 <tr>
     <td colspan="2">
-        <form action="{{ route('role.updateRole') }}" method="POST" class="updateRoleByAdmin">
+        <form action="{{ route('updateRole') }}" method="POST" class="updateRoleByAdmin">
             @csrf
 
             <div class="d-flex gap-2">
