@@ -138,9 +138,9 @@
           <h3 style="color:red;">List is empty</h3>
         @endif<br>
             <h3 id="semesterForAllotting"></h3>{{Form::label('semester','Semester : ')}}
-           @if(count($semesters = \App\Models\semester::all())>0)
+           @if(count($semesters = \App\Models\Smester::all())>0)
                <select name="semesterId" id="semesterId" class="form-control">
-                @foreach(($semesters = \App\Models\semester::all()) as  $semester)
+                @foreach(($semesters = \App\Models\Semester::all()) as  $semester)
                 <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
                 @endforeach
                </select>
@@ -149,9 +149,9 @@
            @endif
             <br>
               <h3 id="subjectForAllotting"></h3>{{Form::label('subject','Subject : ')}}
-        @if(count($subjects=\App\Models\subject::all())>0)
+        @if(count($subjects=\App\Models\Subject::all())>0)
               <select name="subjectId" id="subjectId" class="form-control">
-              @foreach($subjects=\App\Models\subject::all() as $subject)
+              @foreach($subjects=\App\Models\Subject::all() as $subject)
                 <option value="{{$subject->subjectId}}">{{$subject->subjectName}}</option>
               @endforeach
             </select>
@@ -160,7 +160,7 @@
         @endif
         <br>
             <h3 id="teacherForAllotting"></h3>{{Form::label('teacher','Teacher : ')}}
-        @if(count($teachers=\App\Models\teacher::all())>0)
+        @if(count($teachers=\App\Models\Teacher::all())>0)
              <select name="teacherId" id="teacherId" class="form-control">
               @foreach(
               $teachers = \App\Models\Teacher::join('details', 'details.userId', '=', 'teachers.userId')
@@ -201,7 +201,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         Assign teachers to each class according to subject
-                  @if(count(\App\Models\classRoom::join('sections','sections.sectionId','=','class_rooms.section')
+                  @if(count(\App\Models\ClassRoom::join('sections','sections.sectionId','=','class_rooms.section')
                       ->join('grades','grades.gradeId','=','class_rooms.grade')
                       ->select('class_rooms.classroomDetailId AS classroomDetailId',
                       'class_rooms.capacity AS Capacity',
@@ -216,7 +216,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach(($classRooms=\App\Models\classRoom::join('sections','sections.sectionId','=','class_rooms.section')
+                          @foreach(($classRooms=\App\Models\ClassRoom::join('sections','sections.sectionId','=','class_rooms.section')
                           ->join('grades','grades.gradeId','=','class_rooms.grade')
                           ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                           ->select('class_rooms.classroomDetailId AS classroomDetailId',
@@ -408,7 +408,7 @@
                                                  <input type="hidden" name="subjectForSectionId" value="{{$SubjectTeacherForEachSection->subjectForSectionId}}"></input>
                                                  <select name="teacherId" id="teacherId" class="form-control">
                                                    <option value="0" selected>Select Teacher</option>
-                                                   @foreach(($teachers=\App\Models\teacher::join('details','details.userId','=','teachers.userId')
+                                                   @foreach(($teachers=\App\Models\Teacher::join('details','details.userId','=','teachers.userId')
                                                      ->select('details.lastname AS lastName','details.firstname AS firstName','teachers.teacherId AS teacherId','teachers.userId AS teacherUserId')->get())
                                                      as $teacher)
                                                      <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>
