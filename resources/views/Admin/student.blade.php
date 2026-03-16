@@ -174,7 +174,7 @@
                   </table>
                   <button type="button" id="buttonForAddStudentAdmin" class="btn btn-primary form-control">Add</button>
 
-                                        {{Form::close()}}
+                                       </form>
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@ Add students to class_rooms
                <form action="{{route('createMarkEntry')}}" method="POST" enctype="multipart/form-data" name="createMarkEntry" id="createMarkEntry">
                @csrf
                 <button type="submit" class="btn btn-primary form-control">Submit</button>
-                                     {{Form::close()}}
+                                     </form>
              </div>
          </div>
      </div>
@@ -316,7 +316,7 @@ Create Mark table for all the students
                                    <td>{{$classRoom->firstName}} {{$classRoom->lastName}}</td>
                                    {{Form::hidden('studentId',$studentsNotAssignedToClass->studentId,array('id'=>'studentId'))}}
                                    <td>{{$classRoom->Capacity}}</td>{{Form::hidden('classroomDetailId',$classRoom->classroomDetailId,array('id'=>'classroomDetailId'))}}
-                                   <td><button type="submit" class="btn btn-primary form-control form-control">Select</button>{{Form::close()}}</td></tr>
+                                   <td><button type="submit" class="btn btn-primary form-control form-control">Select</button></form></td></tr>
                               @endforeach
                                                        </tbody>
                                                      </table>
@@ -570,7 +570,7 @@ Create Marks
 
                                                   <tr><form action="{{route('deleteMarksEntryAdmin',['studentMark'=>$studentDetail->student_marksId])}}" method="POST" name="deleteStudentSubjectMarks" id="deleteStudentSubjectMarks">
                                                     {{ csrf_field() }}{{ method_field('POST')}}<input type="hidden" name="subjectMarkIdDelete" value="{{$subject->student_marksId}}"></input>
-                                                    <td><input type="hidden" name="subjectMarkIdDelete[]" value="{{$subject->student_marksId}}"></input><button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}</td>
+                                                    <td><input type="hidden" name="subjectMarkIdDelete[]" value="{{$subject->student_marksId}}"></input><button type="submit" class="btn btn-primary form-control">Delete</button></form></td>
                                                     <form action="{{route('updateMarksTeacher',['studentMark'=>$studentDetail->student_marksId])}}" method="POST" name="createStudentSubjectMarks" id="createStudentSubjectMarks">
                                                     {{ csrf_field() }}{{ method_field('POST')}}
                                                     <td>{{$subject->subjectName}}</td>
@@ -581,7 +581,7 @@ Create Marks
                               @endforeach
                             </tbody>
                           </table>
-                            <button type="submit" class="btn btn-primary form-control">Submit</button>{{Form::close()}}
+                            <button type="submit" class="btn btn-primary form-control">Submit</button></form>
                                                                           </div>
                          <div class="modal-footer">
                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
