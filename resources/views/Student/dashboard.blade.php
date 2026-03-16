@@ -67,7 +67,7 @@
 
              $.ajax({
                 type:'POST',
-                url:"{{ route('attendence.markTodaysAttendance') }}",
+                url:"{{ route('markTodaysAttendance') }}",
                 data:form.serialize(),
                 success: function(response){
           alert("jjjj");
@@ -94,7 +94,7 @@
 
              $.ajax({
                 type:'POST',
-                url:"{{ route('attendence.markTodaysAttendanceStudent') }}",
+                url:"{{ route('markTodaysAttendanceStudent') }}",
                 data:form.serialize(),
                 success: function(response){
 
@@ -117,15 +117,15 @@
             @endphp
         </div>
         @endif
-                      @if(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourIdr)
+                      @if(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourIdr)
                                                                       ->select('id')->first())!=NULL)
 
-                        @foreach(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                        ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourId)
+                        @foreach(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                                                                        ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourId)
                                                                         ->select('id')->get()) as $atst)
 
-                      <form action="{{route('attendence.markTodaysAttendanceStudent')}}" method="POST" name="markTodaysAttendanceStudent" id="markTodaysAttendanceStudent">
+                      <form action="{{route('markTodaysAttendanceStudent')}}" method="POST" name="markTodaysAttendanceStudent" id="markTodaysAttendanceStudent">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control'))}}
                         <br>
@@ -136,15 +136,15 @@
                         <button class="btn btn-success btn-addAdminAdmin form-control">Mark Attendance</button>
                         {{ Form::close() }}
                       @endforeach
-                      @elseif(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                      @elseif(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
                                                                       ->where('student_subject_attendances.date','=',date('Y-m-d'))
-                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourId)
+                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourId)
                                                                       ->select('id')->first())==0)
-                                                                      @foreach(($att = \App\Models\studentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
+                                                                      @foreach(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
                                                                                                                       ->where('student_subject_attendances.date','=',date('Y-m-d'))
-                                                                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\hours::where('hours.status','=',1)->first())->hourId)
+                                                                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourId)
                                                                                                                       ->select('id')->get()) as $atst)
-                      <form action="{{route('attendence.markTodaysAttendance')}}" method="POST" name="markAttendance" id="markAttendance">
+                      <form action="{{route('markTodaysAttendance')}}" method="POST" name="markAttendance" id="markAttendance">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1)}}
                         <br>
