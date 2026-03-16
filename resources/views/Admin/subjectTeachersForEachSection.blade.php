@@ -138,7 +138,7 @@
           <h3 style="color:red;">List is empty</h3>
         @endif<br>
             <h3 id="semesterForAllotting"></h3>{{Form::label('semester','Semester : ')}}
-           @if(count($semesters = \App\Models\Smester::all())>0)
+           @if(count($semesters = \App\Models\Semester::all())>0)
                <select name="semesterId" id="semesterId" class="form-control">
                 @foreach(($semesters = \App\Models\Semester::all()) as  $semester)
                 <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
