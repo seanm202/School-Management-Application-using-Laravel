@@ -108,7 +108,7 @@
                         Add Subject
                         <br>
 
- <form action="{{route('subject.storeSubject')}}" method="POST"  enctype="multipart/form-data" name="createSubject" id="createSubject">
+ <form action="{{route('storeSubject')}}" method="POST"  enctype="multipart/form-data" name="createSubject" id="createSubject">
  @csrf
 
    <table class="table">
@@ -117,8 +117,8 @@
 <th>Grade : </th>
 <td><select name="subjectGrade" id="subjectGrade" class="form-control">
     <option value="0" selected>Select Grade : </option>
-@if(count($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)
- @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get()) as  $grade)
+@if(count($grades = \App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get())>0)
+ @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get()) as  $grade)
      <option value="{{$grade->gradeId}}">{{$grade->grade}}</option>
  @endforeach
 @endif
@@ -138,8 +138,8 @@
      <th>Semester : </th>
    <td><select name="semesterId" id="semesterId" class="form-control">
       <option value="0" selected>Select Semester : </option>
-     @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-       @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
+     @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
+       @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
         <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
        @endforeach
      @endif
@@ -202,7 +202,7 @@
                         <br>
 
                         Subjects<br>
-              @if(count($subjects = \App\Models\subject::where('subjects.batchId','=',$currentBatchId)->get())>0)
+              @if(count($subjects = \App\Models\Subject::where('subjects.batchId','=',$currentBatchId)->get())>0)
                 <table class="table">
                   <thead>
                     <tr>
@@ -211,7 +211,7 @@
                       <th>Semester : </th>
                       <th>View List</th>
                     </tr>
-                  @foreach(($subjects = \App\Models\subject::where('subjects.batchId','=',$currentBatchId)
+                  @foreach(($subjects = \App\Models\Subject::where('subjects.batchId','=',$currentBatchId)
                     ->join('semesters','semesters.semesterId','=','subjects.semesterId')
                     ->join('grades','grades.gradeId','=','subjects.subjectGrade')
                     ->join('departments','departments.departmentId','=','subjects.departmentId')
@@ -320,7 +320,7 @@
                                    </div>
                                    <div class="modal-body" id="subjectsList">
 
-                                     <form action="{{route('subject.updatesubject')}}" method="POST" name="updateSubject" id="updateSubject">
+                                     <form action="{{route('updatesubject')}}" method="POST" name="updateSubject" id="updateSubject">
                                      {{ csrf_field() }}{{ method_field('POST') }}
            {{Form::hidden('subjectId',null,array('id' => 'updateSubjectId'))}}
               <h2>Subject Name : </h2>
@@ -328,7 +328,7 @@
            <h2>Subject Grade : </h2>
            <select name="subjectGrade" class="form-control" id="subjectGradeUpdate">
              <option value="0">Select Grade : </option class="form-control">
-             @foreach(($grades = \App\Models\grade::where('grades.batchId','=',1)->get()) as  $grade)
+             @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',1)->get()) as  $grade)
                <option value={{$grade->gradeId}}>{{$grade->grade}}</option>
              @endforeach
            </select>
@@ -343,8 +343,8 @@
            </select>
            <h2>Semester : </h2><select name="semesterId" class="form-control" id="subjectSemesterUpdate">
               <option value="0">Select Semester : </option>
-             @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-               @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
+             @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
+               @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
                 <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
                @endforeach
              @endif
@@ -370,7 +370,7 @@
          <h2>Update Subject : </h2><button type="button" id="updateSubjectDetails" class="btn btn-primary form-control">Save</button><br>
              {{Form::close()}}<br>
           <h2>Delete</h2>
-           <form action="{{route('subject.destroysubject')}}" method="POST" name="deleteSubject" id="deleteSubject">
+           <form action="{{route('destroysubject')}}" method="POST" name="deleteSubject" id="deleteSubject">
            {{ csrf_field() }}{{ method_field('POST') }}
  {{Form::hidden('subjectId',null,array('id' => 'deleteSubjectId'))}}  <button type="button" id="buttonForSubjectDelete" class="btn btn-primary form-control">Delete</button>
  {{Form::close()}}<br>
@@ -393,7 +393,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                   <h2>Add priority</h2>
-<form action="{{route('priority.createPriority')}}" method="POST" name="createPriority" id="createPriority">
+<form action="{{route('createPriority')}}" method="POST" name="createPriority" id="createPriority">
                                                   {{ csrf_field() }}{{ method_field('POST') }}
     <h2>Priority name  : </h2>{{Form::text('priorityName','',array('placeholder'=>'Enter Priority Name ','class'=>'form-control'))}}<br><hr>
 <h2 for="priorityValue">Priority Value : </h2>
@@ -424,7 +424,7 @@
     <td>{{ $priority->priorityId }}</td>
 
     <td colspan="3">
-        <form action="{{ route('priority.editPriority') }}" method="POST" class="editPriority">
+        <form action="{{ route('editPriority') }}" method="POST" class="editPriority">
             @csrf
             {{ Form::hidden('priorityId', $priority->priorityId) }}
 
