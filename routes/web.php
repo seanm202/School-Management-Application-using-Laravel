@@ -137,7 +137,7 @@ Route::resource('classRoom', 'ClassRoomController');
 Route::get('getAdminAllDetails', [DetailController::class, 'getAdminAllDetails'])->name('getAdminAllDetails');
 Route::post('store', [DetailController::class, 'store'])->name('store');
 Route::post('updateAdminDetails', [DetailController::class, 'updateAdminDetails'])->name('updateAdminDetails');
-Route::post('updateTeacherDetails', [DetailController::class, 'updateTeacherDetails'])->name('.updateTeacherDetails');
+Route::post('updateTeacherDetails', [DetailController::class, 'updateTeacherDetails'])->name('updateTeacherDetails');
 Route::post('updateStudentDetails', [DetailController::class, 'updateStudentDetails'])->name('updateStudentDetails');
 Route::post('createTeacher', [DetailController::class, 'createTeacher'])->name('createTeacher');
 Route::post('createStudentAdmin', [DetailController::class, 'createStudentAdmin'])->name('createStudentAdmin');
