@@ -90,7 +90,7 @@
                 <div class="p-6 text-gray-900">
                     Create sections
 
-                    <form action="{{route('section.createSection')}}" method="POST" name="createSectionByAdmin" id="createSectionByAdmin">
+                    <form action="{{route('createSection')}}" method="POST" name="createSectionByAdmin" id="createSectionByAdmin">
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::label('sectionName', 'Enter section name :')}}
                     {{Form::text('sectionName',NULL,array('placeholder'=>'Name of the section','class'=>'form-control','id'=>'sectionName'))}}<br>
@@ -108,7 +108,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Update sections
-                  @if(count($sections=App\Models\section::where('sections.batchId','=',$currentBatchId)->get())>0)
+                  @if(count($sections=App\Models\Section::where('sections.batchId','=',$currentBatchId)->get())>0)
                   <table class="table">
     <thead>
         <tr>
@@ -119,10 +119,10 @@
     </thead>
 
     <tbody>
-        @foreach(App\Models\Section::where('batchId','=',$currentBatchId)->get() as $section)
+        @foreach(App\Models\Section::where('batchId','=',1)->get() as $section)
         <tr>
             <td colspan="2">
-                <form action="{{ route('section.updateSection') }}"
+                <form action="{{ route('updateSection') }}"
                       method="POST"
                       class="updateSectionByAdmin d-flex align-items-center gap-2">
                     @csrf
@@ -145,7 +145,7 @@
             </td>
 
             <td>
-                <form action="{{ route('section.destroySection') }}"
+                <form action="{{ route('destroySection') }}"
                       method="POST"
                       class="deleteSectionByAdmin text-center">
                     @csrf
