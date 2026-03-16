@@ -134,7 +134,7 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <form action="{{route('detail.store')}}" method="POST" name="addDetailsToNewUser" id="addDetailsToNewUser">
+                                    <form action="{{route('store')}}" method="POST" name="addDetailsToNewUser" id="addDetailsToNewUser">
                                     {{ csrf_field() }}{{ method_field('POST') }}
                                       <table class="table">
                                         <tr>
@@ -442,7 +442,7 @@ alert(inModalFirstName+inModalLastName);
           </button>
         </div>
         <div class="modal-body">
-          <form action="{{route('detail.updateTeacherDetails')}}" method="POST" name="createOrUpdateTeacherDetails" id="createOrUpdateTeacherDetails">
+          <form action="{{route('updateTeacherDetails')}}" method="POST" name="createOrUpdateTeacherDetails" id="createOrUpdateTeacherDetails">
           {{ csrf_field() }}{{ method_field('POST') }}
           {{Form::hidden('detailId',null,array('id'=>'inModalDetailId'))}}
           {{Form::hidden('userId',null,array('id'=>'inModalUserId'))}}
@@ -570,7 +570,7 @@ alert(inModalFirstName+inModalLastName);
  data-target="#exampleModalLongTeacherTeacherUserId">
  View/Edit Details
 </button></td>
-                             <td><form action="{{route('detail.deleteTeacherDetails')}}" method="POST" name="deleteTeacherDetails" id="deleteTeacherDetails">
+                             <td><form action="{{route('deleteTeacherDetails')}}" method="POST" name="deleteTeacherDetails" id="deleteTeacherDetails">
                              {{ csrf_field() }}{{ method_field('POST') }}
                              {{Form::hidden('detailId',$teacher->detailId)}}{{Form::hidden('userId',$teacher->userId)}}
                              {{Form::hidden('userRole',2)}}{{Form::hidden('userId',$teacher->userId)}}
@@ -740,7 +740,7 @@ alert(inModalFirstName+inModalLastName);
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form action="{{route('detail.updateStudentDetails')}}" method="POST" name="createOrUpdateStudentDetails" id="createOrUpdateStudentDetails">
+                      <form action="{{route('updateStudentDetails')}}" method="POST" name="createOrUpdateStudentDetails" id="createOrUpdateStudentDetails">
                       {{ csrf_field() }}{{ method_field('POST') }}
 
                                     <table class="table">
@@ -841,7 +841,7 @@ alert(inModalFirstName+inModalLastName);
                             <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongStudentStudentUserId{{$student->userId}}">
                                 View/Edit Details
                                 </button></td>
-                                <td><form action="{{route('detail.deleteStudentDetails')}}" method="POST" name="deleteStudentDetails" id="deleteStudentDetails">
+                                <td><form action="{{route('deleteStudentDetails')}}" method="POST" name="deleteStudentDetails" id="deleteStudentDetails">
                                 {{ csrf_field() }}{{ method_field('POST') }}
                                 {{Form::hidden('detailId',$student->detailId)}}{{Form::hidden('userId',$student->userId)}}
                                 {{Form::hidden('userRole',4)}}<input type="submit" name="Delete" style="color:white;background-color:red;" class="btn btn-primary form-control" value="Delete"></input>
