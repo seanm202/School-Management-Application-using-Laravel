@@ -213,9 +213,9 @@ Route::get('register', function () {
     return view('auth.register');
 })->name('registerpage');
 
-// Route::get('register', function () {
-//     return view('auth.register');
-// })->name('registerpage');
+Route::get('registerpage', function () {
+    return view('auth.register');
+})->name('registerpage');
 
 
 Route::get('logout', [DashboardController::class,'logout'])->name('logout');
