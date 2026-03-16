@@ -906,6 +906,4 @@ Hour creation
 <!-- jQuery Form plugin (you use it) -->
 <script src="https://malsup.github.io/jquery.form.js"></script>
 
-<!-- Your custom JS -->
-<script src="{{ asset('js/sidebar.js') }}"></script>
 </x-app-layout>
