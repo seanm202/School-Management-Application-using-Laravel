@@ -1,34 +1,12 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/Admin/subject.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-  <script src="https://malsup.github.io/jquery.form.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"
-               integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-               crossorigin="anonymous">
-</script>
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
-  </script>
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
 
 <!--
 
@@ -117,8 +95,8 @@
 <th>Grade : </th>
 <td><select name="subjectGrade" id="subjectGrade" class="form-control">
     <option value="0" selected>Select Grade : </option>
-@if(count($grades = \App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get())>0)
- @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',$currentBatchId)->get()) as  $grade)
+@if(count($grades = \App\Models\Grade::where('grades.batchId','=',1)->get())>0)
+ @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',1)->get()) as  $grade)
      <option value="{{$grade->gradeId}}">{{$grade->grade}}</option>
  @endforeach
 @endif
@@ -138,8 +116,8 @@
      <th>Semester : </th>
    <td><select name="semesterId" id="semesterId" class="form-control">
       <option value="0" selected>Select Semester : </option>
-     @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-       @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
+     @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get())>0)
+       @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get()) as  $semester)
         <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
        @endforeach
      @endif
@@ -202,7 +180,7 @@
                         <br>
 
                         Subjects<br>
-              @if(count($subjects = \App\Models\Subject::where('subjects.batchId','=',$currentBatchId)->get())>0)
+              @if(count($subjects = \App\Models\Subject::where('subjects.batchId','=',1)->get())>0)
                 <table class="table">
                   <thead>
                     <tr>
@@ -211,13 +189,13 @@
                       <th>Semester : </th>
                       <th>View List</th>
                     </tr>
-                  @foreach(($subjects = \App\Models\Subject::where('subjects.batchId','=',$currentBatchId)
+                  @foreach(($subjects = \App\Models\Subject::where('subjects.batchId','=',1)
                     ->join('semesters','semesters.semesterId','=','subjects.semesterId')
                     ->join('grades','grades.gradeId','=','subjects.subjectGrade')
                     ->join('departments','departments.departmentId','=','subjects.departmentId')
                     ->orderBy('gradeId','DESC')
                     ->orderBy('semesters.semesterId','ASC')
-                    ->groupBy('departmentId')
+                    <!-- ->groupBy('departmentId') -->
                     ->select('semesters.semesterId AS semesterId',
                     'semesters.semesterName AS semesterName',
                     'departments.departmentId AS departmentId',
@@ -343,8 +321,8 @@
            </select>
            <h2>Semester : </h2><select name="semesterId" class="form-control" id="subjectSemesterUpdate">
               <option value="0">Select Semester : </option>
-             @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-               @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
+             @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get())>0)
+               @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get()) as  $semester)
                 <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
                @endforeach
              @endif
