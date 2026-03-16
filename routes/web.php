@@ -209,7 +209,7 @@ Route::get('/loginpage', function () {
 })->name('loginpage');
 
 
-Route::get('/registerpage', function () {
+Route::get('register', function () {
     return view('auth.register');
 })->name('registerpage');
 
