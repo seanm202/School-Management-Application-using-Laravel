@@ -28,7 +28,7 @@
   <br>
   <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button> @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
             @php
                 Session::forget('success');
@@ -38,7 +38,7 @@
         </h2>
         @if ($errors->any())
            <div class="alert alert-danger">
-             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+             <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
                <ul>
                    @foreach ($errors->all() as $error)
                        <li>{{ $error }}</li>
@@ -109,20 +109,20 @@
 <!--
 
  -->
- <div class="modal fade" id="createTeachersForSubjects">
+ <div class="modal fade" id="createTeachersForSubjects" tabindex="-1">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Details</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
 
-         <form action="{{route('SubjectTeacherForEachSections.TeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="createTeacherForSubject" id="createTeacherForSubject">
+         <form action="{{route('TeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="createTeacherForSubject" id="createTeacherForSubject">
          @csrf
             <div id="gradeForAllotting"></div>
             <div id="sectionForAllotting"></div>
@@ -180,14 +180,14 @@
         @endif
             <br>{{Form::hidden('classRoomId',null,array('id'=>'classRoomDetailId'))}}
             <br><button type="button" id="buttonForCreateTeacherForSubject" class="btn btn-primary form-control">Submit</button>
-              {{Form::close()}}<br>
+              </form><br>
 
 
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
 
       </div>
@@ -214,7 +214,9 @@
                             <th>Grade</th>
                             <th>View</th>
                           </tr>
-                          @foreach(($classRoomss=\App\Models\classRoom::join('sections','sections.sectionId','=','class_rooms.section')
+                        </thead>
+                        <tbody>
+                          @foreach(($classRooms=\App\Models\classRoom::join('sections','sections.sectionId','=','class_rooms.section')
                           ->join('grades','grades.gradeId','=','class_rooms.grade')
                           ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                           ->select('class_rooms.classroomDetailId AS classroomDetailId',
@@ -234,7 +236,7 @@
                             </tr>
 
                           @endforeach
-                          </thead>
+                          </tbody>
                         </table>
          @else
             <h3 style="color:red;">List is empty!</h3>
@@ -287,14 +289,14 @@
 
  });
  </script>
- <div class="modal fade" id="classRoomAssigned">
+ <div class="modal fade" id="classRoomAssigned" tabindex="-1">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Details</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
@@ -310,7 +312,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
 
       </div>
@@ -384,7 +386,7 @@
 
                                       <td>{{$SubjectTeacherForEachSection->subjectName}}</td>
                                       <td>{{$SubjectTeacherForEachSection->subjectCode}}</td>
-                                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateTeacherForSubject{{$classRoom->classroomDetailId}}">Update</button></td>
+                                        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateTeacherForSubject{{$classRoom->classroomDetailId}}">Update</button></td>
 
 
                                       <div class="modal fade" id="updateTeacherForSubject{{$classRoom->classroomDetailId}}">
@@ -394,13 +396,13 @@
                                              <!-- Modal Header -->
                                              <div class="modal-header">
                                                <h4 class="modal-title">Details</h4>
-                                               <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                               <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                                              </div>
 
                                              <!-- Modal body -->
                                              <div class="modal-body">
 
-                                                 <form action="{{route('SubjectTeacherForEachSections.updateTeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="editTeacherForSubject" id="editTeacherForSubject">
+                                                 <form action="{{route('updateTeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="editTeacherForSubject" id="editTeacherForSubject">
                                                  {{ csrf_field() }}{{ method_field('POST') }}
                                                  {{Form::label('teacher','Teacher : ')}}
                                                  <input type="hidden" name="subjectForSectionId" value="{{$SubjectTeacherForEachSection->subjectForSectionId}}"></input>
@@ -415,24 +417,24 @@
                                                  {{Form::hidden('subjectId',$SubjectTeacherForEachSection->subjectId)}}
                                                  {{Form::hidden('classroomId',$SubjectTeacherForEachSection->classroomId)}}{{Form::hidden('subjectForSectionId',$SubjectTeacherForEachSection->subjectForSectionId,array('id'=>'subjectForSectionId'))}}
                                                  <br><button type="submit" class="btn btn-primary form-control">Update</button>
-                                                   {{Form::close()}}<br>
+                                                 </form><br>
 
 
                                              </div>
 
                                              <!-- Modal footer -->
                                              <div class="modal-footer">
-                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                              </div>
 
                                            </div>
                                          </div>
                                         </div>
-                                        <form action="{{route('SubjectTeacherForEachSections.deleteEntryTeacher')}}" method="POST" enctype="multipart/form-data" name="deleteEntryTeacher" id="deleteEntryTeacher">
+                                        <form action="{{route('deleteEntryTeacher')}}" method="POST" enctype="multipart/form-data" name="deleteEntryTeacher" id="deleteEntryTeacher">
                                           @csrf
                                           {{Form::hidden('subjectForSectionId',$SubjectTeacherForEachSection->subjectForSectionId,array('id'=>'subjectForSectionId'))}}
 
-                                        <td><button type="submit" class="btn btn-primary form-control">Delete</button></td>{{Form::close()}}
+                                        <td><button type="submit" class="btn btn-primary form-control">Delete</button></form></td>
                                         </tr>
                               @endforeach
                             </thead>
@@ -452,8 +454,6 @@
 
        -->
 
-       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
        <script src="{{ asset('js/Admin/subjectTeachersForEachSection.js') }}" defer></script>
 
 </x-app-layout>
