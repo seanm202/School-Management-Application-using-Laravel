@@ -195,7 +195,20 @@
                     ->join('departments','departments.departmentId','=','subjects.departmentId')
                     ->orderBy('gradeId','DESC')
                     ->orderBy('semesters.semesterId','ASC')
-                    <!-- ->groupBy('departmentId') -->
+                    ->groupBy(
+    'semesters.semesterId',
+    'semesters.semesterName',
+    'departments.departmentId',
+    'departments.departmentName',
+    'grades.gradeId',
+    'grades.grade',
+    'subjects.subjectId',
+    'subjects.subjectName',
+    'subjects.subjectMaxMarks',
+    'subjects.subjectTextName',
+    'subjects.subjectCode',
+    'subjects.torlab'
+)
                     ->select('semesters.semesterId AS semesterId',
                     'semesters.semesterName AS semesterName',
                     'departments.departmentId AS departmentId',
