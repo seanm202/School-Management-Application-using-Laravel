@@ -1,3 +1,16 @@
+.btn-primary {
+    background-color: #BD3C3C !important;
+    border-color: #BD3C3C !important;
+    color: white;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #BD3C3C !important;
+    border-color: #BD3C3C !important;
+    color: white;
+}
 .updateDayDetails {
     display: flex;
     align-items: center;
