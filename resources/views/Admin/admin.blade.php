@@ -167,7 +167,7 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </tr>
                     </thead>
                   </table>
-                      <button type="button" id="addAdminButton" class="btn btn-primary form-control form-control">Save</button>
+                      <button type="button" id="addAdminButton" class="btn btn-primary">Save</button>
 
                                         {{Form::close()}}
                 </div>
