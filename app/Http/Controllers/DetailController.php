@@ -70,10 +70,8 @@ $user->detailsId =$detailsId;
 $user->save();
 return;
      }
-    public function store(Request $request)
+    public function storeDetails(Request $request)
     {  $validated = $request->validate([
-
-              'salutation' => ['required'],
               'firstName' => ['required'],
               'lastName' => ['required'],
               'age' => ['required', 'numeric'],
