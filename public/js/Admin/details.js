@@ -18,6 +18,7 @@ alert('l');
             processData: false,
             success:function(response)
             {
+                alert("Success");
             },
             error: function(response) {
             }
@@ -45,6 +46,7 @@ alert('l');
             processData: false,
             success:function(response)
             {
+                alert("Success");
             },
             error: function(response) {
             }
@@ -72,6 +74,7 @@ alert('l');
             processData: false,
             success:function(response)
             {
+                alert("Success");
             },
             error: function(response) {
             }
@@ -97,6 +100,7 @@ alert('l');
             processData: false,
             success:function(response)
             {
+                alert("Success");
             },
             error: function(response) {
             }
