@@ -79,7 +79,7 @@ Add students
                  <td>{{Form::text('email',NULL,array('placeholder'=>'Enter Email Id','class'=>'form-control','id'=>'email'))}} </td></tr>
                  <tr>
                    <th>Phone</th>
-                 <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','class'=>'form-control','id'=>'phone'))}} </td></tr>{{Form::hidden('password',"abcd1234")}}
+                 <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','class'=>'form-control','id'=>'phone'))}} </td></tr>{{Form::hidden('password','abcd1234")}}
                    <tr>
                    <th>Age</th>
                  <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','class'=>'form-control','id'=>'age'))}}</td></tr>
