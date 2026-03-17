@@ -64,11 +64,11 @@
                           @endphp
                       </div>
                       @endif
-                @if(count($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                @if(count($att = \App\Models\Attendence::where('attendences.batchId','=',1)
                       ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get())==NULL)
-                    @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                    @foreach(($att = \App\Models\Attendence::where('attendences.batchId','=',1)
                       ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
-                      <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">
+                      <form action="{{route('markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut','Present')}}{{Form::radio('inOrOut',1,array('class'=>'form-control'))}}
                         <br>
@@ -79,11 +79,11 @@
                         <button type="submit" class="btn btn-primary form-control">Mark Attendance</button>
                         {{ Form::close() }}
                     @endforeach
-                @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                @elseif(($att = \App\Models\Attendence::where('attendences.batchId','=',1)
                       ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())->yes_or_no == 0)
-                     @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                     @foreach(($att = \App\Models\Attendence::where('attendences.batchId','=',1)
                       ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
-                      <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">
+                      <form action="{{route('markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut','Present')}}{{Form::radio('inOrOut',1)}}
                         {{Form::hidden('userRole',2,array('class'=>'form-control'))}}
