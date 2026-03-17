@@ -117,7 +117,7 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <form action="{{route('store')}}" method="POST" name="addDetailsToNewUser" id="addDetailsToNewUser">
+                                    <form action="{{route('storeDetails')}}" method="POST" name="addDetailsToNewUser" id="addDetailsToNewUser">
                                     {{ csrf_field() }}{{ method_field('POST') }}
                                       <table class="table">
                                         <tr>
