@@ -6,7 +6,7 @@ $(document).ready(function(){
 
     $(form).on('submit', function(event){
         event.preventDefault();
-        var url = $(this).attr('data-action');
+        var url = $(this).attr('action');
 
         $.ajax({
              headers: {
@@ -38,7 +38,7 @@ $(document).ready(function(){
 
     $(form).on('submit', function(event){
         event.preventDefault();
-        var url = $(this).attr('data-action');
+        var url = $(this).attr('action');
 
         $.ajax({
              headers: {
