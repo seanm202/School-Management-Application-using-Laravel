@@ -93,7 +93,7 @@
                           <td>{{$user->name}} </td>
                           <td>{{$user->age}} </td>
                           <td>{{$user->email}}</td>
-                          <td><button type="button" class="btn btn-primary form-control form-control" data-toggle="modal" data-target="#exampleModalLongNewUserUserId{{$user->userId}}">
+                          <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongNewUserUserId{{$user->userId}}">
                               Add Details
                             </button></td>
 
