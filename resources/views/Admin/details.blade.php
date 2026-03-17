@@ -80,7 +80,7 @@
                           <table class="table">
                             <thead>
                               <tr>
-                                <th>Salutation</th>
+                                <!-- <th>Salutation</th> -->
                                 <th>Name</th>
                                 <th>Age</th>
                                 <th>Email</th>
@@ -89,7 +89,7 @@
                             </thead>
                             <tbody>
                           <tr>
-                            <td>{{$user->sal}}</td>
+                            <!-- <td>{{$user->sal}}</td> -->
                           <td>{{$user->name}} </td>
                           <td>{{$user->age}} </td>
                           <td>{{$user->email}}</td>
@@ -121,14 +121,14 @@
                                     {{ csrf_field() }}{{ method_field('POST') }}
                                       <table class="table">
                                         <tr>
-                                          <th>Salutation</th>
-                                          <td>
+                                          <!-- <th>Salutation</th> -->
+                                          <!-- <td>
                                         <select name="salutation">
                                            <option value="Mr./Ms." selected>Mr./Ms.</option>
                                              <option value="Mr.">Mr.</option>
                                              <option value="Ms.">Ms.</option>
                                         </select>
-                                      </td>
+                                      </td> -->
                                     </tr>
                                         <tr><th>First name</th>{{Form::hidden('userId',$user->userId)}}
                                       <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
@@ -246,7 +246,7 @@
                                        <form action="{{route('updateAdminDetails')}}" method="POST" name="createOrUpdateAdminDetails" id="createOrUpdateAdminDetails">
                                        {{ csrf_field() }}{{ method_field('POST') }}
                                        {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
-                                       <tr>
+                                       <!-- <tr>
                                          <th>Salutation</th>
                                        <td>
                                        <select name="salutation">
@@ -262,7 +262,7 @@
                                             <option value="Ms.">Ms.</option>
                                           @endif
                                        </select></td></tr>
-                                       <tr>
+                                       <tr> -->
                                          <th>First Name</th>
                                          <td>{{Form::text('firstName',$admin->firstname,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                               </tr>
@@ -431,7 +431,7 @@ alert(inModalFirstName+inModalLastName);
           <table>
                           <thead>
 
-                            <tr>
+                            <!-- <tr>
                               <th>Salutation</th>
                               <td>
                               <select name="salutation" id="inModalSal">
@@ -439,7 +439,7 @@ alert(inModalFirstName+inModalLastName);
                                    <option value="Mr.">Mr.</option>
                                    <option value="Ms.">Ms.</option>
                               </select></td>
-                            </tr>
+                            </tr> -->
                             <tr><th>First name</th>
                             <td>{{Form::text('firstName',null,array('placeholder'=>'Enter first name','id'=>'inModalFirstName','class'=>'form-control'))}} </td>
                           </tr>
@@ -727,7 +727,7 @@ alert(inModalFirstName+inModalLastName);
                                     <table class="table">
                                       <thead>
 
-                                        <tr>
+                                        <!-- <tr>
                                           <th>Salutation</th>
                                           <td>
                                           <select name="salutation">
@@ -742,7 +742,7 @@ alert(inModalFirstName+inModalLastName);
                                                <option value="Mr.">Mr.</option>
                                                <option value="Ms.">Ms.</option>
                                              @endif
-                                          </select></td></tr>
+                                          </select></td></tr> -->
                                           <tr><th>First Name</th>
                                         <td>{{Form::text('firstName',$student->firstName,array('placeholder'=>'Enter first name','class'=>'form-control','id'=>'firstName'))}}
                                         {{Form::hidden('detailId',$student->detailId)}} </td>{{Form::hidden('userId',$student->userId,array('id'=>'userId'))}}
