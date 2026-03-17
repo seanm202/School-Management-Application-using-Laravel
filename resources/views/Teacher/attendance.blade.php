@@ -60,9 +60,9 @@
                         @endphp
                     </div>
                     @endif
-                    @if(count($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
-                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
-                                                  ->where('daily_teacher_allocation.date',date('Y-m-d'))
+                    @if(count($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_Teacher_Allocation.batchId','=',1)
+                                                  ->where('daily_Teacher_Allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                                                  ->where('daily_Teacher_Allocation.date',date('Y-m-d'))
                                                   ->join('class_rooms','class_rooms.classroomDetailId','=','daily_Teacher_Allocation.classRoomId')
                                                   ->join('sections','sections.sectionId','=','class_rooms.section')
                                                   ->join('grades','grades.gradeId','=','class_rooms.grade')
@@ -105,9 +105,9 @@
                     <tbody>
 
 
-                    @foreach($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
-                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
-                                                  ->where('daily_teacher_allocation.date',date('Y-m-d'))
+                    @foreach($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_Teacher_Allocation.batchId','=',1)
+                                                  ->where('daily_Teacher_Allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                                                  ->where('daily_Teacher_Allocation.date',date('Y-m-d'))
                                                   ->join('class_rooms','class_rooms.classroomDetailId','=','daily_Teacher_Allocation.classRoomId')
                                                   ->join('sections','sections.sectionId','=','class_rooms.section')
                                                   ->join('grades','grades.gradeId','=','class_rooms.grade')
@@ -153,14 +153,14 @@
                                                       {{Form::hidden('teacherId',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)}}
                                                       {{Form::hidden('departmentId',$classRoomsThatITeach->departmentId)}}
 
-                                                        @if(count($dayCreated=\App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
-                                                                                      ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
-                                                                                      ->where('daily_teacher_allocation.classRoomId','=',$classRoomsThatITeach->classRoomId)
-                                                                                      ->where('daily_teacher_allocation.subjectId','=',$classRoomsThatITeach->subjectId)
-                                                                                      ->where('daily_teacher_allocation.dayId','=',$classRoomsThatITeach->dayId)
-                                                                                      ->where('daily_teacher_allocation.hourId','=',$classRoomsThatITeach->hourId)
-                                                                                      ->where('daily_teacher_allocation.date','=',date('Y-m-d'))
-                                                                                      ->where('daily_teacher_allocation.status','=',2)
+                                                        @if(count($dayCreated=\App\Models\DailyTeacherAllocation::where('daily_Teacher_Allocation.batchId','=',1)
+                                                                                      ->where('daily_Teacher_Allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                                                                                      ->where('daily_Teacher_Allocation.classRoomId','=',$classRoomsThatITeach->classRoomId)
+                                                                                      ->where('daily_Teacher_Allocation.subjectId','=',$classRoomsThatITeach->subjectId)
+                                                                                      ->where('daily_Teacher_Allocation.dayId','=',$classRoomsThatITeach->dayId)
+                                                                                      ->where('daily_Teacher_Allocation.hourId','=',$classRoomsThatITeach->hourId)
+                                                                                      ->where('daily_Teacher_Allocation.date','=',date('Y-m-d'))
+                                                                                      ->where('daily_Teacher_Allocation.status','=',2)
                                                                                       ->get())>0)
                                                             <td>                          <input type="checkbox" name="createClassAttendanceTable" value="1" checked disabled></input>
                                                           </td>
@@ -173,7 +173,7 @@
                                                     {{Form::close()}}
                                                     <td>  <form action="{{route('deleteTodaysAttendenceForAllStudentsByTeacher')}}" method="POST" name="deleteTodaysAttendenceForAllStudentsByTeacher" id="deleteTodaysAttendenceForAllStudentsByTeacher">
                                                       {{ csrf_field() }}{{ method_field('POST') }}{{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}
-                                                    </td><input type="hidden" name="daily_teacher_allocationIdThis" value="{{$classRoomsThatITeach->dailyTeacherAllocationId}}"></input>
+                                                    </td><input type="hidden" name="daily_Teacher_AllocationIdThis" value="{{$classRoomsThatITeach->dailyTeacherAllocationId}}"></input>
                                                     <td><button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}</td>
                                                   </tr>
 
@@ -193,47 +193,47 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-              @if(count($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
-                                                ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+              @if(count($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_Teacher_Allocation.batchId','=',1)
+                                                ->where('daily_Teacher_Allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                                 ->where('batches.status','=',1)
-                                                ->where('daily_teacher_allocation.date','=',date('Y-m-d'))
-                                                ->join('class_rooms','class_rooms.classroomDetailId','=','daily_teacher_allocation.classRoomId')
+                                                ->where('daily_Teacher_Allocation.date','=',date('Y-m-d'))
+                                                ->join('class_rooms','class_rooms.classroomDetailId','=','daily_Teacher_Allocation.classRoomId')
                                                 ->join('sections','sections.sectionId','=','class_rooms.section')
                                                 ->join('grades','grades.gradeId','=','class_rooms.grade')
-                                                ->join('batches','batches.batchId','=','daily_teacher_allocation.batchId')
+                                                ->join('batches','batches.batchId','=','daily_Teacher_Allocation.batchId')
                                                 ->join('semesters','semesters.semesterId','class_rooms.semester')
-                                                ->join('subjects','subjects.subjectId','=','daily_teacher_allocation.subjectId')
+                                                ->join('subjects','subjects.subjectId','=','daily_Teacher_Allocation.subjectId')
                                                 ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                                                 ->select('grades.grade AS grade',
                                                 'sections.sectionName AS sectionName',
                                                 'semesters.semesterName AS semesterName',
                                                 'departments.departmentName AS departmentName',
                                                 'subjects.subjectName AS subjectName',
-                                                'daily_teacher_allocation.classRoomId AS classRoomId',
-                                                'daily_teacher_allocation.daily_Teacher_AllocationId  AS daily_Teacher_AllocationId',
+                                                'daily_Teacher_Allocation.classRoomId AS classRoomId',
+                                                'daily_Teacher_Allocation.daily_Teacher_AllocationId  AS daily_Teacher_AllocationId',
                                                 'batches.batchName AS batchName',
                                                 'batches.batchStartingYear AS batcheStartingYear',
                                                 'batches.batchEndingYear  AS batchEndingYear',
                                                 )->get())>0)
 
-                    @foreach($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
-                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                    @foreach($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_Teacher_Allocation.batchId','=',1)
+                                                  ->where('daily_Teacher_Allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                                   ->where('batches.status','=',1)
-                                                  ->where('daily_teacher_allocation.date','=',date('Y-m-d'))
-                                                  ->join('class_rooms','class_rooms.classroomDetailId','=','daily_teacher_allocation.classRoomId')
+                                                  ->where('daily_Teacher_Allocation.date','=',date('Y-m-d'))
+                                                  ->join('class_rooms','class_rooms.classroomDetailId','=','daily_Teacher_Allocation.classRoomId')
                                                   ->join('sections','sections.sectionId','=','class_rooms.section')
                                                   ->join('grades','grades.gradeId','=','class_rooms.grade')
-                                                  ->join('batches','batches.batchId','=','daily_teacher_allocation.batchId')
+                                                  ->join('batches','batches.batchId','=','daily_Teacher_Allocation.batchId')
                                                   ->join('semesters','semesters.semesterId','class_rooms.semester')
-                                                  ->join('subjects','subjects.subjectId','=','daily_teacher_allocation.subjectId')
+                                                  ->join('subjects','subjects.subjectId','=','daily_Teacher_Allocation.subjectId')
                                                   ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                                                   ->select('grades.grade AS grade',
                                                   'sections.sectionName AS sectionName',
                                                   'semesters.semesterName AS semesterName',
                                                   'departments.departmentName AS departmentName',
                                                   'subjects.subjectName AS subjectName',
-                                                  'daily_teacher_allocation.classRoomId AS classRoomId',
-                                                  'daily_teacher_allocation.daily_Teacher_AllocationId  AS daily_Teacher_AllocationId',
+                                                  'daily_Teacher_Allocation.classRoomId AS classRoomId',
+                                                  'daily_Teacher_Allocation.daily_Teacher_AllocationId  AS daily_Teacher_AllocationId',
                                                   'batches.batchName AS batchName',
                                                   'batches.batchStartingYear AS batcheStartingYear',
                                                   'batches.batchEndingYear  AS batchEndingYear',
