@@ -62,7 +62,7 @@ Add students
         </div>
         @endif
 
-               <form data-action="{{route('detail.createStudentTeacher')}}" method="POST" name="formIdNow" id="formIdNow">
+               <form data-action="{{route('createStudentTeacher')}}" method="POST" name="formIdNow" id="formIdNow">
               {{ csrf_field() }}{{ method_field('POST') }}
                  <table class="table">
                <thead>
@@ -161,7 +161,7 @@ Edit student details
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                  <div class="p-6 text-gray-900">
                    <h2>Add student Marks</h2>
-                   @if(count(($studentDetails = \App\Models\student::where('students.batchId','=',$currentBatchId)
+                   @if(count(($studentDetails = \App\Models\Student::where('students.batchId','=',1)
                                  ->join('details','details.detailId','=','students.studentDetailsId')
                                  ->join('semesters','semesters.semesterId','=','students.studentSemester')
                                  ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
@@ -172,7 +172,7 @@ Edit student details
                                  ->join('sections','sections.sectionId','=','class_rooms.section')
                                  ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.classRoomId','=','class_rooms.classroomDetailId')
                                  ->join('teachers','teachers.teacherId','=','subject_teacher_for_each_sections.teacherId')
-                                 ->where('teachers.teacherId','=',(\App\Models\teacher::where('teachers.userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                                 ->where('teachers.teacherId','=',(\App\Models\Teacher::where('teachers.userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                  ->select('student_marks.marks AS marks',
                                  'semesters.semesterName AS semesterName',
                                  'details.firstname AS firstName',
@@ -197,7 +197,7 @@ Edit student details
                          <th>View Details</th>
                        </tr>
 
-               @foreach(($studentDetails = \App\Models\student::where('students.batchId','=',$currentBatchId)
+               @foreach(($studentDetails = \App\Models\Student::where('students.batchId','=',1)
                              ->join('details','details.detailId','=','students.studentDetailsId')
                              ->join('semesters','semesters.semesterId','=','students.studentSemester')
                              ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
@@ -207,7 +207,7 @@ Edit student details
                              ->join('sections','sections.sectionId','=','class_rooms.section')
                              ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.classRoomId','=','class_rooms.classroomDetailId')
                              ->join('teachers','teachers.teacherId','=','subject_teacher_for_each_sections.teacherId')
-                             ->where('teachers.teacherId','=',(\App\Models\teacher::where('teachers.userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                             ->where('teachers.teacherId','=',(\App\Models\Teacher::where('teachers.userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                              ->select('semesters.semesterName AS semesterName',
                              'details.firstname AS firstName',
                              'students.studentDepartmentId AS studentDepartmentId',
@@ -266,13 +266,13 @@ Edit student details
                                  </tr>
                                </thead>
                                  <tbody>
-                                   <form data-action="{{route('studentMarks.updateMarksTeacher',['studentMarks'=>$studentDetail->student_marksId])}}" method="POST" name="updateMarksTeacher" id="updateMarksTeacher">
+                                   <form data-action="{{route('updateMarksTeacher',['studentMarks'=>$studentDetail->student_marksId])}}" method="POST" name="updateMarksTeacher" id="updateMarksTeacher">
                                    {{ csrf_field() }}{{ method_field('POST')}}
-                               @foreach(($studentMarks = \App\Models\studentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
+                               @foreach(($studentMarks = \App\Models\StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
                                                  ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.classRoomId','=','student_marks.classRoomId')
                                                  ->join('teachers','teachers.teacherId','=','subject_teacher_for_each_sections.teacherId')
                                                  ->where('teachers.teacherId','=',$studentDetail->teacherId)
-                                                 ->where('student_marks.batchId','=',$currentBatchId)
+                                                 ->where('student_marks.batchId','=',1)
                                                  ->where('student_marks.studentId','=',$studentDetail->studentId)
                                                  ->where('subjects.semesterId','=',$studentDetail->semesterId)
                                                  ->where('subjects.departmentId','=',$studentDetail->studentDepartmentId)
