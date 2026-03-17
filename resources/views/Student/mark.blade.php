@@ -53,7 +53,7 @@
             @endphp
         </div>
         @endif
-                @if(count(($subjectMarks=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
+                @if(count(($subjectMarks=\App\Models\StudentMarks::where('student_marks.studentId','=',(\App\Models\Student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
                                                           ->where('student_marks.batchId','=',$currentBatchId)
                                                           ->where('users.userId','=',Auth::user()->userId)
                                                           ->where('students.status','=',1)
@@ -82,7 +82,7 @@
                                                           'details.firstname AS firstName'
                                                           )->get()
                                                           ))>0)
-                                                          @foreach(($subjectMarks=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
+                                                          @foreach(($subjectMarks=\App\Models\StudentMarks::where('student_marks.studentId','=',(\App\Models\Student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
                                                               ->where('student_marks.batchId','=',$currentBatchId)
                                                               ->where('users.userId','=',Auth::user()->userId)
                                                               ->where('students.status','=',1)
@@ -134,7 +134,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     View Marks of the previous academic years
-                @if(count(($studentMarks=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
+                @if(count(($studentMarks=\App\Models\StudentMarks::where('student_marks.studentId','=',(\App\Models\Student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
                                                           ->where('student_marks.batchId','=',$currentBatchId)
                                                           ->where('users.userId','=',Auth::user()->userId)
                                                           ->join('class_rooms','class_rooms.classroomDetailId','=','student_marks.classRoomId')
@@ -164,7 +164,7 @@
                                                           'batches.batchName AS batchName '
                                                           )->get()
                                                           ))>0)
-                    @foreach(($studentMarks=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
+                    @foreach(($studentMarks=\App\Models\StudentMarks::where('student_marks.studentId','=',(\App\Models\Student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
                                                               ->where('student_marks.batchId','=',$currentBatchId)
                                                               ->where('users.userId','=',Auth::user()->userId)
                                                               ->join('class_rooms','class_rooms.classroomDetailId','=','student_marks.classRoomId')
@@ -223,7 +223,7 @@ Select marks of chosen year
        </div>
        <div class="modal-body">
 
-         @foreach(($subjectMarks=\App\Models\studentMarks::where('student_marks.studentId','=',(\App\Models\student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
+         @foreach(($subjectMarks=\App\Models\StudentMarks::where('student_marks.studentId','=',(\App\Models\Student::where('userId','=',Auth::user()->userId)->select('studentId')->first())->studentId)
                                                   ->where('student_marks.batchId','=',$currentBatchId)
                                                    ->where('users.userId','=',Auth::user()->userId)
                                                    ->where('students.status','=',1)
