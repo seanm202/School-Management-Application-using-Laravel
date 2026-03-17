@@ -48,7 +48,7 @@
                         @endphp
                     </div>
                     @endif
-                  @foreach(($teacherDetails = \App\Models\detail::where('details.userId','=',Auth::user()->userId)->where('details.roleId','=',2)->where('details.batchId','=',$currentBatchId)
+                  @foreach(($teacherDetails = \App\Models\Detail::where('details.userId','=',Auth::user()->userId)->where('details.roleId','=',2)->where('details.batchId','=',1)
                          ->join('users','users.userId','=','details.userId')
                          ->join('teachers','teachers.userId','=','users.userId')
                          ->select('details.firstname AS firstName',
@@ -69,7 +69,7 @@
                          'details.detailId AS detailId'
                          )
                          ->get()) as  $teacherDetail)
-                         <form action="{{route('detail.updateTeacherDetails')}}" method="POST" name="updateTeacherDetails" id="updateTeacherDetails">
+                         <form action="{{route('updateTeacherDetails')}}" method="POST" name="updateTeacherDetails" id="updateTeacherDetails">
                          {{ csrf_field() }}{{ method_field('POST') }}
                          {{Form::label('firstname','First Name')}}
                           {{Form::hidden('userId',$teacherDetail->userId)}}
