@@ -52,8 +52,8 @@
             @endphp
         </div>
         @endif
-                @if(count($studentDetails = \App\Models\detail::where('details.userId','=',Auth::user()->userId)->where('details.roleId','=',4)
-                       ->where('details.batchId','=',$currentBatchId)
+                @if(count($studentDetails = \App\Models\Detail::where('details.userId','=',Auth::user()->userId)->where('details.roleId','=',4)
+                       ->where('details.batchId','=',1)
                        ->join('users','users.userId','=','details.userId')
                        ->join('students','students.userId','=','users.userId')
                        ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
@@ -82,8 +82,8 @@
                         'class_rooms.classroomDetailId AS classroomId'
                         )
                        ->get())>0)
-                    @foreach(($studentDetails = \App\Models\detail::where('details.userId','=',Auth::user()->userId)->where('details.roleId','=',4)
-                           ->where('details.batchId','=',$currentBatchId)
+                    @foreach(($studentDetails = \App\Models\Detail::where('details.userId','=',Auth::user()->userId)->where('details.roleId','=',4)
+                           ->where('details.batchId','=',1)
                            ->join('users','users.userId','=','details.userId')
                            ->join('students','students.userId','=','users.userId')
                            ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
