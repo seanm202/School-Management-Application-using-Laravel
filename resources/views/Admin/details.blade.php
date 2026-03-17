@@ -856,9 +856,9 @@ alert(inModalFirstName+inModalLastName);
 
 
 
-      <script src="{{ asset('js/filter.js') }}" defer></script>
+      <script src="{{ asset('js/filter.js') }}"></script>
 
-                  <script src="{{ asset('js/Admin/details.js') }}" defer></script>
+                  <script src="{{ asset('js/Admin/details.js') }}"></script>
 
 
 </x-app-layout>
