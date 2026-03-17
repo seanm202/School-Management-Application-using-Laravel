@@ -6,7 +6,6 @@ $(document).ready(function(){
 
     $(form).on('submit', function(event){
         event.preventDefault();
-alert('l');
         var url = $(this).attr('data-action');
 
         $.ajax({
@@ -19,6 +18,7 @@ alert('l');
             processData: false,
             success:function(response)
             {
+                alert("Success");
             },
             error: function(response) {
             }
@@ -35,7 +35,6 @@ $(document).ready(function(){
 
     $(form).on('submit', function(event){
         event.preventDefault();
-alert('l');
         var url = $(this).attr('data-action');
 
         $.ajax({
@@ -48,6 +47,7 @@ alert('l');
             processData: false,
             success:function(response)
             {
+                 alert("Success");
             },
             error: function(response) {
             }
