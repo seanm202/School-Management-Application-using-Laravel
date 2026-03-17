@@ -60,8 +60,8 @@
                         @endphp
                     </div>
                     @endif
-                    @if(count($classRoomsThatITeachs = \App\Models\dailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
-                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                    @if(count($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
+                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                                   ->where('daily_teacher_allocation.date',date('Y-m-d'))
                                                   ->join('class_rooms','class_rooms.classroomDetailId','=','daily_Teacher_Allocation.classRoomId')
                                                   ->join('sections','sections.sectionId','=','class_rooms.section')
@@ -105,8 +105,8 @@
                     <tbody>
 
 
-                    @foreach($classRoomsThatITeachs = \App\Models\dailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',$currentBatchId)
-                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                    @foreach($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
+                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                                   ->where('daily_teacher_allocation.date',date('Y-m-d'))
                                                   ->join('class_rooms','class_rooms.classroomDetailId','=','daily_Teacher_Allocation.classRoomId')
                                                   ->join('sections','sections.sectionId','=','class_rooms.section')
@@ -139,7 +139,7 @@
                                                     <td>{{$classRoomsThatITeach->grade}}</tdh>
                                                     <td>{{$classRoomsThatITeach->semesterName}}</td>
                                                     <td>{{$classRoomsThatITeach->sectionName}}</td>
-                                                    <form action="{{route('studentSubjectAttendance.storestudentSubjectAttendance')}}" method="POST" name="createTeacherTimetableForTheParticularHour" id="createTeacherTimetableForTheParticularHour">
+                                                    <form action="{{route('storestudentSubjectAttendance')}}" method="POST" name="createTeacherTimetableForTheParticularHour" id="createTeacherTimetableForTheParticularHour">
                                                     {{ csrf_field() }}{{ method_field('POST') }}
 
                                                     {{Form::hidden('dayId',$classRoomsThatITeach->dayId)}}
@@ -150,11 +150,11 @@
                                                       {{Form::hidden('date',$classRoomsThatITeach->date)}}
                                                       {{Form::hidden('gradeId',$classRoomsThatITeach->gradeId)}}
                                                       {{Form::hidden('dailyTeacherAllocationId',$classRoomsThatITeach->dailyTeacherAllocationId)}}
-                                                      {{Form::hidden('teacherId',(\App\Models\teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)}}
+                                                      {{Form::hidden('teacherId',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)}}
                                                       {{Form::hidden('departmentId',$classRoomsThatITeach->departmentId)}}
 
-                                                        @if(count($dayCreated=\App\Models\dailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',$currentBatchId)
-                                                                                      ->where('daily_teacher_allocation.teacherId','=',(\App\Models\teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                                                        @if(count($dayCreated=\App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
+                                                                                      ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                                                                       ->where('daily_teacher_allocation.classRoomId','=',$classRoomsThatITeach->classRoomId)
                                                                                       ->where('daily_teacher_allocation.subjectId','=',$classRoomsThatITeach->subjectId)
                                                                                       ->where('daily_teacher_allocation.dayId','=',$classRoomsThatITeach->dayId)
@@ -171,7 +171,7 @@
                                                           <td><button type="submit" class="btn btn-primary form-control">Submit</button></input></td>
                                                         @endif
                                                     {{Form::close()}}
-                                                    <td>  <form action="{{route('attendence.deleteTodaysAttendenceForAllStudentsByTeacher')}}" method="POST" name="deleteTodaysAttendenceForAllStudentsByTeacher" id="deleteTodaysAttendenceForAllStudentsByTeacher">
+                                                    <td>  <form action="{{route('deleteTodaysAttendenceForAllStudentsByTeacher')}}" method="POST" name="deleteTodaysAttendenceForAllStudentsByTeacher" id="deleteTodaysAttendenceForAllStudentsByTeacher">
                                                       {{ csrf_field() }}{{ method_field('POST') }}{{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}
                                                     </td><input type="hidden" name="daily_teacher_allocationIdThis" value="{{$classRoomsThatITeach->dailyTeacherAllocationId}}"></input>
                                                     <td><button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}</td>
@@ -193,8 +193,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-              @if(count($classRoomsThatITeachs = \App\Models\dailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',$currentBatchId)
-                                                ->where('daily_teacher_allocation.teacherId','=',(\App\Models\teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+              @if(count($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
+                                                ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                                 ->where('batches.status','=',1)
                                                 ->where('daily_teacher_allocation.date','=',date('Y-m-d'))
                                                 ->join('class_rooms','class_rooms.classroomDetailId','=','daily_teacher_allocation.classRoomId')
@@ -216,8 +216,8 @@
                                                 'batches.batchEndingYear  AS batchEndingYear',
                                                 )->get())>0)
 
-                    @foreach($classRoomsThatITeachs = \App\Models\dailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',$currentBatchId)
-                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
+                    @foreach($classRoomsThatITeachs = \App\Models\DailyTeacherAllocation::where('daily_teacher_allocation.batchId','=',1)
+                                                  ->where('daily_teacher_allocation.teacherId','=',(\App\Models\Teacher::where('userId','=',Auth::user()->userId)->select('teacherId')->first())->teacherId)
                                                   ->where('batches.status','=',1)
                                                   ->where('daily_teacher_allocation.date','=',date('Y-m-d'))
                                                   ->join('class_rooms','class_rooms.classroomDetailId','=','daily_teacher_allocation.classRoomId')
@@ -284,7 +284,7 @@
                                                               <th>Absent</th>
                                                           </tr>
                                                         </thead>
-                                                      @foreach(($students=\App\Models\studentSubjectAttendance::where('student_subject_attendances.batchId','=',$currentBatchId)
+                                                      @foreach(($students=\App\Models\StudentSubjectAttendance::where('student_subject_attendances.batchId','=',1)
                                                                                 ->where('student_subject_attendances.dailyTeacherAllocationId','=',$classRoomsThatITeach->daily_Teacher_AllocationId)
                                                                                 ->join('students','students.studentId','=','student_subject_attendances.studentId')
                                                                                 ->join('details','details.userId','=','students.userId')
@@ -296,7 +296,7 @@
                                                                                 'student_subject_attendances.id AS id'
                                                                                 )
                                                                                 ->get()) as $student)
-                                                                                <form action="{{route('studentSubjectAttendance.updatestudentSubjectAttendance',['studentSubjectAttendance'=>$student->id])}}" method="POST" name="submitClasswiseAttendence" id="submitClasswiseAttendence">
+                                                                                <form action="{{route('updatestudentSubjectAttendance',['studentSubjectAttendance'=>$student->id])}}" method="POST" name="submitClasswiseAttendence" id="submitClasswiseAttendence">
                                                                                 {{ csrf_field() }}
                                                                 @if($student->presentOrAbsent==1)
 
