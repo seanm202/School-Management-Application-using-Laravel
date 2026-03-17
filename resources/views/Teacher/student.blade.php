@@ -62,7 +62,7 @@ Add students
         </div>
         @endif
 
-               <form data-action="{{route('createStudentTeacher')}}" method="POST" name="formIdNow" id="formIdNow">
+               <form action="{{route('createStudentTeacher')}}" method="POST" name="formIdNow" id="formIdNow">
               {{ csrf_field() }}{{ method_field('POST') }}
                  <table class="table">
                <thead>
@@ -266,7 +266,7 @@ Edit student details
                                  </tr>
                                </thead>
                                  <tbody>
-                                   <form data-action="{{route('updateMarksTeacher',['studentMarks'=>$studentDetail->student_marksId])}}" method="POST" name="updateMarksTeacher" id="updateMarksTeacher">
+                                   <form action="{{route('updateMarksTeacher',['studentMarks'=>$studentDetail->student_marksId])}}" method="POST" name="updateMarksTeacher" id="updateMarksTeacher">
                                    {{ csrf_field() }}{{ method_field('POST')}}
                                @foreach(($studentMarks = \App\Models\StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
                                                  ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.classRoomId','=','student_marks.classRoomId')
