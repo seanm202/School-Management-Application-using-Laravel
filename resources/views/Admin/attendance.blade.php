@@ -31,7 +31,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
           {{ __('Attendance') }}
           <br>
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:white;">Menu</button>
 
             @if ($errors->any())
                <div class="alert alert-danger">
