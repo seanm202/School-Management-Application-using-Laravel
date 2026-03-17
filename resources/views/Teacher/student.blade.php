@@ -130,7 +130,7 @@ Add students
                </table>
                <!-- {{Form::submit('Save',array('class'=>'btn btn-primary'))}} -->
   <button type="submit" class="btn btn-primary form-control" >Submit</button>
-                                     {{Form::close()}}
+                                     </form>
              </div>
          </div>
      </div>
@@ -288,7 +288,7 @@ Edit student details
                                @endforeach
                              </tbody>
                            </table>
-                             <button type="submit" class="btn btn-primary form-control" >Submit</button>{{Form::close()}}
+                             <button type="submit" class="btn btn-primary form-control" >Submit</button></form>
                                                                            </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
