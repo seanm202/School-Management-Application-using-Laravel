@@ -172,7 +172,11 @@ $userId=$request->userId;
        \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
       // return redirect()->route('getAdminAllDetails');
       // return Redirect::back();
-      return redirect()->route('AdminDetails',['id'=>'detailsToNewUser'])->with('success', 'User details updated successfully.');
+      // return redirect()->route('AdminDetails',['id'=>'detailsToNewUser'])->with('success', 'User details updated successfully.');
+     return response()->json([
+       'status' => true,
+       'message' => 'User added!'
+       ]);
     }
 
     /**
