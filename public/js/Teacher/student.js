@@ -9,6 +9,9 @@ $(document).ready(function(){
         var url = $(this).attr('data-action');
 
         $.ajax({
+             headers: {
+        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+    },
             url: url,
             method: 'POST',
             data: new FormData(this),
@@ -38,6 +41,9 @@ $(document).ready(function(){
         var url = $(this).attr('data-action');
 
         $.ajax({
+             headers: {
+        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+    },
             url: url,
             method: 'POST',
             data: new FormData(this),
