@@ -121,7 +121,7 @@ Add students
       <th>Status</th>
       <td><select name="statusId" class="form-control">
         @foreach($statuses=\App\Models\Status::where('statusForRoles','=',3) as $status)
-        {{$status->statusName}}
+        <option value="{{$status->statusId}}">{{$status->statusName}}</option>
       @endforeach
     </select>
       </td>
