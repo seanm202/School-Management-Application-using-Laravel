@@ -2,8 +2,9 @@
 <link rel="stylesheet"
 href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-<!-- jQuery (FULL version — only once) -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<!-- jQuery (ONLY ONCE) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Popper -->
@@ -59,6 +60,9 @@ function getBatches(){
         }
     });
 }
+    $(document).ready(function () {
+    getBatches();
+});
 </script>
 <x-app-layout>
     <x-slot name="header">
@@ -909,9 +913,6 @@ Hour creation
           </div>
       </div>
 
-
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-
      <div class="py-12" id="createTheStatus">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -944,16 +945,12 @@ Hour creation
 
      <!-- /#sidebar-wrapper -->
 
-         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
          <script src="{{ asset('js/Admin/admin.js') }}" defer></script>
          <!-- jQuery (FULL version — REQUIRED for AJAX) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Popper (required for Bootstrap 4 modals) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-<!-- Bootstrap 4 JS -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <!-- jQuery Form plugin (you use it) -->
 <script src="https://malsup.github.io/jquery.form.js"></script>
