@@ -508,7 +508,7 @@ let rowsGetSemester = "";
                `;
            });
 
-           $('#tableForSemesterAJAX tbody').html(rowsGetDepartment);                },
+           $('#tableForSemesterAJAX tbody').html(rowsGetSemester);                },
                 error: function(jqXHR, ajaxOptions, thrownError) {
                     alert('Error fetching data');
                     console.log(thrownError);
