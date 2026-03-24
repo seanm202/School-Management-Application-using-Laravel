@@ -14,6 +14,66 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
+<script>
+function getBatches(){
+
+    $.ajax({
+        url: "{{ route('getBatches') }}",
+        method: "GET",
+        dataType: "json",
+
+        success: function(data) {
+
+            console.log(data);
+
+            let rows = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Batch Name</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.forEach(function(batch){
+                rows += `
+                    <tr>
+                        <td>${batch.batchName}</td>
+                        <td>
+                            <button type="button"
+                                class="btn btn-primary form-control"
+                                data-toggle="modal"
+                                data-target="#myModalUpdateBatches"
+                                data-batchid="${batch.batchId}"
+                                data-batch-name="${batch.batchName}"
+                                data-batch-starting-year="${batch.batchStartingYear}"
+                                data-batch-ending-year="${batch.batchEndingYear}"
+                                data-batch-status="${batch.status}">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            rows += `
+                    </tbody>
+                </table>
+            `;
+
+            $('#showBatchesInTable').html(rows);
+        },
+
+        error: function(jqXHR, ajaxOptions, thrownError) {
+            alert('Error fetching data');
+            console.log(thrownError);
+        }
+    });
+}
+</script>
+
 
 <x-app-layout>
     <x-slot name="header">
