@@ -424,7 +424,7 @@ var bookBatchStatus = button.data('batchStatus');
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                       Add Departments
-                      <form action="{{route(storeDepartment')}}" method="POST" name="createDepartment" id="createDepartment">
+                      <form action="{{route('storeDepartment')}}" method="POST" name="createDepartment" id="createDepartment">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('departmentName','Department Name : ')}}
                               {{Form::text('departmentName',NULL,array('placeholder'=>'Enter Department Name : ','class'=>'form-control'))}}<br><br><hr><br>
@@ -899,7 +899,6 @@ Hour creation
 
      <!-- /#sidebar-wrapper -->
 
-         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
          <script src="{{ asset('js/Admin/admin.js') }}" defer></script>
          <!-- jQuery (FULL version — REQUIRED for AJAX) -->
