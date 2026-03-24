@@ -412,7 +412,7 @@ var bookBatchStatus = button.data('batchStatus');
            data.forEach(function(department){
                rowsGetDepartment += `
                    <tr>
-                       <td>${batch.departmentName}</td>
+                       <td>${department.departmentName}</td>
                        <td>
                            <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModalUpdateDepartment" data-department-name="${department.departmentName}"
  data-departmentid="${department.departmentId}">View</button>
