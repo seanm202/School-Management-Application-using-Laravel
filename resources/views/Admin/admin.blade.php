@@ -408,15 +408,6 @@ var bookBatchStatus = button.data('batchStatus');
            console.log(data);
 
            let rowsGetDepartment = `
-               <table class="table">
-                   <thead>
-                       <tr>
-                           <th>Batch Name</th>
-                           <th>View</th>
-                       </tr>
-                   </thead>
-                   <tbody>
-           `;
 
            data.forEach(function(department){
                rowsGetDepartment += `
@@ -429,11 +420,6 @@ var bookBatchStatus = button.data('batchStatus');
                    </tr>
                `;
            });
-
-           rowsGetDepartment += `
-                   </tbody>
-               </table>
-           `;
 
            $('#tableForDepartmentAJAX').html(rowsGetDepartment);
        },
