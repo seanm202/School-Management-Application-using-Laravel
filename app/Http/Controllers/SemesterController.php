@@ -19,7 +19,11 @@ class SemesterController extends Controller
           //
       }
 
-
+public function getSemesterDetailsByAJAX()
+      {
+        $semesters = \App\Models\Semester::all();
+        return response()->json($semesters);
+      }
       public function getSemesterDetails()
       {
         $semesters = \App\Models\Semester::all();
