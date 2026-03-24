@@ -472,24 +472,19 @@ var bookBatchStatus = button.data('batchStatus');
 
  -->
 
+<script>
+        function getSemesters(){
+            $.ajax({
+                url: "{{ route('getSemesters') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+let rowsGetSemester = "";
 
-    <div class="py-12"  id="editTheSemesters">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                      Edit Semesters
-<table class="table">
-     <thead>
-         <tr>
-             <th>Semester Name</th>
-             <th>Update</th>
-         </tr>
-     </thead>
-
-     <tbody>
-         @foreach(\App\Models\Semester::all() as $semester)
-         <tr>
-             <td colspan="2">
+           data.forEach(function(semester){
+               rowsGetSemester += `
+                    <td colspan="2">
                  <form action="{{ route('updatesemester',['semester'=>$semester->semesterId]) }}"
                        method="POST"
                        class="updateSemesterForm d-flex align-items-center gap-2">
@@ -510,13 +505,34 @@ var bookBatchStatus = button.data('batchStatus');
                      </button>
                  </form>
              </td>
+               `;
+           });
+
+           $('#tableForSemesterAJAX tbody').html(rowsGetDepartment);                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
+    <div class="py-12"  id="editTheSemesters">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                     Edit Semesters
+<table class="table"  id="tableForSemesterAJAX">
+     <thead>
+         <tr>
+             <th>Semester Name</th>
+             <th>Update</th>
          </tr>
-         @endforeach
+     </thead>
+
+     <tbody>
+        
      </tbody>
  </table>
-                    @else
-                      <h3 style="color:red;">List is empty<h3>
-                    @endif
                 </div>
             </div>
         </div>
