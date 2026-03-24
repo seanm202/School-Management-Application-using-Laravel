@@ -407,24 +407,14 @@ var bookBatchStatus = button.data('batchStatus');
                success: function(data) {
            console.log(data);
 
-           let rowsGetDepartment = `
-<<<<<<< HEAD
-               <table class="table">
-                   <thead>
-                       <tr>
-                           <th>Batch Name</th>
-                           <th>View</th>
-                       </tr>
-                   </thead>
-                   <tbody>
-           `;
 =======
->>>>>>> ae2c879f6f2f6597804d8b87fdb3e46f4c934c3b
+           let rowsGetDepartment = "";
+>>>>>>> 29b04320910fb9fbc999e0ac9aa855642de2ab27
 
            data.forEach(function(department){
                rowsGetDepartment += `
                    <tr>
-                       <td>${batch.departmentName}</td>
+                       <td>${department.departmentName}</td>
                        <td>
                            <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModalUpdateDepartment" data-department-name="${department.departmentName}"
  data-departmentid="${department.departmentId}">View</button>
@@ -433,15 +423,10 @@ var bookBatchStatus = button.data('batchStatus');
                `;
            });
 
-<<<<<<< HEAD
-           rowsGetDepartment += `
-                   </tbody>
-               </table>
-           `;
-
-=======
->>>>>>> ae2c879f6f2f6597804d8b87fdb3e46f4c934c3b
            $('#tableForDepartmentAJAX').html(rowsGetDepartment);
+=======
+           $('#tableForDepartmentAJAX tbody').html(rowsGetDepartment);
+>>>>>>> 29b04320910fb9fbc999e0ac9aa855642de2ab27
        },
                error: function(jqXHR, ajaxOptions, thrownError) {
                    alert('Error fetching data');
