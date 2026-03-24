@@ -63,6 +63,7 @@ function getBatches(){
     $(document).ready(function () {
     getBatches();
     getDepartments();
+    getSemesters();
 });
 </script>
 <x-app-layout>
@@ -484,18 +485,18 @@ let rowsGetSemester = "";
            data.forEach(function(semester){
                rowsGetSemester += `
                     <td colspan="2">
-                 <form action="{{ route('updatesemester',['semester'=>$semester->semesterId]) }}"
+                 <form action="{{ route('updatesemester',['semester'=>${semester.semesterId}]) }}"
                        method="POST"
                        class="updateSemesterForm d-flex align-items-center gap-2">
                      @csrf
 
                      <input type="hidden"
                             name="semesterId"
-                            value="{{ $semester->semesterId }}">
+                            value="${semester.semesterId}">
 
                      <input type="text"
                             name="semesterName"
-                            value="{{ $semester->semesterName }}"
+                            value="${semester.semesterName}"
                             class="form-control semester-input">
 
                      <button type="button"
