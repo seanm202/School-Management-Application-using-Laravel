@@ -408,6 +408,7 @@ var bookBatchStatus = button.data('batchStatus');
            console.log(data);
 
            let rowsGetDepartment = `
+<<<<<<< HEAD
                <table class="table">
                    <thead>
                        <tr>
@@ -417,6 +418,8 @@ var bookBatchStatus = button.data('batchStatus');
                    </thead>
                    <tbody>
            `;
+=======
+>>>>>>> ae2c879f6f2f6597804d8b87fdb3e46f4c934c3b
 
            data.forEach(function(department){
                rowsGetDepartment += `
@@ -430,11 +433,14 @@ var bookBatchStatus = button.data('batchStatus');
                `;
            });
 
+<<<<<<< HEAD
            rowsGetDepartment += `
                    </tbody>
                </table>
            `;
 
+=======
+>>>>>>> ae2c879f6f2f6597804d8b87fdb3e46f4c934c3b
            $('#tableForDepartmentAJAX').html(rowsGetDepartment);
        },
                error: function(jqXHR, ajaxOptions, thrownError) {

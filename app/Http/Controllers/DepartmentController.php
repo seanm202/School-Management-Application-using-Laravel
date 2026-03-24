@@ -35,7 +35,11 @@ class DepartmentController extends Controller
     {
         //
     }
+<<<<<<< HEAD
     public function getDepartmentDetailsByAJAX()
+=======
+public function getDepartmentDetailsByAJAX()
+>>>>>>> ae2c879f6f2f6597804d8b87fdb3e46f4c934c3b
         {
           $departments = \App\Models\Department::all();
           return response()->json($departments);
