@@ -153,7 +153,7 @@ function getBatches(){
         </div>
         @endif
                   <form method="POST"
-      action="{{ route('detail.createAdmin') }}" enctype="multipart/form-data" name="FormAddAdminAdmin" id="FormAddAdminAdmin">
+      action="{{ route('createAdmin') }}" enctype="multipart/form-data" name="FormAddAdminAdmin" id="FormAddAdminAdmin">
                   @csrf
                     <table class="table">
                   <thead>
