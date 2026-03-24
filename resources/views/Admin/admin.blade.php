@@ -62,6 +62,7 @@ function getBatches(){
 }
     $(document).ready(function () {
     getBatches();
+    getDepartments();
 });
 </script>
 <x-app-layout>
@@ -238,48 +239,9 @@ function getBatches(){
                <th>View</th>
                </thead>
                <tbody>
-               <!-- @foreach(($batches = \App\Models\Batch::all()) as $batch)
-                  @if($batch->status!=1)
-                     <tr>{{Form::hidden('currentBatchId',$batch->batchId,array('id'=>'batchId'))}}
-                       <td>{{$batch->batchName}}</td>
-                   <td><button type="button"
-    class="btn btn-primary form-control"
-    data-toggle="modal"
-    data-target="#myModalUpdateBatches"
-    data-batchid="{{$batch->batchId}}"
-    data-batch-name="{{$batch->batchName}}"
-    data-batch-starting-year="{{$batch->batchStartingYear}}"
-    data-batch-ending-year="{{$batch->batchEndingYear}}"
-  data-batch-status="{{$batch->status}}">
-    View
-</button></td>
-                   </tr>
-                @else
-                 <tr style="background:green;color:white;">
-                   <td>{{$batch->batchName}}</td>
-                   <td><button type="button"
-    class="btn btn-primary form-control"
-    data-toggle="modal"
-    data-target="#myModalUpdateBatches"
-    data-batchid="{{$batch->batchId}}"
-    data-batch-name="{{$batch->batchName}}"
-    data-batch-starting-year="{{$batch->batchStartingYear}}"
-    data-batch-ending-year="{{$batch->batchEndingYear}}"
-  data-batch-status="{{$batch->status}}">
-    View
-</button></td>
-                  </tr>
-                @endif
 
-
-              @endforeach -->
              </tbody>
               </table>
-
-          <!-- @else
-            <h3 style="color:red;">List is empty<h3>
-          @endif -->
-
              </div>
          </div>
      </div>
@@ -436,13 +398,58 @@ var bookBatchStatus = button.data('batchStatus');
     <!--
 
    -->
+   <script>
+       function getDepartments(){
+           $.ajax({
+               url: "{{ route('getDepartments') }}", // Use the named route
+               method: "GET", // Use GET method for fetching data
+               dataType: "json", // Expect a JSON response
+               success: function(data) {
+           console.log(data);
+
+           let rowsGetDepartment = `
+               <table class="table">
+                   <thead>
+                       <tr>
+                           <th>Batch Name</th>
+                           <th>View</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+           `;
+
+           data.forEach(function(department){
+               rowsGetDepartment += `
+                   <tr>
+                       <td>${batch.departmentName}</td>
+                       <td>
+                           <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModalUpdateDepartment" data-department-name="${department.departmentName}"
+ data-departmentid="${department.departmentId}">View</button>
+                       </td>
+                   </tr>
+               `;
+           });
+
+           rowsGetDepartment += `
+                   </tbody>
+               </table>
+           `;
+
+           $('#tableForDepartmentAJAX').html(rowsGetDepartment);
+       },
+               error: function(jqXHR, ajaxOptions, thrownError) {
+                   alert('Error fetching data');
+                   console.log(thrownError);
+               }
+           });
+       }
+   </script>
     <div class="py-12" id="deleteTheDepartments">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                       Edit / Delete Departments
-                  @if(count($departments = (\App\Models\Department::get()))>0)
-                       <table class="table">
+                   <table class="table" id="tableForDepartmentAJAX">
                          <thead>
                            <tr>
                              <th>Department Name</th>
@@ -450,18 +457,9 @@ var bookBatchStatus = button.data('batchStatus');
                            </tr>
                          </thead>
                          <tbody>
-                        @foreach(($departments = (\App\Models\Department::get())) as $department)
-                          <tr><td>{{$department->departmentName}}</td>
-                            <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModalUpdateDepartment" data-department-name="{{$department->departmentName}}"
-                              data-departmentid="{{$department->departmentId}}">View</button></td>
-                          </tr>
 
-                        @endforeach
                          </tbody>
                        </table>
-                  @else
-                     <h3 style="color:red;">List is empty<h3>
-                  @endif
                 </div>
             </div>
         </div>
@@ -494,9 +492,7 @@ var bookBatchStatus = button.data('batchStatus');
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                       Edit Semesters
-
-                   @if(count(\App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-                   <table class="table">
+<table class="table">
      <thead>
          <tr>
              <th>Semester Name</th>
