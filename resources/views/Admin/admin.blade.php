@@ -180,7 +180,7 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
-              @if(count($batches = \App\Models\batch::all())>0)
+              @if(count($batches = \App\Models\Batch::all())>0)
                Update Batch Details / Delete Batch
                <table class="table" id="showBatchesInTable">
                <thead>
@@ -188,7 +188,7 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                <th>View</th>
                </thead>
                <tbody>
-               <!-- @foreach(($batches = \App\Models\batch::all()) as $batch)
+               <!-- @foreach(($batches = \App\Models\Batch::all()) as $batch)
                   @if($batch->status!=1)
                      <tr>{{Form::hidden('currentBatchId',$batch->batchId,array('id'=>'batchId'))}}
                        <td>{{$batch->batchName}}</td>
@@ -445,7 +445,7 @@ var bookBatchStatus = button.data('batchStatus');
                 <div class="p-6 text-gray-900">
                       Edit Semesters
 
-                   @if(count(\App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
+                   @if(count(\App\Models\Semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
                    <table class="table">
      <thead>
          <tr>
@@ -653,7 +653,7 @@ Hour creation
            <div class="p-6 text-gray-900">
              Edit Hour Name
 
-          @if(count($hours=(\App\Models\hours::all()))>0)
+          @if(count($hours=(\App\Models\Hours::all()))>0)
                <table class="table">
              <thead>
 
@@ -663,7 +663,7 @@ Hour creation
                </tr>
              </thead>
            <tbody>
-               @foreach(($hours=(\App\Models\hours::orderBy('hourStartingTime','asc')->get())) as $hour)
+               @foreach(($hours=(\App\Models\Hours::orderBy('hourStartingTime','asc')->get())) as $hour)
                   <tr><td>{{$hour->hourName}}</td>
                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="{{$hour->hourId}}" data-hour-name="{{$hour->hourName}}" data-hour-starting-time="{{$hour->hourStartingTime}}">View</button></td>
                  </tr>
@@ -777,7 +777,7 @@ Hour creation
        {{Form::hidden('statusId',null,array('id'=>'updateStatusId'))}}
            {{Form::text('statusName',null,array('placeholder'=>'Enter Status Name','class'=>'form-control','id'=>'statusName'))}}
             <select name="roleForStatus" id="roleForStatus" class="form-control">
-            @foreach(($roles=\App\Models\role::all()) as $role)
+            @foreach(($roles=\App\Models\Role::all()) as $role)
                 <option value="{{$role->roleId}}">{{$role->roleName}}</option>
              @endforeach
             </select>
@@ -883,7 +883,7 @@ Hour creation
                        <th>Status for role </th>
                      <td>
                        <select name="roleForStatus" id="roleForStatus" class="form-control">
-                       @foreach(($roles=\App\Models\role::all()) as $role)
+                       @foreach(($roles=\App\Models\Role::all()) as $role)
                         <option value="{{$role->roleId}}">{{$role->roleName}}</option>
                          @endforeach
                        </select>
