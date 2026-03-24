@@ -181,7 +181,7 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
-              <!-- @if(count($batches = \App\Models\batch::all())>0)
+              @if(count($batches = \App\Models\batch::all())>0)
                Update Batch Details / Delete Batch
                <table class="table" id="showBatchesInTable">
                <thead>
@@ -189,7 +189,7 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                <th>View</th>
                </thead>
                <tbody>
-               @foreach(($batches = \App\Models\batch::all()) as $batch)
+               <!-- @foreach(($batches = \App\Models\batch::all()) as $batch)
                   @if($batch->status!=1)
                      <tr>{{Form::hidden('currentBatchId',$batch->batchId,array('id'=>'batchId'))}}
                        <td>{{$batch->batchName}}</td>
@@ -223,9 +223,9 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
                 @endif
 
 
-              @endforeach
+              @endforeach -->
              </tbody>
-              </table> -->
+              </table>
 
           <!-- @else
             <h3 style="color:red;">List is empty<h3>
