@@ -110,6 +110,13 @@ Route::post('showAbsenteesBetweenDays', [AttendenceController::class, 'showAbsen
 
 Route::get('/fetch-batch-data', [BatchController::class, 'getBatchDetailsByAJAX'])->name('getBatches');
 
+Route::get('/fetch-department-data', [DepartmentController::class, 'getDepartmentDetailsByAJAX'])->name('getDepartments');
+Route::get('/fetch-semester-data', [SemesterController::class, 'getSemesterDetailsByAJAX'])->name('getSemesters');
+Route::get('/fetch-day-data', [DaysController::class, 'getDayDetailsByAJAX'])->name('getDays');
+Route::get('/fetch-hour-data', [HoursController::class, 'getHourDetailsByAJAX'])->name('getHours');
+Route::get('/fetch-status-data', [StatusController::class, 'getStatusDetailsByAJAX'])->name('getStatus');
+Route::get('/fetch-classroom-data', [ClassRoomController::class, 'getClassRoomDetailsByAJAX'])->name('getClassRooms');
+
 
 Route::post('deleteTodaysAttendenceForAllTeachers', [AttendenceController::class, 'deleteTodaysAttendenceForAllTeachers'])->name('deleteTodaysAttendenceForAllTeachers');
 Route::post('deleteTodaysAttendenceForAllAdmins', [AttendenceController::class, 'deleteTodaysAttendenceForAllAdmins'])->name('deleteTodaysAttendenceForAllAdmins');
