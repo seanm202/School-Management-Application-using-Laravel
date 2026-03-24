@@ -231,7 +231,6 @@ function getBatches(){
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
-              @if(count($batches = \App\Models\Batch::all())>0)
                Update Batch Details / Delete Batch
                <table class="table" id="showBatchesInTable">
                <thead>
