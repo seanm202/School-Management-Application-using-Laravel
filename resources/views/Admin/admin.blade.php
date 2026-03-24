@@ -481,14 +481,14 @@ var bookBatchStatus = button.data('batchStatus');
                 success: function(data) {
                     console.log(data); // You can view the data in the browser console
 let rowsGetSemester = "";
-
            data.forEach(function(semester){
+let semesterurl = "/updatesemester/" + semester.semesterId;
                rowsGetSemester += `
-                    <td colspan="2">
-                 <form action="{{ route('updatesemester',['semester'=>${semester.semesterId}]) }}"
+                    <tr><td colspan="2">
+                 <form action="${semesterurl}"
                        method="POST"
                        class="updateSemesterForm d-flex align-items-center gap-2">
-                     @csrf
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                      <input type="hidden"
                             name="semesterId"
@@ -505,6 +505,7 @@ let rowsGetSemester = "";
                      </button>
                  </form>
              </td>
+            </tr>
                `;
            });
 
