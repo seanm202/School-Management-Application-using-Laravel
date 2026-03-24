@@ -108,7 +108,7 @@ Route::post('setCurrentHour', [HoursController::class, 'setCurrentHour'])->name(
 Route::post('showDaysAbsentees', [AttendenceController::class, 'showDaysAbsentees'])->name('showAbsenteesOn');
 Route::post('showAbsenteesBetweenDays', [AttendenceController::class, 'showAbsenteesBetweenDays'])->name('showAbsenteesBetween');
 
-
+Route::get('/fetch-batch-data', [BatchController::class, 'getBatchDetailsByAJAX'])->name('getBatches');
 
 
 Route::post('deleteTodaysAttendenceForAllTeachers', [AttendenceController::class, 'deleteTodaysAttendenceForAllTeachers'])->name('deleteTodaysAttendenceForAllTeachers');
