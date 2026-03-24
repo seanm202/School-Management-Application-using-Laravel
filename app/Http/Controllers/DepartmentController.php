@@ -35,7 +35,11 @@ class DepartmentController extends Controller
     {
         //
     }
-
+public function getDepartmentDetailsByAJAX()
+        {
+          $departments = \App\Models\Department::all();
+          return response()->json($departments);
+        }
     /**
      * Store a newly created resource in storage.
      *
