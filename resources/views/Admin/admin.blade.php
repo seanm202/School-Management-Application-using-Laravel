@@ -407,7 +407,7 @@ var bookBatchStatus = button.data('batchStatus');
                success: function(data) {
            console.log(data);
 
-           let rowsGetDepartment = `
+           let rowsGetDepartment = "";
 
            data.forEach(function(department){
                rowsGetDepartment += `
@@ -421,7 +421,7 @@ var bookBatchStatus = button.data('batchStatus');
                `;
            });
 
-           $('#tableForDepartmentAJAX').html(rowsGetDepartment);
+           $('#tableForDepartmentAJAX tbody').html(rowsGetDepartment);
        },
                error: function(jqXHR, ajaxOptions, thrownError) {
                    alert('Error fetching data');
