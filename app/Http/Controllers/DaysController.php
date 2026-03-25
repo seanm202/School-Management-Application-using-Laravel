@@ -30,7 +30,11 @@ class DaysController extends Controller
 
      return redirect()->route('Admindashboard')->with('success', 'Created successfully.');
     }
-
+public function getDayDetailsByAJAX()
+    {
+      $days = \App\Models\Days::all();
+      return response()->json($days);
+    }
     /**
      * Show the form for creating a new resource.
      *
