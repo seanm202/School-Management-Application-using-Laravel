@@ -482,7 +482,7 @@ var bookBatchStatus = button.data('batchStatus');
                     console.log(data); // You can view the data in the browser console
 let rowsGetSemester = "";
            data.forEach(function(semester){
-let semesterurl = "/updatesemester/" + semester.semesterId;
+let semesterurl = "/updatesemester";
                rowsGetSemester += `
                     <tr><td colspan="2">
                  <form action="${semesterurl}"
