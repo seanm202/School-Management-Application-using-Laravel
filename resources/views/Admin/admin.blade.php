@@ -562,7 +562,53 @@ Day creation and updation
  -->
 
 
+<script>
+        function getDays(){
+            $.ajax({
+                url: "{{ route('getDays') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
 
+let rowsGetDay = "";
+
+           data.forEach(function(day){
+               rowsGetDay += `
+                    <tr>
+            <td colspan="2">
+                <form action="{{ route('updateDayName') }}"
+                      method="POST"
+                      class="updateDayDetails d-flex align-items-center gap-2">
+                    @csrf
+
+                    <input type="hidden"
+                           name="dayId"
+                           value="${day.dayId}">
+
+                    <input type="text"
+                           name="dayName"
+                           value="${day.dayName}"
+                           class="form-control day-input">
+
+                    <button type="button"
+                            class="saveDayDetails btn btn-primary">
+                        Update
+                    </button>
+                </form>
+            </td>
+        </tr>
+               `;
+           });
+
+           $('#daysTable tbody').html(rowsGetDay);                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
  <div class="py-12" id="editDayName">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -577,31 +623,7 @@ Day creation and updation
     </thead>
 
     <tbody>
-        @foreach(\App\Models\Days::all() as $day)
-        <tr>
-            <td colspan="2">
-                <form action="{{ route('updateDayName') }}"
-                      method="POST"
-                      class="updateDayDetails d-flex align-items-center gap-2">
-                    @csrf
-
-                    <input type="hidden"
-                           name="dayId"
-                           value="{{ $day->dayId }}">
-
-                    <input type="text"
-                           name="dayName"
-                           value="{{ $day->dayName }}"
-                           class="form-control day-input">
-
-                    <button type="button"
-                            class="saveDayDetails btn btn-primary">
-                        Update
-                    </button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
+        
     </tbody>
 </table>
              </div>
