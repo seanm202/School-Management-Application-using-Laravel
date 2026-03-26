@@ -32,8 +32,14 @@ class DaysController extends Controller
     }
 public function getDayDetailsByAJAX()
     {
-      $days = \App\Models\Days::all();
-      return response()->json($days);
+      // $days = \App\Models\Days::all();
+      // return response()->json($days);
+        try {
+        $days = \App\Models\Days::all();
+        return response()->json($days);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
     }
     /**
      * Show the form for creating a new resource.
