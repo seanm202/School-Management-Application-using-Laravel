@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\DaysController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\DepartmentController;
