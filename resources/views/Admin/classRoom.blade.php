@@ -108,6 +108,15 @@ display:none;
                   }
 
   </style>
+<script type="text/javascript">
+         function getAllData()
+    {
+         getClassRooms();
+    }
+ $(document).ready(function () {
+   getAllData();
+});
+</script>
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -266,21 +275,16 @@ display:none;
  <!--
 
  -->
-               <script>
+               <script type="text/javascript">
+              
+                   // For getClassRooms() only
 function getTeacherForClassRooms(){
- $.ajax({
-                url: "{{ route('getCompatibleTeachersDetails') }}", // Use the named route
-                method: "GET", // Use GET method for fetching data
-                dataType: "json", // Expect a JSON response
-                success: function(data) {
-                    console.log(data); // You can view the data in the browser console
-   }, 
-                error: function(jqXHR, ajaxOptions, thrownError) {
-                    alert('Error fetching data');
-                    console.log(thrownError);
-                }
-            });
-        }
+    return $.ajax({
+        url: "{{ route('getCompatibleTeachersDetails') }}",
+        method: "GET",
+        dataType: "json"
+    });
+}
 
         function getClassRooms(){
 
@@ -302,9 +306,40 @@ function getTeacherForClassRooms(){
                                                           <td>${classRoom.roomNo} </td>
                                                           <td>${classRoom.sectionName} </td>
                                                           <td>${classRoom.departmentName} </td>
-                                                          <td>${classRoom.semesterName} </td>
-<td></td>
-<td>{{Form::text('description',${classRoom.description)}}</td>
+                                                          <td>${classRoom.semesterName} </td>`;
+getTeacherForClassRooms().then(function(data){
+    let selectD = $('<select></select>');
+    selectD.attr('id', 'teacherId')
+      .attr('name', 'teacherId')
+      .addClass('form-control');
+    selectD.empty(); // clear old options
+
+    selectD.append('<option value="">Select Teacher</option>');
+
+    // Loop through data
+    $.each(data, function(index, teacher){
+    if(teacher.teacherId==classRoom.classTeacher)
+    {
+        selectD.append(
+            `<option value="${teacher.teacherId}" selected>${teacher.firstName} ${teacher.lastName}</option>`
+        );
+    }
+    else
+   {
+    selectD.append(
+            `<option value="${teacher.teacherId}" >${teacher.firstName} ${teacher.lastName}</option>`
+        );                
+    }
+    });
+
+}).catch(function(){
+    alert('Error fetching data');
+});
+    rowsGetclassRoom += `<td>`;
+    rowsGetclassRoom += selectD;
+    rowsGetclassRoom += `<td>`;
+                
+rowsGetclassRoom += `<td>{{Form::text('description',${classRoom.description)}}</td>
                                                           <td>${classRoom.capacity}}</td>
                                                           <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
                                                           {{ Form::close()}}</td>
