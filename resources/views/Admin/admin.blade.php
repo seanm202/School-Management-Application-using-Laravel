@@ -64,6 +64,7 @@ function getBatches(){
     getBatches();
     getDepartments();
     getSemesters();
+    getDays();
 });
 </script>
 <x-app-layout>
