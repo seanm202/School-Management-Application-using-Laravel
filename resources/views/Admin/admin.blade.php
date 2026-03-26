@@ -581,7 +581,7 @@ let rowsGetDay = "";
                 <form action="{{ route('updateDayName') }}"
                       method="POST"
                       class="updateDayDetails d-flex align-items-center gap-2">
-                    @csrf
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <input type="hidden"
                            name="dayId"
