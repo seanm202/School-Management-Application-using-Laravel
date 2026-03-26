@@ -25,7 +25,7 @@ class ClassRoomController extends Controller
         //
     }
 
-    public function gatherClassRoomCreateData()
+    public function getAdminClassRoomDetails()
     {
 
       $classRooms = ClassRoom::all();
