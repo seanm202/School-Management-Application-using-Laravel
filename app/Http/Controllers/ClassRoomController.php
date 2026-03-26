@@ -27,11 +27,7 @@ class ClassRoomController extends Controller
 
     public function getAdminClassRoomDetails()
     {
-
-      $classRooms = ClassRoom::all();
-
-      return view("Admin.classRoom")
-      ->with('classRooms',$classRooms);
+return view("Admin.classRoom");
     }
 
     /**
