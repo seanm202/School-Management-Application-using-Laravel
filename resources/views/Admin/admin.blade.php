@@ -80,7 +80,7 @@ function getBatches(){
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
           <h2>{{ __('Admin') }}</h2>
           <br>
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;color:white;">Menu</button>
             @if ($errors->any())
                <div class="alert alert-danger">
                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
