@@ -17,6 +17,7 @@ url: createAdminUrl,
 type: "POST",
 dataType: 'json',
 success: function (data) {
+    getAllData();
 alert('Success');
 },
 error: function (xhr) {
@@ -50,6 +51,7 @@ url: updateBatchForm,
 type: "POST",
 dataType: 'json',
 success: function (data) {
+    getAllData();
 alert('Success');
 },
 error: function (xhr) {
@@ -82,6 +84,7 @@ url: assignCurrentBatches,
 type: "POST",
 dataType: 'json',
 success: function (data) {
+    getAllData();
 alert('Success');
 },
 error: function (xhr) {
@@ -114,6 +117,7 @@ alert('Error');
   type: "POST",
   dataType: 'json',
   success: function (data) {
+      getAllData();
   alert('Success');
   },
   error: function (xhr) {
@@ -147,6 +151,7 @@ alert('Error');
     type: "POST",
     dataType: 'json',
     success: function (data) {
+        getAllData();
     alert('Success');
     },
     error: function (xhr) {
@@ -181,6 +186,7 @@ alert('Error');
       type: "POST",
       dataType: 'json',
       success: function (data) {
+          getAllData();
       alert('Success');
       },
       error: function (xhr) {
@@ -213,6 +219,7 @@ alert('Error');
               type: "POST",
               dataType: 'json',
               success: function (data) {
+                  getAllData();
               alert('Success');
               },
               error: function (xhr) {
@@ -251,6 +258,7 @@ alert('Error');
                                           data: form.serialize(),
                                           dataType: 'json',
                                           success: function (data) {
+                                              getAllData();
                                               console.log("SUCCESS FIRED");
                                               console.log(data);
                                               alert("Updated!");
@@ -286,6 +294,7 @@ alert('Error');
     type: "POST",
     dataType: 'json',
     success: function (data) {
+        getAllData();
     alert('Success');
     },
     error: function (xhr) {
@@ -317,6 +326,7 @@ alert('Error');
   type: "POST",
   dataType: 'json',
   success: function (data) {
+      getAllData();
   alert('Success');
   },
   error: function (xhr) {
@@ -353,6 +363,7 @@ alert('Error');
                                               data: form.serialize(),
                                               dataType: 'json',
                                               success: function (data) {
+                                                  getAllData();
                                                   console.log("SUCCESS FIRED");
                                                   console.log(data);
                                                   alert("Updated!");
@@ -384,6 +395,7 @@ alert('Error');
   type: "POST",
   dataType: 'json',
   success: function (data) {
+      getAllData();
   alert('Success');
   },
   error: function (xhr) {
@@ -412,6 +424,7 @@ headers: {
     type: "POST",
     dataType: 'json',
     success: function (data) {
+        getAllData();
     alert('Success');
     },
     error: function (xhr) {
@@ -440,6 +453,7 @@ $(function () {
       type: "POST",
       dataType: 'json',
       success: function (data) {
+          getAllData();
       alert('Success');
         },
         error: function (xhr) {
@@ -466,6 +480,7 @@ headers: {
   type: "POST",
   dataType: 'json',
         success: function (data) {
+            getAllData();
                       alert('Success');
         },
       error: function (xhr) {
@@ -493,6 +508,7 @@ headers: {
   type: "POST",
   dataType: 'json',
         success: function (data) {
+            getAllData();
                       alert('Success');
         },
       error: function (xhr) {
@@ -519,6 +535,7 @@ headers: {
     type: "POST",
     dataType: 'json',
           success: function (data) {
+              getAllData();
                         alert('Success');
           },
         error: function (xhr) {
@@ -545,6 +562,7 @@ headers: {
         type: "POST",
         dataType: 'json',
               success: function (data) {
+                  getAllData();
                             alert('Success');
               },
             error: function (xhr) {
@@ -575,6 +593,7 @@ headers: {
         type: "POST",
         dataType: 'json',
               success: function (data) {
+                  getAllData();
                             alert('Success');
               },
             error: function (xhr) {
@@ -603,6 +622,7 @@ headers: {
         type: "POST",
         dataType: 'json',
         success: function (data) {
+            getAllData();
         alert('Success');
         },
         error: function (xhr) {
@@ -634,6 +654,7 @@ headers: {
         type: "POST",
         dataType: 'json',
         success: function (data) {
+            getAllData();
         alert('Success');
         },
         error: function (xhr) {
