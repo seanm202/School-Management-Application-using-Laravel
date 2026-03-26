@@ -27,7 +27,7 @@ class ClassRoomController extends Controller
 
     public function getAdminClassRoomDetails()
     {
-return view("Admin.classRoom");
+return view('Admin.classRoom');
     }
 
     /**
