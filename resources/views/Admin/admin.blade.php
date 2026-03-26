@@ -730,11 +730,11 @@ Hour creation
 
 let rowsGetHour = "";
 
-           data.forEach(function(day){
+           data.forEach(function(hour){
                rowsGetHour += `
                    <tr>
-<td>${hour->hourName}</td>
-                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="${hour->hourId}" data-hour-name="${hour->hourName}" data-hour-starting-time="${hour->hourStartingTime}">View</button></td>
+<td>${hour.hourName}</td>
+                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="${hour.hourId}" data-hour-name="${hour.hourName}" data-hour-starting-time="${hour.hourStartingTime}">View</button></td>
                  </tr>
                `;
            });
