@@ -266,6 +266,70 @@ display:none;
  <!--
 
  -->
+               <script>
+function getTeacherForClassRooms(){
+ $.ajax({
+                url: "{{ route('getCompatibleTeachersDetails') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+   }, 
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+
+        function getClassRooms(){
+
+            $.ajax({
+                url: "{{ route('getClassRooms') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+
+                   let rowsGetclassRoom = "";
+
+           data.forEach(function(classRoom){
+               rowsGetclassRoom += `
+                   <tr>
+                                                          <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
+                                                          {{ csrf_field() }}{{ method_field('POST') }}
+                                                          {{Form::hidden('classroomId',${classRoom..classroomDetailId,array('id'=>'classroomId'))}}${classRoom.grade} </td>
+                                                          <td>${classRoom.roomNo} </td>
+                                                          <td>${classRoom.sectionName} </td>
+                                                          <td>${classRoom.departmentName} </td>
+                                                          <td>${classRoom.semesterName} </td>
+<td></td>
+<td>{{Form::text('description',${classRoom.description)}}</td>
+                                                          <td>${classRoom.capacity}}</td>
+                                                          <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
+                                                          {{ Form::close()}}</td>
+                                                          <form action="{{route('destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
+                                                          {{ csrf_field() }}{{ method_field('POST') }}
+
+                                                          {{Form::hidden('classroomId',${classRoom.classroomDetailId,array('id'=>'classroomId'))}}
+                                                          <td><button type="button" class="btn btn-primary form-control">Delete</button>
+                                                          {{ Form::close()}}</td>
+                                                          <td><button type="button" class="btn btn-primary form-control" data-class-roomid ="${classRoom.classroomDetailId }" data-class-room-grade="${classRoom.grade}" data-class-room-number="${classRoom.roomNo}" data-class-room-section="${classRoom.section}" data-class-room-department="${classRoom.departmentId}" data-class-room-semester="${classRoom.semester}" data-toggle="modal" data-target="#viewClasses">View</button></td>
+                                                          <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#viewTimetable${classRoom.classTimeTableId}">View</button></td>
+                                                          </tr>
+               `;
+           });
+
+           $('#statusTable tbody').html(rowsGetclassRoom);  }, 
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
+
+
     <div class="py-12" id="viewEditClassrooms">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -315,47 +379,8 @@ display:none;
                                       </tr>
                                      </thead>
                                    <tbody>
-                                     @foreach(($classRooms=\App\Models\ClassRoom::join('grades','grades.gradeId','=','class_rooms.grade')
-                                                         ->join('sections','sections.sectionId','=','class_rooms.section')
-                                                         ->join('departments','departments.departmentId','=','class_rooms.departmentId')
-                                                         ->join('semesters','semesters.semesterId','=','class_rooms.semester')
-                                                         ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
-                                                         ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                                         ->select('grades.grade AS grade',
-                                                         'class_rooms.roomNo AS roomNo',
-                                                         'sections.sectionName AS sectionName',
-                                                         'departments.departmentName AS departmentName',
-                                                         'semesters.semesterName as semesterName',
-                                                         'details.firstname AS firstName',
-                                                         'details.lastname AS lastName',
-                                                         'class_rooms.capacity AS capacity',
-                                                         'class_rooms.roomNo AS roomNo',
-                                                         'class_rooms.description AS description',
-                                                         'class_rooms.classTimeTableId AS classTimeTableId',
-                                                         'class_rooms.classroomDetailId AS classroomDetailId',
-                                                         'class_rooms.batchId AS batchId',
-                                                         'class_rooms.classTeacher AS classTeacher'
-                                                         )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
-                                                         ->get()) as $classRoom)
-
-
-
-
-
-
-
-
-
-                                                           
-                                                          <tr>
-                                                          <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}
-                                                          {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}{{$classRoom->grade}} </td>
-                                                          <td>{{$classRoom->roomNo}} </td>
-                                                          <td>{{$classRoom->sectionName}} </td>
-                                                          <td>{{$classRoom->departmentName}} </td>
-                                                          <td>{{$classRoom->semesterName}} </td>
-                                                          <td><select name="teacherId" class="form-control" id="teacherId">
+                                     
+                                                          <!-- <td>
                                                                                @foreach($teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
                                                                                    ->join('details','details.detailId','=','teachers.teacherDetailId')
                                                                                    ->select('details.lastname AS lastName',
@@ -367,20 +392,8 @@ display:none;
                                                                                    @else
                                                                                    <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
                                                                                    @endif
-                                                                               @endforeach</td>
-                                                          <td>{{Form::text('description',$classRoom->description)}}</td>
-                                                          <td>{{$classRoom->capacity}}</td>
-                                                          <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
-                                                          {{ Form::close()}}</td>
-                                                          <form action="{{route('destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}
-
-                                                          {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
-                                                          <td><button type="button" class="btn btn-primary form-control">Delete</button>
-                                                          {{ Form::close()}}</td>
-                                                          <td><button type="button" class="btn btn-primary form-control" data-class-roomid ="{{$classRoom->classroomDetailId }}" data-class-room-grade="{{$classRoom->grade}}" data-class-room-number="{{$classRoom->roomNo}}" data-class-room-section="{{$classRoom->section}}" data-class-room-department="{{$classRoom->departmentId}}" data-class-room-semester="{{$classRoom->semester}}" data-toggle="modal" data-target="#viewClasses">View</button></td>
-                                                          <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#viewTimetable{{$classRoom->classTimeTableId}}">View</button></td>
-                                                          </tr>
+                                                                               @endforeach</td> -->
+                                                         </tr>
                                                           </tbody>
                                                           </table>
                                                           <div class="modal fade" id="viewTimetable{{$classRoom->classTimeTableId}}">
