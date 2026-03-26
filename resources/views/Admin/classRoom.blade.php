@@ -482,21 +482,6 @@ function getClassRooms(){
                                       </tr>
                                      </thead>
                                    <tbody>
-                                     
-                                                          <!-- <td>
-                                                                               @foreach($teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
-                                                                                   ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                                                                   ->select('details.lastname AS lastName',
-                                                                                   'details.firstname AS firstName',
-                                                                                   'teachers.teacherId AS teacherId')
-                                                                                   ->get() as $teacher)
-                                                                                   @if($classRoom->classTeacher==$teacher->teacherId)
-                                                                                     <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                                                                   @else
-                                                                                   <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                                                                   @endif
-                                                                               @endforeach</td> -->
-                                                         </tr>
                                                           </tbody>
                                                           </table>
                                                           <div class="modal fade" id="viewTimetable{{$classRoom->classTimeTableId}}">
@@ -558,7 +543,6 @@ function getClassRooms(){
                                                                </div>
                                                              </div>
                                                             </div>
-                                                          @endforeach
                                                           </div>
                                                           @else
                                                           <h3 style="color:red;">List is empty</h3>
