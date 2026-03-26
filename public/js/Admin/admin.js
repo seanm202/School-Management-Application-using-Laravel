@@ -152,7 +152,7 @@ showSuccess();
     dataType: 'json',
     success: function (data) {
         getAllData();
-// showSuccess();
+        showSuccess();
     },
     error: function (xhr) {
     console.log(xhr.responseText); // 🔥 very useful
