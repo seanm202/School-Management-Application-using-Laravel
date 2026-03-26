@@ -18,7 +18,7 @@ type: "POST",
 dataType: 'json',
 success: function (data) {
     getAllData();
-alert('Success');
+showSuccess();
 },
 error: function (xhr) {
 console.log(xhr.responseText); // 🔥 very useful
@@ -52,7 +52,7 @@ type: "POST",
 dataType: 'json',
 success: function (data) {
     getAllData();
-alert('Success');
+showSuccess();
 },
 error: function (xhr) {
 console.log(xhr.responseText); // 🔥 very useful
@@ -85,7 +85,7 @@ type: "POST",
 dataType: 'json',
 success: function (data) {
     getAllData();
-alert('Success');
+showSuccess();
 },
 error: function (xhr) {
 console.log(xhr.responseText); // 🔥 very useful
@@ -118,7 +118,7 @@ alert('Error');
   dataType: 'json',
   success: function (data) {
       getAllData();
-  alert('Success');
+showSuccess();
   },
   error: function (xhr) {
   console.log(xhr.responseText); // 🔥 very useful
@@ -152,7 +152,7 @@ alert('Error');
     dataType: 'json',
     success: function (data) {
         getAllData();
-    alert('Success');
+showSuccess();
     },
     error: function (xhr) {
     console.log(xhr.responseText); // 🔥 very useful
@@ -187,7 +187,7 @@ alert('Error');
       dataType: 'json',
       success: function (data) {
           getAllData();
-      alert('Success');
+showSuccess();
       },
       error: function (xhr) {
       console.log(xhr.responseText); // 🔥 very useful
@@ -220,7 +220,7 @@ alert('Error');
               dataType: 'json',
               success: function (data) {
                   getAllData();
-              alert('Success');
+showDeleteSuccess();
               },
               error: function (xhr) {
               console.log(xhr.responseText); // 🔥 very useful
@@ -259,9 +259,9 @@ alert('Error');
                                           dataType: 'json',
                                           success: function (data) {
                                               getAllData();
+                                              showSuccess();
                                               console.log("SUCCESS FIRED");
                                               console.log(data);
-                                              alert("Updated!");
                                           },
                                           error: function (xhr) {
                                               console.log(xhr.status);
@@ -295,7 +295,7 @@ alert('Error');
     dataType: 'json',
     success: function (data) {
         getAllData();
-    alert('Success');
+showSuccess();
     },
     error: function (xhr) {
     console.log(xhr.responseText);
@@ -327,7 +327,7 @@ alert('Error');
   dataType: 'json',
   success: function (data) {
       getAllData();
-  alert('Success');
+showSuccess();
   },
   error: function (xhr) {
   console.log(xhr.responseText);
@@ -364,9 +364,7 @@ alert('Error');
                                               dataType: 'json',
                                               success: function (data) {
                                                   getAllData();
-                                                  console.log("SUCCESS FIRED");
-                                                  console.log(data);
-                                                  alert("Updated!");
+showSuccess();
                                               },
                                               error: function (xhr) {
                                                   console.log(xhr.status);
@@ -396,7 +394,7 @@ alert('Error');
   dataType: 'json',
   success: function (data) {
       getAllData();
-  alert('Success');
+showSuccess();
   },
   error: function (xhr) {
   console.log(xhr.responseText);
@@ -425,7 +423,7 @@ headers: {
     dataType: 'json',
     success: function (data) {
         getAllData();
-    alert('Success');
+showSuccess();
     },
     error: function (xhr) {
     console.log(xhr.responseText);
@@ -454,7 +452,7 @@ $(function () {
       dataType: 'json',
       success: function (data) {
           getAllData();
-      alert('Success');
+showSuccess();
         },
         error: function (xhr) {
         console.log(xhr.responseText);
@@ -481,7 +479,7 @@ headers: {
   dataType: 'json',
         success: function (data) {
             getAllData();
-                      alert('Success');
+showDeleteSuccess();
         },
       error: function (xhr) {
     console.log(xhr.responseText);
@@ -509,7 +507,7 @@ headers: {
   dataType: 'json',
         success: function (data) {
             getAllData();
-                      alert('Success');
+showDeleteSuccess();
         },
       error: function (xhr) {
     console.log(xhr.responseText);
@@ -536,7 +534,7 @@ headers: {
     dataType: 'json',
           success: function (data) {
               getAllData();
-                        alert('Success');
+showDeleteSuccess();
           },
         error: function (xhr) {
       console.log(xhr.responseText);
@@ -563,7 +561,7 @@ headers: {
         dataType: 'json',
               success: function (data) {
                   getAllData();
-                            alert('Success');
+showSuccess();
               },
             error: function (xhr) {
           console.log(xhr.responseText);
@@ -594,7 +592,7 @@ headers: {
         dataType: 'json',
               success: function (data) {
                   getAllData();
-                            alert('Success');
+showSuccess();
               },
             error: function (xhr) {
           console.log(xhr.responseText);
@@ -623,7 +621,7 @@ headers: {
         dataType: 'json',
         success: function (data) {
             getAllData();
-        alert('Success');
+showSuccess();
         },
         error: function (xhr) {
         console.log(xhr.responseText); // 🔥 very useful
@@ -655,7 +653,7 @@ headers: {
         dataType: 'json',
         success: function (data) {
             getAllData();
-        alert('Success');
+showDeleteSuccess();
         },
         error: function (xhr) {
         console.log(xhr.responseText); // 🔥 very useful
