@@ -57,6 +57,7 @@ public function getDepartmentDetailsByAJAX()
        //Add A Subject
           $department = new Department;
           $department->departmentName = $request->departmentName;
+          $department->batchId = 1;
           $department->status = 1;
           $department->save();
 
