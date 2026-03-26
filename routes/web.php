@@ -132,7 +132,7 @@ Route::post('adminSubmitTodaysAttendance', [AttendenceController::class, 'adminS
 Route::resource('attendence', 'AttendenceController');
 ////ClassRoom///////////
 
-Route::get('gatherClassRoomCreateData', [ClassRoomController::class, 'gatherClassRoomCreateData'])->name('getAdminClassRoomDetails');
+Route::get('getAdminClassRoomDetails', [ClassRoomController::class, 'getAdminClassRoomDetails'])->name('getAdminClassRoomDetails');
 Route::post('updateClassroomStudent', [ClassRoomController::class, 'updateClassroomStudent'])->name('updateClassroomStudent');
 Route::post('updateClassroomTeacherAndDescription', [ClassRoomController::class, 'updateClassroomTeacherAndDescription'])->name('updateClassroomTeacherAndDescription');
 Route::post('assignClassroomStudent', [ClassRoomController::class, 'assignClassroomStudent'])->name('assignClassroomStudent');
