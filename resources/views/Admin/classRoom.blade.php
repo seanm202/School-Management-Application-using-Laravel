@@ -541,8 +541,8 @@ function getClassRooms(){
                                                                                                                      <div>{{$classTimetable->hourName}} <br>{{$classTimetable->subjectName}}<br>
                                                                                                                      {{$classTimetable->firstName}}{{$classTimetable->lastName}}<br>
                                                                                                                     </div>
-                                                                                                                 </div>
-                                                                                                                  @endif
+                                                                                                                     </div>
+                                                                                                                 @endif
                                                                                                              @endif
                                                                                                            @endforeach
                                                                                     @endforeach
