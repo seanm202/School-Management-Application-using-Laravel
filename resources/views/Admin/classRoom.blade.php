@@ -285,95 +285,151 @@ function getTeacherForClassRooms(){
         dataType: "json"
     });
 }
+function getClassRooms(){
 
-        function getClassRooms(){
+    $.ajax({
+        url: "{{ route('getClassRooms') }}",
+        method: "GET",
+        dataType: "json",
+        success: function(classRooms) {
 
-            $.ajax({
-                url: "{{ route('getClassRooms') }}", // Use the named route
-                method: "GET", // Use GET method for fetching data
-                dataType: "json", // Expect a JSON response
-                success: function(data) {
-                    console.log(data); // You can view the data in the browser console
+            getTeacherForClassRooms().then(function(teachers){
 
-                   let rowsGetclassRoom =``;
+                let classRoomRows = '';
 
-           data.forEach(function(classRoom){
-               rowsGetclassRoom += `
-                   <tr>
-                                                          <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}`;
-                                                          
-                                                          rowsGetclassRoom += `
-<td>
-    <input type="hidden" name="classroomId" value="${classRoom.classroomDetailId}">
-    ${classRoom.grade}
-</td>
-`;
-                                                          rowsGetclassRoom += `<td>${classRoom.roomNo} </td>
-                                                          <td>${classRoom.sectionName} </td>
-                                                          <td>${classRoom.departmentName} </td>
-                                                          <td>${classRoom.semesterName} </td>`;
-getTeacherForClassRooms().then(function(data){
-    let selectD = $('<select></select>');
-    selectD.attr('id', 'teacherId')
-      .attr('name', 'teacherId')
-      .addClass('form-control');
-    selectD.empty(); // clear old options
+                classRooms.forEach(function(classRoom){
 
-    selectD.append('<option value="">Select Teacher</option>');
+                    let options = '<option value="">Select Teacher</option>';
 
-    // Loop through data
-    $.each(data, function(index, teacher){
-    if(teacher.teacherId==classRoom.classTeacher)
-    {
-        selectD.append(
-            `<option value="${teacher.teacherId}" selected>${teacher.firstName} ${teacher.lastName}</option>`
-        );
-    }
-    else
-   {
-    selectD.append(
-            `<option value="${teacher.teacherId}" >${teacher.firstName} ${teacher.lastName}</option>`
-        );                
-    }
-    });
+                    teachers.forEach(function(teacher){
+                        let selected = teacher.teacherId == classRoom.classTeacher ? 'selected' : '';
 
-}).catch(function(){
-    alert('Error fetching data');
-});
-    rowsGetclassRoom += `<td>`;
-    rowsGetclassRoom += selectD;
-    rowsGetclassRoom += `<td>`;
-                
-rowsGetclassRoom += `
-<td>
-    <input type="text" name="description" value="${classRoom.description || ''}" class="form-control">
-</td>
-`;
-                                                           rowsGetclassRoom += `
-                                                          <td>${classRoom.capacity}}</td>
-                                                          <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
-                                                          {{ Form::close()}}</td>
-                                                          <form action="{{route('destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}
-                                                            rowsGetclassRoom += `
-    <input type="hidden" name="classroomId" value="${classRoom.classroomDetailId || ''}" id="classroomId" class="form-control">
-`;
-                                                          <td><button type="button" class="btn btn-primary form-control">Delete</button>
-                                                          {{ Form::close()}}</td>
-                                                          <td><button type="button" class="btn btn-primary form-control" data-class-roomid ="${classRoom.classroomDetailId }" data-class-room-grade="${classRoom.grade}" data-class-room-number="${classRoom.roomNo}" data-class-room-section="${classRoom.section}" data-class-room-department="${classRoom.departmentId}" data-class-room-semester="${classRoom.semester}" data-toggle="modal" data-target="#viewClasses">View</button></td>
-                                                          <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#viewTimetable${classRoom.classTimeTableId}">View</button></td>
-                                                          </tr>
-               `;
-           });
+                        options += `
+                            <option value="${teacher.teacherId}" ${selected}>
+                                ${teacher.firstName} ${teacher.lastName}
+                            </option>
+                        `;
+                    });
 
-           $('#statusTable tbody').html(rowsGetclassRoom);  }, 
-                error: function(jqXHR, ajaxOptions, thrownError) {
-                    alert('Error fetching data');
-                    console.log(thrownError);
-                }
+                    classRoomRows += `
+                        <tr>
+                            <td>${classRoom.grade}</td>
+                            <td>${classRoom.roomNo}</td>
+                            <td>${classRoom.sectionName}</td>
+                            <td>${classRoom.departmentName}</td>
+                            <td>${classRoom.semesterName}</td>
+
+                            <td>
+                                <select name="teacherId" class="form-control">
+                                    ${options}
+                                </select>
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control"
+                                    value="${classRoom.description || ''}">
+                            </td>
+
+                            <td>${classRoom.capacity}</td>
+                        </tr>
+                    `;
+                });
+
+                $('#classRoomTable tbody').html(classRoomRows);
+
             });
+
         }
+    });
+}
+//         function getClassRooms(){
+
+//             $.ajax({
+//                 url: "{{ route('getClassRooms') }}", // Use the named route
+//                 method: "GET", // Use GET method for fetching data
+//                 dataType: "json", // Expect a JSON response
+//                 success: function(data) {
+//                     console.log(data); // You can view the data in the browser console
+
+//                    let rowsGetclassRoom =``;
+
+//            data.forEach(function(classRoom){
+//                rowsGetclassRoom += `
+//                    <tr>
+//                                                           <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
+//                                                           <meta name="csrf-token" content="{{ csrf_token() }}">
+                                                          
+//                                                           rowsGetclassRoom += `
+// <td>
+//     <input type="hidden" name="classroomId" value="${classRoom.classroomDetailId}">
+//     ${classRoom.grade}
+// </td>
+// `;
+//                                                           rowsGetclassRoom += `<td>${classRoom.roomNo} </td>
+//                                                           <td>${classRoom.sectionName} </td>
+//                                                           <td>${classRoom.departmentName} </td>
+//                                                           <td>${classRoom.semesterName} </td>`;
+// getTeacherForClassRooms().then(function(data){
+//     let selectD = $('<select></select>');
+//     selectD.attr('id', 'teacherId')
+//       .attr('name', 'teacherId')
+//       .addClass('form-control');
+//     selectD.empty(); // clear old options
+
+//     selectD.append('<option value="">Select Teacher</option>');
+
+//     // Loop through data
+//     $.each(data, function(index, teacher){
+//     if(teacher.teacherId==classRoom.classTeacher)
+//     {
+//         selectD.append(
+//             `<option value="${teacher.teacherId}" selected>${teacher.firstName} ${teacher.lastName}</option>`
+//         );
+//     }
+//     else
+//    {
+//     selectD.append(
+//             `<option value="${teacher.teacherId}" >${teacher.firstName} ${teacher.lastName}</option>`
+//         );                
+//     }
+//     });
+
+// }).catch(function(){
+//     alert('Error fetching data');
+// });
+//     rowsGetclassRoom += `<td>`;
+//     rowsGetclassRoom += selectD;
+//     rowsGetclassRoom += `<td>`;
+                
+// rowsGetclassRoom += `
+// <td>
+//     <input type="text" name="description" value="${classRoom.description || ''}" class="form-control">
+// </td>
+// `;
+//                                                            rowsGetclassRoom += `
+//                                                           <td>${classRoom.capacity}}</td>
+//                                                           <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
+//                                                           {{ Form::close()}}</td>
+//                                                           <form action="{{route('destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
+//                                                           {{ csrf_field() }}{{ method_field('POST') }}
+//                                                             rowsGetclassRoom += `
+//     <input type="hidden" name="classroomId" value="${classRoom.classroomDetailId || ''}" id="classroomId" class="form-control">
+// `;
+//                                                           <td><button type="button" class="btn btn-primary form-control">Delete</button>
+//                                                           {{ Form::close()}}</td>
+//                                                           <td><button type="button" class="btn btn-primary form-control" data-class-roomid ="${classRoom.classroomDetailId }" data-class-room-grade="${classRoom.grade}" data-class-room-number="${classRoom.roomNo}" data-class-room-section="${classRoom.section}" data-class-room-department="${classRoom.departmentId}" data-class-room-semester="${classRoom.semester}" data-toggle="modal" data-target="#viewClasses">View</button></td>
+//                                                           <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#viewTimetable${classRoom.classTimeTableId}">View</button></td>
+//                                                           </tr>
+//                `;
+//            });
+
+//            $('#classRoomTable tbody').html(rowsGetclassRoom);  }, 
+//                 error: function(jqXHR, ajaxOptions, thrownError) {
+//                     alert('Error fetching data');
+//                     console.log(thrownError);
+//                 }
+//             });
+//         }
     </script>
 
 
@@ -408,7 +464,7 @@ rowsGetclassRoom += `
 
 
                                 <div id="withoutModal">
-                                   <table>
+                                   <table id="classRoomTable">
                                      <thead>
                                       <tr>
                                        <th>Grade</th>
