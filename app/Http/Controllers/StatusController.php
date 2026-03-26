@@ -25,6 +25,13 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getStatusDetailsByAJAX()
+    {
+      $statuses = \App\Models\Status::all();
+      return response()->json($statuses);
+    }
+    
     public function createStatus(Request $request)
     {
         $statuses=new Status;
