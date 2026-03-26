@@ -14,6 +14,54 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
+<style>
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+</style>
 <script>
     function getAllData()
     {
@@ -72,7 +120,23 @@ function getBatches(){
     $(document).ready(function () {
    getAllData();
 });
+// 
+    // 
+    // 
+    function showSuccess() {
+    const box = document.getElementById("successBox");
+    
+    box.classList.add("show");
 
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 3000);
+}
+
+function closeSuccess() {
+    document.getElementById("successBox").classList.remove("show");
+}
     
 </script>
 <x-app-layout>
@@ -98,7 +162,10 @@ function getBatches(){
     <!-- Sidebar -->
     <div>
 
-
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
