@@ -116,7 +116,7 @@ Route::get('/fetch-semester-data', [SemesterController::class, 'getSemesterDetai
 Route::get('/fetch-day-data', [DaysController::class, 'getDayDetailsByAJAX'])->name('getDays');
 Route::get('/fetch-hour-data', [HoursController::class, 'getHourDetailsByAJAX'])->name('getHours');
 Route::get('/fetch-status-data', [StatusController::class, 'getStatusDetailsByAJAX'])->name('getStatus');
-Route::get('/fetch-classroom-data', [ClassRoomController::class, 'getClassRoomDetailsByAJAX'])->name('getClassRooms');
+Route::get('/fetch-classroom-data', [ClassRoomController::class, 'getAdminClassRoomDetails'])->name('getClassRooms');
 
 
 Route::post('deleteTodaysAttendenceForAllTeachers', [AttendenceController::class, 'deleteTodaysAttendenceForAllTeachers'])->name('deleteTodaysAttendenceForAllTeachers');
