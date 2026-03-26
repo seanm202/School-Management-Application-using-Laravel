@@ -173,7 +173,7 @@ function closeSuccess() {
     // 
     
     function showDeleteSuccess() {
-    const box = document.getElementById("deleteBox");
+    const box = document.getElementById("deleteSuccessBox");
     
     box.classList.add("show");
 
