@@ -15,6 +15,15 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
 <script>
+    function getAllData()
+    {
+         getBatches();
+    getDepartments();
+    getSemesters();
+    getDays();
+    getHours();
+    getStatus();
+    }
 function getBatches(){
 
     $.ajax({
@@ -61,13 +70,10 @@ function getBatches(){
     });
 }
     $(document).ready(function () {
-    getBatches();
-    getDepartments();
-    getSemesters();
-    getDays();
-    getHours();
-    getStatus();
+   getAllData();
 });
+
+    
 </script>
 <x-app-layout>
     <x-slot name="header">
