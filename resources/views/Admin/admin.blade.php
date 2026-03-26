@@ -922,6 +922,39 @@ let rowsGetHour = "";
 
 
  -->
+                <script>
+        function getStatus(){
+            $.ajax({
+                url: "{{ route('getStatus') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+let rowsGetStatus = "";
+
+           data.forEach(function(status){
+               rowsGetStatus += `
+                   <tr><td>${status.statusName}</td>
+                          <td><button type="button"
+           class="btn btn-primary form-control"
+           data-toggle="modal"
+           data-target="#myModalUpdateStatus"
+           data-statusid="${status.statusId}"
+           data-status-name="${status.statusName}"
+           data-status-for-roles="${status.statusForRoles}">
+           View
+       </button></td></td>
+                        </tr>
+               `;
+           });
+
+           $('#statusTable tbody').html(rowsGetStatus);  },                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
       <div class="py-12" id="updateTheStatus">
           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -933,21 +966,7 @@ let rowsGetHour = "";
                         <th>View </th>
                       </thead>
                       <tbody>
-                    @foreach($statuse=\App\Models\Status::all() as $status)
-                      <tr><td>{{$status->statusName}}</td>
-                          <td><button type="button"
-           class="btn btn-primary form-control"
-           data-toggle="modal"
-           data-target="#myModalUpdateStatus"
-           data-statusid="{{$status->statusId}}"
-           data-status-name="{{$status->statusName}}"
-           data-status-for-roles="{{$status->statusForRoles}}">
-           View
-       </button></td></td>
-                        </tr>
-
-
-                    @endforeach
+                    
                     </tbody>
                   </table>
                   </div>
