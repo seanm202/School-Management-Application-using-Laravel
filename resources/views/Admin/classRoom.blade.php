@@ -295,14 +295,14 @@ function getTeacherForClassRooms(){
                 success: function(data) {
                     console.log(data); // You can view the data in the browser console
 
-                   let rowsGetclassRoom = "";
+                   let rowsGetclassRoom =``;
 
            data.forEach(function(classRoom){
                rowsGetclassRoom += `
                    <tr>
                                                           <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
                                                           {{ csrf_field() }}{{ method_field('POST') }}
-                                                          {{Form::hidden('classroomId',${classRoom..classroomDetailId,array('id'=>'classroomId'))}}${classRoom.grade} </td>
+                                                          {{Form::hidden('classroomId',${classRoom.classroomDetailId,array('id'=>'classroomId'))}}${classRoom.grade} </td>
                                                           <td>${classRoom.roomNo} </td>
                                                           <td>${classRoom.sectionName} </td>
                                                           <td>${classRoom.departmentName} </td>
