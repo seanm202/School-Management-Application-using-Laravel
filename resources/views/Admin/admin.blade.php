@@ -65,6 +65,7 @@ function getBatches(){
     getDepartments();
     getSemesters();
     getDays();
+    getHours();
 });
 </script>
 <x-app-layout>
@@ -718,15 +719,42 @@ Hour creation
 <!--
 
 -->
+<script>
+        function getHours(){
+            $.ajax({
+                url: "{{ route('getHours') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
 
+let rowsGetHour = "";
+
+           data.forEach(function(day){
+               rowsGetHour += `
+                   <tr>
+<td>${hour->hourName}</td>
+                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="${hour->hourId}" data-hour-name="${hour->hourName}" data-hour-starting-time="${hour->hourStartingTime}">View</button></td>
+                 </tr>
+               `;
+           });
+
+           $('#hoursTable tbody').html(rowsGetHour);  },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
 <div class="py-12" id="editTheHourName">
    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
            <div class="p-6 text-gray-900">
              Edit Hour Name
 
-          @if(count($hours=(\App\Models\Hours::all()))>0)
-               <table class="table">
+          
+               <table class="table" id="hoursTable">
              <thead>
 
                <tr>
@@ -735,17 +763,9 @@ Hour creation
                </tr>
              </thead>
            <tbody>
-               @foreach(($hours=(\App\Models\Hours::orderBy('hourStartingTime','asc')->get())) as $hour)
-                  <tr><td>{{$hour->hourName}}</td>
-                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="{{$hour->hourId}}" data-hour-name="{{$hour->hourName}}" data-hour-starting-time="{{$hour->hourStartingTime}}">View</button></td>
-                 </tr>
-
-               @endforeach
+              
            </tbody>
              </table>
-        @else
-          <h3 style="color:red;">List is empty</h3>
-        @endif
            </div>
        </div>
    </div>
