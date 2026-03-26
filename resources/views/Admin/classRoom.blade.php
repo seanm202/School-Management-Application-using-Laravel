@@ -301,9 +301,15 @@ function getTeacherForClassRooms(){
                rowsGetclassRoom += `
                    <tr>
                                                           <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}
-                                                          {{Form::hidden('classroomId',${classRoom.classroomDetailId,array('id'=>'classroomId'))}}${classRoom.grade} </td>
-                                                          <td>${classRoom.roomNo} </td>
+                                                          {{ csrf_field() }}{{ method_field('POST') }}`;
+                                                          
+                                                          rowsGetclassRoom += `
+<td>
+    <input type="hidden" name="classroomId" value="${classRoom.classroomDetailId}">
+    ${classRoom.grade}
+</td>
+`;
+                                                          rowsGetclassRoom += `<td>${classRoom.roomNo} </td>
                                                           <td>${classRoom.sectionName} </td>
                                                           <td>${classRoom.departmentName} </td>
                                                           <td>${classRoom.semesterName} </td>`;
@@ -339,14 +345,20 @@ getTeacherForClassRooms().then(function(data){
     rowsGetclassRoom += selectD;
     rowsGetclassRoom += `<td>`;
                 
-rowsGetclassRoom += `<td>{{Form::text('description',${classRoom.description)}}</td>
+rowsGetclassRoom += `
+<td>
+    <input type="text" name="description" value="${classRoom.description || ''}" class="form-control">
+</td>
+`;
+                                                           rowsGetclassRoom += `
                                                           <td>${classRoom.capacity}}</td>
                                                           <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
                                                           {{ Form::close()}}</td>
                                                           <form action="{{route('destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
                                                           {{ csrf_field() }}{{ method_field('POST') }}
-
-                                                          {{Form::hidden('classroomId',${classRoom.classroomDetailId,array('id'=>'classroomId'))}}
+                                                            rowsGetclassRoom += `
+    <input type="hidden" name="classroomId" value="${classRoom.classroomDetailId || ''}" id="classroomId" class="form-control">
+`;
                                                           <td><button type="button" class="btn btn-primary form-control">Delete</button>
                                                           {{ Form::close()}}</td>
                                                           <td><button type="button" class="btn btn-primary form-control" data-class-roomid ="${classRoom.classroomDetailId }" data-class-room-grade="${classRoom.grade}" data-class-room-number="${classRoom.roomNo}" data-class-room-section="${classRoom.section}" data-class-room-department="${classRoom.departmentId}" data-class-room-semester="${classRoom.semester}" data-toggle="modal" data-target="#viewClasses">View</button></td>
