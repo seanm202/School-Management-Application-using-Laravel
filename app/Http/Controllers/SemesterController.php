@@ -64,6 +64,8 @@ public function getSemesterDetailsByAJAX()
     // Add Semester
     $semester = new \App\Models\Semester;
     $semester->semesterName = $request->semesterName;
+    $semester->status = 1;
+    $semester->hourEndingTime = '12:02:00';
     $semester->batchId = 1; // You can later make this dynamic
     $semester->save();
 
