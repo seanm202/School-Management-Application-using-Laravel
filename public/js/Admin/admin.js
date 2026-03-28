@@ -446,6 +446,7 @@ $(function () {
       $('#deleteHourDetails').click(function (e) {
   e.preventDefault();
   var deleteHourDetails = $('#deleteHour').attr('action');
+          alert(deleteHourDetails);
   $.ajax({
   data: $('#deleteHour').serialize(),
   url: deleteHourDetails,
