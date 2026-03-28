@@ -677,7 +677,7 @@ let semesterurl = "/updatesemester";
                         Add Semester
 
                         <form action="{{route('storesemester')}}" method="POST" name="createSemester" id="createSemester">
-                        {{ csrf_field() }}{{ method_field('POST') }}
+                        {{ csrf_field() }}
                               {{Form::label('semesterName','Semester Name : ')}}
                               {{Form::text('semesterName',NULL,array('placeholder'=>'Enter Semester Name','class'=>'form-control'))}}<br><br><hr><br>
                               <button type="button" id="addSemester" class="btn btn-primary form-control">Create</button>
