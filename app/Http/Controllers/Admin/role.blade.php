@@ -1,0 +1,119 @@
+<meta name="csrf-token" content="{{ csrf_token() }}">
+ <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<script src="{{ asset('js/sidebar.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Roles') }}
+            <br>
+            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:white;">Menu</button>
+              @if(Session::has('success'))
+        <div class="alert alert-success" style="position: fixed;">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ Session::get('success') }}
+            @php
+                Session::forget('success');
+            @endphp
+        </div>
+        @endif
+        </h2>
+        @if ($errors->any())
+           <div class="alert alert-danger">
+             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+               <ul>
+                   @foreach ($errors->all() as $error)
+                       <li>{{ $error }}</li>
+                   @endforeach
+               </ul>
+           </div>
+        @endif
+    </x-slot>
+    <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div>
+
+
+    <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
+      <div class="sidebar-heading">MySchool </div>
+      <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
+        <ul>
+          <li>
+          <a href="#updateRolesByAdmin" class="list-group-item list-group-item-action bg-light">Update Role</a>
+        </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+    @if ( Auth::user()->role != 3)
+
+      <script type="text/javascript">
+      window.location = "{{url('logout')}}";//here double curly bracket
+      </script>
+    @endif
+
+
+
+    <div class="py-12" id="updateRolesByAdmin">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    Update roles
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Role Name</th>
+                            <!-- <th>Delete</th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach(($roles=App\Models\Role::all()) as $role)
+<tr>
+    <td colspan="2">
+        <form action="{{ route('updateRole') }}" method="POST" class="updateRoleByAdmin">
+            @csrf
+
+            <div class="d-flex gap-2">
+                <input type="text"
+                       name="roleName"
+                       value="{{ $role->roleName }}"
+                       class="form-control">
+
+                <input type="hidden"
+                       name="roleId"
+                       value="{{ $role->roleId }}">
+
+                <button type="button"
+                        class="buttonForUpdateRoleByAdmin btn btn-primary">
+                    Update
+                </button>
+            </div>
+        </form>
+    </td>
+</tr>
+@endforeach
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('js/Admin/role.js') }}"></script>
+</x-app-layout>

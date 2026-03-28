@@ -28,7 +28,7 @@ class BatchController extends Controller
       $admin = \App\Models\Admin::all();
       return redirect()->route('Admin')->with(compact($admin));
     }
-public function getBatchDetailsByAJAX()
+    public function getBatchDetailsByAJAX()
     {
       $batches = \App\Models\Batch::all();
       return response()->json($batches);
