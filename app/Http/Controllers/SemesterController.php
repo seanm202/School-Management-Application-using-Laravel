@@ -57,9 +57,9 @@ public function getSemesterDetailsByAJAX()
                      'semesterName.required'=> 'A name must be specified for the semester.',
                      ]
                      ]);
-            $semester = new Semester;
+            $semester = new \App\Models\Semester;
             $semester->semesterName = $request->semesterName;
-            $semester->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
+            $semester->batchId = 1;//Batch::where('status',1)->select('batchId')->first()->batchId;
            $semester->save();
 
            return response()->json([
