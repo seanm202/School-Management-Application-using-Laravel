@@ -829,7 +829,7 @@ Hour creation
            {{Form::time('hourStartingTime',null,array('class'=>'form-control','id'=>'thisHourStartingTime'))}}
              <button type="button" id="saveHourDetails" class="btn btn-primary form-control">Save</button>{{Form::close()}}
          <form action="{{route('deleteHour')}}" method="POST" name="deleteHour" id="deleteHour">
-           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',null,array('id' => 'thisDeleteHourId'))}}
+           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',26,array('id' => 'thisDeleteHourId'))}}
         <button type="button" id="deleteHourDetails" class="btn btn-primary form-control">Delete</button>
                {{Form::close()}}
 
