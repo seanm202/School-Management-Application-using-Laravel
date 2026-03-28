@@ -25,15 +25,46 @@ class ClassRoomController extends Controller
         //
     }
 
-    public function gatherClassRoomCreateData()
+    public function getAdminClassRoomDetails()
     {
-
-      $classRooms = ClassRoom::all();
-
-      return view("Admin.classRoom")
-      ->with('classRooms',$classRooms);
+        $classRooms=\App\Models\ClassRoom::all();
+        // $classRooms=\App\Models\ClassRoom::join('grades','grades.gradeId','=','class_rooms.grade')
+        //                                                  ->join('sections','sections.sectionId','=','class_rooms.section')
+        //                                                  ->join('departments','departments.departmentId','=','class_rooms.departmentId')
+        //                                                  ->join('semesters','semesters.semesterId','=','class_rooms.semester')
+        //                                                  ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
+        //                                                  ->join('details','details.detailId','=','teachers.teacherDetailId')
+        //                                                  ->select('grades.grade AS grade',
+        //                                                  'class_rooms.roomNo AS roomNo',
+        //                                                  'sections.sectionName AS sectionName',
+        //                                                  'departments.departmentName AS departmentName',
+        //                                                  'semesters.semesterName as semesterName',
+        //                                                  'details.firstname AS firstName',
+        //                                                  'details.lastname AS lastName',
+        //                                                  'class_rooms.capacity AS capacity',
+        //                                                  'class_rooms.roomNo AS roomNo',
+        //                                                  'class_rooms.description AS description',
+        //                                                  'class_rooms.classTimeTableId AS classTimeTableId',
+        //                                                  'class_rooms.classroomDetailId AS classroomDetailId',
+        //                                                  'class_rooms.batchId AS batchId',
+        //                                                  'class_rooms.classTeacher AS classTeacher'
+        //                                                  )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
+        //                                                  ->get();
+        return response()->json($classRooms);
+// return view('Admin.classRoom');
     }
-
+// For admin.classroom only
+    public function getCompatibleTeachersDetails()
+    {
+        $teachers=\App\Models\Teacher::all();
+        // $teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
+        //                                                                            ->join('details','details.detailId','=','teachers.teacherDetailId')
+        //                                                                            ->select('details.lastname AS lastName',
+        //                                                                            'details.firstname AS firstName',
+        //                                                                            'teachers.teacherId AS teacherId')
+        //                                                                            ->get();
+        return response()->json($teachers);
+    }
     /**
      * Show the form for creating a new resource.
      *

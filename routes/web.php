@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\DaysController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\SemesterController;
 use App\Http\Controllers\DepartmentController;
@@ -115,7 +116,7 @@ Route::get('/fetch-semester-data', [SemesterController::class, 'getSemesterDetai
 Route::get('/fetch-day-data', [DaysController::class, 'getDayDetailsByAJAX'])->name('getDays');
 Route::get('/fetch-hour-data', [HoursController::class, 'getHourDetailsByAJAX'])->name('getHours');
 Route::get('/fetch-status-data', [StatusController::class, 'getStatusDetailsByAJAX'])->name('getStatus');
-Route::get('/fetch-classroom-data', [ClassRoomController::class, 'getClassRoomDetailsByAJAX'])->name('getClassRooms');
+Route::get('/fetch-classroom-data', [ClassRoomController::class, 'getAdminClassRoomDetails'])->name('getClassRooms');
 
 
 Route::post('deleteTodaysAttendenceForAllTeachers', [AttendenceController::class, 'deleteTodaysAttendenceForAllTeachers'])->name('deleteTodaysAttendenceForAllTeachers');
@@ -131,7 +132,9 @@ Route::post('adminSubmitTodaysAttendance', [AttendenceController::class, 'adminS
 Route::resource('attendence', 'AttendenceController');
 ////ClassRoom///////////
 
-Route::get('gatherClassRoomCreateData', [ClassRoomController::class, 'gatherClassRoomCreateData'])->name('getAdminClassRoomDetails');
+Route::get('getAdminClassRoomDetails', [ClassRoomController::class, 'getAdminClassRoomDetails'])->name('getAdminClassRoomDetails');
+Route::get('getCompatibleTeachersDetails', [ClassRoomController::class, 'getCompatibleTeachersDetails'])->name('getCompatibleTeachersDetails');
+
 Route::post('updateClassroomStudent', [ClassRoomController::class, 'updateClassroomStudent'])->name('updateClassroomStudent');
 Route::post('updateClassroomTeacherAndDescription', [ClassRoomController::class, 'updateClassroomTeacherAndDescription'])->name('updateClassroomTeacherAndDescription');
 Route::post('assignClassroomStudent', [ClassRoomController::class, 'assignClassroomStudent'])->name('assignClassroomStudent');

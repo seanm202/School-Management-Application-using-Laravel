@@ -14,7 +14,95 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
+<style>
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+</style>
 <script>
+    function getAllData()
+    {
+         getBatches();
+    getDepartments();
+    getSemesters();
+    getDays();
+    getHours();
+    getStatus();
+    }
 function getBatches(){
 
     $.ajax({
@@ -61,16 +149,50 @@ function getBatches(){
     });
 }
     $(document).ready(function () {
-    getBatches();
-    getDepartments();
+   getAllData();
 });
+//
+    //
+    //
+    function showSuccess() {
+    const box = document.getElementById("successBox");
+
+    box.classList.add("show");
+
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 3000);
+}
+
+function closeSuccess() {
+    document.getElementById("successBox").classList.remove("show");
+}
+    //
+    // For Deletion
+    //
+
+    function showDeleteSuccess() {
+    const box = document.getElementById("deleteSuccessBox");
+
+    box.classList.add("show");
+
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 3000);
+}
+
+function closeDeleteSuccess() {
+    document.getElementById("deleteSuccessBox").classList.remove("show");
+}
 </script>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
           <h2>{{ __('Admin') }}</h2>
           <br>
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;color:white;">Menu</button>
             @if ($errors->any())
                <div class="alert alert-danger">
                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -88,7 +210,15 @@ function getBatches(){
     <!-- Sidebar -->
     <div>
 
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div>
 
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
@@ -231,7 +361,6 @@ function getBatches(){
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
-              @if(count($batches = \App\Models\Batch::all())>0)
                Update Batch Details / Delete Batch
                <table class="table" id="showBatchesInTable">
                <thead>
@@ -477,35 +606,31 @@ var bookBatchStatus = button.data('batchStatus');
 
  -->
 
-
-    <div class="py-12"  id="editTheSemesters">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                      Edit Semesters
-<table class="table"  id="tableForSemesterAJAX">
-     <thead>
-         <tr>
-             <th>Semester Name</th>
-             <th>Update</th>
-         </tr>
-     </thead>
-
-     <tbody>
-         <tr>
-             <td colspan="2">
-                 <form action="{{ route('updatesemester',['semester'=>$semester->semesterId]) }}"
+<script>
+        function getSemesters(){
+            $.ajax({
+                url: "{{ route('getSemesters') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+let rowsGetSemester = "";
+           data.forEach(function(semester){
+let semesterurl = "/updatesemester";
+               rowsGetSemester += `
+                    <tr><td colspan="2">
+                 <form action="${semesterurl}"
                        method="POST"
                        class="updateSemesterForm d-flex align-items-center gap-2">
-                     @csrf
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                      <input type="hidden"
                             name="semesterId"
-                            value="{{ $semester->semesterId }}">
+                            value="${semester.semesterId}">
 
                      <input type="text"
                             name="semesterName"
-                            value="{{ $semester->semesterName }}"
+                            value="${semester.semesterName}"
                             class="form-control semester-input">
 
                      <button type="button"
@@ -514,7 +639,36 @@ var bookBatchStatus = button.data('batchStatus');
                      </button>
                  </form>
              </td>
+            </tr>
+               `;
+           });
+
+           $('#tableForSemesterAJAX tbody').html(rowsGetSemester);                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
+    <div class="py-12"  id="editTheSemesters">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                     Edit Semesters
+<table class="table"  id="tableForSemesterAJAX">
+     <thead>
+         <tr>
+             <th>Semester Name</th>
+             <th>Update</th>
          </tr>
+<<<<<<< HEAD
+=======
+     </thead>
+
+     <tbody>
+
+>>>>>>> d83615a9a3df913918dc25f589235f527a50ee8e
      </tbody>
  </table>
                 </div>
@@ -545,7 +699,53 @@ Day creation and updation
  -->
 
 
+<script>
+        function getDays(){
+            $.ajax({
+                url: "{{ route('getDays') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
 
+let rowsGetDay = "";
+
+           data.forEach(function(day){
+               rowsGetDay += `
+                    <tr>
+            <td colspan="2">
+                <form action="{{ route('updateDayName') }}"
+                      method="POST"
+                      class="updateDayDetails d-flex align-items-center gap-2">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                    <input type="hidden"
+                           name="dayId"
+                           value="${day.dayId}">
+
+                    <input type="text"
+                           name="dayName"
+                           value="${day.dayName}"
+                           class="form-control day-input">
+
+                    <button type="button"
+                            class="saveDayDetails btn btn-primary">
+                        Update
+                    </button>
+                </form>
+            </td>
+        </tr>
+               `;
+           });
+
+           $('#daysTable tbody').html(rowsGetDay);                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
  <div class="py-12" id="editDayName">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -560,31 +760,7 @@ Day creation and updation
     </thead>
 
     <tbody>
-        @foreach(\App\Models\Days::all() as $day)
-        <tr>
-            <td colspan="2">
-                <form action="{{ route('updateDayName') }}"
-                      method="POST"
-                      class="updateDayDetails d-flex align-items-center gap-2">
-                    @csrf
 
-                    <input type="hidden"
-                           name="dayId"
-                           value="{{ $day->dayId }}">
-
-                    <input type="text"
-                           name="dayName"
-                           value="{{ $day->dayName }}"
-                           class="form-control day-input">
-
-                    <button type="button"
-                            class="saveDayDetails btn btn-primary">
-                        Update
-                    </button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
     </tbody>
 </table>
              </div>
@@ -678,15 +854,42 @@ Hour creation
 <!--
 
 -->
+<script>
+        function getHours(){
+            $.ajax({
+                url: "{{ route('getHours') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
 
+let rowsGetHour = "";
+
+           data.forEach(function(hour){
+               rowsGetHour += `
+                   <tr>
+<td>${hour.hourName}</td>
+                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="${hour.hourId}" data-hour-name="${hour.hourName}" data-hour-starting-time="${hour.hourStartingTime}">View</button></td>
+                 </tr>
+               `;
+           });
+
+           $('#hoursTable tbody').html(rowsGetHour);  },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
 <div class="py-12" id="editTheHourName">
    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
            <div class="p-6 text-gray-900">
              Edit Hour Name
 
-          @if(count($hours=(\App\Models\Hours::all()))>0)
-               <table class="table">
+
+               <table class="table" id="hoursTable">
              <thead>
 
                <tr>
@@ -695,17 +898,9 @@ Hour creation
                </tr>
              </thead>
            <tbody>
-               @foreach(($hours=(\App\Models\Hours::orderBy('hourStartingTime','asc')->get())) as $hour)
-                  <tr><td>{{$hour->hourName}}</td>
-                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="{{$hour->hourId}}" data-hour-name="{{$hour->hourName}}" data-hour-starting-time="{{$hour->hourStartingTime}}">View</button></td>
-                 </tr>
 
-               @endforeach
            </tbody>
              </table>
-        @else
-          <h3 style="color:red;">List is empty</h3>
-        @endif
            </div>
        </div>
    </div>
@@ -862,6 +1057,39 @@ Hour creation
 
 
  -->
+                <script>
+        function getStatus(){
+            $.ajax({
+                url: "{{ route('getStatus') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+let rowsGetStatus = "";
+
+           data.forEach(function(status){
+               rowsGetStatus += `
+                   <tr><td>${status.statusName}</td>
+                          <td><button type="button"
+           class="btn btn-primary form-control"
+           data-toggle="modal"
+           data-target="#myModalUpdateStatus"
+           data-statusid="${status.statusId}"
+           data-status-name="${status.statusName}"
+           data-status-for-roles="${status.statusForRoles}">
+           View
+       </button></td></td>
+                        </tr>
+               `;
+           });
+
+           $('#statusTable tbody').html(rowsGetStatus);  },                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+    </script>
       <div class="py-12" id="updateTheStatus">
           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -873,21 +1101,7 @@ Hour creation
                         <th>View </th>
                       </thead>
                       <tbody>
-                    @foreach($statuse=\App\Models\Status::all() as $status)
-                      <tr><td>{{$status->statusName}}</td>
-                          <td><button type="button"
-           class="btn btn-primary form-control"
-           data-toggle="modal"
-           data-target="#myModalUpdateStatus"
-           data-statusid="{{$status->statusId}}"
-           data-status-name="{{$status->statusName}}"
-           data-status-for-roles="{{$status->statusForRoles}}">
-           View
-       </button></td></td>
-                        </tr>
 
-
-                    @endforeach
                     </tbody>
                   </table>
                   </div>

@@ -17,7 +17,8 @@ url: createAdminUrl,
 type: "POST",
 dataType: 'json',
 success: function (data) {
-alert('Success');
+    getAllData();
+showSuccess();
 },
 error: function (xhr) {
 console.log(xhr.responseText); // 🔥 very useful
@@ -50,7 +51,8 @@ url: updateBatchForm,
 type: "POST",
 dataType: 'json',
 success: function (data) {
-alert('Success');
+    getAllData();
+showSuccess();
 },
 error: function (xhr) {
 console.log(xhr.responseText); // 🔥 very useful
@@ -82,7 +84,8 @@ url: assignCurrentBatches,
 type: "POST",
 dataType: 'json',
 success: function (data) {
-alert('Success');
+    getAllData();
+showSuccess();
 },
 error: function (xhr) {
 console.log(xhr.responseText); // 🔥 very useful
@@ -114,7 +117,8 @@ alert('Error');
   type: "POST",
   dataType: 'json',
   success: function (data) {
-  alert('Success');
+      getAllData();
+showSuccess();
   },
   error: function (xhr) {
   console.log(xhr.responseText); // 🔥 very useful
@@ -147,7 +151,8 @@ alert('Error');
     type: "POST",
     dataType: 'json',
     success: function (data) {
-    alert('Success');
+        getAllData();
+        showSuccess();
     },
     error: function (xhr) {
     console.log(xhr.responseText); // 🔥 very useful
@@ -181,7 +186,8 @@ alert('Error');
       type: "POST",
       dataType: 'json',
       success: function (data) {
-      alert('Success');
+          getAllData();
+showSuccess();
       },
       error: function (xhr) {
       console.log(xhr.responseText); // 🔥 very useful
@@ -213,7 +219,8 @@ alert('Error');
               type: "POST",
               dataType: 'json',
               success: function (data) {
-              alert('Success');
+                  getAllData();
+showDeleteSuccess();
               },
               error: function (xhr) {
               console.log(xhr.responseText); // 🔥 very useful
@@ -251,9 +258,10 @@ alert('Error');
                                           data: form.serialize(),
                                           dataType: 'json',
                                           success: function (data) {
+                                              getAllData();
+                                              showSuccess();
                                               console.log("SUCCESS FIRED");
                                               console.log(data);
-                                              alert("Updated!");
                                           },
                                           error: function (xhr) {
                                               console.log(xhr.status);
@@ -286,7 +294,8 @@ alert('Error');
     type: "POST",
     dataType: 'json',
     success: function (data) {
-    alert('Success');
+        getAllData();
+showSuccess();
     },
     error: function (xhr) {
     console.log(xhr.responseText);
@@ -317,7 +326,8 @@ alert('Error');
   type: "POST",
   dataType: 'json',
   success: function (data) {
-  alert('Success');
+      getAllData();
+showSuccess();
   },
   error: function (xhr) {
   console.log(xhr.responseText);
@@ -353,9 +363,8 @@ alert('Error');
                                               data: form.serialize(),
                                               dataType: 'json',
                                               success: function (data) {
-                                                  console.log("SUCCESS FIRED");
-                                                  console.log(data);
-                                                  alert("Updated!");
+                                                  getAllData();
+showSuccess();
                                               },
                                               error: function (xhr) {
                                                   console.log(xhr.status);
@@ -384,7 +393,8 @@ alert('Error');
   type: "POST",
   dataType: 'json',
   success: function (data) {
-  alert('Success');
+      getAllData();
+showSuccess();
   },
   error: function (xhr) {
   console.log(xhr.responseText);
@@ -412,7 +422,8 @@ headers: {
     type: "POST",
     dataType: 'json',
     success: function (data) {
-    alert('Success');
+        getAllData();
+showSuccess();
     },
     error: function (xhr) {
     console.log(xhr.responseText);
@@ -440,7 +451,8 @@ $(function () {
       type: "POST",
       dataType: 'json',
       success: function (data) {
-      alert('Success');
+          getAllData();
+showSuccess();
         },
         error: function (xhr) {
         console.log(xhr.responseText);
@@ -466,7 +478,8 @@ headers: {
   type: "POST",
   dataType: 'json',
         success: function (data) {
-                      alert('Success');
+            getAllData();
+showDeleteSuccess();
         },
       error: function (xhr) {
     console.log(xhr.responseText);
@@ -493,7 +506,8 @@ headers: {
   type: "POST",
   dataType: 'json',
         success: function (data) {
-                      alert('Success');
+            getAllData();
+showDeleteSuccess();
         },
       error: function (xhr) {
     console.log(xhr.responseText);
@@ -519,7 +533,8 @@ headers: {
     type: "POST",
     dataType: 'json',
           success: function (data) {
-                        alert('Success');
+              getAllData();
+showDeleteSuccess();
           },
         error: function (xhr) {
       console.log(xhr.responseText);
@@ -545,7 +560,8 @@ headers: {
         type: "POST",
         dataType: 'json',
               success: function (data) {
-                            alert('Success');
+                  getAllData();
+showSuccess();
               },
             error: function (xhr) {
           console.log(xhr.responseText);
@@ -575,7 +591,8 @@ headers: {
         type: "POST",
         dataType: 'json',
               success: function (data) {
-                            alert('Success');
+                  getAllData();
+showSuccess();
               },
             error: function (xhr) {
           console.log(xhr.responseText);
@@ -603,7 +620,8 @@ headers: {
         type: "POST",
         dataType: 'json',
         success: function (data) {
-        alert('Success');
+            getAllData();
+showSuccess();
         },
         error: function (xhr) {
         console.log(xhr.responseText); // 🔥 very useful
@@ -634,7 +652,8 @@ headers: {
         type: "POST",
         dataType: 'json',
         success: function (data) {
-        alert('Success');
+            getAllData();
+showDeleteSuccess();
         },
         error: function (xhr) {
         console.log(xhr.responseText); // 🔥 very useful

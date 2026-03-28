@@ -19,7 +19,11 @@ class HoursController extends Controller
     {
         //
     }
-
+public function getHourDetailsByAJAX()
+    {
+      $hours = \App\Models\Hours::all();
+      return response()->json($hours);
+    }
     /**
      * Show the form for creating a new resource.
      *

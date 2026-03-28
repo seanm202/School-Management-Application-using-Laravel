@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('getAdminClassRoomDetails')" :active="request()->routeIs('getAdminClassRoomDetails')">
+                    <x-nav-link :href="route('AdminClassRoom')" :active="request()->routeIs('AdminClassRoom')">
                         {{ __('Classroom') }}
                     </x-nav-link>
                 </div>
@@ -242,7 +242,7 @@
                           <x-responsive-nav-link :href="route('AdminAttendance')" :active="request()->routeIs('AdminAttendance')">
                             {{ __('Attendance') }}
                           </x-responsive-nav-link>
-                          <x-responsive-nav-link :href="route('getAdminClassRoomDetails')" :active="request()->routeIs('getAdminClassRoomDetails')">
+                          <x-responsive-nav-link :href="route('AdminClassRoom')" :active="request()->routeIs('AdminClassRoom')">
                             {{ __('Classroom') }}
                           </x-responsive-nav-link>
                           <x-responsive-nav-link :href="route('getAdminAllDetails')" :active="request()->routeIs('getAdminAllDetails')">

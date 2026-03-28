@@ -108,6 +108,15 @@ display:none;
                   }
 
   </style>
+<script type="text/javascript">
+         function getAllData()
+    {
+         getClassRooms();
+    }
+ $(document).ready(function () {
+   getAllData();
+});
+</script>
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -266,192 +275,75 @@ display:none;
  <!--
 
  -->
-    <div class="py-12" id="viewEditClassrooms">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                  View Classroom details<br>
+               <script type="text/javascript">
+              
+                   // For getClassRooms() only
+function getTeacherForClassRooms(){
+    return $.ajax({
+        url: "{{ route('getCompatibleTeachersDetails') }}",
+        method: "GET",
+        dataType: "json"
+    });
+}
+function getClassRooms(){
 
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showFilters">Filter</button>
-          @if(count($classRooms=\App\Models\ClassRoom::join('grades','grades.gradeId','=','class_rooms.grade')
-                                ->join('sections','sections.sectionId','=','class_rooms.section')
-                                ->join('departments','departments.departmentId','=','class_rooms.departmentId')
-                                ->join('semesters','semesters.semesterId','=','class_rooms.semester')
-                                ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
-                                ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                ->select('grades.grade AS grade',
-                                'class_rooms.roomNo AS roomNo',
-                                'sections.sectionName AS sectionName',
-                                'departments.departmentName AS departmentName',
-                                'semesters.semesterName as semesterName',
-                                'details.firstname AS firstName',
-                                'details.lastname AS lastName',
-                                'class_rooms.capacity AS capacity',
-                                'class_rooms.roomNo AS roomNo',
-                                'class_rooms.description AS description',
-                                'class_rooms.classTimeTableId AS classTimeTableId',
-                                'class_rooms.classroomDetailId AS classroomDetailId',
-                                'class_rooms.batchId AS batchId'
-                                )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
-                                ->get())>0)
+    $.ajax({
+        url: "{{ route('getClassRooms') }}",
+        method: "GET",
+        dataType: "json",
+        success: function(classRooms) {
 
+            getTeacherForClassRooms().then(function(teachers){
 
-                                <div id="withoutModal">
-                                   <table>
-                                     <thead>
-                                      <tr>
-                                       <th>Grade</th>
-                                       <th>Room No</th>
-                                       <th>Section</th>
-                                       <th>Department</th>
-                                       <th>Semester</th>
-                                       <th>Class Teacher</th>
-                                       <th>Description</th>
-                                       <th>Capacity</th>
-                                       <th>Update Class Room</th>
-                                       <th>Delete Class Room</th>
-                                       <th>View Class Room</th>
-                                       <th>View Class Timetable</th>
-                                      </tr>
-                                     </thead>
-                                   <tbody>
-                                     @foreach(($classRooms=\App\Models\ClassRoom::join('grades','grades.gradeId','=','class_rooms.grade')
-                                                         ->join('sections','sections.sectionId','=','class_rooms.section')
-                                                         ->join('departments','departments.departmentId','=','class_rooms.departmentId')
-                                                         ->join('semesters','semesters.semesterId','=','class_rooms.semester')
-                                                         ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
-                                                         ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                                         ->select('grades.grade AS grade',
-                                                         'class_rooms.roomNo AS roomNo',
-                                                         'sections.sectionName AS sectionName',
-                                                         'departments.departmentName AS departmentName',
-                                                         'semesters.semesterName as semesterName',
-                                                         'details.firstname AS firstName',
-                                                         'details.lastname AS lastName',
-                                                         'class_rooms.capacity AS capacity',
-                                                         'class_rooms.roomNo AS roomNo',
-                                                         'class_rooms.description AS description',
-                                                         'class_rooms.classTimeTableId AS classTimeTableId',
-                                                         'class_rooms.classroomDetailId AS classroomDetailId',
-                                                         'class_rooms.batchId AS batchId',
-                                                         'class_rooms.classTeacher AS classTeacher'
-                                                         )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
-                                                         ->get()) as $classRoom)
+                let classRoomRows = '';
 
+                classRooms.forEach(function(classRoom){
 
+                    let options = '<option value="">Select Teacher</option>';
 
+                    teachers.forEach(function(teacher){
+                        let selected = teacher.teacherId == classRoom.classTeacher ? 'selected' : '';
 
+                        options += `
+                            <option value="${teacher.teacherId}" ${selected}>
+                                ${teacher.firstName} ${teacher.lastName}
+                            </option>
+                        `;
+                    });
 
+                    classRoomRows += `
+                        <tr>
+                            <td>${classRoom.grade}</td>
+                            <td>${classRoom.roomNo}</td>
+                            <td>${classRoom.sectionName}</td>
+                            <td>${classRoom.departmentName}</td>
+                            <td>${classRoom.semesterName}</td>
 
+                            <td>
+                                <select name="teacherId" class="form-control">
+                                    ${options}
+                                </select>
+                            </td>
 
+                            <td>
+                                <input type="text" class="form-control"
+                                    value="${classRoom.description || ''}">
+                            </td>
 
+                            <td>${classRoom.capacity}</td>
+                        </tr>
+                    `;
+                });
 
-                                                           
-                                                          <tr>
-                                                          <td><form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}
-                                                          {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}{{$classRoom->grade}} </td>
-                                                          <td>{{$classRoom->roomNo}} </td>
-                                                          <td>{{$classRoom->sectionName}} </td>
-                                                          <td>{{$classRoom->departmentName}} </td>
-                                                          <td>{{$classRoom->semesterName}} </td>
-                                                          <td><select name="teacherId" class="form-control" id="teacherId">
-                                                                               @foreach($teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
-                                                                                   ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                                                                   ->select('details.lastname AS lastName',
-                                                                                   'details.firstname AS firstName',
-                                                                                   'teachers.teacherId AS teacherId')
-                                                                                   ->get() as $teacher)
-                                                                                   @if($classRoom->classTeacher==$teacher->teacherId)
-                                                                                     <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                                                                   @else
-                                                                                   <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                                                                   @endif
-                                                                               @endforeach</td>
-                                                          <td>{{Form::text('description',$classRoom->description)}}</td>
-                                                          <td>{{$classRoom->capacity}}</td>
-                                                          <td><button type="button" id="updateClassRoomNotInModal" class="btn btn-primary form-control">Submit</button>
-                                                          {{ Form::close()}}</td>
-                                                          <form action="{{route('destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
-                                                          {{ csrf_field() }}{{ method_field('POST') }}
+                $('#classRoomTable tbody').html(classRoomRows);
 
-                                                          {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
-                                                          <td><button type="button" class="btn btn-primary form-control">Delete</button>
-                                                          {{ Form::close()}}</td>
-                                                          <td><button type="button" class="btn btn-primary form-control" data-class-roomid ="{{$classRoom->classroomDetailId }}" data-class-room-grade="{{$classRoom->grade}}" data-class-room-number="{{$classRoom->roomNo}}" data-class-room-section="{{$classRoom->section}}" data-class-room-department="{{$classRoom->departmentId}}" data-class-room-semester="{{$classRoom->semester}}" data-toggle="modal" data-target="#viewClasses">View</button></td>
-                                                          <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#viewTimetable{{$classRoom->classTimeTableId}}">View</button></td>
-                                                          </tr>
-                                                          </tbody>
-                                                          </table>
-                                                          <div class="modal fade" id="viewTimetable{{$classRoom->classTimeTableId}}">
-                                                             <div class="modal-dialog modal-lg">
-                                                               <div class="modal-content">
+            });
 
-                                                                 <!-- Modal Header -->
-                                                                 <div class="modal-header">
-                                                                   <h4 class="modal-title">Class Timetable</h4>
-                                                                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                 </div>
+        }
+    });
+}
+    </script>
 
-                                                                 <!-- Modal body -->
-                                                                 <div class="modal-body">
-                                                                   <div style="display:flex;">
-
-                                                                                </div>
-                                                                                  @foreach(($days=\App\Models\Days::all()) as $day)
-                                                                                  <div style="display:flex;">
-                                                                                     <div class="dayNames">{{$day->dayName}}</div>
-                                                                                     @foreach(($timetables=\App\Models\Timetable::join('hours','hours.hourId','=','timetables.hourId')
-                                                                                                                               ->join('days','days.dayId','=','timetables.dayId')
-                                                                                                                               ->join('subjects','subjects.subjectId','=','timetables.subjectId')
-                                                                                                                               ->join('teachers','teachers.teacherId','=','timetables.teacherId')
-                                                                                                                               ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                                                                                                               ->select('days.dayName AS dayName',
-                                                                                                                               'days.dayId AS dayId',
-                                                                                                                               'hours.hourId AS hourId',
-                                                                                                                               'hours.hourName AS hourName',
-                                                                                                                               'hours.hourStartingTime AS hourStartingTime',
-                                                                                                                               'subjects.subjectName AS subjectName',
-                                                                                                                               'details.firstName AS firstName',
-                                                                                                                               'details.lastName AS lastName')
-                                                                                                                               ->where('timetables.classroomId','=',$classRoom->classroomDetailId)
-                                                                                                                               ->where('timetables.dayId','=',$day->dayId)
-                                                                                                                                 ->get()) as $classTimetable)
-                                                                                                           @foreach(($hours=\App\Models\Hours::all()) as $hour)
-                                                                                                             @if($day->dayId==$classTimetable->dayId)
-
-                                                                                                                 @if($hour->hourId==$classTimetable->hourId)
-                                                                                                                   <div  class="timeTablesNames">
-                                                                                                                     <div>{{$classTimetable->hourName}} <br>{{$classTimetable->subjectName}}<br>
-                                                                                                                     {{$classTimetable->firstName}}{{$classTimetable->lastName}}<br>
-                                                                                                                    </div>
-                                                                                                                 </div>
-                                                                                                                  @endif
-                                                                                                             @endif
-                                                                                                           @endforeach
-                                                                                    @endforeach
-                                                                                 </div>
-                                                                                 @endforeach
-
-                                                                 </div>
-                                                                 <!-- Modal footer -->
-                                                                 <div class="modal-footer">
-                                                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                 </div>
-
-                                                               </div>
-                                                             </div>
-                                                            </div>
-                                                          @endforeach
-                                                          </div>
-                                                          @else
-                                                          <h3 style="color:red;">List is empty</h3>
-                                                          @endif
-
-                                                          </div>
-                                                          </div>
-                                                          </div>
-                                                          </div>
 
 
 
