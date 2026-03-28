@@ -183,6 +183,7 @@ class AdminController extends Controller
 
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
+       $hours->hourEndingTime = $request->hourStartingTime;
        $hours->status = 1;
        $hours->save();
 
