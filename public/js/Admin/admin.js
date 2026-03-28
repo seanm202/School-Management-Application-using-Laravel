@@ -433,6 +433,36 @@ showSuccess();
 
                                       });
 
+// Delete Hour
+$(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+      });
+
+
+      $('#deleteHourDetails').click(function (e) {
+  e.preventDefault();
+  var deleteHourDetails = $('#deleteHour').attr('action');
+  $.ajax({
+  data: $('#deleteHour').serialize(),
+  url: deleteHourDetails,
+  type: "POST",
+  dataType: 'json',
+  success: function (data) {
+      getAllData();
+showDeleteSuccess();
+  },
+  error: function (xhr) {
+  console.log(xhr.responseText);
+  }
+                                  });
+                                  });
+
+                                    });
+
 
 $(function () {
 
