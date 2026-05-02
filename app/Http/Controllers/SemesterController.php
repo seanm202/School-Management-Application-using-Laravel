@@ -48,25 +48,51 @@ public function getSemesterDetailsByAJAX()
        * @param  \Illuminate\Http\Request  $request
        * @return \Illuminate\Http\Response
        */
-      public function storesemester(Request $request)
-      {
-        //Add A Subject
-                       $validated = $request->validate([
-                         'semesterName' => ['required'],
-                     [
-                     'semesterName.required'=> 'A name must be specified for the semester.',
-                     ]
-                     ]);
-            $semester = new Semester;
-            $semester->semesterName = $request->semesterName;
-            $semester->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
-           $semester->save();
 
-           return response()->json([
-           'status' => true,
-           'message' => 'Semester created successfully.'
-           ]);
-      }
+    public function storesemester(Request $request)
+{
+    // Validation
+    $validated = $request->validate(
+        [
+            'semesterName' => ['required'],
+        ],
+        [
+            'semesterName.required' => 'A name must be specified for the semester.',
+        ]
+    );
+
+    // Add Semester
+    $semester = new \App\Models\Semester;
+    $semester->semesterName = $request->semesterName;
+    $semester->batchId = 1; // You can later make this dynamic
+    $semester->save();
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Semester created successfully.'
+    ]);
+}
+    
+      // public function storesemester(Request $request)
+      // {
+      //   //Add A Subject
+      //                  $validated = $request->validate([
+      //                    'semesterName' => ['required'],
+      //                [
+      //                'semesterName.required'=> 'A name must be specified for the semester.',
+      //                ]
+      //                ]);
+      //       $semester = new \App\Models\Semester;
+      //       $semester->semesterName = $request->semesterName;
+      //       $semester->batchId = 1;//Batch::where('status',1)->select('batchId')->first()->batchId;
+      //      $semester->save();
+
+      //      return response()->json([
+      //      'status' => true,
+      //      'message' => 'Semester created successfully.'
+      //      ]);
+      // }
+    
 
       /**
        * Display the specified resource.

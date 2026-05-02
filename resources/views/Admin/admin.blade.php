@@ -685,7 +685,7 @@ let semesterurl = "/updatesemester";
                         Add Semester
 
                         <form action="{{route('storesemester')}}" method="POST" name="createSemester" id="createSemester">
-                        {{ csrf_field() }}{{ method_field('POST') }}
+                        {{ csrf_field() }}
                               {{Form::label('semesterName','Semester Name : ')}}
                               {{Form::text('semesterName',NULL,array('placeholder'=>'Enter Semester Name','class'=>'form-control'))}}<br><br><hr><br>
                               <button type="button" id="addSemester" class="btn btn-primary form-control">Create</button>
@@ -837,8 +837,8 @@ Hour creation
            {{Form::time('hourStartingTime',null,array('class'=>'form-control','id'=>'thisHourStartingTime'))}}
              <button type="button" id="saveHourDetails" class="btn btn-primary form-control">Save</button>{{Form::close()}}
          <form action="{{route('deleteHour')}}" method="POST" name="deleteHour" id="deleteHour">
-           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',null,array('id' => 'thisDeleteHourId'))}}
-        <button type="button" class="btn btn-primary form-control">Delete</button>
+           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',26,array('id' => 'thisDeleteHourId'))}}
+        <button type="button" id="deleteHourDetails" class="btn btn-primary form-control">Delete</button>
                {{Form::close()}}
 
          </div>

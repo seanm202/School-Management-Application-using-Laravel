@@ -183,6 +183,7 @@ class AdminController extends Controller
 
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
+       $hours->hourEndingTime = $request->hourStartingTime;
        $hours->status = 1;
        $hours->save();
 
@@ -213,11 +214,14 @@ class AdminController extends Controller
     public function deleteHour(Request $request)
     {
         //Store or add admin
-        $hours =Hours::where('hourId','=',$request->hourId)->first();
+        $hour =Hours::where('hourId','=',$request->hourId)->first();
 
-        $hours->delete();
+        $hour->delete();
 
-        return redirect()->route('Admin',['id'=>'editTheHourName']);
+        return response()->json([
+        'status' => true,
+        'message' => 'Hour / details deleted!'
+        ]);
 
     }
 
