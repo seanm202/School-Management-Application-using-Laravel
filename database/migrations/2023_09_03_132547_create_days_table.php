@@ -19,6 +19,42 @@ return new class extends Migration
             $table->integer('status');
             $table->timestamps();
         });
+        
+        DB::table('days')->insert([
+            'dayId' => 1,
+            'dayName' => "Monday",
+            'status' => 1,
+        ]);
+        
+        DB::table('days')->insert([
+            'dayId' => 2,
+            'dayName' => "Tuesday",
+            'status' => 1,
+        ]);
+        
+        DB::table('days')->insert([
+            'dayId' => 3,
+            'dayName' => "Wednesday",
+            'status' => 1,
+        ]);
+        
+        DB::table('days')->insert([
+            'dayId' => 4,
+            'dayName' => "Thursday",
+            'status' => 1,
+        ]);
+        
+        DB::table('days')->insert([
+            'dayId' => 5,
+            'dayName' => "Friday",
+            'status' => 1,
+        ]);
+        
+        DB::table('days')->insert([
+            'dayId' => 6,
+            'dayName' => "Saturday",
+            'status' => 1,
+        ]);
     }
 
     /**

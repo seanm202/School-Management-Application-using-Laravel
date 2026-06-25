@@ -32,18 +32,28 @@ class StudentMarksController extends Controller
 
           foreach($subjects as $subject)
           {
-            $studentMark= new StudentMarks;
-            $studentMark->userId = $student->userId;
-              $studentMark->studentId = $student->studentId;
-              $studentMark->classRoomId = $student->studentClassroom;
-              $studentMark->subjectId = $subject->subjectId;
-              $studentMark->marks = 0;
-              $studentMark->status = 3;
-              $studentMark->batchId = $batchId->batchId;
-              $studentMark->save();
+              StudentMarks::updateOrCreate(
+            [
+            'studentId'  => $student->studentId,
+            'subjectId'   => $subject->subjectId,
+            'classRoomId' => $student->studentClassroom,
+        ],
+        [
+            'userId' => $student->userId,
+            'studentId' => $student->studentId,
+            'subjectId'    => $subject->subjectId,
+            'classRoomId'   => $student->studentClassroom,
+            'marks' => 0,
+            'status'    => 8,
+            'batchId'   => $batchId->batchId
+        ]
+        );
           }
               }
-            return redirect()->route('AdminStudent',['id'=>'createMarkEntry']);
+            return response()->json([
+         'status' => true,
+         'message' => 'Subject Mark List Created successfully|||'
+         ]);
     }
 
     /**
@@ -60,7 +70,7 @@ class StudentMarksController extends Controller
       $studentMarks->classRoomId = $request->classroomDetailId;
       $studentMarks->subjectId =  $request->subjectId;
       $studentMarks->marks = $request->subjectMarks;
-      $studentMarks->status = 2;
+      $studentMarks->status = 9;
       $studentMarks->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       $studentMarks->save();
       return redirect()->route('AdminStudent');

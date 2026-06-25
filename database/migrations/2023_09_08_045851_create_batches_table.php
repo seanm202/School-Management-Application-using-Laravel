@@ -18,9 +18,17 @@ return new class extends Migration
             $table->string('batchName');
             $table->string('batchStartingYear');
             $table->string('batchEndingYear');
-            $table->string('status');
+            $table->integer('status');
             $table->timestamps();
         });
+        
+        DB::table('batches')->insert([
+            'batchId' => 1,
+            'batchName' => "2025-2026",
+            'batchStartingYear' => "2025",
+            'batchEndingYear' => "2026",
+            'status' => 1,
+        ]);
     }
 
     /**

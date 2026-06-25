@@ -10,6 +10,7 @@
 
     $('#addAdminButton').click(function (e) {
 e.preventDefault();
+alert("dsf");
 var createAdminUrl =$('#FormAddAdminAdmin').attr('action');
 $.ajax({
 data: $('#FormAddAdminAdmin').serialize(),
@@ -52,6 +53,7 @@ type: "POST",
 dataType: 'json',
 success: function (data) {
     getAllData();
+ console.log("SUCCESS");
 showSuccess();
 },
 error: function (xhr) {
@@ -415,10 +417,10 @@ headers: {
 
         $('#addHourButton').click(function (e) {
     e.preventDefault();
-    var updateHourDetails = $('#createHour').attr('action');
+    var createHourDetails = $('#createHour').attr('action');
     $.ajax({
     data: $('#createHour').serialize(),
-    url: updateHourDetails,
+    url: createHourDetails,
     type: "POST",
     dataType: 'json',
     success: function (data) {
@@ -446,7 +448,7 @@ $(function () {
       $('#deleteHourDetails').click(function (e) {
   e.preventDefault();
   var deleteHourDetails = $('#deleteHour').attr('action');
-          alert(deleteHourDetails);
+          
   $.ajax({
   data: $('#deleteHour').serialize(),
   url: deleteHourDetails,

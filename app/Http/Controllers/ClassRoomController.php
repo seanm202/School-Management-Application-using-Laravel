@@ -25,6 +25,71 @@ class ClassRoomController extends Controller
         //
     }
 
+     public function toGetAStudentClassRoomByAJAX()
+    {
+           $classrooms =\App\Models\ClassRoom::join('grades','grades.gradeId','=','class_rooms.grade')
+         ->join(
+            'sections',
+            'sections.sectionId',
+            '=',
+            'class_rooms.section'
+        )
+        ->join(
+            'departments',
+            'departments.departmentId',
+            '=',
+            'class_rooms.departmentId'
+        )
+        ->join(
+            'semesters',
+            'semesters.semesterId',
+            '=',
+            'class_rooms.semester'
+        )
+        ->join(
+            'teachers',
+            'teachers.teacherId',
+            '=',
+            'class_rooms.classTeacher'
+        )
+        ->join(
+            'users',
+            'users.userId',
+            '=',
+            'teachers.userId'
+        )
+        ->join(
+            'details',
+            'details.detailId',
+            '=',
+            'users.detailsId'
+        )
+        ->join(
+            'batches',
+            'batches.batchId',
+            '=',
+            'class_rooms.batchId'
+        )
+        ->select(
+            'class_rooms.classroomDetailId AS classroomDetailId',
+            'class_rooms.roomNo AS roomNo',
+            'class_rooms.capacity AS capacity',
+            'details.firstname AS teacherFirstName',
+            'details.lastname AS teacherLastName',
+            'grades.*',
+            'sections.*',
+            'departments.*',
+            'semesters.*',
+            'teachers.*',
+            'users.*',
+            'details.*',
+            'batches.*'
+        )
+        ->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
+        ->get();
+          return response()->json($classrooms);
+    }
+
     public function getAdminClassRoomDetails()
     {
         $classRooms=\App\Models\ClassRoom::all();
@@ -97,6 +162,7 @@ class ClassRoomController extends Controller
                $classRoom->classTeacher =    $request->classTeacher;
                $classRoom->description =$request->classDescription;
                $classRoom->capacity =$request->classCapacity;
+               $classRoom->status =1;
                $classRoom->classTimeTableId = $request->classTimeTableId ? $request->classTimeTableId:1;
                $classRoom->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
                $classRoom->save();
@@ -191,14 +257,17 @@ class ClassRoomController extends Controller
 
        //Update A Classroom
         $batch= Batch::where('status',1)->select('batchId')->first();
-       $student= Student::where('students.studentId','=',$request->studentId)
+       $student= Student::where('students.studentId','=',$request->studentIdForAssignClassRoom)
         ->where('students.batchId', $batch->batchId)->first();
-        $student->studentClassroom=$request->classroomDetailId;
-        $student->status=4;
+        $student->studentClassroom=$request->classRoomId;
+        $student->status=6;
         $student->save();
        //return redirect()->route('AdminStudent');
-return redirect()->route('AdminStudent',['id'=>'assignClassRoomToStudents'])->with('success', 'Updated successfully.');
-    }
+        return response()->json([
+       'status' => true,
+       'message' => 'Data Updated!'
+       ]);
+       }
 
     /**
      * Remove the specified resource from storage.

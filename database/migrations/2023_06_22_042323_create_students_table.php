@@ -26,6 +26,20 @@ return new class extends Migration
             $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
+
+        
+        DB::table('students')->insert([
+            'studentId' => 1,
+            'userId' => 3,
+            'studentDetailsId' => 3,
+            'studentClassroom' => 1,
+            'studentGrade' => 1,
+            'studentSection' => 1,
+            'studentSemester' => 1,
+            'studentDepartmentId' => 1,
+            'status' => 1,
+            'batchId' => 1
+        ]);
     }
 
     /**

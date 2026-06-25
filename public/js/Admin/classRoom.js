@@ -1,3 +1,170 @@
+console.log('classRoom.js loaded');
+console.log(typeof showSuccess);
+
+
+// 
+
+// 
+
+// 
+
+
+function getTeachersList(callback) {
+
+    $.ajax({
+        url: "/getListOfTeachers",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(teacher) {
+                options += `
+                    <option value="${teacher.teacherId}">
+                        ${teacher.firstName} ${teacher.lastName}
+                    </option>`;
+            });
+
+            callback(options);
+        },
+          error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+    });
+}
+// 
+
+// 
+
+// 
+
+
+   function getDepartmentsList(callback) {
+
+    $.ajax({
+        url: "/getListOfDepartments",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(department) {
+                options += `
+                    <option value="${department.departmentId}">
+                        ${department.departmentName}
+                    </option>`;
+            });
+
+            callback(options);
+        },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+    });
+}
+// 
+
+// 
+
+// 
+
+
+  function getSemestersList(callback) {
+
+    $.ajax({
+        url: "/getListOfSemesters",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(semester) {
+                options += `
+                    <option value="${semester.semesterId}">
+                        ${semester.semesterName}
+                    </option>`;
+            });
+
+            callback(options);
+        },
+      error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+    });
+}
+// 
+
+// 
+
+// 
+
+ function getSectionsList(callback) {
+
+    $.ajax({
+        url: "/getSectionsList",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(section) {
+                options += `
+                    <option value="${section.sectionId}">
+                        ${section.sectionName}
+                    </option>`;
+            });
+
+            callback(options);
+        },
+          error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+    });
+}
+function getGradesList(callback) {
+
+    $.ajax({
+        url: "/getGradesList",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(grade) {
+                options += `
+                    <option value="${grade.gradeId}">
+                        ${grade.grade}
+                    </option>`;
+            });
+
+            callback(options);
+        }
+    });
+}
+
+// 
+
+// 
+
+// 
+
 $(function () {
 
 $.ajaxSetup({
@@ -15,10 +182,14 @@ headers: {
 type: "POST",
 dataType: 'json',
       success: function (data) {
-                    alert('Success');
+                   getAllData();
+            showSuccess();
       },
-    error: function (xhr) {
+      error: function (xhr) {
   console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
       }
       });
         });
@@ -47,39 +218,69 @@ alert('l');
             processData: false,
             success:function(response)
             {
+                   getAllData();
+            showSuccess();
             },
-            error: function(response) {
-            }
+               error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
         });
     });
 
 });
 
+   //
+   //
+   //
+   $(function () {
 
-$(document).ready(function(){
+                                                                $.ajaxSetup({
+                                                                    headers: {
+                                                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                    }
+                                                              });
 
-  $('#createClassRoom').ajaxForm(function() {
-        event.preventDefault();
-alert('l');
-        var url = $(this).attr('data-action');
 
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
-        });
+                                                              $('#addClassroom').click(function (e) {
+    e.preventDefault();
+
+    console.log('Button clicked');
+
+    var FormDataToCreateClassRoom =
+        $('#FormToCreateClassRoom').attr('action');
+
+    console.log('URL:', FormDataToCreateClassRoom);
+    console.log('DATA:', $('#FormToCreateClassRoom').serialize());
+
+    $.ajax({
+        data: $('#FormToCreateClassRoom').serialize(),
+        url: FormDataToCreateClassRoom,
+        type: "POST",
+
+        success: function (data) {
+                   getAllData();
+            showSuccess();
+        },
+
+           error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
     });
-
 });
+
+                                                            });
+
+                                                            //
+                                                            //
+                                                            //
+
+
 
 $(function () {
 
@@ -98,10 +299,14 @@ headers: {
 type: "POST",
 dataType: 'json',
       success: function (data) {
-                    alert('Success');
+                   showSuccess();
+                   getAllData();
       },
-    error: function (xhr) {
+       error: function (xhr) {
   console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
       }
       });
         });
@@ -128,7 +333,8 @@ headers: {
 type: "POST",
 dataType: 'json',
       success: function (data) {
-                    alert('Success');
+                   showSuccess();
+                   getAllData();
       },
     error: function (xhr) {
   console.log(xhr.responseText);
@@ -140,3 +346,94 @@ dataType: 'json',
 
 //
 //
+$(function () {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(document).on('click', '.selectForAssignClassRoomAStudent', function () {
+
+
+        var studentId = $(this).data('bs-studentid');
+        var studentFirstName = $(this).data('bs-first-name');
+        var studentLastName = $(this).data('bs-last-name');
+        var studentEmail = $(this).data('bs-email');
+        var studentPhone = $(this).data('bs-phone');
+
+        $.ajax({
+            url: "/toGetAStudentClassRoomByAJAX",
+            method: "GET",
+            dataType: "json",
+
+            success: function(data) {
+
+                let rowsGetForAssignClassRoomToStudent = "";
+                let classroomassignurl = "/assignClassroomStudent";
+
+                $("#exampleModalStudentFullName").html(
+                    "Name : " + studentFirstName + " " + studentLastName
+                );
+
+                $("#exampleModalStudentEmail").html(
+                    "Email : " + studentEmail
+                );
+
+                $("#exampleModalStudentPhone").html(
+                    "Phone : " + studentPhone
+                );
+
+                data.forEach(function(classroom) {
+
+                    rowsGetForAssignClassRoomToStudent += `
+                        <form method="POST" action="{{ route('createclassRoom') }}" name="createClassRoom" id="FormToCreateClassRoom">
+                        <tr>
+                            <td>${classroom.grade}</td>
+                            <td>${classroom.sectionName}</td>
+                            <td>${classroom.roomNo}</td>
+                            <td>${classroom.departmentName}</td>
+                            <td>${classroom.semesterName}</td>
+                            <td>${classroom.teacherFirstName} ${classroom.teacherLastName}</td>
+                            <td>${classroom.capacity}</td>
+                            <td>
+                                <form action="${classroomassignurl}"
+                                      method="POST"
+                                      class="assignClassroomIdForStudent">
+
+                                    <input type="hidden"
+                                           name="classRoomId"
+                                           value="${classroom.classroomDetailId}">
+
+                                    <input type="hidden"
+                                           name="studentIdForAssignClassRoom"
+                                           value="${studentId}">
+
+                                    <button type="submit"
+                                            class="btn btn-primary form-control" data-bs-dismiss="modal"
+                                            class="selectedForAssignClassRoomAStudent">
+                                        Choose
+                                    </button>
+
+                                </form>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                $('#createClassRoomPart')
+                    .html(rowsGetForAssignClassRoomToStudent);
+            },
+
+    error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+        });
+
+    });
+
+});

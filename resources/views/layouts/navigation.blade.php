@@ -11,54 +11,61 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
+            <!-- <div class="flex"> -->
                 <!-- Logo -->
-                @if ( Auth::user()->role == 3)
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('Admindashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+                @if ( Auth::user()->role == 1)
+                    <div class="flex">
+                        <div class="shrink-0 flex items-center">
+                            <a href="{{ route('Admindashboard') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                            </a>
+                        </div>
+                    </div>
                 @endif
                 @if ( Auth::user()->role == 2)
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('Teacherdashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+                    <div class="flex">
+                        <div class="shrink-0 flex items-center">
+                            <a href="{{ route('Teacherdashboard') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                            </a>
+                        </div>
+                    </div>
                 @endif
-                @if ( Auth::user()->role == 4)
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('Studentdashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+                @if ( Auth::user()->role == 3)
+                    <div class="flex">
+                        <div class="shrink-0 flex items-center">
+                            <a href="{{ route('Studentdashboard') }}">
+                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                            </a>
+                        </div>
+                    </div>
                 @endif
 
                 <!-- Navigation Links -->
-                @if ( Auth::user()->role == 3)
-                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('Admindashboard')" :active="request()->routeIs('Admindashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('Admin')" :active="request()->routeIs('Admin')">
-                        {{ __('Admin') }}
-                    </x-nav-link>
-                </div>
+                @if ( Auth::user()->role == 1)
+                    <div class="flex flex-wrap justify-center gap-x-6 gap-y-3">
+                        <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('Admindashboard')" :active="request()->routeIs('Admindashboard')">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('Admin')" :active="request()->routeIs('Admin')">
+                                {{ __('Admin') }}
+                            </x-nav-link>
+                        </div>
 
-                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('AdminAttendance')" :active="request()->routeIs('AdminAttendance')">
-                        {{ __('Attendance') }}
-                    </x-nav-link>
-                </div>
+                        <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('AdminAttendance')" :active="request()->routeIs('AdminAttendance')">
+                                {{ __('Attendance') }}
+                            </x-nav-link>
+                        </div>
 
-                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('AdminClassRoom')" :active="request()->routeIs('AdminClassRoom')">
-                        {{ __('Classroom') }}
-                    </x-nav-link>
-                </div>
+                        <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('AdminClassRoom')" :active="request()->routeIs('AdminClassRoom')">
+                                {{ __('Classroom') }}
+                            </x-nav-link>
+                        </div>
 
                 <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('getAdminAllDetails')" :active="request()->routeIs('getAdminAllDetails')">
@@ -106,8 +113,11 @@
                         {{ __('Teacher') }}
                     </x-nav-link>
                 </div>
+                </div>
                 @endif
                 @if ( Auth::user()->role == 2)
+                <!-- <div class="flex"> -->
+                    <div class="flex flex-wrap justify-center gap-x-6 gap-y-3">
                 <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('Teacherdashboard')" :active="request()->routeIs('Teacherdashboard')">
                         {{ __('Dashboard') }}
@@ -131,8 +141,11 @@
                         {{ __('Details') }}
                     </x-nav-link>
                 </div>
+                </div>
                 @endif
-                @if ( Auth::user()->role == 4)
+                @if ( Auth::user()->role == 3)
+                <!-- <div class="flex"> -->
+                    <div class="flex flex-wrap justify-center gap-x-6 gap-y-3">
                 <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentDashboard')" :active="request()->routeIs('StudentDashboard')">
                         {{ __('Dashboard') }}
@@ -161,9 +174,9 @@
                         {{ __('Details') }}
                     </x-nav-link>
                 </div>
-
+</div>
                 @endif
-            </div>
+            <!-- </div> -->
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -232,7 +245,7 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-                @if ( Auth::user()->role == 3)
+                @if ( Auth::user()->role == 1)
                     <x-responsive-nav-link :href="route('Admindashboard')" :active="request()->routeIs('Admindashboard')">
                             {{ __('Dashboard') }}
                           </x-responsive-nav-link>
@@ -284,7 +297,7 @@
                             {{ __('Details') }}
                           </x-responsive-nav-link>
                 @endif
-                @if ( Auth::user()->role == 4)
+                @if ( Auth::user()->role == 3)
                           <x-responsive-nav-link :href="route('StudentDashboard')" :active="request()->routeIs('StudentDashboard')">
                             {{ __('Dashboard') }}
                           </x-responsive-nav-link>

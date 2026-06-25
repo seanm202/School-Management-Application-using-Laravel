@@ -33,13 +33,13 @@ class AuthenticatedSessionController extends Controller
         ->select('role')
         ->where('email','=',$request->email)
         ->first();
-        if($role->role==4)
+        if($role->role==3)
         {
           return redirect(RouteServiceProvider::STUDENT);
         }
-        else if($role->role==3)
+        else if($role->role==1)
         {
-          return redirect()->route('Admindashboard');
+          return redirect(RouteServiceProvider::ADMIN);
         }
         else if($role->role==2)
         {

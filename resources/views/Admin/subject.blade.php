@@ -1,11 +1,22 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/Admin/subject.js') }}"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+ <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  </script>
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
 <!--
@@ -14,6 +25,157 @@
 
 
  -->
+
+<style>
+
+/*
+
+For showing error
+
+*/
+
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+
+/* 
+For table
+*/
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+</style>
 
 <x-app-layout>
     <x-slot name="header">
@@ -47,6 +209,229 @@
     <div>
 
 
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div> 
+
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
+<!-- 
+
+-->
+<div class="modal fade" id="subjectListModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Subject Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Data will be placed inside these elements -->
+        <table id="tableForDisplayingSubjectList">
+            <thead>
+                <tr>
+                    <th>Subject Name</th>
+                    <th>Subject Type</th>
+                    <th>Subject Code</th>
+                    <th>Subject Max. Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        
+        <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
+
+-->
+<script type="text/javascript">
+  
+      $(document).ready(function () {
+   getAllData();
+});
+    
+     
+function getAllData()
+    {
+        listSubjectCategories();
+        toDisplayPriorityValues();
+        //  getSubjects();
+    }
+    
+    function listSubjectCategories()
+    {
+        $.ajax({
+                url: "{{ route('getSubjectCategoriesByAJAX') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                    console.log(data); // You can view the data in the browser console
+let rowsGetSubjectCategory = "";
+    
+           data.forEach(function(subjectCategory){
+// let roleupdateurl = "/updateRole";
+               rowsGetSubjectCategory += `
+                    <tr>
+    <td>${subjectCategory.grade} </td>
+    <td>${subjectCategory.departmentName}</td>
+    <td>${subjectCategory.semesterName}</td>
+    <td><button type="button" class="btn btn-primary form-control"  id="viewSubjectListModal"
+            data-bs-grade-id="${subjectCategory.gradeId}"
+            data-bs-department-id="${subjectCategory.departmentId}"
+            data-bs-semester-id="${subjectCategory.semesterId}"
+            data-bs-torlab="${subjectCategory.torlab}"
+            data-bs-toggle="modal"
+data-bs-target="#subjectListModal">
+            View
+        </button></td>
+            </tr>
+               `;
+           });
+
+           $('#getSubjectsList tbody').html(rowsGetSubjectCategory);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText); 
+    console.log("Error:", thrownError);
+                }
+            });
+        }
+
+        function toDisplayPriorityValues()
+    {
+        $.ajax({
+                url: "{{ route('toDisplayPriorityValues') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                    console.log(data); // You can view the data in the browser console
+let rowsGetToDisplayPriorityValues = "";
+    
+           data.forEach(function(priority){
+               rowsGetToDisplayPriorityValues += `
+<tr>
+        <input type="hidden" name="priorityId" class="priorityId" value="${priority.priorityId}">
+
+        <td>${priority.priorityId}</td>
+
+        <td>
+            <input type="text"
+                   name="priorityName"
+                   value="${priority.priorityName}"
+                   class="priorityName form-control">
+        </td>
+
+        <td>
+            <input type="text"
+                   name="priorityValue"
+                   value="${priority.priorityValue}"
+                   class="priorityValue form-control">
+        </td>
+
+        <td>
+            <button type="button"
+                class="buttonForUpdatePriority btn btn-primary form-control"
+                data-url="editPriority">
+            Update
+        </button>
+        </td>
+</tr>
+`;
+           });
+
+           $('#toDisplayPriorityValues tbody').html(rowsGetToDisplayPriorityValues);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    var errors = jqXHR.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+                }
+            });
+        }
+
+        // 
+        // 
+        //
+
+        
+
+const subjectListModal = document.getElementById('subjectListModal');
+// console.log(document.getElementById('subjectListModal'));
+if (subjectListModal) {
+  subjectListModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    const button = event.relatedTarget;
+    // Extract info from data-* attributes
+    const gradeId = button.getAttribute('data-bs-grade-id');
+    const departmentId = button.getAttribute('data-bs-department-id');
+    const semesterId = button.getAttribute('data-bs-semester-id');
+    
+$.ajax({
+
+
+
+                url: "{{ route('getSubjectsList') }}",
+                method: "GET", 
+                data:{
+                            gradeId:gradeId,
+                            departmentId:departmentId,
+                            semesterId:semesterId
+
+                        },
+                dataType: "json", 
+                success: function(data) {
+                    console.log(data); 
+let rowsGetSubjects = "";
+           data.forEach(function(subjectsLists){
+// let roleupdateurl = "/updateRole";
+               rowsGetSubjects += `
+                    <tr>
+    <td>${subjectsLists.subjectName} </td>
+    <td>${subjectsLists.torlab}</td>
+    <td>${subjectsLists.subjectCode}</td>
+    <td>${subjectsLists.subjectMaxMarks} </td>
+            </tr>
+               `;
+           });
+
+           $('#tableForDisplayingSubjectList tbody').html(rowsGetSubjects);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText);
+    console.log("Error:", thrownError);
+                }
+            });
+
+  });
+}    
+
+    </script>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
@@ -63,7 +448,8 @@
 </div>
 
 
-    @if ( Auth::user()->role != 3)
+
+    @if ( Auth::user()->role != 1)
 
       <script type="text/javascript">
       window.location = "{{url('logout')}}";//here double curly bracket
@@ -86,7 +472,7 @@
                         Add Subject
                         <br>
 
- <form action="{{route('storeSubject')}}" method="POST"  enctype="multipart/form-data" name="createSubject" id="createSubject">
+ <form action="{{route('storeSubject')}}" method="POST"  enctype="multipart/form-data" name="createSubject" id="addSubjectAdmin">
  @csrf
 
    <table class="table">
@@ -139,7 +525,7 @@
                <td>
                <select name="torLab">
                  <option value="Theory">Theory</option>
-                   <option value="Lab">Lab</option>')
+                   <option value="Lab">Lab</option>
                 </select></td></tr>
            <tr>
              <th>Subject Priority : </th>
@@ -150,7 +536,7 @@
            </select></td></tr>
            <tr>
              <th>Submit</th>
-             <td><button type="button" id="buttonForAddSubject" class="btn btn-primary form-control">Save</button>{{Form::close()}}</td></tr>
+             <td><button type="button" id="buttonForAddSubjectAdmin" class="btn btn-primary form-control">Save</button></form></td></tr>
 
 
 
@@ -181,7 +567,7 @@
 
                         Subjects<br>
               @if(count($subjects = \App\Models\Subject::where('subjects.batchId','=',1)->get())>0)
-                <table class="table">
+                <table class="table" id="getSubjectsList">
                   <thead>
                     <tr>
                       <th>Grade : </th>
@@ -189,62 +575,11 @@
                       <th>Semester : </th>
                       <th>View List</th>
                     </tr>
-                  @foreach(($subjects = \App\Models\Subject::where('subjects.batchId','=',1)
-                    ->join('semesters','semesters.semesterId','=','subjects.semesterId')
-                    ->join('grades','grades.gradeId','=','subjects.subjectGrade')
-                    ->join('departments','departments.departmentId','=','subjects.departmentId')
-                    ->orderBy('gradeId','DESC')
-                    ->orderBy('semesters.semesterId','ASC')
-                    ->groupBy(
-    'semesters.semesterId',
-    'semesters.semesterName',
-    'departments.departmentId',
-    'departments.departmentName',
-    'grades.gradeId',
-    'grades.grade',
-    'subjects.subjectId',
-    'subjects.subjectName',
-    'subjects.subjectMaxMarks',
-    'subjects.subjectTextName',
-    'subjects.subjectCode',
-    'subjects.torlab'
-)
-                    ->select('semesters.semesterId AS semesterId',
-                    'semesters.semesterName AS semesterName',
-                    'departments.departmentId AS departmentId',
-                    'departments.departmentName as departmentName',
-                    'grades.gradeId AS gradeId',
-                    'grades.grade AS gradeName',
-                    'subjects.subjectId AS subjectId',
-                    'subjects.subjectName AS subjectName',
-                    'subjects.subjectMaxMarks AS subjectMaxMarks',
-                    'subjects.subjectTextName AS subjectTextName',
-                    'subjects.subjectCode AS subjectCode',
-                    'subjects.torlab AS torlab'
-                    )->get()) as  $subject)
-
-                         <tr style="padding:5px;padding-left:20px;padding-right:20px;">
-                          <td style="padding:5px;padding-left:20px;padding-right:20px;">{{$subject->gradeName}}
-                          </td>
-                            <td style="padding:5px;padding-left:20px;padding-right:20px;">{{$subject->departmentName}}
-                           </td>
-                      <td style="padding:5px;padding-left:20px;padding-right:20px;">{{$subject->semesterName}}
-                         </td>
-                         <td style="padding:5px;padding-left:20px;padding-right:20px;"><button type="button" name="submitSelectedSubjectDetails" id="submitSelectedSubjectDetail" class="btn btn-primary"
-                           data-subjectid="{{$subject->subjectId}}"
-                           data-subject-name="{{$subject->subjectName}}"
-                            data-subject-gradeid="{{$subject->gradeId}}"
-                            data-departmentid="{{$subject->departmentId}}"
-                            data-semesterid="{{$subject->semesterId}}"
-                            data-max-marks="{{$subject->subjectMaxMarks}}"
-                            data-subject-text-name="{{$subject->subjectTextName}}"
-                            data-subject-code="{{$subject->subjectCode}}"
-                            data-theory-lab="{{$subject->torlab}}"
-                            data-priority="{{$subject->priority}}"
-                            data-toggle="modal" data-target="#myModalUpdateSubjects">View</button></td>
-                    </tr>
-                   @endforeach
                     </thead>
+                    <tbody>
+
+                    </tbody>
+                         
                     </table>
                 @else
                    <h3 style="color:red;">List is empty</h3>
@@ -401,51 +736,21 @@
                   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                           <div class="p-6 text-gray-900">
-            @if(count($priorities = \App\Models\Priority::all())>0)
-            <table class="table">
-<tr>
+                            <h3>Edit Priority Data</h3>
+            <table class="table" id="toDisplayPriorityValues">
+<thead>
+            <tr>
     <th>Priority Id</th>
     <th>Priority Name</th>
     <th>Priority Value</th>
     <th>Update</th>
 </tr>
+</thead>
+<tbody>
 
-@foreach(($priorities = \App\Models\Priority::all()) as $priority)
-<tr>
-    <td>{{ $priority->priorityId }}</td>
+</tbody>
 
-    <td colspan="3">
-        <form action="{{ route('editPriority') }}" method="POST" class="editPriority">
-            @csrf
-            {{ Form::hidden('priorityId', $priority->priorityId) }}
-
-            <div class="row">
-                <div class="col-md-4">
-                    {{ Form::text('priorityName', $priority->priorityName, [
-                        'placeholder' => 'Enter Priority Name',
-                        'class' => 'form-control'
-                    ]) }}
-                </div>
-
-                <div class="col-md-4">
-                    {{ Form::text('priorityValue', $priority->priorityValue, [
-                        'placeholder' => 'Enter Priority Value',
-                        'class' => 'form-control'
-                    ]) }}
-                </div>
-
-                <div class="col-md-4">
-                    <button type="button" class="buttonForUpdatePriority btn btn-primary form-control">
-                        Save
-                    </button>
-                </div>
-            </div>
-        </form>
-    </td>
-</tr>
-@endforeach
 </table>
-            @endif
 
           </div>
                         </div>
@@ -456,4 +761,6 @@
        -->
 
 
+<script src="{{ asset('js/Admin/commonContent.js') }}"></script>
+<script src="{{ asset('js/Admin/subject.js') }}"></script>
 </x-app-layout>

@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -10,6 +10,159 @@
 <link href="{{ asset('css/Admin/admin.css') }}" rel="stylesheet">
 
 <script src="{{ asset('js/sidebar.js') }}"></script>
+
+                  <script src="{{ asset('js/Admin/details.js') }}"></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
+<style>
+
+/*
+
+For showing error
+
+*/
+
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+
+/* 
+For table
+*/
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+</style>
 
 <x-app-layout>
     <x-slot name="header">
@@ -38,10 +191,301 @@
            </div>
         @endif
     </x-slot>
+    
+    <script type="text/javascript">
+
+function getRoles(callback) {
+
+    $.ajax({
+        url: "/getRoles",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(roleList) {
+                options += `
+                    <option value="${roleList.roleId}">
+                        ${roleList.roleName}
+                    </option>`;
+            });
+            callback(options);
+        }
+    });
+
+}
+
+// 
+
+// 
+
+// 
+
+
+ $(document).ready(function () {
+
+   $('#exampleModalLongNewUserUserId').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+   var newUserId = button.attr('data-user-id');
+$.ajax({
+                url: "{{ route('getDataForAddingDetailsOfNewUser') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                data:{
+                  newUserId:newUserId
+                },
+                dataType: "json", // Expect a JSON response
+                success: function(newUserData) { 
+
+
+
+    let rowsGetNewUserDetail = "";
+        rowsGetNewUserDetail += `
+        <form action="{{route('storeDetails')}}" method="POST" name="addDetails" id="addDetails">
+                                    {{ csrf_field() }}{{ method_field('POST') }}
+                                      <table class="table">
+                                        <tr>
+                                          <th>Salutation</th>
+                                          <td>
+                                        <select name="salutation" id="forSalutationId">
+                                           <option value="Mr./Ms." selected>Mr./Ms.</option>
+                                             <option value="Mr.">Mr.</option>
+                                             <option value="Ms.">Ms.</option>
+                                        </select>
+                                      </td>
+                                    </tr>
+                                        <tr><th>First name</th>
+                                      <td><input type="text" name="firstName" id="firstName" placeholder="Enter first name" class="form-control"/> </td>
+                                      </tr>
+                                      <tr>
+                                        <th>Last name</th>
+                                      <td><input type="text" name="lastName" id="lastName" placeholder="Enter last name" class="form-control"/> </td></tr>
+                                        <tr>
+                                        <th>Age</th>
+                                      <td><input type="number" name="age" id="ageId" placeholder="Enter your age" class="form-control"/></td></tr>
+                                        <tr>
+                                        <th>Date of birth</th>
+                                      <td><input type="date" name="dob" id="dobId" placeholder="Enter your date of birth" class="form-control"/></td></tr>
+                                        <tr><input type="hidden" name="userId" id="userId" value="1" class="form-control"/>
+                                          
+                                          <th>Contact Number</th>
+                                          <td><input type="tel+" name="contactNumber" id="contactNumber" placeholder="Enter Your Contact Number" class="form-control"/>
+	</td></tr>
+                                          <tr>
+                                            <th>Alternate Contact Number</th>
+                                            <td><input type="tel:" name="alternateContactNumber" id="alternateContactNumber" placeholder="Enter Your Alternate Contact Number" class="form-control"/></td></tr>
+                                            <tr>
+                                        <th>Assign Role : </th>
+                                      <td><select name="roleId" id="roleForId" class="form-control">
+                                                                                </select></td></tr>
+                                      <tr>
+                                          <th>Address</th>
+                                          <td><input type="text" name="address" id="address" placeholder="Enter Address" class="form-control"/></td></tr>
+                                          <tr>
+                                            <th>Blood group</th>
+                                            <td><input type="text" name="bloodGroup" id="bloodGroup" placeholder="Enter Blood Group" class="form-control"/></td></tr>
+                                            <tr>
+                                              <th>Identification Mark</th>
+                                              <td><input type="text" name="identificationMark" id="identificationMark" placeholder="Enter identification mark" class="form-control"/>
+</td></tr>
+                                              <tr>
+                                                <th>Parent's Number</th>
+                                                  <td><input type="text" name="parentNumber" id="parentNumber" placeholder="Enter parent's number" class="form-control"/></td></tr>
+                                                  <tr>
+                                                    <th>Home Phone Number</th>
+                                                    <td><input type="text" name="homePhoneNumber" id="homePhoneNumber" placeholder="Enter Home Phone Number" class="form-control"/>
+</td></tr>
+                                                    <tr>
+                                                      <th>Father's/Spouse's Name</th>
+                                                      <td><input type="text" name="fatherSpouseName" id="fatherSpouseName" placeholder="Enter Father's/Spouse's Name" class="form-control"/>
+</td></tr>
+                                                      <tr>
+                                                        <th>Mother's Name</th>
+                                                        <td><input type="text" name="motherName" id="motherName" placeholder="Enter mother's name" class="form-control"/></td></tr>
+                                                        <tr>
+                                                          <th>Guardian's Name</th>
+                                                          <td><input type="text" name="guardianName" id="guardianName" placeholder="Enter Guardian's Name" class="form-control"/></td></tr>
+                            <input type="hidden" id="userIdFor" name="userId" value=""/>
+                                                        </table>
+                                                      </div>  <button type="submit" class="btn btn-primary form-control form-control">Save</button>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-secondary" id="addNewDetailsToUser" data-dismiss="modal">Close</button>
+
+
+</form>`;
+
+
+    $('#forAddingNewDetailsOfUser').html(rowsGetNewUserDetail);
+
+    var firstname=newUserData.firstname;
+    document.getElementById("firstName").value =firstname;
+    var lastname=newUserData.lastname;
+    document.getElementById("lastName").value =lastname;
+    var salutation=newUserData.sal;
+
+$('#forSalutationId').val(salutation);
+   
+    var age=newUserData.age;
+    document.getElementById("ageId").value=age;
+ 
+    var dob=newUserData.dob;
+    document.getElementById("dobId").value =dob;
+    var contactNumber=newUserData.contactNumber;
+    document.getElementById("contactNumber").value=contactNumber;
+    var alternateContactNumber=newUserData.alternateContactNumber;
+    document.getElementById("alternateContactNumber").value =alternateContactNumber;
+    var address=newUserData.address;
+    document.getElementById("address").value =address;
+
+    document.getElementById("exampleModalFullName").innerHTML  ="Name :  "+firstname+" "+lastname;
+    document.getElementById("exampleModalPhone").innerHTML  = "Phone  : "+contactNumber;
+
+    var bloodGroup=newUserData.bloodGroup;
+    document.getElementById("bloodGroup").value =bloodGroup;
+    var identificationMark=newUserData.identificationMark;
+    document.getElementById("identificationMark").value=identificationMark;
+    var parentNumber=newUserData.parentNumber;
+    document.getElementById("parentNumber").value=parentNumber;
+    var homePhoneNumber=newUserData.homePhoneNumber;
+    document.getElementById("homePhoneNumber").value=homePhoneNumber;
+
+    var fatherSpouseName=newUserData.fatherSpouseName;
+    document.getElementById("fatherSpouseName").value =fatherSpouseName;
+    var motherName=newUserData.motherName;
+    document.getElementById("motherName").value=motherName;
+    var guardianName=newUserData.guardianName;
+    document.getElementById("guardianName").value=guardianName;
+//     getRoles(function(options) {
+//     $('#roleForId').html(options);
+// });         
+    var detailIdFor=newUserData.detailId;
+   $("#detailIdFor").val(detailIdFor);
+    var userIdFor=newUserData.userId;
+   $("#userIdFor").val(userIdFor);
+   var roleForId = newUserData.roleId;
+
+getRoles(function(options) {
+    $('#roleForId').html(options);
+    $('#roleForId').val(roleForId);
+});
+  //   var roleForId=newUserData.roleId;
+  //  $("#roleForId").val(roleForId);
+        },
+                   error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+
+      }
+            });
+
+ });
+  });
+
+
+// 
+
+// 
+
+// 
+function getNewUsers(){
+    $.ajax({
+        url: "{{ route('getNewUsers') }}",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+          console.log(data);
+        let rowsForNewUserDetails="";
+data.forEach(function(newUser) {
+                    rowsForNewUserDetails += `
+                        <tr>
+                            <td>${newUser.name}</td>
+                            <td>${newUser.age}</td>
+                            <td>${newUser.email}</td>
+                            <td>
+                                
+                                    <button type="button"
+                                class="btn btn-primary form-control"
+                                data-toggle="modal"
+                                data-target="#exampleModalLongNewUserUserId"
+                                data-user-id="${newUser.userId}">
+                                View
+                            </button>
+                            </td>
+                        </tr>`;
+                });
+                $('#addNewDetailsToNewUser tbody').html(rowsForNewUserDetails);
+                },
+
+                
+
+            });
+
+        }
+        function getAdmins(){
+    $.ajax({
+        url: "{{ route('getAdmins') }}",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+        let rowsForAdminDetails="";
+data.forEach(function(adminUser) {
+                    rowsForAdminDetails += `
+                        <tr>
+                            <td>${adminUser.name}</td>
+                            <td>${adminUser.age}</td>
+                            <td>${adminUser.email}</td>
+                            <td>
+                                
+                                    <button type="button"
+                                class="btn btn-primary form-control"
+                                data-toggle="modal"
+                                data-target="#exampleModalLongAdminUserId"
+                                data-user-id="${adminUser.userId}">
+                                View
+                            </button>
+                            </td>
+                        </tr>`;
+                });
+                $('#addNewDetailsToAdmins tbody').html(rowsForAdminDetails);
+                },
+
+                
+
+            });
+
+        }
+  
+ $(document).ready(function () {
+   getAllData();
+});
+ function getAllData()
+    {
+getNewUsers();
+}
+</script>
     <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
     <div>
+      
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div> 
+
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
 
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
@@ -61,7 +505,7 @@
 </div>
 
 
-            @if ( Auth::user()->role != 3)
+            @if ( Auth::user()->role != 1)
 
               <script type="text/javascript">
               window.location = "{{url('logout')}}";//here double curly bracket
@@ -75,12 +519,9 @@
                     Add details to new user
                     <br>
                     New Users<br>
-                    @if(count($users=\App\Models\User::where('users.batchId','=',1)->where('role','=',1)->get())>0)
-                      @foreach(($users=\App\Models\User::where('role','=',1)->get()) as $user)
-                          <table class="table">
+                          <table class="table" id="addNewDetailsToNewUser">
                             <thead>
                               <tr>
-                                <!-- <th>Salutation</th> -->
                                 <th>Name</th>
                                 <th>Age</th>
                                 <th>Email</th>
@@ -88,121 +529,30 @@
                               </tr>
                             </thead>
                             <tbody>
-                          <tr>
-                            <!-- <td>{{$user->sal}}</td> -->
-                          <td>{{$user->name}} </td>
-                          <td>{{$user->age}} </td>
-                          <td>{{$user->email}}</td>
-                          <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongNewUserUserId{{$user->userId}}">
-                              Add Details
-                            </button></td>
-
-                        </tr>
-
-
-                      </tbody>
+                         </tbody>
                       </table>
 
 
-                            <div class="modal fade" id="exampleModalLongNewUserUserId{{$user->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal fade" id="exampleModalLongNewUserUserId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="exasmpleModalLongTitle">Name : {{$user->name}}</h5>
-                                      <h5 class="modal-title" id="exampleModalLonsgTitle">Email : {{$user->email}}</h5>
-                                    <h5 class="modal-title" id="exampleModaslLongTitle">Phone : {{$user->phone}}</h5>
-                                    <h5 class="modal-title" id="exampleModalLsongTitle">New users</h5>
+                                    <h5 style="margin-bottom:15px;" id="exampleModalFullName">Name :</h5>
+                                    <h5 id="exampleModalPhone">Phone : </h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <form action="{{route('storeDetails')}}" method="POST" name="addDetails" id="addDetails">
-                                    {{ csrf_field() }}{{ method_field('POST') }}
-                                      <table class="table">
-                                        <tr>
-                                          <!-- <th>Salutation</th> -->
-                                          <!-- <td>
-                                        <select name="salutation">
-                                           <option value="Mr./Ms." selected>Mr./Ms.</option>
-                                             <option value="Mr.">Mr.</option>
-                                             <option value="Ms.">Ms.</option>
-                                        </select>
-                                      </td> -->
-                                    </tr>
-                                        <tr><th>First name</th>{{Form::hidden('userId',$user->userId)}}
-                                      <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
-                                      </tr>
-                                      <tr>
-                                        <th>Last name</th>
-                                      <td>{{Form::text('lastName',NULL,array('placeholder'=>'Enter last name','class'=>'form-control'))}} </td></tr>
-                                        <tr>
-                                        <th>Age</th>
-                                      <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','class'=>'form-control'))}}</td></tr>
-                                        <tr>
-                                        <th>Date of birth</th>
-                                      <td>{{Form::date('dob',NULL,array('placeholder'=>'Enter date of birth','class'=>'form-control'))}}</td></tr>
-                                        <tr>
-                                          {{Form::hidden('userId',$user->userId)}}
-                                          <th>Contact Number</th>
-                                          <td>{{Form::text('contactNumber',NULL,array('placeholder'=>'Enter contact Number','class'=>'form-control'))}}</td></tr>
-                                          <tr>
-                                            <th>Alternate Contact Number</th>
-                                            <td>{{Form::text('alternateContactNumber',NULL,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control'))}}</td></tr>
-                                            <tr>
-                                        <th>Current Role</th>
-                                      <td><select name="roleId" class="form-control">
-                                        @if(count($roles = \App\Models\Role::all())>0)
-                                          @foreach(($roles = \App\Models\Role::all()) as  $role)
-                                            @if($role->roleId==1)
-                                              <option value={{$role->roleId}} selected>{{$role->roleName}}</option>
-                                            @else
-                                              <option value={{$role->roleId}}>{{$role->roleName}}</option>
-                                            @endif
-                                          @endforeach
-                                        @endif
-                                        </select></td></tr>
-                                      <tr>
-                                          <th>Address</th>
-                                          <td>{{Form::text('address',NULL,array('placeholder'=>'Enter Address','class'=>'form-control'))}}</td></tr>
-                                          <tr>
-                                            <th>Blood group</th>
-                                            <td>{{Form::text('bloodGroup',NULL,array('placeholder'=>'Enter Blood Group','class'=>'form-control'))}}</td></tr>
-                                            <tr>
-                                              <th>Identification Mark</th>
-                                              <td>{{Form::text('identificationMark',NULL,array('placeholder'=>'Enter identification mark','class'=>'form-control'))}}</td></tr>
-                                              <tr>
-                                                <th>Parent's Number</th>
-                                                  <td>{{Form::text('parentNumber',NULL,array('placeholder'=>"Enter parent's number",'class'=>'form-control'))}}</td></tr>
-                                                  <tr>
-                                                    <th>Home Phone Number</th>
-                                                    <td>{{Form::text('homePhoneNumber',NULL,array('placeholder'=>'Enter Home Phone Number','class'=>'form-control'))}}</td></tr>
-                                                    <tr>
-                                                      <th>Father's/Spouse's Name</th>
-                                                      <td>{{Form::text('fatherSpouseName',NULL,array('placeholder'=>"Enter Father's/Spouse's Name",'class'=>'form-control'))}}</td></tr>
-                                                      <tr>
-                                                        <th>Mother's Name</th>
-                                                        <td>{{Form::text('motherName',NULL,array('placeholder'=>"Enter mother's name",'class'=>'form-control'))}}</td></tr>
-                                                        <tr>
-                                                          <th>Guardian's Name</th>
-                                                          <td>{{Form::text('guardianName',NULL,array('placeholder'=>"Enter Guardian's Name",'class'=>'form-control'))}}</td></tr>
+                                    <div id="forAddingNewDetailsOfUser">
 
-                                                        </table>
-                                                      </div>  <button type="submit" class="btn btn-primary form-control form-control">Save</button>
-                                                        <div class="modal-footer">
-                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-
-                                                          {{Form::close()}}
+                                    </div>
                                                         </div>
                                                       </div>
                                                     </div>
                                                   </div>
 
-                                  @endforeach
-                            @else
-                              <h3 style="color:red;">List is empty!</h3>
-                            @endif
+                            
 
                 </div>
               </div>
@@ -363,6 +713,7 @@
  <!--
  -->
  <script>
+  
  $(document).ready(function () {
 
    $('#exampleModalLongTeacherTeacherUserId').on('show.bs.modal', function (event) {
@@ -858,7 +1209,6 @@ alert(inModalFirstName+inModalLastName);
 
       <script src="{{ asset('js/filter.js') }}"></script>
 
-                  <script src="{{ asset('js/Admin/details.js') }}"></script>
 
 
 </x-app-layout>

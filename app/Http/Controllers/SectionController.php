@@ -19,6 +19,14 @@ class SectionController extends Controller
     {
         //
     }
+
+     
+    public function getSectionDetailsByAJAX()
+    {
+           $sections = \App\Models\Section::all();
+          return response()->json($sections);
+    }
+
     public function getDetails()
     {
       $sections = \App\Models\Section::all();
@@ -123,6 +131,28 @@ class SectionController extends Controller
     return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
     }
 
+    
+    // public function updateAJAXSection(Request $request, Section $section)
+    
+    public function updateAJAXSection(Request $request)
+    {
+    //Updating classroom details
+                   $validated = $request->validate([
+                     'sectionName' => ['required'],
+                 [
+                 'sectionName.required'=> 'A name must be specified for the section/division.',
+                 ]
+                 ]);
+      $section=Section::where('sectionId','=',$request->sectionId)->first();
+      $section->sectionName=$request->sectionName;
+      $section->save();
+    
+   return response()->json([
+   'status' => true,
+   'message' => 'Data Submitted!'
+   ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -135,6 +165,17 @@ class SectionController extends Controller
       $section = Section::where('sections.sectionId','=',$request->sectionId)->first();
       $section->delete();
 
-      return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
+      return response()->json([
+   'status' => true,
+   'message' => 'Data Submitted!'
+   ]);
+    }
+
+    
+    public function getSectionsList()
+    {
+        $subjectSectionsForEachClassRooms = \App\Models\Section::all();
+
+        return response()->json($subjectSectionsForEachClassRooms);
     }
 }

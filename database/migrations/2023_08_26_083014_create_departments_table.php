@@ -20,6 +20,34 @@ return new class extends Migration
             $table->integer('batchId');
             $table->timestamps();
         });
+        
+        DB::table('departments')->insert([
+            'departmentId' => 1,
+            'departmentName' => "Registered",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
+        DB::table('departments')->insert([
+            'departmentId' => 2,
+            'departmentName' => "Mechanical Engineering",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
+        DB::table('departments')->insert([
+            'departmentId' => 3,
+            'departmentName' => "Electrical Engineering",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
+        DB::table('departments')->insert([
+            'departmentId' => 4,
+            'departmentName' => "Civil Engineering",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
     }
 
     /**

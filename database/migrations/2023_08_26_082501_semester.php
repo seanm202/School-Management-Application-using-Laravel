@@ -21,6 +21,34 @@ return new class extends Migration
             $table->integer('batchId');
             $table->timestamps();
         });
+        
+        DB::table('semesters')->insert([
+            'semesterId' => 1,
+            'semesterName' => "Semester 1",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
+        DB::table('semesters')->insert([
+            'semesterId' => 2,
+            'semesterName' => "Semester 1",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
+        DB::table('semesters')->insert([
+            'semesterId' => 3,
+            'semesterName' => "Semester 2",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
+        DB::table('semesters')->insert([
+            'semesterId' => 4,
+            'semesterName' => "Semester 3",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
     }
 
     /**

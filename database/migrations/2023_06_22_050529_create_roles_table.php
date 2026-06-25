@@ -20,6 +20,41 @@ return new class extends Migration
             $table->integer('batchId')->default(0);
             $table->timestamps();
         });
+
+        DB::table('roles')->insert([
+            'roleId' => 1,
+            'roleName' => 'Admin',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('roles')->insert([
+            'roleId' => 2,
+            'roleName' => 'Teacher',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('roles')->insert([
+            'roleId' => 3,
+            'roleName' => 'Student',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('roles')->insert([
+            'roleId' => 4,
+            'roleName' => 'Guest',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('roles')->insert([
+            'roleId' => 5,
+            'roleName' => 'New User',
+            'status' => 1,
+            'batchId' => 1
+        ]);
     }
 
     /**

@@ -16,6 +16,7 @@ class Detail extends Model
     protected $table = 'details';
     protected $primaryKey = 'detailId';
     protected $fillable = [
+        'sal',
     'firstname',
     'lastname',
         'age',

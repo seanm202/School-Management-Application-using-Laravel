@@ -15,6 +15,42 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
 <style>
+    
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
     /*
 
     For Success
@@ -93,16 +129,8 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     display: flex;
 }
 </style>
-<script>
-    function getAllData()
-    {
-         getBatches();
-    getDepartments();
-    getSemesters();
-    getDays();
-    getHours();
-    getStatus();
-    }
+<script type="text/javascript">
+    
 function getBatches(){
 
     $.ajax({
@@ -111,14 +139,14 @@ function getBatches(){
         dataType: "json",
 
         success: function(data) {
-
+            $currentBatchColour="green";
             console.log(data);
 
             let rows = ``;
 
             data.forEach(function(batch){
                 rows += `
-                    <tr>
+                    <tr style="background-color:${batch.status == 1 ? "green;color:white" : 'white;'};">
                         <td>${batch.batchName}</td>
                         <td>
                             <button type="button"
@@ -154,38 +182,6 @@ function getBatches(){
 //
     //
     //
-    function showSuccess() {
-    const box = document.getElementById("successBox");
-
-    box.classList.add("show");
-
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
-
-function closeSuccess() {
-    document.getElementById("successBox").classList.remove("show");
-}
-    //
-    // For Deletion
-    //
-
-    function showDeleteSuccess() {
-    const box = document.getElementById("deleteSuccessBox");
-
-    box.classList.add("show");
-
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
-
-function closeDeleteSuccess() {
-    document.getElementById("deleteSuccessBox").classList.remove("show");
-}
 </script>
 <x-app-layout>
     <x-slot name="header">
@@ -219,6 +215,10 @@ function closeDeleteSuccess() {
     <span class="message">✅ Data deleted successfully!</span>
     <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
 </div>
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
@@ -247,7 +247,7 @@ function closeDeleteSuccess() {
 </div>
 
 
-    @if ( Auth::user()->role != 3)
+    @if ( Auth::user()->role != 1)
 
       <script type="text/javascript">
       window.location = "{{url('logout')}}";//here double curly bracket
@@ -376,7 +376,7 @@ function closeDeleteSuccess() {
      </div>
  </div>
 
- <script>
+ <script type="text/javascript">
  $(document).ready(function () {
 
    $('#myModalUpdateBatches').on('show.bs.modal', function (event) {
@@ -424,11 +424,11 @@ var bookBatchStatus = button.data('batchStatus');
            {{Form::label('startingYear','Starting Year : ')}}{{Form::text('batchStartingYear',null,array('class'=>'form-control','id'=>'ModalBatchbatchStartingYear'))}}
            {{Form::hidden('status',null,array('id'=>'ModalBatchstatus'))}}
            {{Form::label('endingYear','Ending Year : ')}}{{Form::text('batchEndingYear',null,array('class'=>'form-control','id'=>'ModalBatchbatchEndingYear'))}}
-         <button type="button" id="updateBatch" class="btn btn-primary form-control">Update</button>{{Form::close()}}
+         <button type="button" id="updateBatch" class="btn btn-primary form-control" data-dismiss="modal">Update</button>{{Form::close()}}
            <hr>  <hr>
            <form action="{{ route('currentBatch') }}" method="POST" enctype="multipart/form-data" name="currentBatch" id="currentBatch">
              {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',null,array('id'=>'ModalForCurrentBatchbatchId'))}}
-           <button type="button" id="assignCurrentBatch" class="btn btn-primary form-control">Assign this as current batch</button>{{Form::close()}}
+           <button type="button" id="assignCurrentBatch" class="btn btn-primary form-control" data-dismiss="modal">Assign this as current batch</button>{{Form::close()}}
 
          </div>
 
@@ -509,10 +509,10 @@ var bookBatchStatus = button.data('batchStatus');
          <form action="{{route('editDepartment')}}" method="POST" enctype="multipart/form-data" name="updateDepartment" id="updateDepartment">
                {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',null,array('id'=>'editDepartmentId'))}}
                {{Form::label('departmentId','Department Name : ')}} {{Form::text('departmentName',null,array('placeholder'=>'Enter Department Name : ','class'=>'form-control','id'=>'editDepartmentName'))}}
-               <button type="button" id="saveEditDepartment" class="btn btn-primary form-control">Update</button>{{Form::close()}}
+               <button type="button" id="saveEditDepartment" class="btn btn-primary form-control" data-dismiss="modal">Update</button>{{Form::close()}}
                <form action="{{route('destroyDepartment')}}" method="POST" name="deleteDepartment" id="deleteDepartment">
                    {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',null,array('id'=>'deleteDepartmentId'))}}
-                   <button type="button" id="removeDepartment" class="btn btn-primary form-control">Delete</button>{{Form::close()}}
+                   <button type="button" id="removeDepartment" class="btn btn-primary form-control" data-dismiss="modal">Delete</button>{{Form::close()}}
 
        </div>
 
@@ -527,7 +527,7 @@ var bookBatchStatus = button.data('batchStatus');
     <!--
 
    -->
-   <script>
+   <script type="text/javascript">
        function getDepartments(){
            $.ajax({
                url: "{{ route('getDepartments') }}", // Use the named route
@@ -536,9 +536,8 @@ var bookBatchStatus = button.data('batchStatus');
                success: function(data) {
            console.log(data);
 
-=======
            let rowsGetDepartment = "";
->>>>>>> 29b04320910fb9fbc999e0ac9aa855642de2ab27
+
 
            data.forEach(function(department){
                rowsGetDepartment += `
@@ -552,11 +551,8 @@ var bookBatchStatus = button.data('batchStatus');
                `;
            });
 
-           $('#tableForDepartmentAJAX').html(rowsGetDepartment);
-=======
            $('#tableForDepartmentAJAX tbody').html(rowsGetDepartment);
->>>>>>> 29b04320910fb9fbc999e0ac9aa855642de2ab27
-       },
+},
                error: function(jqXHR, ajaxOptions, thrownError) {
                    alert('Error fetching data');
                    console.log(thrownError);
@@ -606,7 +602,7 @@ var bookBatchStatus = button.data('batchStatus');
 
  -->
 
-<script>
+<script type="text/javascript">
         function getSemesters(){
             $.ajax({
                 url: "{{ route('getSemesters') }}", // Use the named route
@@ -660,15 +656,11 @@ let semesterurl = "/updatesemester";
      <thead>
          <tr>
              <th>Semester Name</th>
-             <th>Update</th>
          </tr>
-<<<<<<< HEAD
-=======
      </thead>
 
      <tbody>
 
->>>>>>> d83615a9a3df913918dc25f589235f527a50ee8e
      </tbody>
  </table>
                 </div>
@@ -805,7 +797,7 @@ Hour creation
         var getHourid = button.data('hourid');
         var getHourName = button.data('hourName');
         var getHourStartingTime = button.data('hourStartingTime');
-
+        var getHourEndingTime = button.data('hourEndingTime');
 
         var modal = $(this);
 
@@ -813,6 +805,7 @@ Hour creation
         modal.find('#thisDeleteHourId').val(getHourid);
         modal.find('#thisEditHourName').val(getHourName);
         modal.find('#thisHourStartingTime').val(getHourStartingTime);
+        modal.find('#thisHourEndingTime').val(getHourEndingTime);
      });
 
       });
@@ -835,11 +828,15 @@ Hour creation
            {{Form::text('hourName',null,array('placeholder'=>'Hour Name','class'=>'form-control','id'=>'thisEditHourName'))}}
            {{Form::label('startingTime','Starting Time')}}
            {{Form::time('hourStartingTime',null,array('class'=>'form-control','id'=>'thisHourStartingTime'))}}
-             <button type="button" id="saveHourDetails" class="btn btn-primary form-control">Save</button>{{Form::close()}}
+           {{Form::label('endingTime','Ending Time')}}
+           {{Form::time('hourEndingTime',null,array('class'=>'form-control','id'=>'thisHourEndingTime'))}}
+             <button type="button" id="saveHourDetails" class="btn btn-primary form-control" data-dismiss="modal">Save</button>
+    </form>
          <form action="{{route('deleteHour')}}" method="POST" name="deleteHour" id="deleteHour">
-           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',26,array('id' => 'thisDeleteHourId'))}}
-        <button type="button" id="deleteHourDetails" class="btn btn-primary form-control">Delete</button>
-               {{Form::close()}}
+           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',null,array('id' => 'thisDeleteHourId'))}}
+        <button type="button" id="deleteHourDetails" class="btn btn-primary form-control" data-dismiss="modal">Delete</button>
+               
+    </form>
 
          </div>
 
@@ -869,7 +866,7 @@ let rowsGetHour = "";
                rowsGetHour += `
                    <tr>
 <td>${hour.hourName}</td>
-                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="${hour.hourId}" data-hour-name="${hour.hourName}" data-hour-starting-time="${hour.hourStartingTime}">View</button></td>
+                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour" data-hourid="${hour.hourId}" data-hour-name="${hour.hourName}" data-hour-starting-time="${hour.hourStartingTime}" data-hour-ending-time="${hour.hourEndingTime}">View</button></td>
                  </tr>
                `;
            });
@@ -921,6 +918,7 @@ let rowsGetHour = "";
                  <div><form action="{{route('addHourName')}}" method="POST" name="createHour" id="createHour">
                    {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('hourName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control',))}}<br><br>
                  {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStartingTime',NULL,array('class'=>'form-control'))}}<br><br>
+                 {{Form::label('Pick Hour Ending Time : ','Pick Hour Ending Time : ')}}{{Form::time('hourEndingTime',NULL,array('class'=>'form-control'))}}<br><br>
                 <button type="button" id="addHourButton" class="btn btn-primary form-control">Add</button>{{Form::close()}}
                 </div>
              </div>
@@ -993,7 +991,7 @@ let rowsGetHour = "";
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
+          <h4 class="modal-title">Modify Status</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 
@@ -1001,6 +999,7 @@ let rowsGetHour = "";
         <div class="modal-body">
           <form action="{{route('updateStatus')}}" method="POST" id="updateStatusDetails">
           @csrf
+           {{ csrf_field() }}{{ method_field('POST') }}
        {{Form::hidden('statusId',null,array('id'=>'updateStatusId'))}}
            {{Form::text('statusName',null,array('placeholder'=>'Enter Status Name','class'=>'form-control','id'=>'statusName'))}}
             <select name="roleForStatus" id="roleForStatus" class="form-control">
@@ -1008,13 +1007,13 @@ let rowsGetHour = "";
                 <option value="{{$role->roleId}}">{{$role->roleName}}</option>
              @endforeach
             </select>
-            <button type="button" id="buttonForUpdateStatus" class="btn btn-primary form-control">Update</button>
-           {{Form::close()}}
+            <button type="button" id="buttonForUpdateStatus" class="btn btn-primary form-control" data-dismiss="modal">Update</button>
+           </form>
             <form action="{{route('destroyStatus')}}" method="POST" id="deleteStatusDetails">
-            <button type="button" id="buttonForStatusDelete" class="btn btn-primary form-control">Delete</button>
+            <button type="button" id="buttonForStatusDelete" class="btn btn-primary form-control" data-dismiss="modal">Delete</button>
               {{ csrf_field() }}{{ method_field('POST') }}
            {{Form::hidden('statusId',null,array('id'=>'deleteStatusId'))}}
-            {{Form::close()}}
+            </form>
 
         </div>
 
@@ -1070,6 +1069,7 @@ let rowsGetStatus = "";
            data.forEach(function(status){
                rowsGetStatus += `
                    <tr><td>${status.statusName}</td>
+                        <td>${status.roleName}</td>
                           <td><button type="button"
            class="btn btn-primary form-control"
            data-toggle="modal"
@@ -1138,14 +1138,26 @@ let rowsGetStatus = "";
          </div>
      </div>
    </div>
-
+<script type="text/javascript">
+    function getAllData()
+    {
+         getBatches();
+    getDepartments();
+    getSemesters();
+    getDays();
+    getHours();
+    getStatus();
+    }
+    
+</script>
      <!-- /#sidebar-wrapper -->
 
          <script src="{{ asset('js/Admin/admin.js') }}" defer></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
          <!-- jQuery (FULL version — REQUIRED for AJAX) -->
 
 <!-- Popper (required for Bootstrap 4 modals) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ 
 
 
 <!-- jQuery Form plugin (you use it) -->

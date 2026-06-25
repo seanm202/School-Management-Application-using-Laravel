@@ -33,7 +33,7 @@
         </h2>
     </x-slot>
 
-        @if ( Auth::user()->role != 4)
+        @if ( Auth::user()->role != 3)
 
             <script type="text/javascript">
             window.location = "{{url('logout')}}";//here double curly bracket

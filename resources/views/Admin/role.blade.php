@@ -1,13 +1,127 @@
+
+<script src="{{ asset('js/sidebar.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <meta name="csrf-token" content="{{ csrf_token() }}">
  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-<script src="{{ asset('js/sidebar.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+</style>
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -34,7 +148,29 @@
                </ul>
            </div>
         @endif
+        
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div>
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
     </x-slot>
+    
+ <script type="text/javascript">
+      $(document).ready(function () {
+   getAllData();
+});
+      </script>
     <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
@@ -57,53 +193,101 @@
 
 
 
-    @if ( Auth::user()->role != 3)
+    @if ( Auth::user()->role != 1)
 
       <script type="text/javascript">
       window.location = "{{url('logout')}}";//here double curly bracket
       </script>
     @endif
 
+<!-- 
+    
+-->
+<script type="text/javascript">
 
+        function getRoles(){
+            $.ajax({
+                url: "{{ route('getRoleDetails') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+let rowsGetRoles = "";
+           data.forEach(function(role){
+// let roleupdateurl = "/updateRole";
+               rowsGetRoles += `
+                    <tr>
+    <td>
+        ${role.roleId} </td>
+    <td>
+        <input type="hidden"
+                     name="roleId" class="roleId"
+                            value="${role.roleId}">
+
+                     <input type="text"
+                            name="roleName"
+                            value="${role.roleName}"
+                            class="roleName form-control role-input">
+ </td>
+    <td>
+        
+                     <button type="button"
+                     data-url="/updateRole"
+                             class="btn btn-primary buttonForUpdateRoleByAdmin">
+                         Update
+                     </button>
+             </td>
+             
+    <td><button type="button" data-url="/destroyRole"
+                             class="btn btn-primary buttonForDeleteRoleByAdmin">Delete</button>
+             </td>
+            </tr>
+               `;
+           });
+
+           $('#tableForRolesAJAX tbody').html(rowsGetRoles);                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+        // 
+        // 
+        // 
+        
+function getAllData()
+    {
+         getRoles();
+    }
+        
+    
+//
+    //
+    //
+    </script>
+<!-- 
+
+
+-->
 
     <div class="py-12" id="updateRolesByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Update roles
-                    <table class="table">
+                    <table class="table" id="tableForRolesAJAX">
                         <thead>
                           <tr>
+                            <th>Role Id</th>
                             <th>Role Name</th>
-                            <!-- <th>Delete</th> -->
+                            <th>Update</th>
+                            <th>Delete</th>
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach(($roles=App\Models\Role::all()) as $role)
-<tr>
-    <td colspan="2">
-        <form action="{{ route('updateRole') }}" method="POST" class="updateRoleByAdmin">
-            @csrf
+                        
 
-            <div class="d-flex gap-2">
-                <input type="text"
-                       name="roleName"
-                       value="{{ $role->roleName }}"
-                       class="form-control">
-
-                <input type="hidden"
-                       name="roleId"
-                       value="{{ $role->roleId }}">
-
-                <button type="button"
-                        class="buttonForUpdateRoleByAdmin btn btn-primary">
-                    Update
-                </button>
-            </div>
-        </form>
-    </td>
-</tr>
-@endforeach
                         </tbody>
                       </table>
                 </div>
@@ -116,4 +300,5 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{{ asset('js/Admin/role.js') }}"></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
 </x-app-layout>

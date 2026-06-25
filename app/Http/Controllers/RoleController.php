@@ -22,7 +22,7 @@ class RoleController extends Controller
     public function getRoleDetails()
     {
       $roles = \App\Models\Role::all();
-      return view("/Admin/role")->with('roles',$roles);
+      return response()->json($roles);
     }
 
     /**
@@ -52,6 +52,12 @@ class RoleController extends Controller
 
      $roles->roleName = $request->roleName;
      $roles->save();
+    }
+    
+    public function getRoles()
+    {
+      $roleLists = Role::all();
+      return response()->json($roleLists);
     }
 
     /**
@@ -96,16 +102,7 @@ class RoleController extends Controller
     // }
     public function updateRole(Request $request)
 {
-    $role = Role::where('roleId', $request->roleId)->first();
-
-    if (!$role) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Role not found',
-            'received_id' => $request->roleId
-        ]);
-    }
-
+    $role = Role::where('roleId','=', $request->roleId)->first();
     $role->roleName = $request->roleName;
     $role->save();
 
@@ -126,6 +123,10 @@ class RoleController extends Controller
 
 
       $role = Role::where('roleId','=',$request->roleId)->delete();
-          return view("/Admin/role");
+          
+    return response()->json([
+        'status' => true,
+        'message' => 'Role Deleted!'
+    ]);
     }
 }

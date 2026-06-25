@@ -1,103 +1,132 @@
-$(function () {
+    //
+    //
+    //
+    $(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+      });
+
+
+      $('#buttonForCreateSectionByAdmin').click(function (e) {
+  e.preventDefault();
+  var createSectionAdmin = $('#createSectionByAdmin').attr('action');
+//   alert(createSectionAdmin); // 🔥 very useful
+  $.ajax({
+  data: $('#createSectionByAdmin').serialize(),
+  url: createSectionAdmin,
+  type: "POST",
+  dataType: 'json',
+  success: function (data) {
+      getAllData();
+showSuccess();
+  },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+  });
+  });
+
+    });
+
+    // 
+    
+    // 
+
+    // 
+// 
+
+$(document).ready(function () {
 
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
-  });
+    });
 
+    // ✅ delegated event (works for all rows)
+    $(document).on('click', '.buttonForUpdateSectionByAdmin', function (e) {
+        e.preventDefault();
 
-  $('#buttonForCreateSectionByAdmin').click(function (e) {
-e.preventDefault();
-var url = $('#createSectionByAdmin').attr('action');
-console.log(url);
-$.ajax({
-data: $('#createSectionByAdmin').serialize(),
-url: url,
-type: "POST",
-dataType: 'json',
-success: function (data) {
-alert('Success');
-},
-error: function (xhr) {
-console.log(xhr.responseText); // 🔥 very useful
-alert('Error');
-}
-});
-});
+        // console.log('clicked'); // 🔥 MUST appear
+        const row = $(this).closest('tr');
+    const sectionId   = row.find('.sectionId').val();
+    const sectionName = row.find('.sectionName').val();
+
+    const url = $(this).data('url');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data:{
+                 sectionId : sectionId,
+                 sectionName : sectionName
+                 },
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+                getAllData(); // Refresh the data after successful update
+                showSuccess(); // Show success message
+            },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+        });
+
+    });
 
 });
-//
-//
+
+// 
+
+// 
+
 //
 
 $(document).ready(function () {
 
-  $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     // ✅ delegated event (works for all rows)
-    $(document).on('click', '.saveSectionBtn', function (e) {
-      e.preventDefault();
+    $(document).on('click', '.buttonForDeleteSectionByAdmin', function (e) {
+        e.preventDefault();
 
-      var form = $(this).closest('form');
+        // console.log('clicked'); // 🔥 MUST appear
+        const row = $(this).closest('tr');
+    const sectionId   = row.find('.sectionId').val();
 
-      var url = form.attr('action');
-      $.ajax({
-          url: url,
-          type: "POST",
-          data: form.serialize(),
-          dataType: 'json',
-          success: function (data) {
-              console.log("SUCCESS FIRED");
-              console.log(data);
-              alert("Updated!");
-          },
-          error: function (xhr) {
-              console.log(xhr.status);
-              console.log(xhr.responseText);
-          }
-      });
-  });
-});
+    const url = $(this).data('url');
+        $.ajax({
+            url: url,
+            type: "POST",
+            data:{
+                 sectionId: sectionId
+                 },
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data);
+                getAllData(); // Refresh the data after successful update
+                showSuccess(); // Show success message
+            },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+        });
 
+    });
 
-//
-//
-//
-
-$(document).ready(function () {
-
-  $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
-    // ✅ delegated event (works for all rows)
-    $(document).on('click', '.deleteSectionBtn', function (e) {
-      e.preventDefault();
-
-      var form = $(this).closest('form');
-
-      var url = form.attr('action');
-      $.ajax({
-          url: url,
-          type: "POST",
-          data: form.serialize(),
-          dataType: 'json',
-          success: function (data) {
-              console.log("SUCCESS FIRED");
-              console.log(data);
-              alert("Updated!");
-          },
-          error: function (xhr) {
-              console.log(xhr.status);
-              console.log(xhr.responseText);
-          }
-      });
-  });
 });

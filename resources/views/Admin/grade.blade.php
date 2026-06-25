@@ -10,8 +10,123 @@
 
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 
+
 <script src="{{ asset('js/sidebar.js') }}"></script>
-<script src="{{ asset('js/Admin/grade.js') }}"></script>
+<style>
+    
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+</style>
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -60,9 +175,28 @@
 
 </div>
 
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div>
 
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
 
-    @if ( Auth::user()->role != 3)
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
+ <script type="text/javascript">
+      $(document).ready(function () {
+   getAllData();
+});
+      </script>
+
+    @if ( Auth::user()->role != 1)
 
       <script type="text/javascript">
       window.location = "{{url('logout')}}";//here double curly bracket
@@ -71,7 +205,72 @@
 <!--
 
  -->
+  <script type="text/javascript">
+function getGrades(){
+    
+           $.ajax({
+               url: "{{ route('getGradeDetailsByAJAX') }}", // Use the named route
+               method: "GET", // Use GET method for fetching data
+               dataType: "json", // Expect a JSON response
+               success: function(data) {
 
+           let rowsGetGrades = "";
+let editgradeurl = "/updateGrade";
+let deletegradeurl = "/destroyGrade";
+           data.forEach(function(grade){
+            rowsGetGrades += `
+<tr>
+    <td>
+        <input type="text"
+               class="gradeName"
+               value="${grade.grade}">
+        <input type="hidden"
+               class="gradeId"
+               value="${grade.gradeId}">
+    </td>
+
+    <td>
+        <button type="button"
+                class="buttonForUpdateGradeByAdmin btn btn-primary form-control"
+                data-url="updateGrade">
+            Update
+        </button>
+    </td>
+
+    <td>
+        <button type="button"
+                class="buttonForDeleteGradeByAdmin btn btn-primary form-control"
+                data-url="/destroyGrade">
+            Delete
+        </button>
+    </td>
+</tr>
+`;
+       
+           });
+
+        
+           
+           $('#tableForGradeAJAX tbody').html(rowsGetGrades);
+},
+               error: function(jqXHR, ajaxOptions, thrownError) {
+                   alert('Error fetching data');
+                   console.log(thrownError);
+               }
+           });
+       }
+    
+function getAllData()
+    {
+         getGrades();
+    }
+        
+    
+//
+    //
+    //
+       
+   </script>
     <div class="py-12" id="createGradeByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -95,7 +294,7 @@
                 <div class="p-6 text-gray-900">
                     Update grades
                     @if(count(App\Models\Grade::where('grades.batchId','=',1)->get())>0)
-                    <table class="table">
+                    <table class="table" id="tableForGradeAJAX">
     <thead>
         <tr>
             <th>Grade Name</th>
@@ -104,46 +303,8 @@
         </tr>
     </thead>
     <tbody>
-      @foreach(App\Models\Grade::where('grades.batchId','=',1)->get() as $grade)
-<tr>
-    <td colspan="2">
-        <form action="{{ route('updateGrade') }}"
-              method="POST"
-              class="updateGradeByAdmin d-flex align-items-center gap-2">
-            @csrf
-
-            <input type="text"
-                   name="gradeName"
-                   value="{{ $grade->grade }}"
-                   class="form-control">
-
-            <input type="hidden"
-                   name="gradeId"
-                   value="{{ $grade->gradeId }}">
-
-            <button type="button"
-                    class="buttonForFormForUpdateGradeByAdmin btn btn-primary">
-                Update
-            </button>
-        </form>
-    </td>
-
-    <td>
-        <form action="{{ route('destroyGrade') }}"
-              method="POST"
-              class="deleteGradeByAdmin">
-            @csrf
-            <input type="hidden" name="gradeId" value="{{ $grade->gradeId }}">
-
-            <button type="button"
-                    class="buttonForDeleteGradeByAdmin btn btn-danger">
-                Delete
-            </button>
-        </form>
-    </td>
-</tr>
-@endforeach
-    </tbody>
+        <!-- Data will be populated here via AJAX -->
+</tbody>
 </table>
                     @else
                      <h3 style="color:red;">List is empty!</h3>
@@ -152,4 +313,12 @@
             </div>
         </div>
     </div>
+    
+<script src="{{ asset('js/Admin/grade.js') }}"></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
+
+
+<!-- jQuery Form plugin (you use it) -->
+<script src="https://malsup.github.io/jquery.form.js"></script>
+
 </x-app-layout>

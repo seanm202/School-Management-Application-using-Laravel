@@ -24,6 +24,150 @@ class StudentController extends Controller
     {
 
     }
+
+    public function getStudentDetailsByAJAX()
+{
+    $students = \App\Models\Student::join(
+            'details',
+            'details.detailId',
+            '=',
+            'students.studentDetailsId'
+        )
+        ->join(
+            'users',
+            'users.userId',
+            '=',
+            'details.userId'
+        )
+        ->join(
+            'class_rooms',
+            'class_rooms.classroomDetailId',
+            '=',
+            'students.studentClassroom'
+        )
+        ->join(
+            'grades',
+            'grades.gradeId',
+            '=',
+            'class_rooms.grade'
+        )
+        ->join(
+            'sections',
+            'sections.sectionId',
+            '=',
+            'class_rooms.section'
+        )
+        ->join(
+            'departments',
+            'departments.departmentId',
+            '=',
+            'class_rooms.departmentId'
+        )
+        ->join(
+            'semesters',
+            'semesters.semesterId',
+            '=',
+            'class_rooms.semester'
+        )
+        ->where(
+            'students.status',
+            '=',
+            5
+        )
+        ->select(
+            'students.studentId AS studentId',
+            'details.firstName AS studentFirstName',
+            'details.lastName AS studentLastName',
+            'users.email AS email',
+            'users.phone AS phone',
+            'class_rooms.*',
+            'grades.*',
+            'sections.*',
+            'departments.*',
+            'semesters.*'
+        )
+        ->get();
+
+    return response()->json($students);
+}
+
+public function getStudentDetailsToReassignClassroomByAJAX()
+{
+    $students = \App\Models\Student::join(
+            'details',
+            'details.detailId',
+            '=',
+            'students.studentDetailsId'
+        )
+        ->join(
+            'users',
+            'users.userId',
+            '=',
+            'details.userId'
+        )
+        ->join(
+            'class_rooms',
+            'class_rooms.classroomDetailId',
+            '=',
+            'students.studentClassroom'
+        )
+        ->join(
+            'grades',
+            'grades.gradeId',
+            '=',
+            'class_rooms.grade'
+        )
+        ->join(
+            'sections',
+            'sections.sectionId',
+            '=',
+            'class_rooms.section'
+        )
+        ->join(
+            'departments',
+            'departments.departmentId',
+            '=',
+            'class_rooms.departmentId'
+        )
+        ->join(
+            'semesters',
+            'semesters.semesterId',
+            '=',
+            'class_rooms.semester'
+        )
+        ->where(
+            'students.status',
+            '=',
+            6   // 'Already assigned'
+        )
+        ->select(
+            'students.*',
+            'details.*',
+            'users.*',
+            'class_rooms.*',
+            'grades.*',
+            'sections.*',
+            'departments.*',
+            'semesters.*'
+        )
+        ->get();
+
+    return response()->json($students);
+}
+
+    
+
+    //  public function toGetAStudentClassRoomByAJAX()
+    // {
+    //        $students = \App\Models\Student::join('details','details.detailId','=','students.studentDetailsId')
+    //         ->join('users','users.userId','=','details.userId')
+    //       //  ->join('class_rooms','class_rooms.classroomDetailId ','=','students.studentClassroom')
+    //       //  ->join('sections','sections.sectionId','=','class_rooms.section')
+    //       //  ->join('grades','grades.gradeId','=','class_rooms.grade')
+    //        ->all();
+    //       return response()->json($students);
+    // }
+
     public function assignClassRoomForStudent(Request $request)
     {
       //Store or add admin
@@ -198,15 +342,15 @@ class StudentController extends Controller
      'guardianName.required'=> 'Your Guardian\'s name is Required',
      ]
      ]);
-            $detail = Detail::where('userId'=>$student->userId);
-            $detail = Detail::updateOrCreate(
-        ['firstname' => $request->, 'lastname' => $request->,
-        'age' => $request->, 'dob' => $request->, 'contactNumber' => $request->,
-        'alternateContactNumber' => $request->, 'roleId' => $request->, 'address' => $request->,
-        'bloodGroup' => $request->, 'identificationMark' => $request->, 'parentNumber' => $request->,
-        'homePhoneNumber' => $request->, 'father/SpouseName' => $request->, 'motherName' => $request->,
-        'guardianName' => $request->, 'dob' => $request->]
-    );
+        //     $detail = Detail::where('userId','=',$student->userId);
+        //     $detail = Detail::updateOrCreate(
+        // ['firstname' => $request->, 'lastname' => $request->,
+        // 'age' => $request->, 'dob' => $request->, 'contactNumber' => $request->,
+        // 'alternateContactNumber' => $request->, 'roleId' => $request->, 'address' => $request->,
+        // 'bloodGroup' => $request->, 'identificationMark' => $request->, 'parentNumber' => $request->,
+        // 'homePhoneNumber' => $request->, 'father/SpouseName' => $request->, 'motherName' => $request->,
+        // 'guardianName' => $request->, 'dob' => $request->]
+    // );
     return 1;
     }
 
@@ -219,9 +363,9 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
       //Delete self - admin
-      $students = Student::where('adminId'=> $student->userId);
+      $students = Student::where('adminId','=', $student->userId);
       $students->delete();
-      $detail = Detail::where('userId'=>$student->userId);
+      $detail = Detail::where('userId','=',$student->userId);
       $detail->delete();
       return 1;
     }

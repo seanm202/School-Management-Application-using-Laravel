@@ -9,18 +9,24 @@ headers: {
                 $('#buttonForAddTeacherAdmin').click(function (e) {
                 e.preventDefault();
                   var url = $('#addTeacherAdmin').attr('action');
-
+                  // alert(url);
       $.ajax({
             data: $('#addTeacherAdmin').serialize(),
       url: url,
 type: "POST",
 dataType: 'json',
       success: function (data) {
-                    alert('Success');
+        showSuccess();
       },
     error: function (xhr) {
   console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
       }
       });
         });
 });
+//
+//
+//

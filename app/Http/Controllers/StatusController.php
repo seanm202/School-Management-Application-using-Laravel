@@ -28,7 +28,7 @@ class StatusController extends Controller
 
     public function getStatusDetailsByAJAX()
     {
-      $statuses = \App\Models\Status::all();
+      $statuses = \App\Models\Status::join('roles', 'statuses.statusForRoles', '=', 'roles.roleId')->get();
       return response()->json($statuses);
     }
     

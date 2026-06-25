@@ -17,7 +17,7 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
-            @if ( Auth::user()->role == 1)
+            @if ( Auth::user()->role == 4)
             @include('layouts.guest')
             @endif
 

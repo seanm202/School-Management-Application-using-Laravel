@@ -11,6 +11,11 @@ use App\Models\ConstantController;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Role;
+use App\Models\ClassRoom;
+use App\Models\Grade;
+use App\Models\Section;
+use App\Models\Semester;
+use App\Models\Department;
 use App\Models\Attendence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -105,30 +110,37 @@ return;
     'guardianName.required'=> 'Your Guardian\'s name is Required',
    ]
     ]);
+    $batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
         //Add An Entity
-        $details = new Detail;
-$role=$request->roleId;
-$userId=$request->userId;
-       $details->sal = $request->salutation;
-       $details->firstname = $request->firstName;
-       $details->lastname = $request->lastName;
-       $details->age = $request->age;
-       $details->dob = $request->dob;
-       $details->contactNumber = $request->contactNumber;
-       $details->alternateContactNumber = $request->alternateContactNumber;
-       $details->userId = $request->userId;
-       $details->roleId = $role;
-       $details->address = $request->address;
-       $details->bloodGroup = $request->bloodGroup;
-       $details->identificationMark = $request->identificationMark;
-       $details->parentNumber = $request->parentNumber;
-       $details->homePhoneNumber = $request->homePhoneNumber;
-       $details->fatherSpouseName = $request->fatherSpouseName;
-       $details->motherName = $request->motherName;
-       $details->guardianName = $request->guardianName;
-       $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
-       $details->save();
-       $detailsId=$details->detailId;
+       $detailIds=   Detail::updateOrCreate(
+            [
+            'userId'     => $request->userId
+        ],
+        [
+          'userId' =>$request->userId,
+       'sal' => $request->salutation,
+       'firstname' => $request->firstName,
+       'lastname' => $request->lastName,
+       'age'=> $request->age,
+       'dob' => $request->dob,
+       'contactNumber' => $request->contactNumber,
+       'alternateContactNumber' => $request->alternateContactNumber,
+       'userId'=> $request->userId,
+       'roleId' => $request->roleId,
+       'address' => $request->address,
+       'bloodGroup' => $request->bloodGroup,
+       'identificationMark' => $request->identificationMark,
+       'parentNumber' => $request->parentNumber,
+       'homePhoneNumber' => $request->homePhoneNumber,
+       'fatherSpouseName' => $request->fatherSpouseName,
+       'motherName' => $request->motherName,
+       'guardianName'=> $request->guardianName,
+       'batchId'=> $batchId
+        ]
+        );
+       $role=$request->roleId;
+       $userId=$request->userId;
+       $detailsId=$detailIds->detailId;
        $roleIdForRoleDetailIdUpdation=$request->roleId;
 
        if($role==1)
@@ -163,20 +175,17 @@ $userId=$request->userId;
          $student->studentSection=0;
          $student->studentSemester=0;
          $student->studentDepartmentId=0;
-         $student->status=3;
+         $student->status=5;
          $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
          $student->save();
        }
 
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$request->userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
-      // return redirect()->route('getAdminAllDetails');
-      // return Redirect::back();
-      // return redirect()->route('AdminDetails',['id'=>'detailsToNewUser'])->with('success', 'User details updated successfully.');
      return response()->json([
-       'status' => true,
-       'message' => 'User added!'
-       ]);
+        'status' => true,
+        'message' => 'User details updated successfully.'
+        ]);
     }
 
     /**
@@ -461,9 +470,10 @@ $userId=$request->userId;
 
     public function createTeacher(Request $request)
     {
+       
         $validated = $request->validate([
           'password' => ['required', Password::defaults()],
-          'email' => ['email' => 'email'],
+          'email' => ['email','unique:users,email'],
           'phone' => ['required', 'numeric'],
           'firstName' => ['required'],
           'lastName' => ['required'],
@@ -501,11 +511,13 @@ $userId=$request->userId;
      ]
       ]);
 
+      $fullName=$request->firstName." ".$request->lastName;
       $passwords = DB::table('constant_controllers')
             ->where('constantName','=','defaultPassword')
             ->select('constantValue')
             ->first();
       $user=new User;
+      $user->name=$fullName;
       $user->email=$request->email;
       $user->password=Hash::make($passwords->constantValue);
       $user->phone=$request->phone;
@@ -553,6 +565,24 @@ $userId=$request->userId;
        ]);
     }
 
+    public function getDataForAddingDetailsOfNewUser(Request $request)
+    {
+      $newUserId = $request->input('newUserId');
+      $newUserDatas=Detail::where('userId','=',$newUserId)->first();
+      return response()->json($newUserDatas);
+    }
+
+    public function getNewUsers()
+    {
+      $newUsers = User::whereIn('role', [4, 5])->get();
+      return response()->json($newUsers);
+    }
+
+    public function getAdmins()
+    {
+      $adminUsers = User::where('role',1)->get();
+      return response()->json($adminUsers);
+    }
 
     public function createAdmin(Request $request)
     {
@@ -598,12 +628,14 @@ $userId=$request->userId;
   'guardianName.required'=> 'Name of your guardian is Required',
 ]
 );
+$fullName=$request->firstName.$request->lastName;
 
       $passwords = DB::table('constant_controllers')
             ->where('constantName','=','defaultPassword')
             ->select('constantValue')
             ->first();
       $user=new User;
+      $user->name=$fullName;
       $user->email=$request->email;
       $user->password=Hash::make($passwords->constantValue);
       $user->phone=$request->phone;
@@ -742,7 +774,7 @@ $userId=$request->userId;
          $student->studentSection=0;
          $student->studentSemester=0;
          $student->studentDepartmentId=0;
-         $student->status=3;
+         $student->status=5;
          $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
          $student->save();
          \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
@@ -795,7 +827,7 @@ $userId=$request->userId;
           $user=new User;
           $user->name=$usersName;
           $user->email=$request->email;
-          $user->email_verified_at='';
+          // $user->email_verified_at='';
           $user->password=Hash::make($request->password);
           $user->detailsId=0;
           $user->phone=$request->phone;
@@ -833,12 +865,15 @@ $userId=$request->userId;
            $student=new Student;
            $student->userId=$userId;
            $student->studentDetailsId=$detailsId;
-           $student->studentClassroom=0;
-           $student->studentGrade=0;
-           $student->studentSection=0;
-           $student->studentSemester=0;
-           $student->studentDepartmentId=0;
-           $student->status=3;
+
+           $registeredGradeId=Grade::where('grade','=',"Registered")->select('gradeId')->first()->gradeId; //'Registered'
+           
+           $student->studentClassroom=1; //'Registered'
+           $student->studentGrade=1; //'Registered'
+           $student->studentSection=1; //'Registered'
+           $student->studentSemester=1; //'Registered'
+           $student->studentDepartmentId=1; //'Registered'
+           $student->status=5;
            $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
            $student->save();
            \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);

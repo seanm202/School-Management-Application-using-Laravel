@@ -1,3 +1,4 @@
+
 $(function () {
 
 $.ajaxSetup({
@@ -15,7 +16,8 @@ headers: {
 type: "POST",
 dataType: 'json',
       success: function (data) {
-                    alert('Success');
+        showSuccess();
+                    getAllData();
       },
     error: function (xhr) {
   console.log(xhr.responseText);
@@ -29,60 +31,85 @@ dataType: 'json',
 //
 //
 
+
 $(document).ready(function () {
 
-  $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+                        $.ajaxSetup({
+                               headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                             }
+                         });
 
-    // ✅ delegated event (works for all rows)
-    $(document).on('click', '.buttonForFormForUpdateGradeByAdmin', function (e) {
-      e.preventDefault();
+                                    // ✅ delegated event (works for all rows)
+                                    $(document).on('click', '.buttonForUpdateGradeByAdmin', function (e) {
+                                     e.preventDefault();
+                                        const row = $(this).closest('tr');
 
-      var form = $(this).closest('form');
-      console.log(form.length);
-      console.log(form.serialize());
+    const gradeName = row.find('.gradeName').val();
+    const gradeId   = row.find('.gradeId').val();
 
-      var url = form.attr('action');
-      console.log(url);
-      $.ajax({
-          url: url,
-          type: "POST",
-          data: form.serialize(),
-          dataType: 'json',
-          success: function (data) {
-              console.log("SUCCESS FIRED");
-              console.log(data);
-              alert("Updated!");
-          },
-          error: function (xhr) {
-              console.log(xhr.status);
-              console.log(xhr.responseText);
-          }
-      });
-  });
-});
+    const url = $(this).data('url');
+                                     
+                                      $.ajax({
+                                          url: url,
+                                          type: "POST",
+                                          data:{
+                                            gradeName: gradeName,
+                                            gradeId: gradeId
+                                          },
+                                          dataType: 'json',
+                                          success: function (data) {
+                                              getAllData();
+                                              showSuccess();
+                                              console.log("SUCCESS FIRED");
+                                              console.log(data);
+                                          },
+                                          error: function (xhr) {
+                                              console.log(xhr.status);
+                                              console.log(xhr.responseText);
+                                          }
+                                      });
+                                  });
+                                });
 
 
-$(document).on('click', '.buttonForDeleteGradeByAdmin', function (e) {
-    e.preventDefault();
+//
 
-    var form = $(this).closest('form');
-    var url = form.attr('action');
+//
 
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: form.serialize(),
-        dataType: 'json',
-        success: function (data) {
-            alert('Deleted');
-        },
-        error: function (xhr) {
-            console.log(xhr.status);
-            console.log(xhr.responseText);
-        }
-    });
-});
+//
+
+$(document).ready(function () {
+
+                                  $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+
+                                    // ✅ delegated event (works for all rows)
+                                    $(document).on('click', '.buttonForDeleteGradeByAdmin', function (e) {
+                                      const row = $(this).closest('tr');
+
+    const gradeId   = row.find('.gradeId').val();
+
+    const url = $(this).data('url');
+                                      $.ajax({
+                                          url: url,
+                                          type: "POST",
+                                          data:{
+                                            gradeId: gradeId
+                                          },
+                                          dataType: 'json',
+                                          success: function (data) {
+                                              getAllData();
+                                              showSuccess();
+                                              console.log(data);
+                                          },
+                                          error: function (xhr) {
+                                              console.log(xhr.status);
+                                              console.log(xhr.responseText);
+                                          }
+                                      });
+                                  });
+                                });

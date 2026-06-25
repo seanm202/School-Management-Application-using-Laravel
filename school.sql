@@ -395,6 +395,7 @@ CREATE TABLE `hours` (
   `hourId` bigint(20) UNSIGNED NOT NULL,
   `hourName` varchar(255) NOT NULL,
   `hourStartingTime` time DEFAULT '00:00:00',
+  `hourEndingTime` time DEFAULT '00:00:00',
   `status` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL

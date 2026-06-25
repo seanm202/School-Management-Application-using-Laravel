@@ -4,7 +4,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ asset('js/Admin/teacher.js') }}" defer></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -18,6 +17,157 @@
       crossorigin = "anonymous">
   </script>
  
+<style>
+
+/*
+
+For showing error
+
+*/
+
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+
+/* 
+For table
+*/
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+</style>
+
   <x-app-layout>
       <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:white;">Menu</button>  @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
@@ -66,13 +216,274 @@
 </div>
 
 
-    @if ( Auth::user()->role != 3)
+    @if ( Auth::user()->role != 1)
 
       <script type="text/javascript">
       window.location = "{{url('logout')}}";//here double curly bracket
       </script>
     @endif
 
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div> 
+
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
+
+ <script type="text/javascript">
+    const teacherSubjectListModal = document.getElementById('teacherDetailModal');
+// console.log(document.getElementById('subjectListModal'));
+if (teacherSubjectListModal) {
+  teacherSubjectListModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    const button = event.relatedTarget;
+    // Extract info from data-* attributes
+    const teacherId = button.getAttribute('data-bs-teacher-id');
+    alert(teacherId);
+    
+$.ajax({
+
+
+
+                url: "{{ route('getTeacherSubjectsList') }}",
+                method: "GET", 
+                data:{
+                            gradeId:gradeId,
+                            departmentId:departmentId,
+                            semesterId:semesterId
+
+                        },
+                dataType: "json", 
+                success: function(data) {
+                    console.log(data); 
+let rowsGetTeacherSubjects = "";
+           data.forEach(function(teacherAssignedSubjectsDetail){
+// let roleupdateurl = "/updateRole";
+               rowsGetTeacherSubjects += `
+                    <tr>
+    <td>${teacherAssignedSubjectsDetail.gradeName} </td>
+    <td>${teacherAssignedSubjectsDetail.departmentName}</td>
+    <td>${teacherAssignedSubjectsDetail.semesterName}</td>
+    <td>${teacherAssignedSubjectsDetail.subjectName} </td>
+            </tr>
+               `;
+           });
+
+           $('#teacherSubjectsList tbody').html(rowsGetTeacherSubjects);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText);
+    console.log("Error:", thrownError);
+                }
+            });
+
+  });
+}  
+ </script>
+
+<!-- 
+
+-->
+<div class="modal fade" id="teacherDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                               <div class="modal-dialog" role="document">
+                                 <div class="modal-content">
+                                   <div class="modal-header">
+                                     <h5 class="modal-title" id="exampleModalLongTitle">Subject List</h5>
+
+                                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                       <span aria-hidden="true">&times;</span>
+                                     </button>
+                                   </div>
+                                   <div class="modal-body">
+                                        <div>
+                                            <table class="table" id="teacherSubjectsList">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Class</th>
+                                                        <th>Department</th>
+                                                        <th>Semester</th>
+                                                        <th>Subject Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+
+                                    <hr><hr>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                    </div>
+
+                                        </div>
+    </div>
+                 </div>
+</div>
+
+<!-- 
+
+-->
+
+<div class="py-12" id="viewTeacherDetailsAdmin">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                  View Teacher Details
+                    <table class="table" id="viewTeachersDetails">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Phone</th>
+                                <th>View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    
+                        </tbody>
+                  </table>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<!-- 
+
+-->
+    <script type="text/javascript">
+
+// 
+
+//
+
+// 
+
+ 
+      $(document).ready(function () {
+   getAllData();
+});
+    
+     
+function getAllData()
+    {
+        listTeacherDetails();
+    }
+    
+    function listTeacherDetails()
+    {
+        $.ajax({
+                url: "{{ route('getTeacherDetails') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                    console.log(data); // You can view the data in the browser console
+let rowsGetTeacherDetail = "";
+    
+           data.forEach(function(teacherDetail){
+               rowsGetTeacherDetail += `
+                    <tr>
+    <td>${teacherDetail.firstName} ${teacherDetail.lastName}</td>
+    <td>${teacherDetail.emailId}</td>
+    <td>${teacherDetail.address}</td>
+    <td>${teacherDetail.contactNumber}</td>
+    <td><button type="button" class="btn btn-primary form-control"  id="viewTeacherList"
+            data-bs-teacher-id="${teacherDetail.teacherId}"
+            data-bs-toggle="modal"
+data-bs-target="#teacherDetailModal">
+            View
+        </button></td>
+            </tr>
+               `; 
+           });
+
+           $('#viewTeachersDetails tbody').html(rowsGetTeacherDetail);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText); 
+    console.log("Error:", thrownError);
+                }
+            });
+        }
+
+//
+
+//
+
+//
+ function showSuccess() {
+    const box = document.getElementById("successBox");
+
+    box.classList.add("show");
+
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 3000);
+}
+
+function closeSuccess() {
+    document.getElementById("successBox").classList.remove("show");
+}
+    //
+    // For Deletion
+    //
+
+    function showDeleteSuccess() {
+    const box = document.getElementById("deleteSuccessBox");
+
+    box.classList.add("show");
+
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 3000);
+}
+
+function closeDeleteSuccess() {
+    document.getElementById("deleteSuccessBox").classList.remove("show");
+}
+
+function showError(errorMessage) {
+
+    const box = document.getElementById("errorShowBox");
+    const content = document.getElementById("contentOfErrorShowBox");
+
+    const errorDiv = document.createElement("div");
+    errorDiv.className ="alert bg-danger text-white mt-2";
+    errorDiv.textContent = errorMessage;
+
+    content.appendChild(errorDiv);
+
+    box.classList.add("show");
+
+    setTimeout(() => {
+        box.classList.remove("show");
+    }, 3000);
+}
+function closeError() {
+    document.getElementById("errorShowBox").classList.remove("show");
+}
+    </script>
     <div class="py-12" id="addTeachersAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -163,8 +574,12 @@
     </div>
 </div>
 </div>
-</div>     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 
 
+<script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
+<script src="{{ asset('js/Admin/teacher.js') }}" defer></script>
 </x-app-layout>

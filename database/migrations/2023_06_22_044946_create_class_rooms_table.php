@@ -28,6 +28,22 @@ return new class extends Migration
             $table->integer('batchId')->default(0);
             $table->timestamps();
         });
+        
+        DB::table('class_rooms')->insert([
+            'classroomDetailId' => 1,
+            'grade' => 1,
+            'roomNo' => 0,
+            'section' => 1,
+            'departmentId' => 1,
+            'semester' => 1,
+            'classTeacher' => 1,
+            'description' => 'Registered',
+            'capacity' => 1,
+            'classTimeTableId' => 1,
+            'status' => 1,
+            'batchId' => 1
+        ]);
+
     }
 
     /**

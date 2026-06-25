@@ -20,6 +20,156 @@
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
 
+<style>
+
+/*
+
+For showing error
+
+*/
+
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+
+/* 
+For table
+*/
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+</style>
 
 <x-app-layout>
     <x-slot name="header">
@@ -52,7 +202,21 @@
     <!-- Sidebar -->
     <div>
 
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div> 
 
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
@@ -68,7 +232,7 @@
 
 </div>
 
-    @if ( Auth::user()->role != 3)
+    @if ( Auth::user()->role != 1)
 
       <script type="text/javascript">
       window.location = "{{url('logout')}}";//here double curly bracket
@@ -80,27 +244,97 @@
 
 
  -->
- <script>
+ <script type="text/javascript">
+
+
+function getTeachersList(callback) {
+
+    $.ajax({
+        url: "{{ route('getListOfTeachers') }}",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let html = '<select name="teacherId" class="form-select">';
+
+            data.forEach(function(teacher) {
+                html += `
+                    <option value="${teacher.teacherId}">
+                        ${teacher.firstName} ${teacher.lastName}
+                    </option>`;
+            });
+
+            html += '</select>';
+
+            callback(html);
+        },
+        error: function(jqXHR) {
+            alert("AJAX error");
+            console.log(jqXHR.responseText);
+        }
+    });
+}
+
  $(document).ready(function () {
 
    $('#createTeachersForSubjects').on('show.bs.modal', function (event) {
 
    var button = $(event.relatedTarget);
 
-   var classRoomDetailId = button.attr('data-bs-class-room-detailid');
-   var gradeForAllotting = button.attr('data-bs-grade-for-allotting');
-   var sectionForAllotting = button.attr('data-bs-section-for-allotting');
-   var capacityForAllotting = button.attr('data-bs-capacity-for-allotting');
-   var departmentForAllotting = button.attr('data-bs-department-for-allotting');
+   var classRoomDetailId = button.attr('data-bs-class-room-id');
+$.ajax({
+                url: "{{ route('getSubjectsForClassroomForAssigningTeachers') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                data:{
+                  classRoomDetailId:classRoomDetailId
+                },
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                    // console.log(data); // You can view the data in the browser console
+getTeachersList(function(selectTeacherHtml) {
 
+    let rowsGetTeacherDetail = "";
 
-   var modal = $(this);
+    data.forEach(function(classRoomsForAssigningTeacher){
 
-   modal.find('#classRoomDetailId').val(classRoomDetailId);
-   modal.find('#gradeForAllotting').html("<h3>Grade : " + gradeForAllotting+"</h3>");
-   modal.find('#sectionForAllotting').html("<h3>Section : " + sectionForAllotting+"</h3>");
-   modal.find('#capacityForAllotting').html("<h3>Capacity : " + capacityForAllotting+"</h3>");
-   modal.find('#departmentForAllotting').html("<h3>Department : " + departmentForAllotting+"</h3>");
+        rowsGetTeacherDetail += `
+        <tr>
+            <td>${classRoomsForAssigningTeacher.gradeName}</td>
+            <td>${classRoomsForAssigningTeacher.sectionName}</td>
+            <td>${classRoomsForAssigningTeacher.subjectName}</td>
+            <td>${classRoomsForAssigningTeacher.subjectCode}</td>
+
+            <td colspan="2">
+                <form action="{{ route('assignTeacher') }}" method="POST" class="formForAssigningTeachers d-flex gap-2">
+                    @csrf
+
+                    <input type="hidden" name="subjectId" value="${classRoomsForAssigningTeacher.subjectId}">
+                    <input type="hidden" name="gradeId" value="${classRoomsForAssigningTeacher.gradeId}">
+                    <input type="hidden" name="classRoomId" value="${classRoomsForAssigningTeacher.classRoomId}">
+                    <input type="hidden" name="semesterId" value="${classRoomsForAssigningTeacher.semesterId}">
+                    <input type="hidden" name="departmentId" value="${classRoomsForAssigningTeacher.departmentId}">
+
+                    ${selectTeacherHtml}
+
+                    <button type="submit" class="buttonForAssigningTeachers btn btn-primary" data-bs-dismiss="modal">
+                        Assign
+                    </button>
+                </form>
+            </td>
+        </tr>`;
+    });
+
+    $('#inTheModalClassRoomsForTeacherAssignment tbody').html(rowsGetTeacherDetail);
+
+});            
+        },
+                   error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+            });
 
  });
 
@@ -109,8 +343,200 @@
 <!--
 
  -->
+<script type="text/javascript">
+  
+ 
+      $(document).ready(function () {
+   getAllData();
+});
+    
+     
+function getAllData()
+    {
+        listAssignClassRoomTeacherDetails();
+        listAssignedClassRoomTeacherDetails();
+    }
+    
+
+function listAssignClassRoomTeacherDetails()
+    {
+        $.ajax({
+                url: "{{ route('getClassroomForAssigningTeachers') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                    console.log(data); // You can view the data in the browser console
+let rowsGetTeacherDetail = "";
+    
+           data.forEach(function(classRoomsForAssigningTeacher){
+               rowsGetTeacherDetail += `
+                    <tr>
+    <td>${classRoomsForAssigningTeacher.classRoomId}</td>
+    <td>${classRoomsForAssigningTeacher.departmentName}</td>
+    <td>${classRoomsForAssigningTeacher.semesterName}</td>
+    <td>${classRoomsForAssigningTeacher.gradeName}</td>
+    <td>${classRoomsForAssigningTeacher.sectionName}</td>
+    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                 data-bs-class-room-id="${classRoomsForAssigningTeacher.classRoomId}"
+                                 data-bs-target="#createTeachersForSubjects">View</button></td>
+            </tr>
+               `; 
+           });
+
+           $('#classRoomsForTeacherAssignment tbody').html(rowsGetTeacherDetail);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText); 
+    console.log("Error:", thrownError);
+                }
+            });
+        }
+
+// 
+
+// 
+
+// 
+
+
+ $(document).ready(function () {
+
+   $('#createTeachersForAssignedTeachers').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+
+   var classRoomDetailId = button.attr('data-bs-class-room-id');
+   var classRoomDepartmentName = button.attr('data-bs-department-name');
+   var classRoomSemesterName = button.attr('data-bs-semester-name');
+   var classRoomGradeName = button.attr('data-bs-grade-name');
+   var classRoomSectionName = button.attr('data-bs-section-name');
+$.ajax({
+                url: "{{ route('getSubjectsForClassroomForAssignedTeachers') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                data:{
+                  classRoomDetailId:classRoomDetailId
+                },
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                    console.log(data);
+
+                   document.getElementById('reassignGrade').innerHTML =
+    `<br><hr><h3>${classRoomGradeName}</h3><br><hr>`;
+
+document.getElementById('reassignSection').innerHTML =
+    `<h3>${classRoomSectionName}</h3><br><hr>`;
+
+document.getElementById('reassignDepartment').innerHTML =
+    `<h3>${classRoomDepartmentName}</h3><br><hr>`;
+
+document.getElementById('reassignSemester').innerHTML =
+    `<h3>${classRoomSemesterName}</h3><br><hr>`;
+                     
+getTeachersList(function(selectTeacherHtml) {
+
+    let rowsGetTeacherDetails = "";
+
+    data.forEach(function(classRoomsForAssignedTeacher){
+
+        rowsGetTeacherDetails += `
+        <tr>
+            <td>${classRoomsForAssignedTeacher.gradeName}</td>
+            <td>${classRoomsForAssignedTeacher.sectionName}</td>
+            <td>${classRoomsForAssignedTeacher.subjectName}</td>
+            <td>${classRoomsForAssignedTeacher.subjectCode}</td> 
+            <td>${classRoomsForAssignedTeacher.salutation} ${classRoomsForAssignedTeacher.teacherFirstName} ${classRoomsForAssignedTeacher.teacherLastName}</td>
+
+            <td colspan="2">
+                <form action="{{ route('reAssignTeacher') }}" method="POST" class="formForReAssigningTeachers d-flex gap-2">
+                    @csrf
+
+                    <input type="hidden" name="subjectForSectionId" value="${classRoomsForAssignedTeacher.subjectForSectionId}"> 
+                    ${selectTeacherHtml}
+
+                    <button type="submit" class="buttonForReAssigningTeachers btn btn-primary" data-bs-dismiss="modal">
+                        Assign
+                    </button>
+                </form>
+            </td>
+        </tr>`;
+    });
+// console.log(rowsGetTeacherDetails);
+    $('#tableForViewingClasswiseSubjectTeachers tbody').html(rowsGetTeacherDetails);
+
+});            
+        },
+                   error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+            });
+
+ });
+
+ });
+
+// 
+
+// 
+
+// 
+
+function listAssignedClassRoomTeacherDetails()
+    {
+        $.ajax({
+                url: "{{ route('getClassroomAssignedTeachers') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                    console.log(data); // You can view the data in the browser console
+let rowsGetClassRoomDetail = "";
+    
+           data.forEach(function(classRoomsForAssignedTeacher){
+               rowsGetClassRoomDetail += `
+                    <tr>
+    <td>${classRoomsForAssignedTeacher.classRoomId}</td>
+    <td>${classRoomsForAssignedTeacher.departmentName}</td>
+    <td>${classRoomsForAssignedTeacher.semesterName}</td>
+    <td>${classRoomsForAssignedTeacher.gradeName}</td>
+    <td>${classRoomsForAssignedTeacher.sectionName}</td>
+    <td>${classRoomsForAssignedTeacher.classTeacherFirstName}   ${classRoomsForAssignedTeacher.classTeacherLastName}</td>
+    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                 data-bs-class-room-id="${classRoomsForAssignedTeacher.classRoomId}"
+                                 data-bs-department-name="${classRoomsForAssignedTeacher.departmentName}"
+                                 data-bs-semester-name="${classRoomsForAssignedTeacher.semesterName}"
+                                 data-bs-grade-name="${classRoomsForAssignedTeacher.gradeName}"
+                                 data-bs-section-name="${classRoomsForAssignedTeacher.sectionName}"
+                                 data-bs-target="#createTeachersForAssignedTeachers">View</button></td>
+            </tr>
+               `; 
+           });
+           $('#tableShowingAlreadyAssignedSubjects tbody').html(rowsGetClassRoomDetail);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText); 
+    console.log("Error:", thrownError);
+                }
+            });
+        }
+
+//
+
+//
+
+</script>
+ <!-- 
+ 
+ -->
  <div class="modal fade" id="createTeachersForSubjects" tabindex="-1">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-xl modal-fullscreen-lg-down">
       <div class="modal-content">
 
         <!-- Modal Header -->
@@ -120,69 +546,25 @@
         </div>
 
         <!-- Modal body -->
-        <div class="modal-body">
+        <div class="modal-body" id="modalForListingClassRoomsForTeacherAssignment">
+<div class="table-responsive">
 
-         <form action="{{route('TeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="createTeacherForSubject" id="createTeacherForSubject">
-         @csrf
-            <div id="gradeForAllotting"></div>
-            <div id="sectionForAllotting"></div>
-            <div id="capacityForAllotting"></div>
-            <div id="departmentForAllotting"></div>
-        @if(count($departments=\App\Models\Department::all())>0)
-             <select name="departmentId" id="departmentId" class="form-control">
-              @foreach($departments=\App\Models\Department::all() as $department)
-                <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
-              @endforeach
-            </select>
-        @else
-          <h3 style="color:red;">List is empty</h3>
-        @endif<br>
-            <h3 id="semesterForAllotting"></h3>{{Form::label('semester','Semester : ')}}
-           @if(count($semesters = \App\Models\Semester::all())>0)
-               <select name="semesterId" id="semesterId" class="form-control">
-                @foreach(($semesters = \App\Models\Semester::all()) as  $semester)
-                <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
-                @endforeach
-               </select>
-           @else
-             <h3 style="color:red;">List is empty</h3>
-           @endif
-            <br>
-              <h3 id="subjectForAllotting"></h3>{{Form::label('subject','Subject : ')}}
-        @if(count($subjects=\App\Models\Subject::all())>0)
-              <select name="subjectId" id="subjectId" class="form-control">
-              @foreach($subjects=\App\Models\Subject::all() as $subject)
-                <option value="{{$subject->subjectId}}">{{$subject->subjectName}}</option>
-              @endforeach
-            </select>
-        @else
-          <h3 style="color:red;">List is empty</h3>
-        @endif
-        <br>
-            <h3 id="teacherForAllotting"></h3>{{Form::label('teacher','Teacher : ')}}
-        @if(count($teachers=\App\Models\Teacher::all())>0)
-             <select name="teacherId" id="teacherId" class="form-control">
-              @foreach(
-              $teachers = \App\Models\Teacher::join('details', 'details.userId', '=', 'teachers.userId')
-              ->select(
-              'details.lastname as lastName',
-              'details.firstname as firstName',
-              'teachers.teacherId as teacherId'
-              )
-              ->get()
-              as $teacher
-              )
-                <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-              @endforeach
-            </select>
-        @else
-          <h3 style="color:red;">List is empty</h3>
-        @endif
-            <br>{{Form::hidden('classRoomId',null,array('id'=>'classRoomDetailId'))}}
-            <br><button type="button" id="buttonForCreateTeacherForSubject" class="btn btn-primary form-control">Submit</button>
-              </form><br>
+            <table class="table table-bordered table-hover" id="inTheModalClassRoomsForTeacherAssignment">
+                        <thead>
+                          <tr>
+                            <th>Grade</th>
+                            <th>Section</th>
+                            <th>Subject Name</th>
+                            <th>Subject Code</th>
+                            <th>Select Teacher</th>
+                          </tr>
+                        </thead>
+                        <tbody>
 
+                          </tbody>
+                        </table>
 
+        </div>
         </div>
 
         <!-- Modal footer -->
@@ -200,53 +582,23 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        Assign teachers to each class according to subject
-                  @if(count(\App\Models\ClassRoom::join('sections','sections.sectionId','=','class_rooms.section')
-                      ->join('grades','grades.gradeId','=','class_rooms.grade')
-                      ->select('class_rooms.classroomDetailId AS classroomDetailId',
-                      'class_rooms.capacity AS Capacity',
-                      'grades.grade AS grade',
-                      'sections.sectionName AS sectionName')->get()
-                      )>0)
-                    <table class="table">
+                        <h3>To be assigned</h3>
+                    <table class="table" id="classRoomsForTeacherAssignment">
                         <thead>
                           <tr>
+                            <th>ClassRoom Id</th>
+                            <th>Department Name</th>
+                            <th>Semester</th>
                             <th>Grade</th>
-                            <th>View</th>
+                            <th>Section</th>
+                            <th>Select</th>
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach(($classRooms=\App\Models\ClassRoom::join('sections','sections.sectionId','=','class_rooms.section')
-                          ->join('grades','grades.gradeId','=','class_rooms.grade')
-                          ->join('departments','departments.departmentId','=','class_rooms.departmentId')
-                          ->select('class_rooms.classroomDetailId AS classroomDetailId',
-                          'class_rooms.capacity AS Capacity',
-                          'grades.grade AS grade',
-                          'departments.departmentId AS departmentId',
-                          'sections.sectionName AS sectionName')->get()
-                          ) as $classRoom)
-                             <tr><td>{{$classRoom->grade}}</td>
-                              <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                 data-bs-class-room-detailid="{{$classRoom->classroomDetailId}}"
-                                 data-bs-grade-for-allotting="{{$classRoom->grade}}"
-                                 data-bs-section-for-allotting="{{$classRoom->sectionName}}"
-                                 data-bs-capacity-for-allotting="{{$classRoom->Capacity}}"
-                                 data-bs-department-for-allotting="{{$classRoom->departmentId}}"
-                                data-bs-target="#createTeachersForSubjects">View</button></td>
-                            </tr>
 
-                          @endforeach
                           </tbody>
                         </table>
-         @else
-            <h3 style="color:red;">List is empty!</h3>
-         @endif
-
-<!--
-
-
-
- -->
+        
                     </div>
                 </div>
             </div>
@@ -255,60 +607,40 @@
 
  -->
 
-
- <script>
- $(document).ready(function () {
-
-   $('#classRoomAssigned').on('show.bs.modal', function (event) {
-
-   var button = $(event.relatedTarget);
-
-   var classRoomDetailId = button.attr('data-bs-class-room-detailid');
-   var assignedTeacherFname = button.attr('data-bs-assigned-teacher-fname');
-   var assignedTeacher = button.attr('data-bs-assigned-teacher-lname');
-   var assignedGrade = button.attr('data-bs-assigned-grade');
-   var assignedSection = button.attr('data-bs-assigned-section');
-   var assignedRoomNo = button.attr('data-bs-assigned-room-no');
-   var assignedDepartment = button.attr('data-bs-assigned-department');
-   var assignedSemester = button.attr('data-bs-assigned-semester');
-   var assignedSubjectCode = button.attr('data-bs-assigned-subject-code');
-
-
-   var modal = $(this);
-
-   modal.find('#classRoomDetailId').val(classRoomDetailId);
-   modal.find('#assignedTeacher').html("<h3>Teacher : " + assignedTeacher+"</h3>");
-   modal.find('#assignedGrade').html("<h3>Grade : " + assignedGrade+"</h3>");
-   modal.find('#assignedSection').html("<h3>Section : " + assignedSection+"</h3>");
-   modal.find('#assignedRoomNo').html("<h3>Room No : " + assignedRoomNo+"</h3>");
-   modal.find('#assignedDepartment').html("<h3>Department : " + assignedDepartment+"</h3>");
-   modal.find('#assignedSemester').html("<h3>Semester : " + assignedSemester+"</h3>");
-   modal.find('#assignedSubjectCode').html("<h3>Subject Code : " + assignedSubjectCode+"</h3>");
-
- });
-
- });
- </script>
- <div class="modal fade" id="classRoomAssigned" tabindex="-1">
-    <div class="modal-dialog modal-sm">
+ <div class="modal fade" id="createTeachersForAssignedTeachers" tabindex="-1">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
 
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Details</h4>
+          <h4 id="reassignGrade"></h4>
+          <h4 id="reassignSection"></h4>
+          <h4 id="reassignDepartment"></h4>
+          <h4 id="reassignSemester"></h4>
           <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
-          <div id="assignedTeacher"></div>
-          <div id="assignedGrade"></div>
-          <div id="assignedSection"></div>
-          <div id="assignedRoomNo"></div>
-          <div id="assignedDepartment"></div>
-          <div id="assignedSemester"></div>
-          <div id="assignedSubjectCode"></div>
+            <div class="table-responsive">
+                    <table class="table" id="tableForViewingClasswiseSubjectTeachers">
+                        <thead>
+                          <tr>
+                            <th>Grade</th>
+                            <th>Section</th>
+                            <th>Subject Name</th>
+                            <th>Subject Code</th>
+                            <th>Selected Teacher</th>
+                            <th>Select Teacher</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          </tbody>
+                    </table>
         </div>
+    </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
@@ -330,118 +662,23 @@
                         <br>
 
                         Subjects<br>
-                        @if(count(\App\Models\SubjectTeacherForEachSections::all())>0)
-                          <table class="table">
+                       <div class="table-responsive">
+                          <table class="table" id="tableShowingAlreadyAssignedSubjects">
                             <thead>
                               <tr>
+                                <th>Class Id</th>
                                 <th>Department</th>
                                 <th>Semester</th>
+                                <th>Grade</th>
+                                <th>Section</th>
                                 <th>Class Teacher</th>
-                                <th>Class</th>
-                                <th>Subject</th>
-                                <th>Subject Code</th>
-                                <th>Update</th>
-                                <th>Delete</th>
+                                <th>View</th>
                               </tr>
-                                @foreach((\App\Models\SubjectTeacherForEachSections::where('subject_teacher_for_each_sections.status','=',1)
-                                                                            ->join('class_rooms','class_rooms.classroomDetailId','=','subject_teacher_for_each_sections.classRoomId')
-                                                                            ->join('sections','sections.sectionId','=','class_rooms.section')
-                                                                            ->join('grades','grades.gradeId','=','class_rooms.grade')
-                                                                            ->join('subjects','subjects.subjectId','=','subject_teacher_for_each_sections.subjectId')
-                                                                            ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
-                                                                            ->join('details','details.userId','=','teachers.userId')
-                                                                            ->join('departments','departments.departmentId','=','class_rooms.departmentId')
-                                                                            ->join('semesters','semesters.semesterId','=','class_rooms.semester')
-                                                                            ->select('details.firstname AS firstName',
-                                                                            'details.lastname AS lastName',
-                                                                            'subjects.subjectId AS subjectId',
-                                                                            'subjects.subjectName AS subjectName',
-                                                                            'grades.grade AS grade',
-                                                                            'departments.departmentName AS departmentName',
-                                                                            'semesters.semesterName AS semesterName',
-                                                                            'sections.sectionName AS sectionName',
-                                                                            'class_rooms.classroomDetailId AS classroomId',
-                                                                            'class_rooms.roomNo AS roomNo',
-                                                                            'departments.departmentName AS departmentName',
-                                                                            'subject_teacher_for_each_sections.subjectForSectionId AS subjectForSectionId',
-                                                                            'semesters.semesterName AS semesterName',
-                                                                            'subjects.subjectCode AS subjectCode')
-                                                                            ->get()) as $SubjectTeacherForEachSection)
-                                    <tr>
-                                      <td>{{$SubjectTeacherForEachSection->departmentName}}</td>
-                                        <td>{{$SubjectTeacherForEachSection->semesterName}}</td>
-                                      <td>{{$SubjectTeacherForEachSection->firstName}} {{$SubjectTeacherForEachSection->lastName}}</td>
-
-                                      <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                         data-bs-class-room-detailid="{{$SubjectTeacherForEachSection->classroomId}}"
-                                         data-bs-assigned-teacher-fname="{{$SubjectTeacherForEachSection->firstName}}"
-                                         data-bs-assigned-teacher-lname="{{$SubjectTeacherForEachSection->lastName}}"
-                                         data-bs-assigned-grade="{{$SubjectTeacherForEachSection->grade}}"
-                                         data-bs-assigned-section="{{$SubjectTeacherForEachSection->sectionName}}"
-                                         data-bs-assigned-room-no="{{$SubjectTeacherForEachSection->roomNo}}"
-                                         data-bs-assigned-department="{{$SubjectTeacherForEachSection->departmentName}}"
-                                         data-bs-assigned-semester="{{$SubjectTeacherForEachSection->semesterName}}"
-                                         data-bs-assigned-subject-code="{{$SubjectTeacherForEachSection->subjectCode}}"
-                                        data-bs-target="#classRoomAssigned">View</button></td>
-
-                                      <td>{{$SubjectTeacherForEachSection->subjectName}}</td>
-                                      <td>{{$SubjectTeacherForEachSection->subjectCode}}</td>
-                                        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateTeacherForSubject{{$classRoom->classroomDetailId}}">Update</button></td>
-
-
-                                      <div class="modal fade" id="updateTeacherForSubject{{$classRoom->classroomDetailId}}">
-                                         <div class="modal-dialog modal-sm">
-                                           <div class="modal-content">
-
-                                             <!-- Modal Header -->
-                                             <div class="modal-header">
-                                               <h4 class="modal-title">Details</h4>
-                                               <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-                                             </div>
-
-                                             <!-- Modal body -->
-                                             <div class="modal-body">
-
-                                                 <form action="{{route('updateTeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="editTeacherForSubject" id="editTeacherForSubject">
-                                                 {{ csrf_field() }}{{ method_field('POST') }}
-                                                 {{Form::label('teacher','Teacher : ')}}
-                                                 <input type="hidden" name="subjectForSectionId" value="{{$SubjectTeacherForEachSection->subjectForSectionId}}"></input>
-                                                 <select name="teacherId" id="teacherId" class="form-control">
-                                                   <option value="0" selected>Select Teacher</option>
-                                                   @foreach(($teachers=\App\Models\Teacher::join('details','details.userId','=','teachers.userId')
-                                                     ->select('details.lastname AS lastName','details.firstname AS firstName','teachers.teacherId AS teacherId','teachers.userId AS teacherUserId')->get())
-                                                     as $teacher)
-                                                     <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                                   @endforeach
-                                                 </select><br>
-                                                 {{Form::hidden('subjectId',$SubjectTeacherForEachSection->subjectId)}}
-                                                 {{Form::hidden('classroomId',$SubjectTeacherForEachSection->classroomId)}}{{Form::hidden('subjectForSectionId',$SubjectTeacherForEachSection->subjectForSectionId,array('id'=>'subjectForSectionId'))}}
-                                                 <br><button type="submit" class="btn btn-primary form-control">Update</button>
-                                                 </form><br>
-
-
-                                             </div>
-
-                                             <!-- Modal footer -->
-                                             <div class="modal-footer">
-                                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                             </div>
-
-                                           </div>
-                                         </div>
-                                        </div>
-                                        <form action="{{route('deleteEntryTeacher')}}" method="POST" enctype="multipart/form-data" name="deleteEntryTeacher" id="deleteEntryTeacher">
-                                          @csrf
-                                          {{Form::hidden('subjectForSectionId',$SubjectTeacherForEachSection->subjectForSectionId,array('id'=>'subjectForSectionId'))}}
-
-                                        <td><button type="submit" class="btn btn-primary form-control">Delete</button></form></td>
-                                        </tr>
-                              @endforeach
                             </thead>
+                            <tbody>
+                            </tbody>
                           </table>
-        @else
-          <h3 style="color:red;">List is empty!<h3>
-        @endif
+                    </div>
                     </div>
                 </div>
             </div>
@@ -455,5 +692,6 @@
        -->
 
        <script src="{{ asset('js/Admin/subjectTeachersForEachSection.js') }}" defer></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
 
 </x-app-layout>

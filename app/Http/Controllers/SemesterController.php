@@ -64,6 +64,7 @@ public function getSemesterDetailsByAJAX()
     // Add Semester
     $semester = new \App\Models\Semester;
     $semester->semesterName = $request->semesterName;
+    $semester->status = 1;
     $semester->batchId = 1; // You can later make this dynamic
     $semester->save();
 
@@ -120,6 +121,14 @@ public function getSemesterDetailsByAJAX()
                ->get();
                return 1;
       }
+
+      
+    public function getListOfSemesters()
+    {
+        $subjectSemestersForEachClassRooms = \App\Models\Semester::all();
+
+        return response()->json($subjectSemestersForEachClassRooms);
+    }
 
       /**
        * Update the specified resource in storage.

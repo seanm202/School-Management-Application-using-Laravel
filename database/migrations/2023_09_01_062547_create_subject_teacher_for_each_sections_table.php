@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('subjectId');
             $table->integer('departmentId');
             $table->integer('semesterId');
-            $table->integer('status');
+            $table->integer('status')->default(0);
             $table->integer('batchId');
             $table->timestamps();
         });

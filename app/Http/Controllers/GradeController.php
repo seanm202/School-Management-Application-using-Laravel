@@ -18,6 +18,13 @@ class GradeController extends Controller
     {
         //
     }
+    
+    public function getGradeDetailsByAJAX()
+    {
+           $grades = \App\Models\Grade::all();
+          return response()->json($grades);
+    }
+
     public function getGradeDetails()
     {
       $grades = \App\Models\Grade::all();
@@ -81,36 +88,36 @@ $grade->save();
      * @param  \App\Models\Grade  $grade
      * @return \Illuminate\Http\Response
      */
-    // public function updategrade(Request $request)
-    // {
-    //   $grades = Grade::where('gradeId',$request->gradeId)->first();
-    //   $grades->grade = $request->gradeName;
-    //   $grades->save();
-    //
-    //   return response()->json([
-    //   'status' => true,
-    //   'message' => 'Data Updated!'
-    //   ]);
-    // }
     public function updateGrade(Request $request)
-{
-    $grade = Grade::where('gradeId', $request->gradeId)->first();
-
-    if (!$grade) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Grade not found'
-        ]);
+    {
+      $grade= Grade::where('gradeId','=',$request->gradeId)->first();
+      $grade->grade = $request->gradeName;
+      $grade->save();
+    
+      return response()->json([
+      'status' => true,
+      'message' => 'Data Updated!'
+      ]);
     }
+//     public function updateGrade(Request $request)
+// {
+//     $grade = Grade::where('gradeId','=', $request->gradeId)->first();
 
-    $grade->grade = $request->gradeName;
-    $grade->save();
+//     // if (!$grade) {
+//     //     return response()->json([
+//     //         'status' => false,
+//     //         'message' => 'Grade not found'
+//     //     ]);
+//     // }
 
-    return response()->json([
-        'status' => true,
-        'message' => 'Data Updated!'
-    ]);
-}
+//     $grade->grade = $request->gradeName;
+//     $grade->save();
+
+//     return response()->json([
+//         'status' => true,
+//         'message' => 'Data Updated!'
+//     ]);
+// }
 
     /**
      * Update the specified resource in storage.
@@ -135,5 +142,12 @@ $grade->save();
       'status' => true,
       'message' => 'Grade Deleted!'
       ]);
+    }
+    
+    public function getGradesList()
+    {
+        $subjectGradesForEachClassRooms = \App\Models\Grade::all();
+
+        return response()->json($subjectGradesForEachClassRooms);
     }
 }

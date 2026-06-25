@@ -8,10 +8,12 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\DaysController;
 use App\Http\Controllers\DetailController;
-use App\Http\Controllers\SemesterController;
+use App\Http\Controllers\SemesterController; 
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentMarksController;
 use App\Http\Controllers\SubjectTeacherForEachSectionsController;
 use App\Http\Controllers\StudentSubjectAttendanceController;
@@ -53,10 +55,15 @@ Route::get('/', function () {
 Route::post('generateTimetable', [TimetableController::class, 'generateTimetable'])->name('generateTimetable');
 ////////////Add Priority/////////
 
+Route::get('toDisplayPriorityValues', [PriorityController::class, 'toDisplayPriorityValues'])->name('toDisplayPriorityValues');
 Route::post('createPriority', [PriorityController::class, 'createPriority'])->name('createPriority');
 Route::post('editPriority', [PriorityController::class, 'updatePriority'])->name('editPriority');
 ////Assign teachers of subjects to various classes
 /////SubjectTeacherForEachSectionsController////
+
+
+
+Route::post('assignTeacher', [SubjectTeacherForEachSectionsController::class, 'assignTeacher'])->name('assignTeacher');
 Route::get('getDetailsOfSubjectTeacherForEachSections', [SubjectTeacherForEachSectionsController::class, 'getDetailsOfSubjectTeacherForEachSections'])->name('getDetailsOfSubjectTeacherForEachSections');
 Route::post('TeacherForClassSubject', [SubjectTeacherForEachSectionsController::class, 'TeacherForClassSubject'])->name('TeacherForClassSubject');
 Route::post('deleteEntryTeacher', [SubjectTeacherForEachSectionsController::class, 'deleteEntryTeacher'])->name('deleteEntryTeacher');
@@ -135,6 +142,8 @@ Route::resource('attendence', 'AttendenceController');
 Route::get('getAdminClassRoomDetails', [ClassRoomController::class, 'getAdminClassRoomDetails'])->name('getAdminClassRoomDetails');
 Route::get('getCompatibleTeachersDetails', [ClassRoomController::class, 'getCompatibleTeachersDetails'])->name('getCompatibleTeachersDetails');
 
+
+Route::get('toGetAStudentClassRoomByAJAX', [ClassRoomController::class, 'toGetAStudentClassRoomByAJAX'])->name('toGetAStudentClassRoomByAJAX');
 Route::post('updateClassroomStudent', [ClassRoomController::class, 'updateClassroomStudent'])->name('updateClassroomStudent');
 Route::post('updateClassroomTeacherAndDescription', [ClassRoomController::class, 'updateClassroomTeacherAndDescription'])->name('updateClassroomTeacherAndDescription');
 Route::post('assignClassroomStudent', [ClassRoomController::class, 'assignClassroomStudent'])->name('assignClassroomStudent');
@@ -144,6 +153,24 @@ Route::post('destroyclassRoom', [ClassRoomController::class, 'destroyclassRoom']
 Route::resource('classRoom', 'ClassRoomController');
 ///Details/////
 
+//  
+
+Route::get('getSubjectsForClassroomForAssignedTeachers', [SubjectTeacherForEachSectionsController::class, 'getSubjectsForClassroomForAssignedTeachers'])->name('getSubjectsForClassroomForAssignedTeachers');
+
+Route::post('reAssignTeacher', [SubjectTeacherForEachSectionsController::class, 'reAssignTeacher'])->name('reAssignTeacher');
+
+Route::get('getClassroomAssignedTeachers', [SubjectTeacherForEachSectionsController::class, 'getClassroomAssignedTeachers'])->name('getClassroomAssignedTeachers');
+
+Route::get('getDataForAddingDetailsOfNewUser', [DetailController::class, 'getDataForAddingDetailsOfNewUser'])->name('getDataForAddingDetailsOfNewUser');
+Route::get('getAdmins', [DetailController::class, 'getAdmins'])->name('getAdmins');
+Route::get('getNewUsers', [DetailController::class, 'getNewUsers'])->name('getNewUsers');
+
+Route::get('getListOfTeachers', [SubjectTeacherForEachSectionsController::class, 'getListOfTeachers'])->name('getListOfTeachers');
+Route::get('getSubjectsForClassroomForAssigningTeachers', [SubjectTeacherForEachSectionsController::class, 'getSubjectsForClassroomForAssigningTeachers'])->name('getSubjectsForClassroomForAssigningTeachers');
+Route::get('getClassroomForAssigningTeachers', [SubjectTeacherForEachSectionsController::class, 'getClassroomForAssigningTeachers'])->name('getClassroomForAssigningTeachers');
+Route::get('getTeacherSubjectsList', [SubjectTeacherForEachSectionsController::class, 'getTeacherSubjectsList'])->name('getTeacherSubjectsList');
+Route::get('getTeacherDetails', [TeacherController::class, 'getTeacherDetails'])->name('getTeacherDetails');
+Route::get('getStudentDetailsByAJAX', [StudentController::class, 'getStudentDetailsByAJAX'])->name('getStudentDetailsByAJAX');
 Route::get('getAdminAllDetails', [DetailController::class, 'getAdminAllDetails'])->name('getAdminAllDetails');
 Route::post('storeDetails', [DetailController::class, 'storeDetails'])->name('storeDetails');
 Route::post('updateAdminDetails', [DetailController::class, 'updateAdminDetails'])->name('updateAdminDetails');
@@ -159,6 +186,9 @@ Route::post('deleteStudentDetails', [DetailController::class, 'destroyStudent'])
 Route::post('deleteAdminDetails', [DetailController::class, 'destroyAdmin'])->name('deleteAdminDetails');
 
 ///////Role////
+
+
+Route::get('getRoles', [RoleController::class,'getRoles'])->name('getRoles');
 Route::get('getRoleDetails', [RoleController::class,'getRoleDetails'])->name('getRoleDetails');
 Route::post('createRole', [RoleController::class,'createRole'])->name('createRole');
 Route::post('updateRole', [RoleController::class,'updateRole'])->name('updateRole');
@@ -167,27 +197,42 @@ Route::resource('role', 'RoleController');
 // Route::post('/destroyRole', [RoleController::class, 'destroy'])->name('deleteRoleByAdmin');
 ///////Section/////
 
+
+Route::get('getSectionsList', [SectionController::class, 'getSectionsList'])->name('getSectionsList');
+
+Route::get('getSectionDetailsByAJAX', [SectionController::class, 'getSectionDetailsByAJAX'])->name('getSectionDetailsByAJAX');
 Route::get('getDetails', [SectionController::class, 'getDetails'])->name('getSectionDetails');
 Route::post('createSection', [SectionController::class, 'createSection'])->name('createSection');
 Route::post('updateSection', [SectionController::class, 'updateSection'])->name('updateSection');
+Route::post('updateAJAXSection', [SectionController::class, 'updateAJAXSection'])->name('updateAJAXSection');
 Route::post('destroySection', [SectionController::class, 'destroySection'])->name('destroySection');
 Route::resource('section', 'SectionController');
-/////Grade////////
+/////Grade////////   
 
+
+Route::get('getGradesList', [GradeController::class, 'getGradesList'])->name('getGradesList');
+
+Route::get('getGradeDetailsByAJAX', [GradeController::class, 'getGradeDetailsByAJAX'])->name('getGradeDetailsByAJAX');
 Route::get('getGradeDetails', [GradeController::class, 'getGradeDetails'])->name('getGradeDetails');
 Route::post('creategrade', [GradeController::class, 'creategrade'])->name('createGrade');
-Route::post('updategrade', [GradeController::class, 'updategrade'])->name('updateGrade');
-Route::post('destroygrade', [GradeController::class, 'destroygrade'])->name('destroyGrade');
+Route::post('updateGrade', [GradeController::class, 'updateGrade'])->name('updateGrade');
+Route::post('destroyGrade', [GradeController::class, 'destroyGrade'])->name('destroyGrade');
 Route::resource('Grade', 'GradeController');
 ////Department//////
 
+
+
+Route::get('getListOfDepartments', [DepartmentController::class, 'getListOfDepartments'])->name('getListOfDepartments');
 Route::get('getDepartmentDetails', [DepartmentController::class, 'getDepartmentDetails'])->name('getDepartmentDetails');
 Route::post('storeDepartment', [DepartmentController::class, 'storeDepartment'])->name('storeDepartment');
 Route::post('editDepartment', [DepartmentController::class, 'editDepartment'])->name('editDepartment');
 Route::post('destroyDepartment', [DepartmentController::class, 'destroyDepartment'])->name('destroyDepartment');
 Route::resource('Department', 'DepartmentController');
 ////Subject//////
-
+  
+Route::get('getSubjectsList', [SubjectController::class, 'getSubjectsList'])->name('getSubjectsList');
+Route::get('getSubjectCategoriesByAJAX', [SubjectController::class, 'getSubjectCategoriesByAJAX'])->name('getSubjectCategoriesByAJAX');
+Route::get('getSubjectDetailsByAJAX', [SubjectController::class, 'getSubjectDetailsByAJAX'])->name('getSubjectDetailsByAJAX');
 Route::get('index', [SubjectController::class, 'index'])->name('subjectIndex');
 Route::post('getDepartmentFromGradeForSubject', [SubjectController::class, 'getDepartmentFromGradeForSubject'])->name('getDepartmentFromGradeForSubject');
 Route::post('storeSubject', [SubjectController::class, 'storeSubject'])->name('storeSubject');
@@ -195,6 +240,9 @@ Route::post('updatesubject', [SubjectController::class, 'updatesubject'])->name(
 Route::post('destroysubject', [SubjectController::class, 'destroysubject'])->name('destroysubject');
 Route::resource('subject', 'SubjectController');
 ////Semester//////
+
+
+Route::get('getListOfSemesters', [SemesterController::class, 'getListOfSemesters'])->name('getListOfSemesters');
 
 Route::get('getSemesterDetails', [SemesterController::class, 'getSemesterDetails'])->name('getSemesterDetails');
 Route::post('storesemester', [SemesterController::class, 'storesemester'])->name('storesemester');
@@ -230,6 +278,9 @@ Route::get('/registerpage', function () {
 
 Route::get('logout', [DashboardController::class,'logout'])->name('logout');
 Route::get('dashboard', [DashboardController::class, 'chooseDashboard'])->name('selectDashboard');
+Route::get('guestDashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('guestDashboard');
 Route::get('guestDashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

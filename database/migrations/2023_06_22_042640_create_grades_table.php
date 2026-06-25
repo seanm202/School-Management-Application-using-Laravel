@@ -20,6 +20,47 @@ return new class extends Migration
             $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
+        DB::table('grades')->insert([
+            'gradeId' => 1,
+            'grade' => 'Registered',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('grades')->insert([
+            'gradeId' => 2,
+            'grade' => 'Standard 1',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('grades')->insert([
+            'gradeId' => 3,
+            'grade' => 'Standard 2',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('grades')->insert([
+            'gradeId' => 4,
+            'grade' => 'Standard 3',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('grades')->insert([
+            'gradeId' => 5,
+            'grade' => 'Standard 4',
+            'status' => 1,
+            'batchId' => 1
+        ]);
+        
+        DB::table('grades')->insert([
+            'gradeId' => 6,
+            'grade' => 'Standard 5',
+            'status' => 1,
+            'batchId' => 1
+        ]);
     }
 
     /**

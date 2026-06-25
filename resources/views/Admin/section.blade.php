@@ -25,6 +25,121 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
+  <style>
+    
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+</style>
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -57,6 +172,26 @@
     <!-- Sidebar -->
     <div>
 
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div>
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
+
+ <script type="text/javascript">
+      $(document).ready(function () {
+   getAllData();
+});
+      </script>
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
@@ -76,14 +211,79 @@
 <!--
 
  -->
- @if ( Auth::user()->role != 3)
+ @if ( Auth::user()->role != 1)
 
    <script type="text/javascript">
    window.location = "{{url('logout')}}";//here double curly bracket
    </script>
  @endif
 
+<script type="text/javascript">
+function getSections(){
+    
+           $.ajax({
+               url: "{{ route('getSectionDetailsByAJAX') }}", // Use the named route
+               method: "GET", // Use GET method for fetching data
+               dataType: "json", // Expect a JSON response
+               success: function(data) {
 
+           let rowsGetSections = "";
+let editsectionurl = "/updateAJAXSection";
+let deletesectionurl = "/destroySection";
+           data.forEach(function(section){
+            rowsGetSections += `
+<tr>
+    <td>
+        <input type="text"
+               class="sectionName"
+               value="${section.sectionName}">
+        <input type="hidden"
+               class="sectionId"
+               value="${section.sectionId}">
+    </td>
+
+    <td>
+        <button type="button"
+                class="buttonForUpdateSectionByAdmin btn btn-primary form-control"
+                data-url="updateAJAXSection">
+            Update
+        </button>
+    </td>
+
+    <td>
+        <button type="button"
+                class="buttonForDeleteSectionByAdmin btn btn-primary form-control"
+                data-url="destroySection">
+            Delete
+        </button>
+    </td>
+</tr>
+`;
+       
+           });
+
+        
+           
+           $('#tableForSectionAJAX tbody').html(rowsGetSections);
+},
+               error: function(jqXHR, ajaxOptions, thrownError) {
+                   alert('Error fetching data');
+                   console.log(thrownError);
+               }
+           });
+       }
+    
+function getAllData()
+    {
+        getSections();
+    }
+        
+    
+//
+    //
+    //
+       
+   </script>
     <div class="py-12" id="createSectionsByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -95,7 +295,7 @@
                     {{Form::label('sectionName', 'Enter section name :')}}
                     {{Form::text('sectionName',NULL,array('placeholder'=>'Name of the section','class'=>'form-control','id'=>'sectionName'))}}<br>
                     <button type="button" id="buttonForCreateSectionByAdmin" class="btn btn-primary form-control">Submit</button>
-                    {{ Form::close() }}
+                    </form>
                 </div>
             </div>
         </div>
@@ -109,60 +309,16 @@
                 <div class="p-6 text-gray-900">
                     Update sections
                   @if(count($sections=App\Models\Section::where('sections.batchId','=',$currentBatchId)->get())>0)
-                  <table class="table">
+                  <table class="table" id="tableForSectionAJAX">
     <thead>
         <tr>
-            <th>Section</th>
+            <th>Section Name</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach(App\Models\Section::where('batchId','=',1)->get() as $section)
-        <tr>
-            <td colspan="2">
-                <form action="{{ route('updateSection') }}"
-                      method="POST"
-                      class="updateSectionByAdmin d-flex align-items-center gap-2">
-                    @csrf
-
-                    <input type="hidden"
-                           name="sectionId"
-                           value="{{ $section->sectionId }}">
-
-                    <input type="text"
-                           name="sectionName"
-                           value="{{ $section->sectionName }}"
-                           placeholder="Section Name"
-                           class="form-control section-input">
-
-                    <button type="button"
-                            class="btn btn-primary saveSectionBtn">
-                        Update
-                    </button>
-                </form>
-            </td>
-
-            <td>
-                <form action="{{ route('destroySection') }}"
-                      method="POST"
-                      class="deleteSectionByAdmin text-center">
-                    @csrf
-
-                    <input type="hidden"
-                           name="sectionId"
-                           value="{{ $section->sectionId }}">
-
-                    <button type="button"
-                            class="btn btn-danger deleteSectionBtn">
-                        Delete
-                    </button>
-                </form>
-            </td>
-
-        </tr>
-        @endforeach
     </tbody>
 </table>
                   @else
@@ -181,6 +337,7 @@
                   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
                   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
                   <script src="{{ asset('js/Admin/section.js') }}" defer></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
 
 
 </x-app-layout>

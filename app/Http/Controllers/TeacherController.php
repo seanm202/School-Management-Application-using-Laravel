@@ -21,6 +21,16 @@ class TeacherController extends Controller
         //
     }
 
+    public function getTeacherDetails()
+    {
+       $teacherDetails = Teacher::join('details','details.detailId','=','teachers.teacherDetailId')
+       ->join('users','users.userId','=','details.userId')
+       ->select('teachers.teacherId','details.firstName','details.lastName','details.address','details.contactNumber','users.email AS emailId')
+       ->get();
+        return response()->json($teacherDetails);
+    }  
+    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -136,21 +146,21 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Teacher $teacher)
-    {
+  //   public function update(Request $request, Teacher $teacher)
+  //   {
 
-          //Update admin details
-          $detail = Detail::where('userId'=>$teacher->userId);
-          $detail = Detail::updateOrCreate(
-      ['firstname' => $teacher->, 'lastname' => $teacher->,
-      'age' => $teacher->, 'dob' => $teacher->, 'contactNumber' => $teacher->,
-      'alternateContactNumber' => $teacher->, 'roleId' => $teacher->, 'address' => $teacher->,
-      'bloodGroup' => $teacher->, 'identificationMark' => $teacher->, 'parentNumber' => $teacher->,
-      'homePhoneNumber' => $teacher->, 'father/SpouseName' => $teacher->, 'motherName' => $teacher->,
-      'guardianName' => $teacher->, 'dob' => $teacher->]
-  );
-  return 1;
-    }
+  //         //Update admin details
+  //         $detail = Detail::where('userId','=',$teacher->userId);
+  //         $detail = Detail::updateOrCreate(
+  //     ['firstname' => $teacher->, 'lastname' => $teacher->,
+  //     'age' => $teacher->, 'dob' => $teacher->, 'contactNumber' => $teacher->,
+  //     'alternateContactNumber' => $teacher->, 'roleId' => $teacher->, 'address' => $teacher->,
+  //     'bloodGroup' => $teacher->, 'identificationMark' => $teacher->, 'parentNumber' => $teacher->,
+  //     'homePhoneNumber' => $teacher->, 'father/SpouseName' => $teacher->, 'motherName' => $teacher->,
+  //     'guardianName' => $teacher->, 'dob' => $teacher->]
+  // );
+  // return 1;
+  //   }
 
     /**
      * Remove the specified resource from storage.
@@ -158,13 +168,13 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Teacher $teacher)
-    {
-      //Delete self - admin
-      $teachers = Teacher::where('adminId'=> $teacher->userId);
-      $teachers->delete();
-      $detail = Detail::where('userId'=>$teacher->userId);
-      $detail->delete();
-      return 1;
-    }
+    // public function destroy(Teacher $teacher)
+    // {
+    //   //Delete self - admin
+    //   $teachers = Teacher::where('adminId'=> $teacher->userId);
+    //   $teachers->delete();
+    //   $detail = Detail::where('userId'=>$teacher->userId);
+    //   $detail->delete();
+    //   return 1;
+    // }
 }

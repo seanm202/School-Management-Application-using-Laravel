@@ -1,155 +1,253 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>MySchoolOnline - Login</title>
+
+<link href="https://fonts.bunny.net/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+        font-family:'Nunito',sans-serif;
+        min-height:100vh;
+        padding:20px;
+
+        background:
+            linear-gradient(
+                rgba(0,0,0,.45),
+                rgba(0,0,0,.45)
+            ),
+            url("{{ asset('welcome.png') }}");
+
+        background-size:cover;
+        background-position:center center;
+        background-repeat:no-repeat;
+        background-attachment:fixed;
+    }
+
+    .container{
+        max-width:1400px;
+        margin:auto;
+    }
+
+    .header{
+        text-align:center;
+        margin-bottom:30px;
+    }
+
+    .header h1{
+        color:#fff;
+        font-size:clamp(2.5rem,6vw,5rem);
+        font-weight:800;
+        text-shadow:0 4px 15px rgba(0,0,0,.4);
+    }
+
+    .header p{
+        color:#fff;
+        margin-top:10px;
+        font-size:1.1rem;
+    }
+
+    .register-link{
+        text-align:center;
+        margin-bottom:30px;
+    }
+
+    .register-link a{
+        display:inline-block;
+        text-decoration:none;
+        color:#fff;
+        background:#2563eb;
+        padding:12px 25px;
+        border-radius:50px;
+        font-weight:700;
+    }
+
+    .cards{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+        gap:25px;
+    }
+
+    .card{
+        width:100%;
+        max-width:450px;
+        margin:auto;
+
+        background:rgba(255,255,255,.15);
+        backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
+
+        border:1px solid rgba(255,255,255,.2);
+        border-radius:20px;
+
+        padding:25px;
+        color:white;
+
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .card h2{
+        text-align:center;
+        margin-bottom:20px;
+    }
+
+    .field{
+        margin-bottom:15px;
+    }
+
+    .field label{
+        display:block;
+        margin-bottom:6px;
+        font-weight:600;
+    }
+
+    .field input[type="email"],
+    .field input[type="password"]{
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:10px;
+        outline:none;
+    }
+
+    .remember{
+        margin-bottom:15px;
+    }
+
+    .forgot{
+        display:block;
+        color:#fff;
+        margin-bottom:15px;
+        text-decoration:none;
+    }
+
+    .login-btn{
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        background:#2563eb;
+        color:white;
+        font-size:16px;
+        font-weight:700;
+    }
+
+    .login-btn:hover{
+        background:#1d4ed8;
+    }
+
+    .unset-section{
+        text-align:center;
+        margin-top:30px;
+    }
+
+    .unset-btn{
+        background:#dc2626;
+        color:white;
+        border:none;
+        padding:12px 25px;
+        border-radius:10px;
+        cursor:pointer;
+    }
+
+    @media(max-width:768px){
+
+        body{
+            padding:15px;
+        }
+
+        .cards{
+            grid-template-columns:1fr;
+        }
+
+        .card{
+            max-width:100%;
+        }
+    }
+</style>
+
+
 </head>
 <body>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <a href="{{route('registerpage')}}">Click here to register</a>
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+<div class="container">
 
-        <!-- Email Address -->
-        <div>
-                        Admin Login
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+<div class="header">
+    <h1>MySchoolOnline</h1>
+    <p>Choose your login portal</p>
+</div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+<div class="register-link">
+    <a href="{{ route('registerpage') }}">
+        Register New Account
+    </a>
+</div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+<x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+<div class="cards">
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+    <!-- ADMIN LOGIN -->
+    <div class="card">
 
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-    <br>
-<hr>
-<br>
-                <form method="POST" action="{{ route('unsetAllSessions') }}">
-        @csrf
-<input type="submit" name="unsetAllSessions" value="Unset" />
-                </form>
-<hr>
-<br>
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+        <h2>Login</h2>
 
-        <!-- Email Address -->
-        <div>
-                              Teacher Login
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-    <br>
-<hr>
-<br>
-<hr>
-<br>
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <!-- Email Address -->
-            <div>
-                                Student Login
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <div class="field">
+                <label>Email</label>
+                <input type="email" name="email" required>
             </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <div class="field">
+                <label>Password</label>
+                <input type="password" name="password" required>
             </div>
 
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
+            <div class="remember">
+                <input type="checkbox" name="remember">
+                Remember Me
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
+            @if (Route::has('password.request'))
+                <a class="forgot" href="{{ route('password.request') }}">
+                    Forgot Password?
+                </a>
+            @endif
 
-                <x-primary-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-primary-button>
-            </div>
+            <button type="submit" class="login-btn">
+                Login
+            </button>
         </form>
+
+    </div>
+
+</div>
+
+<div class="unset-section">
+    <form method="POST" action="{{ route('unsetAllSessions') }}">
+        @csrf
+        <button type="submit" class="unset-btn">
+            Clear All Sessions
+        </button>
+    </form>
+</div>
+
+</div>
+
 </body>
 </html>

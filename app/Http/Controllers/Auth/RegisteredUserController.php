@@ -46,7 +46,7 @@ $batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
                   'name' => $request->name,
                   'email' => $request->email,
                   'phone' => 0,
-                  'role'=> 1,
+                  'role'=> 5,
                   'password' => Hash::make($request->password),
                   'detailsId' => 0,
                   'batchId'=>$batchId,
@@ -63,11 +63,11 @@ $batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       ->select('role')
       ->where('email','=',$request->email)
       ->first();
-    if($user->role==4)
+    if($user->role==3)
     {
       return redirect()->route(RouteServiceProvider::STUDENT);
     }
-    else if($user->role==3)
+    else if($user->role==1)
     {
       return redirect()->route(RouteServiceProvider::ADMIN);
     }

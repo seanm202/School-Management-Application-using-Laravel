@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('constantValue');
             $table->timestamps();
         });
+        
+        DB::table('constant_controllers')->insert([
+            'constantId' => 1,
+            'constantName' => "defaultPassword",
+            'constantValue' => "abcd1234",
+        ]);
     }
 
     /**

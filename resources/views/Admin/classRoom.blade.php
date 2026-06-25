@@ -8,6 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+            <script src="{{ asset('js/Admin/classRoom.js') }}"></script>
   
   <!--
 
@@ -23,6 +24,95 @@
  -->
   <style>
 
+/*
+
+For showing error
+
+*/
+
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+/* 
+For table
+*/
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+
+/* 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
   /* Media Query for Mobile Devices */
          @media (max-width: 480px) {
               #withoutModal {
@@ -107,17 +197,91 @@ display:none;
               }
                   }
 
-  </style>
-<script type="text/javascript">
-         function getAllData()
-    {
-         getClassRooms();
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
     }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+  </style>
+  <x-app-layout>
+<script type="text/javascript">
+  
  $(document).ready(function () {
    getAllData();
 });
 </script>
-  <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
            {{ __('Class Room') }}
@@ -143,6 +307,24 @@ display:none;
                </ul>
            </div>
         @endif
+
+
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div> 
+
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
     </x-slot>
     <div class="d-flex" id="wrapper">
     <!-- Sidebar -->
@@ -164,10 +346,35 @@ display:none;
   </div>
 </div>
 
+<script type="text/javascript">
+   function getAllData()
+    {
+         getClassRooms();
+      getSemestersList(function(options) {
+    $('#semesterId').html(options);
+});
+    getGradesList(function(options) {
+    $('#gradeId').html(options);
+});
+
+    getSectionsList(function(options) {
+    $('#sectionId').html(options);
+});
+getDepartmentsList(function(options) {
+    $('#departmentId').html(options);
+});
+getTeachersList(function(options) {
+    $('#teacherId').html(options);
+});
+    }
+
+//     $(document).ready(function () {
+//    getAllData();
+// });
+  </script>
 
 
-
-    @if ( Auth::user()->role != 3)
+    @if ( Auth::user()->role != 1)
 
       <script type="text/javascript">
       window.location = "{{url('logout')}}";//here double curly bracket
@@ -228,51 +435,29 @@ display:none;
 
  -->
 
- <div class="modal fade" id="viewClasses">
+ <!-- <div class="modal fade" id="viewClasses">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
+         Modal Header -->
+        <!-- <div class="modal-header">
           <h4 class="modal-title">Classroom Details</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
+        </div> -->
 
         <!-- Modal body -->
-        <div class="modal-body">
-          <form action="{{route('updateClassroomTeacherAndDescription')}}" method="POST"  enctype="multipart/form-data"  name="updateClassRoomInModalForm" id="updateClassRoomInModalForm">
-              {{ csrf_field() }}
-            <div style="display:flex;"><h3 id="classRoomGrade"></h3><h3 id="classRoomNumber"></h3><h3 id="classRoomSection"></h3></div>
-            <div style="display:flex;"><h3 id="classRoomDepartment"></h3><h3 id="classRoomSemester"></h3></div>
-            <div style="display:flex;"><h3>Class Teacher : </h3>
-              <select name="teacherId" class="form-control" id="teacherIdForFormView">
-          @foreach($teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
-                                                      ->join('details','details.detailId','=','teachers.teacherDetailId')
-                                                      ->select('details.lastname AS lastName',
-                                                      'details.firstname AS firstName',
-                                                      'teachers.teacherId AS teacherId')
-                                                      ->get() as $teacher)
-                                              <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-          @endforeach
-        </select>
-      </div>{{Form::hidden('classroomId',null,array('id'=>'classroomIdForModalForm'))}}
-            <div style="display:flex;"><h3 id="classDescriptionId"></h3><h3 id="classCapacityIdForModalForm"></h3></div>
-            <button type="button" id="updateClassRoomForView" class="btn btn-primary form-control">Update</button>{{Form::close()}}
-           <!-- <form action="{{route('destroyclassRoom')}}" method="POST" enctype="multipart/form-data" name="currentBatch" id="deleteClassRoomInModalForm">
-            {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('classroomId',null,array('id'=>'classroomIdForDeleteClassRoom'))}}
-           <button type="button" id="deleteClassroomForView" class="btn btn-primary form-control">Assign</button>{{Form::close()}} -->
+        <!-- <div class="modal-body">
+          </div>
 
-        </div>
-
-        <!-- Modal footer -->
+       
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
 
       </div>
     </div>
-   </div>
- <!--
+   </div> 
+
 
  -->
                <script type="text/javascript">
@@ -286,7 +471,6 @@ function getTeacherForClassRooms(){
     });
 }
 function getClassRooms(){
-
     $.ajax({
         url: "{{ route('getClassRooms') }}",
         method: "GET",
@@ -353,7 +537,13 @@ function getClassRooms(){
 
 
                                                           <script type="text/javascript">
-                                                            $(function () {
+//
+// For success
+//
+// 
+// 
+// 
+ $(function () {
 
                                                                 $.ajaxSetup({
                                                                     headers: {
@@ -363,24 +553,38 @@ function getClassRooms(){
 
 
                                                               $('#addClassroom').click(function (e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      $.ajax({
-          data: $('#FormToCreateClassRoom').serialize(),
-          url: "{{ route('createclassRoom') }}",
-          type: "POST",
-          dataType: 'json',
-          success: function (data) {
-              alert('Success');
-          },
-          error: function (xhr) {
-              console.log(xhr.responseText); // 🔥 very useful
-              alert('Error');
-          }
-      });
-  });
+    console.log('Button clicked');
+
+    var FormDataToCreateClassRoom =
+        $('#FormToCreateClassRoom').attr('action');
+
+    console.log('URL:', FormDataToCreateClassRoom);
+    console.log('DATA:', $('#FormToCreateClassRoom').serialize());
+
+    $.ajax({
+        data: $('#FormToCreateClassRoom').serialize(),
+        url: FormDataToCreateClassRoom,
+        type: "POST",
+
+        success: function (data) {
+                   getAllData();
+            showSuccess();
+        },
+    error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
+      }
+    });
+});
 
                                                             });
+
+// 
+
                                                           </script>
 
     <!--
@@ -390,63 +594,30 @@ function getClassRooms(){
     <div class="py-12" id="createClassRoom">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-6 text-gray-900" id="createClassRoomPart">
                   Create classroom
-                  <form method="POST" name="createClassRoom" id="FormToCreateClassRoom">
+                  <form method="POST" action="{{ route('createclassRoom') }}" name="createClassRoom" id="FormToCreateClassRoom">
                   {{ csrf_field() }}{{ method_field('POST') }}
                   {{Form::label('departments','Department')}}
-                  <select name="departmentId" class="form-control">
-                    @if(count($departments = \App\Models\Department::all())>0)
-                      @foreach(($departments = \App\Models\Department::all()) as $department)
-                        <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
-                      @endforeach
-                    @endif
-                  </select>
+                  <select id="departmentId" name="departmentId" class="form-select"></select>
                   <br>
                   <br>
                   {{Form::label('semesters','Semester')}}
-                  <select name="semesterId" class="form-control">
-                    @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach($semesters = \App\Models\Semester::where('semesters.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get() as $semester)
-                        <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
-                      @endforeach
-                    @endif
-                  </select>
+                <select id="semesterId" name="semesterId" class="form-select"></select>
                   <br>
                   <br>
                   {{Form::label('classTeacher','Class Teacher')}}
-                  <select name="classTeacher" class="form-control">
-                    @if(count($teachers = \App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($teachers = \App\Models\Teacher::join('details','details.userId','=','teachers.userId')
-                                          ->select('details.firstname AS firstName','details.lastname AS lastName','teachers.teacherId AS teacherId')
-                                                              ->where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
-                                          ->get()) as $teacher)
-                        <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                      @endforeach
-                    @endif
-                  </select>
+                    <select id="teacherId" name="classTeacher" class="form-select"></select>
                   <br>
                   <br>
                   {{Form::label('grade','Grade : ')}}
-                  <select name="grade" class="form-control">
-                    @if(count($grades = \App\Models\Grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $graded)
-                        <option value="{{$graded->gradeId}}">{{$graded->grade}}</option>
-                        @endforeach
-                    @endif
-                  </select>
+                  <select id="gradeId" name="grade" class="form-select"></select>
                   <br>
                   {{Form::label('roomNo','Room Number : ')}}
                   {{Form::text('roomNo',null,array('placeholder'=>'Enter Room Number','class'=>'form-control'))}}
                   <br>
                   {{Form::label('sectionName','Section Name : ')}}
-                  <select name="section" class="form-control">
-                    @if(count($sections = \App\Models\Section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get())>0)
-                      @foreach(($sections = \App\Models\Section::where('sections.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)->get()) as $section)
-                        <option value="{{$section->sectionId}}">{{$section->sectionName}}</option>
-                      @endforeach
-                    @endif
-                  </select>
+                 <select id="sectionId" name="section" class="form-select"></select>
                   <br>
                   {{Form::label('description','Class Description')}}
                   {{Form::text('classDescription',null,array('placeholder'=>'Class description','class'=>'form-control'))}}
@@ -462,8 +633,8 @@ function getClassRooms(){
                       @endforeach
                     </select>
                   @endisset
-                  <br><button type="button" id="addClassroom" class="btn btn-primary form-control">Create Classroom</button>
-                  {{ Form::close() }}
+                  <button type="button" id="addClassroom" class="btn btn-primary form-control">Create Classroom</button>
+                  </form>
                 </div>
             </div>
         </div>
@@ -471,5 +642,5 @@ function getClassRooms(){
 
 
 
-            <script src="{{ asset('js/Admin/classRoom.js') }}" defer></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
 </x-app-layout>

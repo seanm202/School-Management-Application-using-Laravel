@@ -29,7 +29,121 @@
 <script src="{{ asset('js/sidebar.js') }}"></script>
 
 
+<style>
+  
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
 
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+</style>
 
   <x-app-layout>
     <x-slot name="header">
@@ -80,23 +194,103 @@
   </div>
 
 </div>
+<div id="successBox" class="success-box">
+    <span class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div>
+
+<div id="deleteSuccessBox" class="delete-box">
+    <span class="message">✅ Data deleted successfully!</span>
+    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
+</div>
+
+<div id="errorShowBox" class="errorshow-box">
+    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
 
     <!--
 
-   -->  @if ( Auth::user()->role != 3)
+   -->  @if ( Auth::user()->role != 1)
 
        <script type="text/javascript">
        window.location = "{{url('logout')}}";
        </script>
      @endif
 
+
+ <script type="text/javascript">
+  
+      $(document).ready(function () {
+   getAllData();
+});
+    
+     
+function getAllData()
+    {
+         getStudents();
+    }
+      //getStudentDetailsToReassignClassroomByAJAX  
+    function getStudents(){
+            $.ajax({
+                url: "{{ route('getStudentDetailsByAJAX') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+                    console.log(data); // You can view the data in the browser console
+let rowsGetStudent = "";
+           data.forEach(function(student){
+// let roleupdateurl = "/updateRole";
+               rowsGetStudent += `
+                    <tr>
+    <td>${student.studentId} </td>
+      <td>${student.studentFirstName}  ${student.studentLastName}</td>
+    <td>${student.email} </td>
+    <td>${student.phone}</td>
+             
+    <td><button type="button" class="btn btn-primary form-control selectForAssignClassRoomAStudent" data-bs-toggle="modal" data-bs-studentid="${student.studentId}"
+        data-bs-first-name="${student.studentFirstName}"
+        data-bs-last-name="${student.studentLastName}"
+        data-bs-email="${student.email}"
+        data-bs-phone="${student.phone}" data-bs-target="#assignStudentsToClasses">
+                                              Select classroom
+                                            </button></td>
+            </tr>
+               `;
+           });
+
+           $('#tableForAssignClassRoom tbody').html(rowsGetStudent);                },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText);
+    console.log("Error:", thrownError);
+                }
+            });
+        }
+        // 
+        // 
+        //
+    
+//
+    //
+    //
+// 
+
+// 
+
+// 
+
+</script>
     <div class="py-12" id="adminStudentAddStudent">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900" style="overflow-x:scroll;">
                   Add Students
 
-                  <form action="{{route('createStudentAdmin')}}" method="POST" enctype="multipart/form-data" name="addStudentAdmin" id="addStudentAdmin">
+                  <form action="{{route('createStudentAdmin')}}" method="POST" enctype="multipart/form-data" id="addStudentAdmin">
                   {{ csrf_field() }}{{ method_field('POST') }}
                     <table class="table">
                   <thead>
@@ -191,7 +385,7 @@ Add students to class_rooms
 
                <form action="{{route('createMarkEntry')}}" method="POST" enctype="multipart/form-data" name="createMarkEntry" id="createMarkEntry">
                @csrf
-                <button type="submit" class="btn btn-primary form-control">Submit</button>
+                <button type="submit" id="buttonForMarkEntryCreation" class="btn btn-primary form-control">Submit</button>
                                      </form>
              </div>
          </div>
@@ -217,53 +411,44 @@ Create Mark table for all the students
                  Assign students to classes
                  <br>
                  New Users<br>
-                 @if(count($studentsNotAssignedToClasses=\App\Models\Student::where('students.status','=',3)->join('details','details.userId','=','students.userId')->join('users','users.userId','=','students.userId')
-                                ->select('details.firstname AS firstName','details.lastname AS lastName','users.email AS Email','users.phone AS Phone','students.studentId AS studentId')
-                                ->get())>0)
-                                @foreach(($studentsNotAssignedToClasses=\App\Models\Student::where('students.status','=',3)->join('details','details.userId','=','students.userId')->join('users','users.userId','=','students.userId')
-                                ->select('details.firstname AS firstName','details.lastname AS lastName','users.email AS Email','users.phone AS Phone','students.studentId AS studentId')
-                                ->get()) as $studentsNotAssignedToClass)
-                                <table class="table">
+                                <table class="table" id="tableForAssignClassRoom">
                                   <thead>
                                           <tr>
-                                            <th>First name</th>
-                                            <th>Last Name</th>
+                                            <th>User ID</th>
+                                            <th>Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <th>Select</th>
                                           </tr>
                                         </thead>
                                         <tbody>
-                                          <tr>
-                                            <td>{{$studentsNotAssignedToClass->firstName}} </td>
-                                            <td>{{$studentsNotAssignedToClass->lastName}} </td>
-                                            <td>{{$studentsNotAssignedToClass->Email}}</td>
-                                            <td>{{$studentsNotAssignedToClass->Phone}}</td>
-                                            <td><button type="button" class="btn btn-primary form-control" data-bs-toggle="modal" data-target="#assignStudentsToClasses{{$studentsNotAssignedToClass->studentId}}">
-                                              Select classroom
-                                            </button></td>
-
-                                          </tr>
-
-
+                                          
                                         </tbody>
                                       </table>
 
 
 
-                         <div class="modal fade" id="assignStudentsToClasses{{$studentsNotAssignedToClass->studentId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                         
+                      
+             </div>
+           </div>
+         </div>
+       </div>
+       
+       
+       <div class="modal fade" id="assignStudentsToClasses" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                            <div class="modal-dialog" role="document">
                              <div class="modal-content">
                                <div class="modal-header">
-                                 <h5 class="modal-title" id="exampleModalLongTitle">Name : {{$studentsNotAssignedToClass->firstName}} {{$studentsNotAssignedToClass->lastName}}</h5>
-                                   <h5 class="modal-title" id="exampleModalLongTitle">Email : {{$studentsNotAssignedToClass->Email}}</h5>
-                                 <h5 class="modal-title" id="exampleModalLongTitle">Phone : {{$studentsNotAssignedToClass->Phone}}</h5>
-                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <h5 class="modal-title" id="exampleModalStudentFullName"></h5>
+                                   <h5 class="modal-title" id="exampleModalStudentEmail"></h5>
+                                 <h5 class="modal-title" id="exampleModalStudentPhone"></h5>
+                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                    <span aria-hidden="true">&times;</span>
                                  </button>
                                </div>
-                               <div class="modal-body">
-                                 <table class="table">
+                               <div class="modal-body" style="overflow-y:scroll;">
+                                 <table class="table" id="tableForModalForAssignClassRoom">
                                    <thead><tr>
                                      <th>Grade</th>
                                        <th>Section</th>
@@ -275,67 +460,16 @@ Create Mark table for all the students
                                                 <th>Select</th></tr>
                                      </thead>
                                        <tbody>
-                              @foreach($classRooms=\App\Models\ClassRoom::join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
-                                 ->join('details','details.userId','=','teachers.userId')
-                                 ->join('grades','grades.gradeId','=','class_rooms.grade')
-                                 ->join('sections','sections.sectionId','=','class_rooms.section')
-                                 ->join('departments','departments.departmentId','=','class_rooms.departmentId')
-                                 ->join('semesters','semesters.semesterId','=','class_rooms.semester')
-                                 ->select('details.firstname AS firstName',
-                                 'details.lastname AS lastName',
-                                 'grades.grade AS grade',
-                                 'sections.sectionName AS sectionName',
-                                 'departments.departmentName AS departmentName',
-                                 'semesters.semesterName AS semesterName',
-                                 'class_rooms.capacity AS Capacity',
-                                 'class_rooms.roomNo AS roomNo',
-                                 'class_rooms.classroomDetailId  AS classroomDetailId ')
-                                 ->orderBy('class_rooms.classroomDetailId')
-                                 ->get() as $classRoom)
-<!--
-
-
-
- -->
-
-
- <!--
-
-
-
-
- -->
-                                 <tr>
-                                 <form action="{{route('assignClassroomStudent',['classRoom'=>$classRoom->classroomDetailId])}}" method="POST"  enctype="multipart/form-data" name="assignClassRoomToStudentss" id="assignClassRoomToStudentss.{{$classRoom->classroomDetailId}}">
-                                 @csrf
-                                    <td>{{$classRoom->grade}}</td>
-                                      <td>{{$classRoom->sectionName}}</td>
-                                   <td>{{$classRoom->roomNo}}</td>
-                                   <td>{{$classRoom->departmentName}}</td>
-                                   <td>{{$classRoom->semesterName}}</td>
-                                   <td>{{$classRoom->firstName}} {{$classRoom->lastName}}</td>
-                                   {{Form::hidden('studentId',$studentsNotAssignedToClass->studentId,array('id'=>'studentId'))}}
-                                   <td>{{$classRoom->Capacity}}</td>{{Form::hidden('classroomDetailId',$classRoom->classroomDetailId,array('id'=>'classroomDetailId'))}}
-                                   <td><button type="submit" class="btn btn-primary form-control form-control">Select</button></form></td></tr>
-                              @endforeach
+                              
                                                        </tbody>
                                                      </table>
                                                    </div>
                                                      <div class="modal-footer">
-                                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                      </div>
                                                    </div>
                                                  </div>
                                                </div>
-                      @endforeach
-                @else
-                    <h3 style="color:red;">List is empty!</h3>
-                @endif
-
-             </div>
-           </div>
-         </div>
-       </div>
 <!--
 
 
@@ -395,8 +529,8 @@ Create Mark table for all the students
                                                       </div>
                                                     </div>
                                                   </div>
-  </div>
-    <div class="py-12" id="adminStudentAddStudentMarks">
+  </div> 
+     <div class="py-12" id="adminStudentAddStudentMarks">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -405,82 +539,11 @@ Create Mark table for all the students
                     Filter
                   </button>
 
-                  @if(count(($studentDetails = \App\Models\Student::where('students.batchId','=',$currentBatchId)
-                                ->join('details','details.detailId','=','students.studentDetailsId')
-                                ->join('semesters','semesters.semesterId','=','students.studentSemester')
-                                ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
-                                ->join('student_marks','student_marks.studentId','=','students.studentId')
-                                ->join('subjects','subjects.subjectId','=','student_marks.subjectId')
-                                ->join('departments','departments.departmentId','=','students.studentDepartmentId')
-                                ->join('grades','grades.gradeId','=','class_rooms.grade')
-                                ->join('sections','sections.sectionId','=','class_rooms.section')
-                                ->select('student_marks.marks AS marks',
-                                'semesters.semesterName AS semesterName',
-                                'details.firstname AS firstName',
-                                'students.studentDepartmentId AS studentDepartmentId',
-                                'students.studentId AS studentId',
-                                'details.lastname AS lastName',
-                                'class_rooms.grade AS gradeName',
-                                'sections.sectionName AS sectionName',
-                                'subjects.subjectName AS subjectName',
-                                'semesters.semesterId AS semesterId',
-                                'grades.grade AS gradeName',
-                                )->get()
-                                ))>0)
-
-              @foreach(($studentDetails = \App\Models\Student::where('students.batchId','=',$currentBatchId)
-                            ->join('details','details.detailId','=','students.studentDetailsId')
-                            ->join('semesters','semesters.semesterId','=','students.studentSemester')
-                            ->join('class_rooms','class_rooms.classroomDetailId','=','students.studentClassroom')
-                            ->join('student_marks','student_marks.studentId','=','students.studentId')
-                            ->join('departments','departments.departmentId','=','students.studentDepartmentId')
-                            ->join('grades','grades.gradeId','=','class_rooms.grade')
-                            ->join('sections','sections.sectionId','=','class_rooms.section')
-                            ->select('semesters.semesterName AS semesterName',
-                            'details.firstname AS firstName',
-                            'students.studentDepartmentId AS studentDepartmentId',
-                            'students.studentId AS studentId',
-                            'details.lastname AS lastName',
-                            'student_marks.student_marksId AS student_marksId',
-                            'class_rooms.grade AS gradeName',
-                            'sections.sectionName AS sectionName',
-                            'sections.sectionId AS sectionId',
-                            'semesters.semesterId AS semesterId',
-                            'grades.grade AS gradeName',
-                            'grades.gradeId AS gradeId',
-                            'class_rooms.classroomDetailId AS classroomDetailId'
-                            )
-                            ->groupBy('students.studentId')
-                            ->get()
-                            ) as  $studentDetail)
-
-                            <table class="table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Grade</th>
-                    <th>Section</th>
-                    <th>Semester</th>
-                    <th>Add Marks</th>
-                    <th>View Details</th>
-                  </tr><tr class="department{{$studentDetail->studentDepartmentId}}department semester{{$studentDetail->semesterId}}semester section{{$studentDetail->sectionId}}section grade{{$studentDetail->gradeId}}grade">
-                      <td>{{$studentDetail->firstName}} {{$studentDetail->lastName}}</td>
-                      <td>{{$studentDetail->gradeName}}</td>
-                      <td>{{$studentDetail->sectionName}}</td>
-                      <td>{{$studentDetail->semesterName}}</td>
-                      <td><button type="button" name="submitMarkDetailsCreation{{$studentDetail->studentId}}" class="btn btn-primary form-control" data-bs-toggle="modal" data-target="#submitMarkDetailsCreation{{$studentDetail->studentId}}">Add</button></td>
-                      <td><button type="button" name="editDeleteMarksDetailsPrint{{$studentDetail->studentId}}" class="btn btn-primary" data-bs-toggle="modal" data-target="#editDeleteMarksDetailsPrint{{$studentDetail->studentId}}">View</button></td>
-                    </tr>
-                          </thead>
-                        </table>
-<!--
-Print marksheet
- -->
- <div class="modal fade" id="editDeleteMarksDetailsPrint{{$studentDetail->studentId}}" id="editDeleteMarksDetailsPrint"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+ <div class="modal fade" id="editDeleteMarksDetailsPrint" id="editDeleteMarksDetailsPrint"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                               <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                   <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Add marks of {{$studentDetail->firstName}} {{$studentDetail->lastName}}</h5>
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Add marks of : Student Name</h5>
 
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                       <span aria-hidden="true">&times;</span>
@@ -489,35 +552,9 @@ Print marksheet
                                                   <div class="modal-body" id="subjectsList">
 
 
-                            <h2>Grade : {{$studentDetail->gradeName}}</h2>
-                            <h2>Subject Name : </h2>
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Subject Name</th>
-                                  <th>Marks </th>
-                                  <th>Total Marks</th>
-                                </tr>
-                              </thead>
-                                <tbody>
-
-                              @foreach(($studentMarks = \App\Models\StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
-                                                ->where('student_marks.batchId','=',$currentBatchId)
-                                                ->where('student_marks.studentId','=',$studentDetail->studentId)
-                                                ->where('subjects.semesterId','=',$studentDetail->semesterId)
-                                                ->where('subjects.departmentId','=',$studentDetail->studentDepartmentId)
-                                                ->select('subjects.subjectName AS subjectName','subjects.subjectMaxMarks as subjectMaxMarks','student_marks.marks AS marks','student_marks.student_marksId  AS student_marksId')
-                                                ->get()) as  $subject)
-
-                                                  <tr>
-                                                    <td>{{$subject->subjectName}}</td>
-						                                        <td>{{$subject->marks}}</td>
-                                                    <td>{{$subject->subjectMaxMarks}}</td>
-                                                  </tr>
-                              @endforeach
                             </tbody>
                           </table>
-                            <a href="{{ action('\App\Http\Controllers\DomPdfController@getPdf',['studentId'=>$studentDetail->studentId]) }}">Print</a>
+                            <h3>Link to download the pdf</h3>
                                                                           </div>
                          <div class="modal-footer">
                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -526,19 +563,12 @@ Print marksheet
                                             </div>
                                           </div>
                                         </div>
-                    <!--
-Create Marks
-                   -->
 
-                   <!--
-
-                   For creation
-                   -->
-                   <div class="modal fade" id="submitMarkDetailsCreation{{$studentDetail->studentId}}" id="adminStudentStudentMarksCreation"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                   <div class="modal fade" id="submitMarkDetailsCreation" id="adminStudentStudentMarksCreation"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                               <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                   <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Add marks of {{$studentDetail->firstName}} {{$studentDetail->lastName}}</h5>
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Add marks of (Student Name))</h5>
 
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                       <span aria-hidden="true">&times;</span>
@@ -546,39 +576,6 @@ Create Marks
                                                   </div>
                                                   <div class="modal-body" id="subjectsList">
 
-
-                            <h2>Grade : {{$studentDetail->gradeName}}</h2>
-                            <h2>Subject Name : </h2>
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Delete</th>
-                                  <th>Subject Name</th>
-                                  <th>Mark</th>
-                                  <th>Subject Maximum Mark</th>
-                                </tr>
-                              </thead>
-                                <tbody>
-
-                              @foreach(($studentMarks = \App\Models\StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
-                                                ->where('student_marks.batchId','=',$currentBatchId)
-                                                ->where('student_marks.studentId','=',$studentDetail->studentId)
-                                                ->where('subjects.semesterId','=',$studentDetail->semesterId)
-                                                ->where('subjects.departmentId','=',$studentDetail->studentDepartmentId)
-                                                ->select('subjects.subjectName AS subjectName','subjects.subjectMaxMarks as subjectMaxMarks','student_marks.marks AS marks','student_marks.student_marksId  AS student_marksId')
-                                                ->get()) as  $subject)
-
-                                                  <tr><form action="{{route('deleteMarksEntryAdmin',['studentMark'=>$studentDetail->student_marksId])}}" method="POST" name="deleteStudentSubjectMarks" id="deleteStudentSubjectMarks">
-                                                    {{ csrf_field() }}{{ method_field('POST')}}<input type="hidden" name="subjectMarkIdDelete" value="{{$subject->student_marksId}}"></input>
-                                                    <td><input type="hidden" name="subjectMarkIdDelete[]" value="{{$subject->student_marksId}}"></input><button type="submit" class="btn btn-primary form-control">Delete</button></form></td>
-                                                    <form action="{{route('updateMarksTeacher',['studentMark'=>$studentDetail->student_marksId])}}" method="POST" name="createStudentSubjectMarks" id="createStudentSubjectMarks">
-                                                    {{ csrf_field() }}{{ method_field('POST')}}
-                                                    <td>{{$subject->subjectName}}</td>
-                                                    <td><input type="hidden" name="student_marksId[]" value="{{$subject->student_marksId}}"></input>
-                                                    <input type="number" class='form-control' name="subjectMark[]" value="{{$subject->marks}}"></input></td>
-                                                    <td>{{$subject->subjectMaxMarks}}</td>
-                                                  </tr>
-                              @endforeach
                             </tbody>
                           </table>
                             <button type="submit" class="btn btn-primary form-control">Submit</button></form>
@@ -590,10 +587,7 @@ Create Marks
                                             </div>
                                           </div>
                                         </div>
-                  @endforeach
-              @else
-                <h2 style="color:red;">List is empty</h2>
-              @endif
+                
                 </div>
             </div>
         </div>
@@ -606,4 +600,5 @@ Marks Creation
 
   <script src="{{ asset('js/filter.js') }}" defer></script>
                      <script src="{{ asset('js/Admin/student.js') }}" defer></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
 </x-app-layout>

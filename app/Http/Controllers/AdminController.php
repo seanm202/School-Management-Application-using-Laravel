@@ -183,7 +183,7 @@ class AdminController extends Controller
 
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
-       $hours->hourEndingTime = $request->hourStartingTime;
+       $hours->hourEndingTime = $request->hourEndingTime;
        $hours->status = 1;
        $hours->save();
 
@@ -201,6 +201,7 @@ class AdminController extends Controller
         $hours = Hours::where('hourId','=',$request->hourId)->first();
         $hours->hourName = $request->hourName;
         $hours->hourStartingTime = $request->hourStartingTime;
+        $hours->hourEndingTime = $request->hourEndingTime;
         $hours->status = 1;
         $hours->save();
 
@@ -220,7 +221,7 @@ class AdminController extends Controller
 
         return response()->json([
         'status' => true,
-        'message' => 'Hour / details deleted!'
+        'message' => 'Hour details deleted!'
         ]);
 
     }

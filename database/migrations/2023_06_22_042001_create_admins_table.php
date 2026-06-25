@@ -22,6 +22,15 @@ return new class extends Migration
             $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
+
+        DB::table('admins')->insert([ 
+            'adminId' => 1,
+            'userId' => 1,
+            'notifications_Posted' => 0,
+            'adminDetailId' => 1,
+            'status' => 1,
+            'batchId' => 1
+        ]);
     }
 
     /**

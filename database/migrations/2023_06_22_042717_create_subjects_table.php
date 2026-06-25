@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->integer('semesterId')->default(NULL);
                 $table->integer('departmentId')->default(NULL);
             $table->string('subjectName')->default(NULL);
-            $table->string('subjectGrade')->default(NULL);
+            $table->integer('subjectGrade')->default(NULL);
             $table->string('subjectMaxMarks')->default(NULL);
             $table->string('subjectTextName')->default(NULL);
             $table->string('subjectCode')->default(NULL);
@@ -28,6 +28,22 @@ return new class extends Migration
             $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
+        
+        DB::table('subjects')->insert([
+            'subjectId' => 1,
+            'semesterId' => 1,
+            'departmentId' => 1,
+            'subjectName' => 'Mathematics',
+            'subjectGrade' => 'Grade 10',
+            'subjectMaxMarks' => '100',
+            'subjectTextName' => 'Math Textbook',
+            'subjectCode' => 'MATH101',
+            'torlab' => 'Theory',
+            'priority' => 2,
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
     }
 
     /**

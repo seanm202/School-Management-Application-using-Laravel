@@ -6,24 +6,27 @@ headers: {
                 }
                             });
 
-                $('#buttonForAddSubject').click(function (e) {
+                $('#buttonForAddSubjectAdmin').click(function (e) {
                 e.preventDefault();
-                  var urlcreateSubject = $('#createSubject').attr('action');
+                  var url = $('#addSubjectAdmin').attr('action');
+                  // alert(url);
       $.ajax({
-            data: $('#createSubject').serialize(),
-      url: urlcreateSubject,
+            data: $('#addSubjectAdmin').serialize(),
+      url: url,
 type: "POST",
 dataType: 'json',
       success: function (data) {
-                    alert('Success');
+        showSuccess();
       },
     error: function (xhr) {
   console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+    
       }
       });
         });
 });
-
 //
 //
 //
@@ -47,7 +50,8 @@ dataType: 'json',
                     alert('Success');
       },
     error: function (xhr) {
-  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
       }
       });
         });
@@ -81,7 +85,8 @@ dataType: 'json',
                     alert('Success');
       },
     error: function (xhr) {
-  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
       }
       });
         });
@@ -107,10 +112,11 @@ headers: {
 type: "POST",
 dataType: 'json',
       success: function (data) {
-                    alert('Success');
+                    showSuccess();
       },
     error: function (xhr) {
-  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
       }
       });
         });
@@ -123,34 +129,65 @@ dataType: 'json',
 //
 $(function () {
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
+
+              $(document).on('click', '.buttonForUpdatePriority', function () {
+
+const row = $(this).closest('tr');
+
+    const priorityId = row.find('.priorityId').val();
+    const priorityName   = row.find('.priorityName').val();
+    const priorityValue   = row.find('.priorityValue').val();
+   const urleditPriority = $(this).data('url');
+    // alert(urleditPriority);
+    console.log({
+    priorityId: row.find('.priorityId').val(),
+    priorityName: row.find('.priorityName').val(),
+    priorityValue: row.find('.priorityValue').val()
+});
+    $.ajax({
+        data: {
+          priorityId:priorityId,
+          priorityName:priorityName,
+          priorityValue:priorityValue
+        },
+        url: urleditPriority,
+        type: "POST",
+        dataType: "json",
+
+        success: function(data) {
+            showSuccess();
+        },
+
+       error: function(xhr) {
+    if (xhr.status === 422) {
+        jsdisplaycustomerrors(xhr.responseJSON.errors);
+    } else {
+        console.log(xhr.responseText);
+    }
+}
     });
+});
 
-    $(document).on('click', '.buttonForUpdatePriority', function (e) {
-        e.preventDefault();
-
-        // ✅ get the form of THIS row only
-        var form = $(this).closest('form');
-
-        var urleditPriority = form.attr('action');
-
-        $.ajax({
-            url: urleditPriority,
-            type: "POST",
-            data: form.serialize(),
-            dataType: 'json',
-
-            success: function (data) {
-                alert('Success');
-            },
-
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
-        });
-    });
-
+//                 $('.buttonForUpdatePriority').click(function (e) {
+//                 e.preventDefault();
+//                   var urleditPriority = $('.editPriority').attr('action');
+//       $.ajax({
+//             data: $('.editPriority').serialize(),
+//       url: urleditPriority,
+// type: "POST",
+// dataType: 'json',
+//       success: function (data) {
+//                     showSuccess();
+//       },
+//     error: function (xhr) {
+// var errors = xhr.responseJSON.errors;
+// jsdisplaycustomerrors(errors);
+//       }
+//       });
+//         });
 });

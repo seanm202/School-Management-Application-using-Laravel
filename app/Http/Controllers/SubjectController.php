@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Response;
 use App\Models\Subject;
 use App\Models\Batch;
+use App\Models\SubjectTeacherForEachSections;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Session;
+use DB;
 
 class SubjectController extends Controller
 {
@@ -53,15 +55,70 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     public function create()
     {
         //
+    } 
+
+    
+    public function getSubjectCategoriesByAJAX()
+    {
+        //
+        $subjectCategorys = DB::table('subjects')
+    ->join('departments', 'departments.departmentId', '=', 'subjects.departmentId')
+    ->join('semesters', 'semesters.semesterId', '=', 'subjects.semesterId')
+    ->join('grades', 'grades.gradeId', '=', 'subjects.subjectGrade')
+    ->select(
+        'subjects.departmentId',
+        'subjects.semesterId',
+        'subjects.torlab',
+        'grades.grade',
+        'grades.gradeId',
+        'departments.departmentName',
+        'semesters.semesterName'
+    )
+    ->groupBy(
+        'grades.gradeId',
+        'subjects.departmentId',
+        'subjects.semesterId',
+        'subjects.torlab',
+        'departments.departmentName',
+        'semesters.semesterName'
+    )
+    ->get();
+    return response()->json($subjectCategorys);
     }
 
 
+    public function getSubjectsList(Request $request)
+    {
+        //
+        $subjectsLists = DB::table('subjects')
+        ->select('subjectName','torlab','subjectCode','subjectMaxMarks')
+    ->where('subjects.subjectGrade','=',$request->gradeId)
+    ->where('subjects.departmentId','=',$request->departmentId)
+    ->where('subjects.semesterId','=',$request->semesterId)
+    ->get();
+    return response()->json($subjectsLists);
+    }
+
+    public function getSubjectDetailsByAJAX()
+    {
+        //
+        $subjects = DB::table('subjects')
+        ->select('subjectName','departmentId','semesterId','subjectMaxMarks')
+    ->groupBy('subjects.departmentId','subjects.semesterId','subjects.torlab')
+    ->get();
+    return response()->json($subjects);
+    }
+
+    public function getCurrentBatchId()
+    {
+        $subjects = DB::table('batches')
+        ->where('status','=',1)
+    ->first()
+    ->batchId;
+    }
+
     public function storeSubject(Request $request)
     {
-  //     $role = new role;
-  //          $role->roleName = "Test";
-  //          $role->status = 1;
-  // $role->save();
 
       //Add A Subject
           $validated = $request->validate([
@@ -95,6 +152,60 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
          $subject->status = 1;
          $subject->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
          $subject->save();
+        $lastInsertedId = $subject->subjectId; 
+        
+    $classRooms = ClassRoom::where('departmentId', $request->departmentId)
+    ->where('semesterId', $request->semesterId)
+    ->where('grades', $request->subjectGrade)
+    ->get();
+
+foreach ($classRooms as $classRoom) {
+
+    SubjectTeacherForEachSections::updateOrCreate(
+        [
+            'semesterId'  => $request->semesterId,
+            'departmentId'=> $request->departmentId,
+            'subjectId'   => $lastInsertedId,
+            'classRoomId' => $classRoom->classRoomId,
+        ],
+        [
+            'teacherId' => 1,
+            'status'    => 5,
+            'batchId'   => 1,
+        ]
+    );
+
+}
+
+
+
+foreach ($classRooms as $classRoom) {
+
+    $students=Student::where('students.studentClassroom','=',$classRoom->classroomDetailId)
+        ->where('students.batchId','=',getCurrentBatchId())
+        ->get();
+        foreach ($students as $student) {
+
+            StudentMarks::updateOrCreate(
+            [
+            'studentId'     => $student->studentId,
+            'classRoomId'   => $classRoom->classroomDetailId,
+            'subjectId'     => $lastInsertedId,
+        ],
+        [
+            'studentId'     => $student->studentId,
+            'classRoomId'   => $classRoom->classroomDetailId,
+            'subjectId'     => $lastInsertedId,
+            'userId'        => $student->userId,
+            'marks'         =>   0,
+            'status'        => 5,
+            'batchId'       => getCurrentBatchId(),
+        ]
+        );
+
+        }
+
+}
 
          return response()->json([
          'status' => true,
