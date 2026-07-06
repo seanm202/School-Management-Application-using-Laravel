@@ -3,12 +3,14 @@
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/sidebar.js') }}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-            <script src="{{ asset('js/Admin/classRoom.js') }}"></script>
+            <script src="{{ asset('js/Admin/classRoom.js') }}" defer></script>
   
   <!--
 
@@ -310,18 +312,11 @@ display:none;
 
 
 <div id="successBox" class="success-box">
-    <span class="message">✅ Data saved successfully!</span>
+    <span id="successMessage" class="message">✅ Data saved successfully!</span>
     <span class="close-btn" onclick="closeSuccess()">&times;</span>
-</div> 
-
-
-<div id="deleteSuccessBox" class="delete-box">
-    <span class="message">✅ Data deleted successfully!</span>
-    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
 </div>
-
 <div id="errorShowBox" class="errorshow-box">
-    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <div id="contentOfErrorShowBox"></div>
     <span class="close-btn" onclick="closeError()">&times;</span>
 </div>
 
@@ -555,8 +550,6 @@ function getClassRooms(){
                                                               $('#addClassroom').click(function (e) {
     e.preventDefault();
 
-    console.log('Button clicked');
-
     var FormDataToCreateClassRoom =
         $('#FormToCreateClassRoom').attr('action');
 
@@ -572,12 +565,15 @@ function getClassRooms(){
                    getAllData();
             showSuccess();
         },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+   
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
     });
 });
 
@@ -633,7 +629,7 @@ jsdisplaycustomerrors(errors);
                       @endforeach
                     </select>
                   @endisset
-                  <button type="button" id="addClassroom" class="btn btn-primary form-control">Create Classroom</button>
+                  <button type="submit" id="addClassroom" class="btn btn-primary form-control">Create Classroom</button>
                   </form>
                 </div>
             </div>

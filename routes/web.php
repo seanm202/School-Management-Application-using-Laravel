@@ -77,6 +77,12 @@ Route::post('updateStatus', [StatusController::class, 'updateStatus'])->name('up
 Route::post('destroyStatus', [StatusController::class, 'destroyStatus'])->name('destroyStatus');
 Route::resource('Status', 'StatusController');
 ////Create Batches
+
+
+
+
+Route::get('getCurrentBatch', [BatchController::class, 'getCurrentBatch'])->name('getCurrentBatch');
+
 Route::get('getDetailsOfAdmins', [BatchController::class, 'getDetailsOfAdmins'])->name('getDetailsOfAdmins');
 Route::post('updatebatch', [BatchController::class, 'updatebatch'])->name('updatebatch');
 Route::post('createbatch', [BatchController::class, 'createbatch'])->name('createbatch');
@@ -162,8 +168,17 @@ Route::post('reAssignTeacher', [SubjectTeacherForEachSectionsController::class, 
 Route::get('getClassroomAssignedTeachers', [SubjectTeacherForEachSectionsController::class, 'getClassroomAssignedTeachers'])->name('getClassroomAssignedTeachers');
 
 Route::get('getDataForAddingDetailsOfNewUser', [DetailController::class, 'getDataForAddingDetailsOfNewUser'])->name('getDataForAddingDetailsOfNewUser');
+
+Route::get('getDataForAddingDetailsOfAdmin', [DetailController::class, 'getDataForAddingDetailsOfAdmin'])->name('getDataForAddingDetailsOfAdmin');
+
+Route::get('getDataForAddingDetailsOfTeacher', [DetailController::class, 'getDataForAddingDetailsOfTeacher'])->name('getDataForAddingDetailsOfTeacher');
+
+Route::get('getDataForAddingDetailsOfStudent', [DetailController::class, 'getDataForAddingDetailsOfStudent'])->name('getDataForAddingDetailsOfStudent');
+
 Route::get('getAdmins', [DetailController::class, 'getAdmins'])->name('getAdmins');
 Route::get('getNewUsers', [DetailController::class, 'getNewUsers'])->name('getNewUsers');
+Route::get('getTeachers', [DetailController::class, 'getTeachers'])->name('getTeachers');
+Route::get('getStudents', [DetailController::class, 'getStudents'])->name('getStudents');
 
 Route::get('getListOfTeachers', [SubjectTeacherForEachSectionsController::class, 'getListOfTeachers'])->name('getListOfTeachers');
 Route::get('getSubjectsForClassroomForAssigningTeachers', [SubjectTeacherForEachSectionsController::class, 'getSubjectsForClassroomForAssigningTeachers'])->name('getSubjectsForClassroomForAssigningTeachers');
@@ -238,6 +253,8 @@ Route::post('getDepartmentFromGradeForSubject', [SubjectController::class, 'getD
 Route::post('storeSubject', [SubjectController::class, 'storeSubject'])->name('storeSubject');
 Route::post('updatesubject', [SubjectController::class, 'updatesubject'])->name('updatesubject');
 Route::post('destroysubject', [SubjectController::class, 'destroysubject'])->name('destroysubject');
+Route::post('updateSubjectName', [SubjectController::class, 'updateSubjectName'])->name('updateSubjectName');
+
 Route::resource('subject', 'SubjectController');
 ////Semester//////
 
@@ -250,6 +267,10 @@ Route::post('updatesemester', [SemesterController::class, 'updatesemester'])->na
 Route::resource('semester', 'SemesterController');
 //////StudentMarks//////////
 
+
+
+Route::get('getSubjectsListForAddingStudentMarks', [StudentMarksController::class, 'getSubjectsListForAddingStudentMarks'])->name('getSubjectsListForAddingStudentMarks');
+Route::get('getStudentsListToAddMarks', [StudentMarksController::class, 'getStudentsListToAddMarks'])->name('getStudentsListToAddMarks');
 Route::post('updateMarksTeacher', [StudentMarksController::class, 'updateMarksTeacher'])->name('updateMarksTeacher');
 Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('updatecreateSubject');
 Route::post('studentMarks.update', [StudentMarksController::class, 'update'])->name('adminStudentAddStudentMarks');
@@ -288,11 +309,7 @@ Route::get('guestDashboard', function () {
 //     return view('Admin.dashboard');
 // })->middleware(['auth', 'verified'])->name('Admindashboard');
 Route::get('Admindashboard', function () {
-
-    $currentBatchId = 1; // example value
-
-    return view('Admin.dashboard', compact('currentBatchId'));
-
+return view('Admin.dashboard');
 })->middleware(['auth','verified'])->name('Admindashboard');
 Route::get('Teacherdashboard', function () {
     return view('Teacher.dashboard');

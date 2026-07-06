@@ -2,7 +2,6 @@ $(document).ready(function(){
 
     $('#markAttendance').ajaxForm(function() {
         event.preventDefault();
-alert('l');
         var url = $(this).attr('data-action');
 
         $.ajax({
@@ -13,11 +12,19 @@ alert('l');
             contentType: false,
             cache: false,
             processData: false,
-            success:function(response)
-            {
-            },
-            error: function(response) {
-            }
+             success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+         error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
     });
 

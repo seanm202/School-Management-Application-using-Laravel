@@ -225,38 +225,6 @@ let rowsGetStudent = "";
 //
     //
     //
-    function showSuccess() {
-    const box = document.getElementById("successBox");
-
-    box.classList.add("show");
-
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
-
-function closeSuccess() {
-    document.getElementById("successBox").classList.remove("show");
-}
-    //
-    // For Deletion
-    //
-
-    function showDeleteSuccess() {
-    const box = document.getElementById("deleteSuccessBox");
-
-    box.classList.add("show");
-
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
-
-function closeDeleteSuccess() {
-    document.getElementById("deleteSuccessBox").classList.remove("show");
-}
     </script>
     <div class="py-12" id="adminStudentAddStudent">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

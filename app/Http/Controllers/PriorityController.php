@@ -77,7 +77,7 @@ class PriorityController extends Controller
 
    return response()->json([
    'status' => true,
-   'message' =>'Priority added successfully.'
+   'message' =>'Data added to the database successfully.'
    ]);
 }
 
@@ -126,7 +126,7 @@ public function updatePriority(Request $request)
 
     return response()->json([
         'status' => true,
-        'message' => 'Priority updated successfully.'
+        'message' => 'Data updated successfully.'
     ]);
 }
 

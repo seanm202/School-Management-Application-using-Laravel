@@ -19,16 +19,19 @@
   url: createSectionAdmin,
   type: "POST",
   dataType: 'json',
-  success: function (data) {
-      getAllData();
-showSuccess();
-  },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+   success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+   error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
   });
   });
 
@@ -67,17 +70,19 @@ $(document).ready(function () {
                  sectionName : sectionName
                  },
             dataType: 'json',
-            success: function (data) {
-                // console.log(data);
-                getAllData(); // Refresh the data after successful update
-                showSuccess(); // Show success message
-            },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+            success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+    error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
 
     });
@@ -114,17 +119,19 @@ $(document).ready(function () {
                  sectionId: sectionId
                  },
             dataType: 'json',
-            success: function (data) {
-                // console.log(data);
-                getAllData(); // Refresh the data after successful update
-                showSuccess(); // Show success message
-            },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+            success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+    error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
 
     });

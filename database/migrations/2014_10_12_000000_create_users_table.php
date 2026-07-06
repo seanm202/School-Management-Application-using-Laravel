@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password')->default(NULL);
             $table->integer('detailsId')->nullable();
             $table->string('phone')->nullable();
-            $table->integer('role')->default(1);
+            $table->integer('role')->default(4);
             $table->integer('batchId')->default(NULL);
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
@@ -37,7 +37,7 @@ return new class extends Migration
             'password' => bcrypt('admin1234'),
             'detailsId' => 1,
             'phone' => '9845632151',
-            'role' => 3,
+            'role' => 1,
             'batchId' => 1,
             'created_at' => now(),
             'updated_at' => now()
@@ -51,7 +51,7 @@ return new class extends Migration
             'password' => bcrypt('teacher1234'),
             'detailsId' => 2,
             'phone' => '9845632151',
-            'role' => 3,
+            'role' => 2,
             'batchId' => 1,
             'created_at' => now(),
             'updated_at' => now(),
@@ -65,7 +65,7 @@ return new class extends Migration
             'password' => bcrypt('student1234'),
             'detailsId' => 3,
             'phone' => '9845632151',
-            'role' => 4,
+            'role' => 3,
             'batchId' => 1,
             'created_at' => now(),
             'updated_at' => now(),
@@ -79,7 +79,7 @@ return new class extends Migration
             'password' => bcrypt('guest1234'),
             'detailsId' => 4,
             'phone' => '9845632151',
-            'role' => 1,
+            'role' =>4,
             'batchId' => 1,
             'created_at' => now(),
             'updated_at' => now()

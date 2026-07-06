@@ -1,7 +1,3 @@
-console.log('classRoom.js loaded');
-console.log(typeof showSuccess);
-
-
 // 
 
 // 
@@ -18,7 +14,10 @@ function getTeachersList(callback) {
         success: function(data) {
 
             let options = '';
-
+             options += `
+                    <option value="">
+                        Select Teacher
+                    </option>`;
             data.forEach(function(teacher) {
                 options += `
                     <option value="${teacher.teacherId}">
@@ -28,12 +27,14 @@ function getTeachersList(callback) {
 
             callback(options);
         },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
     });
 }
 // 
@@ -52,7 +53,10 @@ jsdisplaycustomerrors(errors);
         success: function(data) {
 
             let options = '';
-
+                options += `
+                    <option value="">
+                        Select Department
+                    </option>`;
             data.forEach(function(department) {
                 options += `
                     <option value="${department.departmentId}">
@@ -62,12 +66,14 @@ jsdisplaycustomerrors(errors);
 
             callback(options);
         },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
     });
 }
 // 
@@ -86,7 +92,10 @@ jsdisplaycustomerrors(errors);
         success: function(data) {
 
             let options = '';
-
+            options += `
+                    <option value="">
+                        Select Semester
+                    </option>`;
             data.forEach(function(semester) {
                 options += `
                     <option value="${semester.semesterId}">
@@ -96,12 +105,14 @@ jsdisplaycustomerrors(errors);
 
             callback(options);
         },
-      error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
     });
 }
 // 
@@ -119,7 +130,10 @@ jsdisplaycustomerrors(errors);
         success: function(data) {
 
             let options = '';
-
+            options += `
+                    <option value="">
+                        Select Section
+                    </option>`;
             data.forEach(function(section) {
                 options += `
                     <option value="${section.sectionId}">
@@ -129,12 +143,14 @@ jsdisplaycustomerrors(errors);
 
             callback(options);
         },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
     });
 }
 function getGradesList(callback) {
@@ -147,6 +163,10 @@ function getGradesList(callback) {
 
             let options = '';
 
+                options += `
+                    <option value="">
+                        Select Grade
+                    </option>`;
             data.forEach(function(grade) {
                 options += `
                     <option value="${grade.gradeId}">
@@ -181,16 +201,19 @@ headers: {
       url: urlupdateClassRoom,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                   getAllData();
-            showSuccess();
-      },
-      error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+      success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });
@@ -216,17 +239,19 @@ alert('l');
             contentType: false,
             cache: false,
             processData: false,
-            success:function(response)
-            {
-                   getAllData();
-            showSuccess();
-            },
-               error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+             success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
     });
 
@@ -244,8 +269,8 @@ jsdisplaycustomerrors(errors);
                                                               });
 
 
-                                                              $('#addClassroom').click(function (e) {
-    e.preventDefault();
+   $(document).on('submit', '#FormToCreateClassRoom', function(event) {
+    event.preventDefault();
 
     console.log('Button clicked');
 
@@ -260,17 +285,41 @@ jsdisplaycustomerrors(errors);
         url: FormDataToCreateClassRoom,
         type: "POST",
 
-        success: function (data) {
-                   getAllData();
-            showSuccess();
-        },
+         success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
 
-           error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+// error: function(xhr) {
+//     var errors = xhr.responseJSON.errors;
+
+//     // Flatten all error arrays into one array
+//     var messages = Object.values(errors).flat();
+
+//     showError(messages);
+// }
+error: function(xhr) {
+
+    console.log("Status:", xhr.status);
+    console.log("Response:", xhr.responseText);
+
+    if (xhr.responseJSON && xhr.responseJSON.errors) {
+
+        let messages = Object.values(xhr.responseJSON.errors).flat();
+        showError(messages);
+
+    } else if (xhr.responseJSON && xhr.responseJSON.message) {
+
+        showError(xhr.responseJSON.message);
+
+    } else {
+
+        showError("Internal Server Error (500). Check laravel.log.");
+
+    }
+
+}
     });
 });
 
@@ -298,16 +347,19 @@ headers: {
       url: urlupdateClassRoomInModalForm,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                   showSuccess();
-                   getAllData();
-      },
-       error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });
@@ -332,13 +384,19 @@ headers: {
       url: urldeleteClassRoomInModalForm,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                   showSuccess();
-                   getAllData();
-      },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });
@@ -425,13 +483,14 @@ $(function () {
                 $('#createClassRoomPart')
                     .html(rowsGetForAssignClassRoomToStudent);
             },
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
 
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
 
     });

@@ -42,13 +42,13 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //Create an add admin form
-        $roles=Role::where('roleName', 'admin')
-               ->get();
-        return back()->with('success', 'Role created successfully.');
-    }
+    // public function create()
+    // {
+    //     //Create an add admin form
+    //     $roles=Role::where('roleName', 'admin')
+    //            ->get();
+    //     return back()->with('success', 'Role created successfully.');
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -112,6 +112,7 @@ class AdminController extends Controller
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
        $details->guardianName = $request->guardianName;
+       $details->status = 22; // "Account created!"
        $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
        $details->save();
 
@@ -130,13 +131,12 @@ class AdminController extends Controller
         $days = new Days;
 
        $days->dayName = $request->dayName;
-       $days->status = 1;
+       $days->status = 23; // "Day created!"
        $days->save();
-
 
        return response()->json([
        'status' => true,
-       'message' => 'Day added successfully.'
+       'message' => 'Day added successfully!'
        ]);
     }
 
@@ -146,16 +146,21 @@ class AdminController extends Controller
             $days = Days::where('dayId',$request->dayId)->first();
            $days->delete();
 
-
-
           return redirect()->route('Admin',['id'=>'editDayName'])
-    ->with('success', 'Day added successfully.');
+    ->with('success', 'Day deleted successfully!');
         }
 
 
 
     public function updateDayName(Request $request)
     {
+          $validated = $request->validate([
+            'dayId' => ['required'],
+            'dayName' => ['required'],
+       [
+        'dayName.required'=> 'A name for the day is required',
+       ]
+        ]);
         //Store or add admin
         $days = Days::where('dayId',$request->dayId)->first();
         $days->dayName = $request->dayName;
@@ -164,7 +169,7 @@ class AdminController extends Controller
 
                return response()->json([
                'status' => true,
-               'message' => 'Day updated successfully.'
+               'message' => 'Day data updated successfully!'
                ]);
     }
 
@@ -175,8 +180,12 @@ class AdminController extends Controller
         //Store or add admin
           $validated = $request->validate([
             'hourName' => ['required'],
+            'hourStartingTime' => ['required'],
+            'hourEndingTime' => ['required'],
        [
         'hourName.required'=> 'A name for the hour is required',
+        'hourStartingTime.required'=> 'Choose a starting time for the hour.',
+        'hourEndingTime.required'=> 'Choose an ending time for the hour.',
        ]
         ]);
         $hours = new Hours;
@@ -184,12 +193,12 @@ class AdminController extends Controller
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
        $hours->hourEndingTime = $request->hourEndingTime;
-       $hours->status = 1;
+       $hours->status = 25;
        $hours->save();
 
        return response()->json([
        'status' => true,
-       'message' => 'Hour added!'
+       'message' => 'Hour added successfully!'
        ]);
     }
 
@@ -197,17 +206,25 @@ class AdminController extends Controller
 
     public function updateHourName(Request $request)
     {
+      $validated = $request->validate([
+            'hourStartingTime' => ['required'],
+            'hourEndingTime' => ['required'],
+       [
+        'hourStartingTime.required'=> 'Choose a starting time for the hour.',
+        'hourEndingTime.required'=> 'Choose an ending time for the hour.',
+       ]
+        ]);
         //Store or add admin
         $hours = Hours::where('hourId','=',$request->hourId)->first();
         $hours->hourName = $request->hourName;
         $hours->hourStartingTime = $request->hourStartingTime;
         $hours->hourEndingTime = $request->hourEndingTime;
-        $hours->status = 1;
+        $hours->status = 25;
         $hours->save();
 
         return response()->json([
         'status' => true,
-        'message' => 'Hour details updated!'
+        'message' => 'Hour details updated successfully!'
         ]);
 
     }
@@ -221,7 +238,7 @@ class AdminController extends Controller
 
         return response()->json([
         'status' => true,
-        'message' => 'Hour details deleted!'
+        'message' => 'Hour details deleted successfully!'
         ]);
 
     }

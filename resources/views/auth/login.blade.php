@@ -187,7 +187,6 @@
 
 <div class="header">
     <h1>MySchoolOnline</h1>
-    <p>Choose your login portal</p>
 </div>
 
 <div class="register-link">

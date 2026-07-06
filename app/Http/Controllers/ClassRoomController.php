@@ -137,18 +137,25 @@ class ClassRoomController extends Controller
      */
     public function createclassRoom(Request $request)
     {
-
-      $validated = $request->validate(
-  [
-      'grade' => ['required'],
-      'section' => ['required'],
-      'classTeacher' => ['required'],
-  ],
-  [
-      'grade.required' => 'A name must be specified for the grade.',
-      'section.required' => 'A section must be selected',
-      'classTeacher.required' => 'Class teacher must be selected',
-  ]
+$request->validate(
+    [
+        'grade' => 'required',
+        'section' => 'required',
+        'classTeacher' => 'required',
+        'roomNo' => 'required',
+        'departmentId' => 'required',
+        'semesterId' => 'required',
+        'classCapacity' => 'required',
+    ],
+    [
+        'grade.required' => 'A name must be specified for the grade.',
+        'roomNo.required' => 'Please enter the room number.',
+        'section.required' => 'A section must be selected.',
+        'departmentId.required' => 'A department must be selected.',
+        'semesterId.required' => 'A semester must be selected.',
+        'classTeacher.required' => 'Class teacher must be selected.',
+        'classCapacity.required' => 'Enter current class capacity.',
+    ]
 );
 
       //createClassRoom
@@ -163,11 +170,10 @@ class ClassRoomController extends Controller
                $classRoom->description =$request->classDescription;
                $classRoom->capacity =$request->classCapacity;
                $classRoom->status =1;
-               $classRoom->classTimeTableId = $request->classTimeTableId ? $request->classTimeTableId:1;
+               $classRoom->classTimeTableId = 1; //$request->classTimeTableId ? $request->classTimeTableId;
                $classRoom->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
                $classRoom->save();
 
-      // return redirect()->route('AdminClassRoom',['id'=>'createClassRoom'])->with('success', 'Class created successfully.');
       return response()->json([
     'status' => true,
     'message' => 'Class created successfully.'
@@ -247,7 +253,7 @@ class ClassRoomController extends Controller
        //return redirect()->route('AdminStudent');
        return response()->json([
        'status' => true,
-       'message' => 'Data Updated!'
+       'message' => 'Data has been updated successfully!'
        ]);
     }
 
@@ -265,7 +271,7 @@ class ClassRoomController extends Controller
        //return redirect()->route('AdminStudent');
         return response()->json([
        'status' => true,
-       'message' => 'Data Updated!'
+       'message' => 'Data has been updated successfully!'
        ]);
        }
 

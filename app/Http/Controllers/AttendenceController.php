@@ -36,8 +36,7 @@ class AttendenceController extends Controller
      {
        if(count($att = \App\Models\attendence::where('userRole','=',2)->where('todaysDate','=',date('Y-m-d'))->get())==0)
        {
-         $users = User::where('role', '=', 2)
-                    ->orWhere('role', '=', 3)->get();
+         $users = User::whereIn('role',[2,3])->get();
 
        foreach ($users as $userd) {
 

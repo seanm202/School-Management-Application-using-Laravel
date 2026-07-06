@@ -74,26 +74,6 @@ public function getSemesterDetailsByAJAX()
     ]);
 }
     
-      // public function storesemester(Request $request)
-      // {
-      //   //Add A Subject
-      //                  $validated = $request->validate([
-      //                    'semesterName' => ['required'],
-      //                [
-      //                'semesterName.required'=> 'A name must be specified for the semester.',
-      //                ]
-      //                ]);
-      //       $semester = new \App\Models\Semester;
-      //       $semester->semesterName = $request->semesterName;
-      //       $semester->batchId = 1;//Batch::where('status',1)->select('batchId')->first()->batchId;
-      //      $semester->save();
-
-      //      return response()->json([
-      //      'status' => true,
-      //      'message' => 'Semester created successfully.'
-      //      ]);
-      // }
-    
 
       /**
        * Display the specified resource.
@@ -152,9 +132,47 @@ public function getSemesterDetailsByAJAX()
 
       return response()->json([
       'status' => true,
-      'message' => 'Semester updated successfully.'
+      'message' => 'Semester data has been updated successfully.'
       ]);
       }
+
+
+    // To check whether the entity ,here semester, is still being used in the system.
+    public function checkSemesterIdForLink($semesterId)
+    {
+      $messages=[];
+      $semester = Semester::where('semesterId','=', $semesterId)->first();
+
+      $checkInStudentMarks = StudentMarks::where('semester','=', $semesterId)->first();
+      if($checkInStudentMarks)
+        {
+            $messages[]='Semester\'s Id is still in the Student Marks table.Please check the details.';
+        }
+
+      $checkInStatusSubjectTeacherForEachSections = SubjectTeacherForEachSections::where('semesterId','=', $semesterId)->first();
+      if($checkInStatusSubjectTeacherForEachSections)
+        {
+            $messages[]='Semester\'s Id is still in the Subject Teacher For Each Sections table.Please check the details.';
+        }
+        
+      $checkInStudent= Student::where('studentSemester','=', $semesterId)->first();
+      if($checkInStudent)
+        {
+            $messages[]='Semester\'s Id is still in the Students table.Please check the details.';
+        }
+        
+      $checkInSubject = Subject::where('semesterId','=', $semesterId)->first();
+      if($checkInSubject)
+        {
+            $messages[]='Semester\'s Id is still in the Subjects table.Please check the details.';
+        }
+
+      return response()->json([
+    'status' => true,
+    'message' => $messages,
+]);
+    }
+
 
       /**
        * Remove the specified resource from storage.

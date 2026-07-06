@@ -2,8 +2,7 @@
  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
-<script src="{{ asset('js/sidebar.js') }}"></script>
+
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -28,6 +27,7 @@
 <!-- Custom JS -->
 <script src="{{ asset('js/sidebar.js') }}"></script>
 
+<link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
 
 <style>
   
@@ -195,21 +195,57 @@
 
 </div>
 <div id="successBox" class="success-box">
-    <span class="message">✅ Data saved successfully!</span>
+    <span id="successMessage" class="message">✅ Data saved successfully!</span>
     <span class="close-btn" onclick="closeSuccess()">&times;</span>
 </div>
-
-<div id="deleteSuccessBox" class="delete-box">
-    <span class="message">✅ Data deleted successfully!</span>
-    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
-</div>
-
 <div id="errorShowBox" class="errorshow-box">
-    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <div id="contentOfErrorShowBox"></div>
     <span class="close-btn" onclick="closeError()">&times;</span>
 </div>
+<!-- 
 
+Modals Start 
 
+-->
+                                  <div class="modal fade" id="saveMarkDetailsCreation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                              <div class="modal-dialog modal-xl" role="document" style="max-width:90%;">
+                                                <div class="modal-content">
+                                                  <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Enter marks of Student</h5>
+
+                                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                  </div>
+                                                  <div class="modal-body" id="subjectsList">
+                                                    <table id="tableForDisplayingSubjectList">
+                                                      <thead>
+                                                        <tr>
+                                                          <th>Subject ID</th>
+                                                          <th>Subject Name</th>
+                                                          <th>Subject Code</th>
+                                                          <th>Maximum Marks</th>
+                                                          <th>Marks</th>
+                                                          <th>Submit</th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        <!-- Rows will be populated here -->
+                                                      </tbody>
+                                                    </table>
+                          </div>
+                         <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                         </div>
+
+                                            </div>
+                                          </div>
+                                        </div>
+<!-- 
+
+Modals End
+
+-->
     <!--
 
    -->  @if ( Auth::user()->role != 1)
@@ -230,6 +266,7 @@
 function getAllData()
     {
          getStudents();
+         getStudentsForMarksEntry();
     }
       //getStudentDetailsToReassignClassroomByAJAX  
     function getStudents(){
@@ -238,7 +275,7 @@ function getAllData()
                 method: "GET", // Use GET method for fetching data
                 dataType: "json", // Expect a JSON response
                 success: function(data) {
-                    console.log(data); // You can view the data in the browser console
+                  
 let rowsGetStudent = "";
            data.forEach(function(student){
 // let roleupdateurl = "/updateRole";
@@ -435,7 +472,48 @@ Create Mark table for all the students
          </div>
        </div>
        
+       <!-- 
        
+       
+       
+       -->
+
+<div class="py-12" id="adminStudentAddStudentMarks">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                  <h2>Add student Marks</h2>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-target="#showFilters">
+                    Filter
+                  </button>
+                  <table id="tableForAddStudentMarks" class="table">
+                    <thead>
+                      <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Department</th>
+                        <th>Semester</th>
+                        <th>Grade</th>
+                        <th>Section</th>
+                        <th>Add Marks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+ 
+
+                   
+                
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- 
+       
+-->
        <div class="modal fade" id="assignStudentsToClasses" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                            <div class="modal-dialog" role="document">
                              <div class="modal-content">
@@ -478,120 +556,142 @@ Create Mark table for all the students
  -->
 
 
- <div class="modal fade" id="showFilters" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Select filter</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                <div>
-                                <hr>
-                                <hr>
-                                  Department<br>
-                                  <div style="display:flex;padding:30px;">
-                                  @foreach($departments=\App\Models\Department::all() as $department)
-                                   <button class="button-value form-control" onclick="myDepartment({{$department->departmentId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #4CAF50;">{{$department->departmentName}}</button>
-                                  @endforeach
-                                  </div>
-                                  <hr>
-                                  <hr>
-                                  Semester<br>
-                                    <div style="display:flex;padding:30px;">
-                                    @foreach($semesters=\App\Models\Semester::all() as $semester)
-                                     <button class="button-value form-control" onclick="mySemester({{$semester->semesterId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #3A4BDC;">{{$semester->semesterName}}</button>
-                                    @endforeach
-                                    </div>
-                                    <hr>
-                                    <hr>
-                                    Grade<br>
-                                      <div style="display:flex;padding:30px;">
-                                      @foreach($grades=\App\Models\Grade::all() as $grade)
-                                       <button class="button-value form-control" onclick="myGrade({{$grade->gradeId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #EA3D1A;">{{$grade->grade}}</button>
-                                      @endforeach
-                                      </div>
-                                      <hr>
-                                      <hr>
-                                      Section<br>
-                                        <div style="display:flex;padding:30px;">
-                                        @foreach($sections=\App\Models\Section::all() as $section)
-                                         <button class="button-value form-control" onclick="mySection({{$section->sectionId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #130401;">{{$section->sectionName}}</button>
-                                        @endforeach
-                                        </div>
-                                 </div>
 
-                                                    </div>
-                                                      <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-  </div> 
-     <div class="py-12" id="adminStudentAddStudentMarks">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                  <h2>Add student Marks</h2>
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-target="#showFilters">
-                    Filter
-                  </button>
+                                        <!-- 
+                                        
+                                        -->
+<script type="text/javascript">
+ 
+function getStudentsForMarksEntry(){
+ 
+$.ajax({
+url: "{{ route('getStudentsListToAddMarks') }}",
+                method: "GET", 
+                dataType: "json", 
+                success: function(data) {
+                    console.log(data);
+console.table(data);
+let rowsGetStudentsToEnterMarks = "";
+           data.forEach(function(studentsMark){
+// let roleupdateurl = "/updateRole";
+               rowsGetStudentsToEnterMarks += `
+                    <tr class="studentId${studentsMark.studentId}studentId
+                    departmentId${studentsMark.departmentId}departmentId 
+                    semesterId${studentsMark.semesterId}semesterId
+                    gradeId${studentsMark.gradeId}gradeId
+                    sectionId${studentsMark.sectionId}sectionId
+                    ">
+    <td>${studentsMark.studentId} </td>
+    <td>${studentsMark.sal}${studentsMark.firstName} ${studentsMark.lastName}</td>
+    <td>${studentsMark.departmentName} </td>
+    <td>${studentsMark.semesterName}</td>
+    <td>${studentsMark.gradeName} </td>
+    <td>${studentsMark.sectionName} </td>
+    <td><button type="button" class="btn btn-primary form-control" data-bs-toggle="modal"
+        data-bs-student-id="${studentsMark.studentId}"
+        data-bs-department-id="${studentsMark.departmentId}"
+        data-bs-semester-id="${studentsMark.semesterId}"
+        data-bs-grade-id="${studentsMark.gradeId}"
+        data-bs-section-id="${studentsMark.sectionId}"
+         data-bs-target="#saveMarkDetailsCreation">
+                                              Select classroom
+                                            </button></td>
+            </tr>
+               `;
+           });
 
- <div class="modal fade" id="editDeleteMarksDetailsPrint" id="editDeleteMarksDetailsPrint"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                              <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Add marks of : Student Name</h5>
-
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                  </div>
-                                                  <div class="modal-body" id="subjectsList">
+           $('#tableForAddStudentMarks tbody').html(rowsGetStudentsToEnterMarks);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText);
+    console.log("Error:", thrownError);
+                }
+            });
 
 
-                            </tbody>
-                          </table>
-                            <h3>Link to download the pdf</h3>
-                                                                          </div>
-                         <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         </div>
+}
 
-                                            </div>
-                                          </div>
-                                        </div>
+      
 
-                   <div class="modal fade" id="submitMarkDetailsCreation" id="adminStudentStudentMarksCreation"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                              <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Add marks of (Student Name))</h5>
+const studentAddMarksListModal = document.getElementById('saveMarkDetailsCreation');
 
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                  </div>
-                                                  <div class="modal-body" id="subjectsList">
+if (studentAddMarksListModal) {
+  studentAddMarksListModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    const button = event.relatedTarget;
+    // Extract info from data-* attributes
+    const studentId = button.getAttribute('data-bs-student-id');
+    const gradeId = button.getAttribute('data-bs-grade-id');
+    const sectionId = button.getAttribute('data-bs-section-id');
+    const departmentId = button.getAttribute('data-bs-department-id');
+    const semesterId = button.getAttribute('data-bs-semester-id');
+$.ajax({
 
-                            </tbody>
-                          </table>
-                            <button type="submit" class="btn btn-primary form-control">Submit</button></form>
-                                                                          </div>
-                         <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                         </div>
 
-                                            </div>
-                                          </div>
-                                        </div>
-                
-                </div>
-            </div>
-        </div>
-    </div>
+
+                url: "{{ route('getSubjectsListForAddingStudentMarks') }}",
+                method: "GET", 
+                data:{
+                            studentId:studentId,
+                            gradeId:gradeId,
+                            departmentId:departmentId,
+                            semesterId:semesterId
+
+                        },
+                dataType: "json", 
+                success: function(data) {
+                    console.log(data); 
+let rowsGetSubjectsMarks = "";
+
+           data.forEach(function(subjectsList){
+// let roleupdateurl = "/updateRole";
+               rowsGetSubjectsMarks += `
+                    <tr>
+    <td>${subjectsList.subjectId} </td>
+    <td>${subjectsList.subjectName} </td>
+    <td>${subjectsList.subjectCode}</td>
+    <td>${subjectsList.MaxMarks} </td>
+    <td><form method="POST" action="submitSubjectMarks" class="submitSubjectMarks">
+    <input type="hidden" name="studentId" value="${subjectsList.studentId}">
+    <input type="hidden" name="subjectId" value="${subjectsList.subjectId}">
+    <input type="number" name="marksObtained" value="${subjectsList.marks}" class="form-control" placeholder="Enter marks obtained">
+    </form>
+    </td>
+    <td><button type="submit" class="btn btn-primary form-control submitSubjectMarksButton">Submit</button></td>
+    </form>
+            </tr>
+               `;
+           });
+           
+           $('#tableForDisplayingSubjectList tbody').html(rowsGetSubjectsMarks);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText);
+    console.log("Error:", thrownError);
+                }
+            });
+
+  });
+}    
+
+</script>
+                                        
+
+
+                                        <!-- 
+                                        
+                                        
+                                        -->
+
+
+                                        
+     
 
 
     <!--

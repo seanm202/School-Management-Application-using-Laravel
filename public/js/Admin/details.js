@@ -15,30 +15,30 @@ headers: {
       url: urlcreateGradeByAdmin,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-        showSuccess();
-                    getAllData();
-      },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+      success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });
 
 
 
-
-
 $(document).ready(function(){
 
-    $('#createOrUpdateAdminDetails').ajaxForm(function() {
+$(document).on('submit', '#newUserAddDetails', function(event) {
         event.preventDefault();
 
-        var url = $(this).attr('data-action');
+        var url = $(this).attr('action');
 
         $.ajax({
             url: url,
@@ -48,17 +48,70 @@ $(document).ready(function(){
             contentType: false,
             cache: false,
             processData: false,
-            success:function(response)
-            {
-                 showSuccess();
-                    getAllData();
-            },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+             success: function(response)
+{
+    $('#exampleModalLongNewUserUserId').modal('hide');
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+        });
+    });
+
+});
+
+
+
+
+$(document).ready(function(){
+
+$(document).on('submit', '#adminaddDetails', function(event) {
+    // alert("Here");
+    event.preventDefault();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+             success: function(response)
+{ 
+    showSuccess(response.message);
+      $('#exampleModalLongAdminUserId').modal('hide');
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
     });
 
@@ -68,9 +121,9 @@ jsdisplaycustomerrors(errors);
 
 $(document).ready(function(){
 
-    $('#createOrUpdateTeacherDetails').ajaxForm(function() {
+        $(document).on('submit', '#teacheraddDetails', function(event) {
         event.preventDefault();
-        var url = $(this).attr('data-action');
+        var url = $(this).attr('action');
 
         $.ajax({
             url: url,
@@ -80,17 +133,20 @@ $(document).ready(function(){
             contentType: false,
             cache: false,
             processData: false,
-            success:function(response)
-            {
-                 showSuccess();
-                    getAllData();
-            },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+             success: function(response)
+{
+    showSuccess(response.message);
+      $('#exampleModalLongTeacherUserId').modal('hide');
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
     });
 
@@ -98,9 +154,9 @@ jsdisplaycustomerrors(errors);
 
 $(document).ready(function(){
 
-  $('#createOrUpdateStudentDetails').ajaxForm(function() {
+     $(document).on('submit', '#studentAddDetails', function(event) {
         event.preventDefault();
-        var url = $(this).attr('data-action');
+        var url = $(this).attr('action');
 
         $.ajax({
             url: url,
@@ -110,17 +166,20 @@ $(document).ready(function(){
             contentType: false,
             cache: false,
             processData: false,
-            success:function(response)
-            {
-                 showSuccess();
-                    getAllData();
-            },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+             success: function(response)
+{
+    showSuccess(response.message);
+      $('#exampleModalLongStudentUserId').modal('hide');
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
     });
 
@@ -145,16 +204,19 @@ headers: {
       url: urlcreateOrUpdateTeacherDetails,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                     showSuccess();
-                    getAllData();
-      },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });
@@ -178,16 +240,19 @@ headers: {
       url: urldeleteTeacherDetails,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                    showSuccess();
-                    getAllData();
-      },
-          error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });

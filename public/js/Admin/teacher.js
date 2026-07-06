@@ -15,15 +15,19 @@ headers: {
       url: url,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-        showSuccess();
-      },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+  error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });

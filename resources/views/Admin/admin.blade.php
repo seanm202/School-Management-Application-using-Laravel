@@ -12,7 +12,9 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <!-- Bootstrap 4 JS -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/sidebar.js') }}"></script>
 <style>
     
@@ -207,16 +209,11 @@ function getBatches(){
     <div>
 
 <div id="successBox" class="success-box">
-    <span class="message">✅ Data saved successfully!</span>
+    <span id="successMessage" class="message">✅ Data saved successfully!</span>
     <span class="close-btn" onclick="closeSuccess()">&times;</span>
 </div>
-
-<div id="deleteSuccessBox" class="delete-box">
-    <span class="message">✅ Data deleted successfully!</span>
-    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
-</div>
 <div id="errorShowBox" class="errorshow-box">
-    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <div id="contentOfErrorShowBox"></div>
     <span class="close-btn" onclick="closeError()">&times;</span>
 </div>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
@@ -827,9 +824,9 @@ Hour creation
            {{Form::label('hourName',"Hour Name")}}{{Form::hidden('hourId',null,array('id'=>'thisEditHourId'))}}
            {{Form::text('hourName',null,array('placeholder'=>'Hour Name','class'=>'form-control','id'=>'thisEditHourName'))}}
            {{Form::label('startingTime','Starting Time')}}
-           {{Form::time('hourStartingTime',null,array('class'=>'form-control','id'=>'thisHourStartingTime'))}}
+           {{Form::time('hourStartingTime','11:00',array('class'=>'form-control','id'=>'thisHourStartingTime'))}}
            {{Form::label('endingTime','Ending Time')}}
-           {{Form::time('hourEndingTime',null,array('class'=>'form-control','id'=>'thisHourEndingTime'))}}
+           {{Form::time('hourEndingTime','12:00',array('class'=>'form-control','id'=>'thisHourEndingTime'))}}
              <button type="button" id="saveHourDetails" class="btn btn-primary form-control" data-dismiss="modal">Save</button>
     </form>
          <form action="{{route('deleteHour')}}" method="POST" name="deleteHour" id="deleteHour">

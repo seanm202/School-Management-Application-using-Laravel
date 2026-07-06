@@ -1,15 +1,14 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/sidebar.js') }}"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -25,21 +24,40 @@ For showing error
 
 */
 
-    .errorshow-box {
+.my-close {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    line-height: 1;
+    padding: 0;
+}
+
+.my-close:hover {
+    color: red;
+}
+
+.errorshow-box {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #B01D1A;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
+    width: 420px;
+    max-width: 90vw;
+    max-height: 80vh;
+
+    background: #fff;
+    color: #000;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.25);
+
     display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
+    flex-direction: column;
+
+    z-index: 9999;
+    animation: slideIn .4s ease;
 }
 
 /* Flex layout */
@@ -97,7 +115,23 @@ For showing error
 .success-box.show {
     display: flex;
 }
-
+#contentOfErrorShowBox {
+    overflow-y: auto;
+    max-height: 65vh;
+    padding: 15px;
+}
+.errorshow-box .close-btn {
+    align-self: flex-end;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+}
+#contentOfErrorShowBox .alert {
+    margin-bottom: 10px;
+    word-break: break-word;
+    white-space: normal;
+}
 /* Close button */
 .close-btn {
     margin-left: 15px;
@@ -131,7 +165,7 @@ For showing error
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #AD1F34;
+    background-color: #00000000;
     color: #fff;
     padding: 15px 20px;
     border-radius: 6px;
@@ -224,19 +258,20 @@ tr:nth-child(even) {
     @endif
 
 <div id="successBox" class="success-box">
-    <span class="message">✅ Data saved successfully!</span>
+    <span id="successMessage" class="message">✅ Data saved successfully!</span>
     <span class="close-btn" onclick="closeSuccess()">&times;</span>
-</div> 
-
-
-<div id="deleteSuccessBox" class="delete-box">
-    <span class="message">✅ Data deleted successfully!</span>
-    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
 </div>
-
-<div id="errorShowBox" class="errorshow-box">
-    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+<!-- <div id="errorShowBox" class="errorshow-box">
+    <div id="contentOfErrorShowBox"></div>
     <span class="close-btn" onclick="closeError()">&times;</span>
+</div> -->
+<div id="errorShowBox" class="errorshow-box">
+    <div class="p-3 border-bottom">
+        <strong>Validation Errors</strong>
+        <span class="close-btn" onclick="closeError()">&times;</span>
+    </div>
+
+    <div id="contentOfErrorShowBox"></div>
 </div>
 
 
@@ -430,59 +465,7 @@ data-bs-target="#teacherDetailModal">
 //
 
 //
- function showSuccess() {
-    const box = document.getElementById("successBox");
 
-    box.classList.add("show");
-
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
-
-function closeSuccess() {
-    document.getElementById("successBox").classList.remove("show");
-}
-    //
-    // For Deletion
-    //
-
-    function showDeleteSuccess() {
-    const box = document.getElementById("deleteSuccessBox");
-
-    box.classList.add("show");
-
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
-
-function closeDeleteSuccess() {
-    document.getElementById("deleteSuccessBox").classList.remove("show");
-}
-
-function showError(errorMessage) {
-
-    const box = document.getElementById("errorShowBox");
-    const content = document.getElementById("contentOfErrorShowBox");
-
-    const errorDiv = document.createElement("div");
-    errorDiv.className ="alert bg-danger text-white mt-2";
-    errorDiv.textContent = errorMessage;
-
-    content.appendChild(errorDiv);
-
-    box.classList.add("show");
-
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
-function closeError() {
-    document.getElementById("errorShowBox").classList.remove("show");
-}
     </script>
     <div class="py-12" id="addTeachersAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

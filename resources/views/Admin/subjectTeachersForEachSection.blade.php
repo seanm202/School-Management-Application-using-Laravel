@@ -17,7 +17,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Your Custom Files -->
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/sidebar.js') }}"></script>
 
 <style>
@@ -203,18 +204,11 @@ tr:nth-child(even) {
     <div>
 
 <div id="successBox" class="success-box">
-    <span class="message">✅ Data saved successfully!</span>
+    <span id="successMessage" class="message">✅ Data saved successfully!</span>
     <span class="close-btn" onclick="closeSuccess()">&times;</span>
-</div> 
-
-
-<div id="deleteSuccessBox" class="delete-box">
-    <span class="message">✅ Data deleted successfully!</span>
-    <span class="close-btn" onclick="closeDeleteSuccess()">&times;</span>
 </div>
-
 <div id="errorShowBox" class="errorshow-box">
-    <span class="message"><h3 id="contentOfErrorShowBox"></h3></span>
+    <div id="contentOfErrorShowBox"></div>
     <span class="close-btn" onclick="closeError()">&times;</span>
 </div>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
@@ -282,37 +276,41 @@ function getTeachersList(callback) {
    var button = $(event.relatedTarget);
 
    var classRoomDetailId = button.attr('data-bs-class-room-id');
+//    var gradeId = button.attr('data-bs-grade-room-id');
+//    var sectionId = button.attr('data-bs-section-room-id');
 $.ajax({
                 url: "{{ route('getSubjectsForClassroomForAssigningTeachers') }}", // Use the named route
                 method: "GET", // Use GET method for fetching data
                 data:{
-                  classRoomDetailId:classRoomDetailId
+                  classRoomDetailId:classRoomDetailId,
+                //   gradeId:gradeId,
+                //   sectionId:sectionId
                 },
                 dataType: "json", // Expect a JSON response
                 success: function(data) { 
-                    // console.log(data); // You can view the data in the browser console
+                    console.log(data); // You can view the data in the browser console
 getTeachersList(function(selectTeacherHtml) {
 
     let rowsGetTeacherDetail = "";
 
-    data.forEach(function(classRoomsForAssigningTeacher){
+    data.forEach(function(classRoomSubjectsForAssigningTeacher){
 
         rowsGetTeacherDetail += `
         <tr>
-            <td>${classRoomsForAssigningTeacher.gradeName}</td>
-            <td>${classRoomsForAssigningTeacher.sectionName}</td>
-            <td>${classRoomsForAssigningTeacher.subjectName}</td>
-            <td>${classRoomsForAssigningTeacher.subjectCode}</td>
+            <td>${classRoomSubjectsForAssigningTeacher.gradeName}</td>
+            <td>${classRoomSubjectsForAssigningTeacher.sectionName}</td>
+            <td>${classRoomSubjectsForAssigningTeacher.subjectName}</td>
+            <td>${classRoomSubjectsForAssigningTeacher.subjectCode}</td>
 
             <td colspan="2">
                 <form action="{{ route('assignTeacher') }}" method="POST" class="formForAssigningTeachers d-flex gap-2">
                     @csrf
 
-                    <input type="hidden" name="subjectId" value="${classRoomsForAssigningTeacher.subjectId}">
-                    <input type="hidden" name="gradeId" value="${classRoomsForAssigningTeacher.gradeId}">
-                    <input type="hidden" name="classRoomId" value="${classRoomsForAssigningTeacher.classRoomId}">
-                    <input type="hidden" name="semesterId" value="${classRoomsForAssigningTeacher.semesterId}">
-                    <input type="hidden" name="departmentId" value="${classRoomsForAssigningTeacher.departmentId}">
+                    <input type="hidden" name="subjectId" value="${classRoomSubjectsForAssigningTeacher.subjectId}">
+                    <input type="hidden" name="gradeId" value="${classRoomSubjectsForAssigningTeacher.gradeId}">
+                    <input type="hidden" name="classRoomId" value="${classRoomSubjectsForAssigningTeacher.classRoomId}">
+                    <input type="hidden" name="semesterId" value="${classRoomSubjectsForAssigningTeacher.semesterId}">
+                    <input type="hidden" name="departmentId" value="${classRoomSubjectsForAssigningTeacher.departmentId}">
 
                     ${selectTeacherHtml}
 
@@ -328,12 +326,15 @@ getTeachersList(function(selectTeacherHtml) {
 
 });            
         },
-                   error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
             });
 
  });
@@ -468,12 +469,15 @@ getTeachersList(function(selectTeacherHtml) {
 
 });            
         },
-                   error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
             });
 
  });

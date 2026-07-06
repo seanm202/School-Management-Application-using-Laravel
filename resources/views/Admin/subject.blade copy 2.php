@@ -411,7 +411,7 @@ let rowsGetSubjects = "";
     <input type="hidden" name="subjectId" value="${subjectsLists.subjectId}">
     @csrf
     <input type="text" name="subjectName" value="${subjectsLists.subjectName}">
-    <button type="submit" class="btn btn-danger" id="buttonForUpdateSubject">Update</button>
+    <button type="submit" class="btn btn-danger form-control" id="buttonForUpdateSubject">Update</button>
     </form> </td>
     <td>${subjectsLists.torlab}</td>
     <td>${subjectsLists.subjectCode}</td>

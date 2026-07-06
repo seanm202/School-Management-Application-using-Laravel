@@ -1,7 +1,10 @@
 
-//
- function showSuccess() {
+function showSuccess(message = "✅ Data saved successfully!") {
     const box = document.getElementById("successBox");
+    const messageBox = document.getElementById("successMessage");
+
+    // Set the custom message
+    messageBox.textContent = message;
 
     box.classList.add("show");
 
@@ -14,42 +17,106 @@
 function closeSuccess() {
     document.getElementById("successBox").classList.remove("show");
 }
-    //
-    // For Deletion
-    //
 
-    function showDeleteSuccess() {
-    const box = document.getElementById("deleteSuccessBox");
 
-    box.classList.add("show");
+// function showError(errorMessages) {
 
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        box.classList.remove("show");
-    }, 3000);
-}
+//     const box = document.getElementById("errorShowBox");
+//     const content = document.getElementById("contentOfErrorShowBox");
 
-function closeDeleteSuccess() {
-    document.getElementById("deleteSuccessBox").classList.remove("show");
-}
+//     clearTimeout(errorTimer);
 
-function showError(errorMessage) {
+//     content.innerHTML = "";
+
+//     if (!Array.isArray(errorMessages)) {
+//         errorMessages = [errorMessages];
+//     }
+
+//     errorMessages.forEach(function(message) {
+
+//         const errorDiv = document.createElement("div");
+//         errorDiv.className = "alert alert-danger alert-dismissible fade show mt-2";
+//         errorDiv.setAttribute("role", "alert");
+
+//        errorDiv.innerHTML = `
+//     <span>${message}</span>
+//     <button type="button" class="my-close-btn">&times;</button>
+// `;
+// const closeBtn = errorDiv.querySelector(".my-close-btn");
+
+// closeBtn.onclick = function () {
+//     errorDiv.remove();
+
+//     if (content.children.length === 0) {
+//         box.classList.remove("show");
+//     }
+// };
+
+//         content.appendChild(errorDiv);
+//     });
+
+//     box.classList.add("show");
+
+//     errorTimer = setTimeout(function () {
+//         content.innerHTML = "";
+//         box.classList.remove("show");
+//     }, 5000);
+// }
+let errorTimer;
+
+function showError(errorMessages) {
 
     const box = document.getElementById("errorShowBox");
     const content = document.getElementById("contentOfErrorShowBox");
 
-    const errorDiv = document.createElement("div");
-    errorDiv.className ="alert bg-danger text-white mt-2";
-    errorDiv.textContent = errorMessage;
+    // Cancel previous timer
+    clearTimeout(errorTimer);
 
-    content.appendChild(errorDiv);
+    // Remove previous errors
+    content.innerHTML = "";
 
+    // Convert a single error into an array
+    if (!Array.isArray(errorMessages)) {
+        errorMessages = [errorMessages];
+    }
+
+    errorMessages.forEach(function(message) {
+
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "alert alert-danger mt-2";
+
+        errorDiv.innerHTML = `
+            <div class="d-flex justify-content-between align-items-start">
+                <span>${message}</span>
+                <button type="button" class="my-close">&times;</button>
+            </div>
+        `;
+
+        // Close button
+        const btn = errorDiv.querySelector(".my-close");
+
+        btn.onclick = function () {
+            errorDiv.remove();
+
+            // Hide the container if no messages remain
+            if (content.children.length === 0) {
+                box.classList.remove("show");
+            }
+        };
+
+        content.appendChild(errorDiv);
+    });
+
+    // Show the error container
     box.classList.add("show");
 
-    setTimeout(() => {
+    // Auto-hide after 5 seconds
+    errorTimer = setTimeout(function () {
+        content.innerHTML = "";
         box.classList.remove("show");
-    }, 3000);
+    }, 5000);
 }
+
 function closeError() {
     document.getElementById("errorShowBox").classList.remove("show");
 }

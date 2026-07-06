@@ -10,20 +10,24 @@
 
     $('#addAdminButton').click(function (e) {
 e.preventDefault();
-alert("dsf");
 var createAdminUrl =$('#FormAddAdminAdmin').attr('action');
 $.ajax({
 data: $('#FormAddAdminAdmin').serialize(),
 url: createAdminUrl,
 type: "POST",
 dataType: 'json',
-success: function (data) {
+success: function(response)
+{
+    showSuccess(response.message);
     getAllData();
-showSuccess();
 },
-error: function (xhr) {
-console.log(xhr.responseText); // 🔥 very useful
-alert('Error');
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
 }
 });
 });
@@ -51,14 +55,18 @@ data: $('#updateBatches').serialize(),
 url: updateBatchForm,
 type: "POST",
 dataType: 'json',
-success: function (data) {
+success: function(response)
+{
+    showSuccess(response.message);
     getAllData();
- console.log("SUCCESS");
-showSuccess();
 },
-error: function (xhr) {
-console.log(xhr.responseText); // 🔥 very useful
-alert('Error');
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
 }
 });
 });
@@ -85,13 +93,18 @@ data: $('#currentBatch').serialize(),
 url: assignCurrentBatches,
 type: "POST",
 dataType: 'json',
-success: function (data) {
+success: function(response)
+{
+    showSuccess(response.message);
     getAllData();
-showSuccess();
 },
-error: function (xhr) {
-console.log(xhr.responseText); // 🔥 very useful
-alert('Error');
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
 }
 });
 });
@@ -118,14 +131,36 @@ alert('Error');
   url: assignCreateBatch,
   type: "POST",
   dataType: 'json',
-  success: function (data) {
-      getAllData();
-showSuccess();
-  },
-  error: function (xhr) {
-  console.log(xhr.responseText); // 🔥 very useful
-  alert('Error');
-  }
+success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+
+
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+
   });
   });
 
@@ -152,14 +187,19 @@ showSuccess();
     url: createDepartment,
     type: "POST",
     dataType: 'json',
-    success: function (data) {
-        getAllData();
-        showSuccess();
-    },
-    error: function (xhr) {
-    console.log(xhr.responseText); // 🔥 very useful
-    alert('Error');
-    }
+ success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+ error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
     });
     });
 
@@ -187,14 +227,19 @@ showSuccess();
       url: updateDepartment,
       type: "POST",
       dataType: 'json',
-      success: function (data) {
-          getAllData();
-showSuccess();
-      },
-      error: function (xhr) {
-      console.log(xhr.responseText); // 🔥 very useful
-      alert('Error');
-      }
+  success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+ error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
       });
 
@@ -220,14 +265,19 @@ showSuccess();
               url: deleteDepartment,
               type: "POST",
               dataType: 'json',
-              success: function (data) {
-                  getAllData();
-showDeleteSuccess();
-              },
-              error: function (xhr) {
-              console.log(xhr.responseText); // 🔥 very useful
-              alert('Error');
-              }
+              success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+             error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
               });
               });
 
@@ -259,16 +309,20 @@ showDeleteSuccess();
                                           type: "POST",
                                           data: form.serialize(),
                                           dataType: 'json',
-                                          success: function (data) {
+                                          success: function (response) {
                                               getAllData();
-                                              showSuccess();
+                                              showSuccess(response.message);
                                               console.log("SUCCESS FIRED");
                                               console.log(data);
                                           },
-                                          error: function (xhr) {
-                                              console.log(xhr.status);
-                                              console.log(xhr.responseText);
-                                          }
+                                      error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                       });
                                   });
                                 });
@@ -295,14 +349,19 @@ showDeleteSuccess();
     url: createSemester,
     type: "POST",
     dataType: 'json',
-    success: function (data) {
-        getAllData();
-showSuccess();
-    },
-    error: function (xhr) {
-    console.log(xhr.responseText);
-    alert('Error');
-    }
+   success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                     });
                                     });
 
@@ -327,13 +386,19 @@ showSuccess();
   url: createDay,
   type: "POST",
   dataType: 'json',
-  success: function (data) {
-      getAllData();
-showSuccess();
-  },
-  error: function (xhr) {
-  console.log(xhr.responseText);
-  }
+ success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                   });
                                   });
 
@@ -350,8 +415,9 @@ showSuccess();
                                     });
 
                                         // ✅ delegated event (works for all rows)
-                                        $(document).on('click', '.saveDayDetails', function (e) {
-                                          e.preventDefault();
+                                        
+                                             $(document).on('submit', '.saveDayDetails', function(event) {
+                                          event.preventDefault();
 
                                           var form = $(this).closest('form');
                                           console.log(form.length);
@@ -364,14 +430,19 @@ showSuccess();
                                               type: "POST",
                                               data: form.serialize(),
                                               dataType: 'json',
-                                              success: function (data) {
-                                                  getAllData();
-showSuccess();
-                                              },
-                                              error: function (xhr) {
-                                                  console.log(xhr.status);
-                                                  console.log(xhr.responseText);
-                                              }
+                                               success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+                                            error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                           });
                                       });
                                     });
@@ -394,13 +465,19 @@ showSuccess();
   url: updateHourDetails,
   type: "POST",
   dataType: 'json',
-  success: function (data) {
-      getAllData();
-showSuccess();
-  },
-  error: function (xhr) {
-  console.log(xhr.responseText);
-  }
+ success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                   });
                                   });
 
@@ -423,13 +500,19 @@ headers: {
     url: createHourDetails,
     type: "POST",
     dataType: 'json',
-    success: function (data) {
-        getAllData();
-showSuccess();
-    },
-    error: function (xhr) {
-    console.log(xhr.responseText);
-    }
+   success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+   error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                     });
                                     });
 
@@ -454,13 +537,19 @@ $(function () {
   url: deleteHourDetails,
   type: "POST",
   dataType: 'json',
-  success: function (data) {
-      getAllData();
-showDeleteSuccess();
-  },
-  error: function (xhr) {
-  console.log(xhr.responseText);
-  }
+ success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+ error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                   });
                                   });
 
@@ -483,13 +572,19 @@ $(function () {
     url: forCreateDailyAttendance,
       type: "POST",
       dataType: 'json',
-      success: function (data) {
-          getAllData();
-showSuccess();
-        },
-        error: function (xhr) {
-        console.log(xhr.responseText);
-      }
+      success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+   error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
   });
@@ -510,13 +605,19 @@ headers: {
         url: deleteTodaysAttendenceForAllTeachers,
   type: "POST",
   dataType: 'json',
-        success: function (data) {
-            getAllData();
-showDeleteSuccess();
-        },
-      error: function (xhr) {
-    console.log(xhr.responseText);
-        }
+         success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
           });
   });
@@ -538,13 +639,19 @@ showDeleteSuccess();
         url: deleteTodaysAttendanceForAllAdmins,
   type: "POST",
   dataType: 'json',
-        success: function (data) {
-            getAllData();
-showDeleteSuccess();
-        },
-      error: function (xhr) {
-    console.log(xhr.responseText);
-        }
+         success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+  error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
           });
   });
@@ -565,13 +672,19 @@ showDeleteSuccess();
           url: dodeleteTodaysAttendenceForAllStudents,
     type: "POST",
     dataType: 'json',
-          success: function (data) {
-              getAllData();
-showDeleteSuccess();
-          },
-        error: function (xhr) {
-      console.log(xhr.responseText);
-          }
+           success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+ error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
           });
             });
     });
@@ -592,13 +705,19 @@ showDeleteSuccess();
               url: urlstatusAddAdmin,
         type: "POST",
         dataType: 'json',
-              success: function (data) {
-                  getAllData();
-showSuccess();
-              },
-            error: function (xhr) {
-          console.log(xhr.responseText);
-              }
+               success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+ error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
               });
                 });
         });
@@ -623,13 +742,19 @@ showSuccess();
               url: urlcreateGradeByAdmin,
         type: "POST",
         dataType: 'json',
-              success: function (data) {
-                  getAllData();
-showSuccess();
-              },
-            error: function (xhr) {
-          console.log(xhr.responseText);
-              }
+               success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
               });
                 });
         });
@@ -652,14 +777,19 @@ showSuccess();
         url: updateBatchForm,
         type: "POST",
         dataType: 'json',
-        success: function (data) {
-            getAllData();
-showSuccess();
-        },
-        error: function (xhr) {
-        console.log(xhr.responseText); // 🔥 very useful
-        alert('Error');
-        }
+         success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
         });
 
@@ -677,21 +807,26 @@ showSuccess();
 
           $('#buttonForStatusDelete').click(function (e) {
         e.preventDefault();
-        var updateBatchForm = $('#deleteStatusDetails').attr('action');
-        console.log(updateBatchForm);
+        var deleteBatchForm = $('#deleteStatusDetails').attr('action');
+        console.log(deleteBatchForm);
         $.ajax({
         data: $('#deleteStatusDetails').serialize(),
-        url: updateBatchForm,
+        url: deleteBatchForm,
         type: "POST",
         dataType: 'json',
-        success: function (data) {
-            getAllData();
-showDeleteSuccess();
-        },
-        error: function (xhr) {
-        console.log(xhr.responseText); // 🔥 very useful
-        alert('Error');
-        }
+        success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
         });
 

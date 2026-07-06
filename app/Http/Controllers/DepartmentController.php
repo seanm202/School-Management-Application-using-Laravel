@@ -64,7 +64,7 @@ public function getDepartmentDetailsByAJAX()
 
           return response()->json([
           'status' => true,
-          'message' => 'Class created successfully.'
+          'message' => 'Department created successfully.'
           ]);
      }
 
@@ -99,7 +99,7 @@ public function getDepartmentDetailsByAJAX()
 
       return response()->json([
       'status' => true,
-      'message' => 'Department updated successfully.'
+      'message' => 'Department data has been updated successfully.'
       ]);
     }
 

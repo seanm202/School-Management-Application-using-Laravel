@@ -52,6 +52,11 @@ class RoleController extends Controller
 
      $roles->roleName = $request->roleName;
      $roles->save();
+     
+      return response()->json([
+          'status' => true,
+          'message' => 'Role has been added to the database successfuly!'
+          ]);
     }
     
     public function getRoles()
@@ -89,17 +94,7 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    // public function updateRole(Request $request)
-    // {
-    //     //Updating classroom details
-    //       $roles= Role::where('roleId','=',$request->roleId)->first();
-    //       $roles->roleName=$request->roleName;
-    //       $roles->save();
-    //       return response()->json([
-    //       'status' => true,
-    //       'message' => 'Role Details Updated!'
-    //       ]);
-    // }
+
     public function updateRole(Request $request)
 {
     $role = Role::where('roleId','=', $request->roleId)->first();
@@ -108,7 +103,7 @@ class RoleController extends Controller
 
     return response()->json([
         'status' => true,
-        'message' => 'Role Details Updated!'
+        'message' => 'Role data has been updated successfully!'
     ]);
 }
 
@@ -126,7 +121,7 @@ class RoleController extends Controller
           
     return response()->json([
         'status' => true,
-        'message' => 'Role Deleted!'
+        'message' => 'Role has been Deleted!'
     ]);
     }
 }

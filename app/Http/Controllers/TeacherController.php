@@ -112,6 +112,42 @@ class TeacherController extends Controller
             return 1;
     }
 
+      // To ensure that the person's absense is repopulated by another person,here,a teacher.
+    public funtion checkTeacherIdForLink($teacherId)
+    {
+      $messages=[];
+      $teacher = Teacher::where('teacherId','=', $teacherId)->first();
+
+      $checkInUsers = User::where('userId','=', $teacher->userId)->first();
+      if($checkInUsers)
+        {
+            $messages[]='Teachers Id is still in the user_info table.Please check the details.';
+        }
+
+      $checkInDetails = Details::where('userId','=', $teacher->userId)->first();
+      if($checkInDetails)
+        {
+            $messages[]='Teachers Id is still in the user details table.Please check the details.';
+        }
+
+      $checkIfSubjects=SubjectTeacherForEachSections::where('teacherId','=', $teacherId)->first();
+      if($checkIfSubjects)
+        {
+          $messages[]='Teachers Id is still assigned to subjects.Please check the details.';
+        }
+      
+      $classTeacherCheck = ClassRoom::where('classTeacherId','=', $teacherId)->first();
+      if($classTeacherCheck)
+        {
+          $messages[]='Teachers Id is still assigned to a class.Please check the details.';
+        }
+        
+
+      return response()->json([
+    'status' => true,
+    'message' => $messages,
+]);
+    }
     /**
      * Display the specified resource.
      *
@@ -146,21 +182,7 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-  //   public function update(Request $request, Teacher $teacher)
-  //   {
-
-  //         //Update admin details
-  //         $detail = Detail::where('userId','=',$teacher->userId);
-  //         $detail = Detail::updateOrCreate(
-  //     ['firstname' => $teacher->, 'lastname' => $teacher->,
-  //     'age' => $teacher->, 'dob' => $teacher->, 'contactNumber' => $teacher->,
-  //     'alternateContactNumber' => $teacher->, 'roleId' => $teacher->, 'address' => $teacher->,
-  //     'bloodGroup' => $teacher->, 'identificationMark' => $teacher->, 'parentNumber' => $teacher->,
-  //     'homePhoneNumber' => $teacher->, 'father/SpouseName' => $teacher->, 'motherName' => $teacher->,
-  //     'guardianName' => $teacher->, 'dob' => $teacher->]
-  // );
-  // return 1;
-  //   }
+  
 
     /**
      * Remove the specified resource from storage.

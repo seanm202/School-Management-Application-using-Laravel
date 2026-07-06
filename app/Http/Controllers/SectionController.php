@@ -57,7 +57,7 @@ class SectionController extends Controller
 
    return response()->json([
    'status' => true,
-   'message' => 'Data Submitted!'
+   'message' => 'Section has been created successfully!'
    ]);
      }
 
@@ -149,7 +149,7 @@ class SectionController extends Controller
     
    return response()->json([
    'status' => true,
-   'message' => 'Data Submitted!'
+   'message' => 'Section data has been updated successfully!'
    ]);
     }
 
@@ -167,8 +167,28 @@ class SectionController extends Controller
 
       return response()->json([
    'status' => true,
-   'message' => 'Data Submitted!'
+   'message' => 'Section data has been deleted successfully!'
    ]);
+    }
+
+
+    // To check whether the entity ,here section, is still being used in the system.
+    public function checkSectionIdForLink($sectionId)
+    {
+      $messages=[];
+      $section = Section::where('sectionId','=', $sectionId)->first();
+
+      $checkInClassRoom = ClassRoom::where('section','=', $sectionId)->first();
+      if($checkInClassRoom)
+        {
+            $messages[]='Section\'s Id is still in the ClassRoom table.Please check the details.';
+        }
+
+
+      return response()->json([
+    'status' => true,
+    'message' => $messages,
+]);
     }
 
     

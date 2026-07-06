@@ -24,11 +24,10 @@ return new class extends Migration
         
         DB::table('semesters')->insert([
             'semesterId' => 1,
-            'semesterName' => "Semester 1",
+            'semesterName' => "Registered",
             'status' => 1,
             'batchId' => 1,
         ]);
-        
         DB::table('semesters')->insert([
             'semesterId' => 2,
             'semesterName' => "Semester 1",
@@ -46,6 +45,13 @@ return new class extends Migration
         DB::table('semesters')->insert([
             'semesterId' => 4,
             'semesterName' => "Semester 3",
+            'status' => 1,
+            'batchId' => 1,
+        ]);
+        
+        DB::table('semesters')->insert([
+            'semesterId' => 5,
+            'semesterName' => "Semester 4",
             'status' => 1,
             'batchId' => 1,
         ]);

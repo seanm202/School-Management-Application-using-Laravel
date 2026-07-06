@@ -18,18 +18,20 @@ $(function () {
             data: form.serialize(),
             dataType: "json",
 
-            success: function (data) {
-                showSuccess();
-        getAllData();
-            },
+             success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
 
-            error: function (xhr) {
-                console.log(xhr.responseText);
+           error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
 
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    jsdisplaycustomerrors(xhr.responseJSON.errors);
-                }
-            }
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
         });
 
     });
@@ -53,16 +55,19 @@ headers: {
       url: url,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-        showSuccess();
-        getAllData();
-      },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+   error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });

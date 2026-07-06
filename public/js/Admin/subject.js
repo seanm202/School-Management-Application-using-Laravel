@@ -6,24 +6,96 @@ headers: {
                 }
                             });
 
-                $('#buttonForAddSubjectAdmin').click(function (e) {
+               $(document).on('submit', '#addSubjectAdmin', function (e) {
                 e.preventDefault();
                   var url = $('#addSubjectAdmin').attr('action');
-                  // alert(url);
+                  
       $.ajax({
             data: $('#addSubjectAdmin').serialize(),
       url: url,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-        showSuccess();
-      },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-    
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+
+
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+      });
+        });
+});
+// 
+// 
+// 
+$(function () {
+
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
+
+               $(document).on('submit', '.deleteSubject', function (e) {
+                e.preventDefault();
+              
+    let form = $(this);
+      $.ajax({
+      url: form.attr('action'),
+type: "POST",
+            data:  form.serialize(),
+dataType: 'json',
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+
+
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
       });
         });
 });
@@ -46,13 +118,73 @@ headers: {
       url: urlupdateSubject,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                    alert('Success');
-      },
-    error: function (xhr) {
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
+      });
+        });
+});
+
+// 
+
+// 
+
+// 
+
+$(function () {
+
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
+
+               $(document).on('submit', '.updateSubjectName', function (e) {
+                    e.preventDefault();
+                  var urlupdateSubject = $('.updateSubjectName').attr('action');
+      $.ajax({
+            data: $('.updateSubjectName').serialize(),
+      url: urlupdateSubject,
+type: "POST",
+dataType: 'json',
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+
       });
         });
 });
@@ -65,6 +197,14 @@ jsdisplaycustomerrors(errors);
 //
 //
 //
+
+
+// 
+
+// 
+
+// 
+
 $(function () {
 
 $.ajaxSetup({
@@ -73,21 +213,42 @@ headers: {
                 }
                             });
 
-                $('#buttonForSubjectDelete').click(function (e) {
-                e.preventDefault();
-                  var urldeleteSubject = $('#deleteSubject').attr('action');
+               $(document).on('submit', '.deleteSubject', function (e) {
+                    e.preventDefault();
+                  var urlupdateSubject = $('.deleteSubject').attr('action');
       $.ajax({
-            data: $('#deleteSubject').serialize(),
-      url: urldeleteSubject,
+            data: $('.deleteSubject').serialize(),
+      url: urlupdateSubject,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                    alert('Success');
-      },
-    error: function (xhr) {
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+
       });
         });
 });
@@ -111,13 +272,19 @@ headers: {
       url: urlcreatePriority,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-                    showSuccess();
-      },
-    error: function (xhr) {
-var errors = xhr.responseJSON.errors;
-jsdisplaycustomerrors(errors);
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+    error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });
@@ -159,35 +326,22 @@ const row = $(this).closest('tr');
         type: "POST",
         dataType: "json",
 
-        success: function(data) {
-            showSuccess();
-        },
+         success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
 
-       error: function(xhr) {
-    if (xhr.status === 422) {
-        jsdisplaycustomerrors(xhr.responseJSON.errors);
-    } else {
-        console.log(xhr.responseText);
-    }
+      error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
 }
     });
 });
 
-//                 $('.buttonForUpdatePriority').click(function (e) {
-//                 e.preventDefault();
-//                   var urleditPriority = $('.editPriority').attr('action');
-//       $.ajax({
-//             data: $('.editPriority').serialize(),
-//       url: urleditPriority,
-// type: "POST",
-// dataType: 'json',
-//       success: function (data) {
-//                     showSuccess();
-//       },
-//     error: function (xhr) {
-// var errors = xhr.responseJSON.errors;
-// jsdisplaycustomerrors(errors);
-//       }
-//       });
-//         });
+
 });

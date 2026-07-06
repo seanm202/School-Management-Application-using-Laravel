@@ -22,11 +22,11 @@ class DashboardController extends Controller
     ->select('role')
     ->where('userId','=',Auth::user()->userId)
     ->first();
-    if($roles->role==4)
+    if($roles->role==3)
     {
       return redirect()->route('Studentdashboard');
     }
-    else if($roles->role==3)
+    else if($roles->role==1)
     {
       return redirect()->route('Admindashboard');
     }

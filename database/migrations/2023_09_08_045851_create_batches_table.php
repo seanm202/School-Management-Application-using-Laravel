@@ -27,7 +27,7 @@ return new class extends Migration
             'batchName' => "2025-2026",
             'batchStartingYear' => "2025",
             'batchEndingYear' => "2026",
-            'status' => 1,
+            'status' => 1
         ]);
     }
 

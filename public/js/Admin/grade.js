@@ -15,13 +15,19 @@ headers: {
       url: urlcreateGradeByAdmin,
 type: "POST",
 dataType: 'json',
-      success: function (data) {
-        showSuccess();
-                    getAllData();
-      },
-    error: function (xhr) {
-  console.log(xhr.responseText);
-      }
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+   error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
       });
         });
 });
@@ -58,16 +64,19 @@ $(document).ready(function () {
                                             gradeId: gradeId
                                           },
                                           dataType: 'json',
-                                          success: function (data) {
-                                              getAllData();
-                                              showSuccess();
-                                              console.log("SUCCESS FIRED");
-                                              console.log(data);
-                                          },
-                                          error: function (xhr) {
-                                              console.log(xhr.status);
-                                              console.log(xhr.responseText);
-                                          }
+                                           success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+                                         error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                       });
                                   });
                                 });
@@ -101,15 +110,19 @@ $(document).ready(function () {
                                             gradeId: gradeId
                                           },
                                           dataType: 'json',
-                                          success: function (data) {
-                                              getAllData();
-                                              showSuccess();
-                                              console.log(data);
-                                          },
-                                          error: function (xhr) {
-                                              console.log(xhr.status);
-                                              console.log(xhr.responseText);
-                                          }
+                                           success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+                                         error: function(xhr) {
+    var errors = xhr.responseJSON.errors;
+
+    // Flatten all error arrays into one array
+    var messages = Object.values(errors).flat();
+
+    showError(messages);
+}
                                       });
                                   });
                                 });

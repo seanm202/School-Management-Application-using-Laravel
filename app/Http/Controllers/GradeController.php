@@ -46,7 +46,7 @@ $grade->save();
 
            return response()->json([
            'status' => true,
-           'message' => 'Data Submitted!'
+           'message' => 'Data added to the database successfully!'
            ]);
      }
     /**
@@ -140,9 +140,31 @@ $grade->save();
       $grade->delete();
       return response()->json([
       'status' => true,
-      'message' => 'Grade Deleted!'
+      'message' => 'Grade details has been deleted!'
       ]);
     }
+
+
+    // To check whether the entity ,here grades, is still being used in the system.
+    public function checkGradeIdForLink($gradeId)
+    {
+      $messages=[];
+      $grade = Grade::where('gradeId','=', $gradeId)->first();
+
+      $checkInClassRoom = ClassRoom::where('gradeId','=', $gradeId)->first();
+      if($checkInClassRoom)
+        {
+            $messages[]='Grade\'s Id is still in the Class Room table.Please check the details.';
+        }
+
+
+      return response()->json([
+    'status' => true,
+    'message' => $messages,
+]);
+    }
+
+    
     
     public function getGradesList()
     {

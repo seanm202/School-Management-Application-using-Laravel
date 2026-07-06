@@ -51,7 +51,7 @@ public function reAssignTeacher(Request $request)
 
        return response()->json([
         'status' => true,
-        'message' => 'Teacher ReAssigned!'
+        'message' => 'Teacher has been re-assigned!'
     ]);
 
 }
@@ -76,64 +76,93 @@ public function assignTeacher(Request $request)
 
                 return response()->json([
         'status' => true,
-        'message' => 'Teacher Assigned!'
+        'message' => 'Teacher has been assigned!'
     ]);
      }
 
     public function getSubjectsForClassroomForAssigningTeachers(Request $request)
     {
-        $classRoomDetailId = $request->input('classRoomDetailId');
-        $classRoomsForAssigningTeachers = \App\Models\Subject::join(
-        'grades',
-        'grades.gradeId',
-        '=',
-        'subjects.subjectGrade'
-    )
-    ->join(
-        'departments',
-        'departments.departmentId',
-        '=',
-        'subjects.departmentId'
-    )
-    ->join(
-        'subject_teacher_for_each_sections',
-        'subject_teacher_for_each_sections.subjectId',
-        '=',
-        'subjects.subjectId'
-    )
-    ->join(
-        'semesters',
-        'semesters.semesterId',
-        '=',
-        'subjects.semesterId'
-    )
-    ->join(
-        'class_rooms',
-        'class_rooms.grade',
-        '=',
-        'grades.gradeId'
-    )
-    ->join(
-        'sections',
-        'sections.sectionId',
-        '=',
-        'class_rooms.section'
-    )
-    ->where('subject_teacher_for_each_sections.teacherId','=',1)
-    ->where('class_rooms.classroomDetailId', $classRoomDetailId)
-    ->select(
-        'grades.grade AS gradeName',
-        'grades.gradeId AS gradeId',
-        'sections.sectionName AS sectionName',
-        'subjects.subjectName AS subjectName',
-        'subjects.subjectId AS subjectId',
-        'subjects.subjectCode AS subjectCode',
-        'class_rooms.classroomDetailId AS classRoomId',
-        'semesters.semesterId AS semesterId',
-        'departments.departmentId AS departmentId'
-    )
-    ->get();
-        return response()->json($classRoomsForAssigningTeachers);
+
+        $classRoomDetailId = $request->classRoomDetailId;
+        // $classRoomDetailId = $request->classRoomDetailId;
+        // $classRoomDetailId = $request->classRoomDetailId;
+        $classRoomSubjectsForAssigningTeachers = \App\Models\SubjectTeacherForEachSections::join('subjects','subjects.subjectId','=','subject_teacher_for_each_sections.subjectId')
+        ->join('class_rooms','class_rooms.classroomDetailId','=','subject_teacher_for_each_sections.classRoomId')
+        ->join('teachers','teachers.teacherId','=','subject_teacher_for_each_sections.teacherId')
+        ->join('details','details.userId','=','teachers.userId')
+        ->join('grades','grades.gradeId','=','class_rooms.grade')
+        ->join('sections','sections.sectionId','=','class_rooms.section')
+        ->where('subject_teacher_for_each_sections.classRoomId', $classRoomDetailId)
+        ->select('subjects.subjectName AS subjectName','subjects.subjectCode AS subjectCode','subjects.subjectId AS subjectId',
+        'details.firstName AS teacherFirstName','details.lastName AS teacherLastName',
+        'grades.grade AS gradeName','sections.sectionName AS sectionName'
+        )
+        ->get();
+    //     $classRoomSubjectsForAssigningTeachers = \App\Models\Subject::join(
+    //     'grades',
+    //     'grades.gradeId',
+    //     '=',
+    //     'subjects.subjectGrade'
+    // )
+    // ->join(
+    //     'departments',
+    //     'departments.departmentId',
+    //     '=',
+    //     'subjects.departmentId'
+    // )
+    // ->join(
+    //     'subject_teacher_for_each_sections',
+    //     'subject_teacher_for_each_sections.subjectId',
+    //     '=',
+    //     'subjects.subjectId'
+    // )
+    // ->join(
+    //     'semesters',
+    //     'semesters.semesterId',
+    //     '=',
+    //     'subjects.semesterId'
+    // )
+    // ->join(
+    //     'teachers',
+    //     'teachers.teacherId',
+    //     '=',
+    //     'subject_teacher_for_each_sections.teacherId'
+    // )
+    // ->join(
+    //     'details',
+    //     'details.userId',
+    //     '=',
+    //     'teachers.userId'
+    // )
+    // ->join(
+    //     'class_rooms',
+    //     'class_rooms.grade',
+    //     '=',
+    //     'grades.gradeId'
+    // )
+    // ->join(
+    //     'sections',
+    //     'sections.sectionId',
+    //     '=',
+    //     'class_rooms.section'
+    // )
+    // ->where('subject_teacher_for_each_sections.teacherId','=','teachers.teacherId')
+    // ->where('class_rooms.classroomDetailId', $classRoomDetailId)
+    // ->select(
+    //     'grades.grade AS gradeName',
+    //     'grades.gradeId AS gradeId',
+    //     'sections.sectionName AS sectionName',
+    //     'subjects.subjectName AS subjectName',
+    //     'subjects.subjectId AS subjectId',
+    //     'subjects.subjectCode AS subjectCode',
+    //     'class_rooms.classroomDetailId AS classRoomId',
+    //     'semesters.semesterId AS semesterId',
+    //     'departments.departmentId AS departmentId',
+    //     'details.firstName AS firstName',
+    //     'details.lastName AS lastName'
+    // )
+    // ->get();
+        return response()->json($classRoomSubjectsForAssigningTeachers);
     }
 
     
@@ -167,9 +196,20 @@ public function assignTeacher(Request $request)
         ->join('sections','sections.sectionId','=','class_rooms.section')
         ->join('departments','departments.departmentId','=','class_rooms.departmentId')
         ->join('semesters','semesters.semesterId','=','class_rooms.semester')
-        ->select('class_rooms.classroomDetailId AS classRoomId','semesters.semesterName AS semesterName','grades.grade AS gradeName','sections.sectionName AS sectionName','departments.departmentName AS departmentName')
-        ->where('subject_teacher_for_each_sections.teacherId','=',1)
-        ->get();
+        ->select(
+        'class_rooms.classroomDetailId AS classRoomId',
+        'semesters.semesterName AS semesterName',
+        'grades.grade AS gradeName','sections.sectionName AS sectionName',
+        'departments.departmentName AS departmentName')
+        ->groupBy(
+    'class_rooms.classroomDetailId',
+    'semesters.semesterName',
+    'grades.grade',
+    'sections.sectionName',
+    'departments.departmentName'
+    )
+    ->orderBy('class_rooms.classroomDetailId', 'ASC')
+    ->get();
         return response()->json($classRoomsForAssigningTeachers);
     }
 

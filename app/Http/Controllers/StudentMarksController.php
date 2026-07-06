@@ -20,9 +20,13 @@ class StudentMarksController extends Controller
      */
     public function createMarkEntry(Request $request)
     {
-        $batchId=Batch::where('status',1)->select('batchId')->first();
-      $students = student::where('students.batchId','=',$batchId->batchId)->get();
+        $batchId=Batch::where('status','=',1)->select('batchId')->first();
+      $students = student::where('students.batchId','=',$batchId->batchId)
+      ->where('students.studentId','!=',1)  
+      ->get();
       $i=1;
+      $createdCount=0;
+      $existingCount=0;
     foreach($students as $student)
         {
           $subjects = Subject::where('subjects.semesterId','=',$student->studentSemester)
@@ -32,7 +36,7 @@ class StudentMarksController extends Controller
 
           foreach($subjects as $subject)
           {
-              StudentMarks::updateOrCreate(
+              $studentMark=StudentMarks::updateOrCreate(
             [
             'studentId'  => $student->studentId,
             'subjectId'   => $subject->subjectId,
@@ -48,14 +52,73 @@ class StudentMarksController extends Controller
             'batchId'   => $batchId->batchId
         ]
         );
+        if ($studentMark->wasRecentlyCreated) {
+                $createdCount++;
+            } else {
+                $existingCount++;
+            }
           }
               }
+          $message='Updated entries : '.$existingCount.' A count of : '.$createdCount.' marklists has been created successfully!';
             return response()->json([
          'status' => true,
-         'message' => 'Subject Mark List Created successfully|||'
+         'message' =>  $message
          ]);
     }
 
+    public function getCurrentBatch()
+    {
+      $batches= Batch::where('status','=',1)->first();
+      $currentBatchId= $batches->batchId;
+      return $currentBatchId;
+    }
+    public function getSubjectsListForAddingStudentMarks(Request $request)
+    {
+      $batches= Batch::where('status','=',1)->first();
+      $currentBatchId= $batches->batchId;
+        $subjectsLists=StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
+        ->where('student_marks.batchId','=',$currentBatchId)
+        ->where('student_marks.studentId','=',$request->studentId)
+        ->select('subjects.subjectName AS subjectName',
+        'subjects.subjectCode AS subjectCode',
+        'student_marks.subjectId AS subjectId',
+        'subjects.subjectMaxMarks AS MaxMarks',
+        'student_marks.studentId AS studentId',
+        'student_marks.marks AS marks')
+        ->get();
+        
+      return response()->json($subjectsLists);
+    }
+    public function getStudentsListToAddMarks()
+    {
+      $currentBatchId=$this->getCurrentBatch();
+      $studentsMarks = StudentMarks::join('students','students.studentId','=','student_marks.studentId')
+                      ->join('class_rooms','class_rooms.classroomDetailId','=','student_marks.classRoomId')
+                      ->join('departments','departments.departmentId','=','class_rooms.departmentId')
+                      ->join('semesters','semesters.semesterId','=','class_rooms.semester')
+                      ->join('sections','sections.sectionId','=','class_rooms.section')
+                      ->join('grades','grades.gradeId','=','class_rooms.grade')
+                      ->join('details','details.userId','=','student_marks.userId')
+                      ->select(
+                        'student_marks.student_marksId AS student_marksId',
+                        'students.studentId AS studentId',
+                        'details.userId AS userId',
+                        'details.sal AS sal',
+                        'details.firstName AS firstName',
+                        'details.lastName AS lastName',
+                        'semesters.semesterName AS semesterName',
+                        'semesters.semesterId AS semesterId',
+                        'departments.departmentName AS departmentName',
+                        'departments.departmentId AS departmentId',
+                        'grades.grade AS gradeName',
+                        'grades.gradeId AS gradeId',
+                        'sections.sectionName AS sectionName',
+                        'sections.sectionId AS sectionId'
+                      )
+                    ->where('student_marks.batchId','=',$currentBatchId)
+                    ->get();
+      return response()->json($studentsMarks);
+    }
     /**
      * Show the form for creating a new resource.
      *

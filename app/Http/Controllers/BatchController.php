@@ -40,16 +40,16 @@ class BatchController extends Controller
      */
     public function createbatch(Request $request)
     {
-          $batches= new Batch;
-          $batches->batchName=$request->batchName;
-          $batches->batchStartingYear=$request->batchStartingYear;
-          $batches->batchEndingYear=$request->batchEndingYear;
-          $batches->status=0;
-          $batches->save();
+          $batch= new Batch;
+          $batch->batchName=$request->batchName;
+          $batch->batchStartingYear=$request->batchStartingYear;
+          $batch->batchEndingYear=$request->batchEndingYear;
+          $batch->status=23;
+          $batch->save();
         // return Redirect::back();
         return response()->json([
         'status' => true,
-        'message' => 'Class created successfully.'
+        'message' => 'Batch created successfully.'
         ]);
         }
        public function currentBatch(Request $request)
@@ -64,11 +64,41 @@ class BatchController extends Controller
                  $batches->save();
             return response()->json([
             'status' => true,
-            'message' => 'Class created successfully.'
+            'message' => 'Current batch assigned successfully.'
             ]);
 
            }
+    
+    public function getCurrentBatch()
+    {
+      $batches= Batch::where('status','=',1)->first();
+      $currentBatchId= $batches->batchId;
+      return response()->json($currentBatchId);
+    }
 
+
+
+    // To check whether the entity ,here batch, is still being used in the system.
+    public function checkBatchIdForLink($batchId)
+    {
+      $messages=[];
+      $batch = Batch::where('batchId','=', $batchId)->first();
+
+      $checkInClassRoom = ClassRoom::where('batchId','=', $batchId)->first();
+      if($checkInClassRoom)
+        {
+            $messages[]='Batch\'s Id is still in the ClassRoom table.Please check the details.';
+        }
+
+      
+
+      return response()->json([
+    'status' => true,
+    'message' => $messages,
+]);
+    }
+
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -127,12 +157,12 @@ class BatchController extends Controller
       $batches->batchName=$request->batchName;
       $batches->batchStartingYear=$request->batchStartingYear;
       $batches->batchEndingYear=$request->batchEndingYear;
-      $batches->status=0;
+      $batches->status=$request->status;
       $batches->save();
       // return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
       return response()->json([
       'status' => true,
-      'message' => 'Class created successfully.'
+      'message' => 'Batch data updated successfully.'
       ]);
 
     }

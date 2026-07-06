@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('classRoomId');
             $table->integer('subjectId');
             $table->integer('marks');
-            $table->integer('status');
+            $table->integer('status')->default(1);
             $table->integer('batchId');
             $table->timestamps();
         });

@@ -112,9 +112,9 @@ return;
     ]);
     $batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
         //Add An Entity
-       $detailIds=   Detail::updateOrCreate(
+       $detailIds=Detail::updateOrCreate(
             [
-            'userId'     => $request->userId
+            'userId' => $request->userId,
         ],
         [
           'userId' =>$request->userId,
@@ -141,50 +141,84 @@ return;
        $role=$request->roleId;
        $userId=$request->userId;
        $detailsId=$detailIds->detailId;
+        $userTableUpdated=User::updateOrCreate(
+        [
+          'userId' => $request->userId,
+          'detailsId' => $detailsId,
+        ],
+        [
+          'name' => $request->firstName." ".$request->lastName,
+          'phone' => $request->contactNumber,
+        ]
+        );
        $roleIdForRoleDetailIdUpdation=$request->roleId;
 
+       $currentBatchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        if($role==1)
        {
-
+        Admin::updateOrCreate(
+            [
+              'userId'=>$userId,
+              'batchId'=>$currentBatchId,
+            ],
+            [
+              'userId'=>$userId,
+              'notifications_Posted'=>0,
+              'adminDetailId'=>$detailsId,
+              'batchId'=>$currentBatchId,
+              'status'=>1
+            ]
+        );
+         
        }
        else if($role==2)
        {
-         $teacher =new Teacher;
-         $teacher->userId	=$userId;
-         $teacher->teacherDetailId=$detailsId;
-         $teacher->status=1;
-         $teacher->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
-         $teacher->save();
+         Teacher::updateOrCreate(
+          [
+              'userId'=>$userId,
+              'batchId'=>$currentBatchId,
+            ],
+            [
+              'userId'=>$userId,
+              'teacherDetailId'=>$detailsId,
+              'batchId'=>$currentBatchId,
+              'status'=>1
+            ]
+         );
        }
        else if($role==3)
        {
-         $admin=new Admin;
-         $admin->userId=$userId;
-         $admin->notifications_Posted=0;
-         $admin->adminDetailId=$detailsId;
-         $admin->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
-         $admin->status = 1;
-         $admin->save();
+         Student::updateOrCreate(
+         [
+            'userId'=>$userId,
+            'batchId'=>$currentBatchId,
+         ],
+         [
+              'userId'=>$userId,
+              'studentDetailsId'=>$detailsId,
+              'studentClassroom'=>0,
+              'studentGrade'=>0,
+              'studentSection'=>0,
+              'studentSemester'=>0,
+              'studentSemstudentDepartmentIdester'=>0,
+              'batchId'=>$currentBatchId,
+              'status'=>1
+         ]
+         );
        }
        else {
-         $student=new Student;
-         $student->userId=$userId;
-         $student->studentDetailsId=$detailsId;
-         $student->studentClassroom=0;
-         $student->studentGrade=0;
-         $student->studentSection=0;
-         $student->studentSemester=0;
-         $student->studentDepartmentId=0;
-         $student->status=5;
-         $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
-         $student->save();
+          response()->json([
+        'status' => true,
+        'message' => 'User data updated successfully.'
+        ]);
        }
 
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$request->userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
-     return response()->json([
+     
+       return response()->json([
         'status' => true,
-        'message' => 'User details updated successfully.'
+        'message' => 'User data updated successfully.'
         ]);
     }
 
@@ -319,7 +353,7 @@ return;
         $detail->contactNumber = $request->contactNumber;
         $detail->alternateContactNumber = $request->alternateContactNumber;
         $detail->userId = $request->userId;
-        $detail->roleId = 3;
+        $detail->roleId = 1;
         $detail->address = $request->address;
         $detail->bloodGroup = $request->bloodGroup;
         $detail->identificationMark = $request->identificationMark;
@@ -450,7 +484,7 @@ return;
         $detail->contactNumber = $request->contactNumber;
         $detail->alternateContactNumber = $request->alternateContactNumber;
         $detail->userId = $request->userId;
-        $detail->roleId = 4;
+        $detail->roleId = 3;
         $detail->address = $request->address;
         $detail->bloodGroup = $request->bloodGroup;
         $detail->identificationMark = $request->identificationMark;
@@ -550,7 +584,7 @@ return;
        $details->guardianName = $request->guardianName;
        $details->save();
        $detailsId=$details->detailId;
-       $roleIdForRoleDetailIdUpdation=3;
+       $roleIdForRoleDetailIdUpdation=2;
        $teachers=new Teacher;
        $teachers->userId=$userId;
        $teachers->teacherDetailId=$detailsId;
@@ -563,6 +597,29 @@ return;
        'status' => true,
        'message' => 'Teacher created successfully.'
        ]);
+    }
+
+    public function getDataForAddingDetailsOfAdmin(Request $request)
+    {
+      $newAdminUserId = $request->input('newAdminUserId');
+      $newAdminUserDatas=Detail::where('userId','=',$newAdminUserId)
+      ->where('roleId','=',1)->first();
+      return response()->json($newAdminUserDatas);
+    }
+    public function getDataForAddingDetailsOfTeacher(Request $request)
+    {
+      $newTeacherUserId = $request->input('newTeacherUserId');
+      $newTeacherUserDatas=Detail::where('userId','=',$newTeacherUserId)
+      ->where('roleId','=',2)->first();
+      return response()->json($newTeacherUserDatas);
+    }
+
+    public function getDataForAddingDetailsOfStudent(Request $request)
+    {
+      $newStudentUserId = $request->input('newStudentUserId');
+      $newStudentUserDatas=Detail::where('userId','=',$newStudentUserId)
+      ->where('roleId','=',3)->first();
+      return response()->json($newStudentUserDatas);
     }
 
     public function getDataForAddingDetailsOfNewUser(Request $request)
@@ -582,6 +639,18 @@ return;
     {
       $adminUsers = User::where('role',1)->get();
       return response()->json($adminUsers);
+    }
+
+    public function getTeachers()
+    {
+      $teacherUsers = User::where('role',2)->get();
+      return response()->json($teacherUsers);
+    }
+
+    public function getStudents()
+    {
+      $studentUsers = User::where('role',3)->get();
+      return response()->json($studentUsers);
     }
 
     public function createAdmin(Request $request)
@@ -639,7 +708,7 @@ $fullName=$request->firstName.$request->lastName;
       $user->email=$request->email;
       $user->password=Hash::make($passwords->constantValue);
       $user->phone=$request->phone;
-      $user->role=3;
+      $user->role=1;
       $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
       $user->save();
       $userId=$user->userId;
@@ -655,7 +724,7 @@ $fullName=$request->firstName.$request->lastName;
        $details->contactNumber = $request->contactNumber;
        $details->alternateContactNumber = $request->alternateContactNumber;
        $details->userId = $userId;
-       $details->roleId = 3;
+       $details->roleId = 1;
        $details->address = $request->address;
        $details->bloodGroup = $request->bloodGroup;
        $details->identificationMark = $request->identificationMark;
@@ -668,7 +737,7 @@ $fullName=$request->firstName.$request->lastName;
        $details->guardianName = $request->guardianName;
        $details->save();
        $detailsId=$details->detailId;
-       $roleIdForRoleDetailIdUpdation=3;
+       $roleIdForRoleDetailIdUpdation=1;
        $admin=new Admin;
        $admin->userId=$userId;
        $admin->notifications_Posted=0;
@@ -677,11 +746,11 @@ $fullName=$request->firstName.$request->lastName;
        $admin->status = 1;
        $admin->save();
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
-       \App\Http\Controllers\DetailController::updateRoleInUsers($userId,3);
+       \App\Http\Controllers\DetailController::updateRoleInUsers($userId,1);
         // return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
         return response()->json([
       'status' => true,
-      'message' => 'Class created successfully.'
+      'message' => 'Admin account created successfully.'
   ]);
     }
 
@@ -737,7 +806,7 @@ $fullName=$request->firstName.$request->lastName;
         $user->detailsId=0;
         $user->phone=$request->phone;
         $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
-        $user->role=4;
+        $user->role=3;
         $user->save();
         $userId=$user->userId;
         event(new Registered($user));
@@ -752,7 +821,7 @@ $fullName=$request->firstName.$request->lastName;
          $details->contactNumber = $request->contactNumber;
          $details->alternateContactNumber = $request->alternateContactNumber;
          $details->userId = $userId;
-         $details->roleId = 4;
+         $details->roleId =3;
          $details->address = $request->address;
          $details->bloodGroup = $request->bloodGroup;
          $details->identificationMark = $request->identificationMark;
@@ -765,7 +834,7 @@ $fullName=$request->firstName.$request->lastName;
          $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
          $details->save();
          $detailsId=$details->detailId;
-         $roleIdForRoleDetailIdUpdation=4;
+         $roleIdForRoleDetailIdUpdation=3;
          $student=new Student;
          $student->userId=$userId;
          $student->studentDetailsId=$detailsId;
@@ -778,7 +847,7 @@ $fullName=$request->firstName.$request->lastName;
          $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
          $student->save();
          \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
-         \App\Http\Controllers\DetailController::updateRoleInUsers($userId,4);
+         \App\Http\Controllers\DetailController::updateRoleInUsers($userId,3);
          return redirect()->route('TeacherStudent',['id'=>'teacherStudentAddStudent'])->with('success', 'Student added successfully.');
 
     }
@@ -786,7 +855,7 @@ $fullName=$request->firstName.$request->lastName;
         {
             $validated = $request->validate([
               'password' => ['required', Password::defaults()],
-              'email' => ['email' => 'email'],
+              'email' => ['required', 'email', 'unique:users,email'],
               'phone' => ['required', 'numeric'],
               'firstName' => ['required'],
               'lastName' => ['required'],
@@ -803,6 +872,7 @@ $fullName=$request->firstName.$request->lastName;
               'motherName' => ['required'],
               'guardianName' => ['required'],
           [
+          'email.unique'=> 'Email already exists!',
           'phone.required'=> 'Your Phone Number is Required',
           'phone.numeric'=> 'Phone number must be numeric',
           'firstName.required'=> 'Your First Name is Required',
@@ -831,7 +901,7 @@ $fullName=$request->firstName.$request->lastName;
           $user->password=Hash::make($request->password);
           $user->detailsId=0;
           $user->phone=$request->phone;
-          $user->role=4;
+          $user->role=3;
           $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
           $user->save();
           $userId=$user->userId;
@@ -847,7 +917,7 @@ $fullName=$request->firstName.$request->lastName;
            $details->contactNumber = $request->contactNumber;
            $details->alternateContactNumber = $request->alternateContactNumber;
            $details->userId = $userId;
-           $details->roleId = 4;
+           $details->roleId = 3;
            $details->address = $request->address;
            $details->bloodGroup = $request->bloodGroup;
            $details->identificationMark = $request->identificationMark;
@@ -860,7 +930,7 @@ $fullName=$request->firstName.$request->lastName;
            $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
            $details->save();
            $detailsId=$details->detailId;
-           $roleIdForRoleDetailIdUpdation=4;
+           $roleIdForRoleDetailIdUpdation=3;
 
            $student=new Student;
            $student->userId=$userId;
@@ -877,10 +947,10 @@ $fullName=$request->firstName.$request->lastName;
            $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
            $student->save();
            \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
-           \App\Http\Controllers\DetailController::updateRoleInUsers($userId,4);
+           \App\Http\Controllers\DetailController::updateRoleInUsers($userId,3);
            return response()->json([
            'status' => true,
-           'message' => 'Data Submitted!'
+           'message' => 'Student details submitted successfully!'
            ]);
         }
 
@@ -896,6 +966,16 @@ $fullName=$request->firstName.$request->lastName;
              public function deleteAdmin($request)
              {
                  //Delete self - details
+
+                 if ($request->userId==1) {
+        $details = Detail::where('userId','=',$request->userId);
+        $details->status=0;
+    return response()->json([
+        'status' => false,
+        'message' => 'This record cannot be deleted.'
+    ]);
+}
+
                  $admin = Admin::where('userId','=',$request->userId);
                  $admin->delete();
                   return ;
@@ -904,6 +984,15 @@ $fullName=$request->firstName.$request->lastName;
 
               public function deleteStudent($request)
               {       //Delete self - details
+
+                  if ($request->userId==3) {
+    $student = Student::where('userId','=',$request->userId)->first();
+                  $student->status=0;
+        $details = Detail::where('userId','=',$request->userId);
+        $details->status=0;
+  
+}
+
                   $student = Student::where('userId','=',$request->userId);
                   $student->delete();
                   return back()->with('success', 'Deleted successfully.');
@@ -912,6 +1001,13 @@ $fullName=$request->firstName.$request->lastName;
         public function deleteTeacher($userId)
         {
                                       //Delete self - details
+                                      if ($request->userId==2) {
+    $teacher = Teacher::where('userId','=',$request->userId)->first();
+                  $teacher->status=0;
+        $details = Detail::where('userId','=',$request->userId);
+        $details->status=0;
+  
+}
         $teacher = Teacher::where('userId','=',$userId);
         $teacher->delete();
         return back()->with('success', 'Deleted successfully.');
@@ -920,6 +1016,14 @@ $fullName=$request->firstName.$request->lastName;
         public function destroyAdmin(Request $request)
         {
             //Delete self - details
+            if ($request->userId==1) {
+        $details = Detail::where('userId','=',$request->userId);
+        $details->status=0;
+    return response()->json([
+        'status' => false,
+        'message' => 'This record cannot be deleted.'
+    ]);
+}
             $user=User::where('userId','=',$request->userId)->first();
             $user->delete();
             $details = Detail::where('userId','=',$request->userId);
@@ -932,6 +1036,14 @@ $fullName=$request->firstName.$request->lastName;
         public function destroyStudent(Request $request)
           {
               //Delete self - details
+              
+                  if ($request->userId==3) {
+    $student = Student::where('userId','=',$request->userId)->first();
+                  $student->status=0;
+  
+        $details = Detail::where('userId','=',$request->userId);
+        $details->status=0;
+}
               $user=User::where('userId','=',$request->userId)->first();
               $user->delete();
               $details = Detail::where('userId','=',$request->userId);
@@ -943,6 +1055,17 @@ $fullName=$request->firstName.$request->lastName;
     public function destroyTeacher(Request $request)
     {
         //Delete self - details
+        if ($request->userId==2) {
+    $teacher = Teacher::where('userId','=',$request->userId)->first();
+                  $teacher->status=0;
+  
+        $details = Detail::where('userId','=',$request->userId);
+        $details->status=0;
+        return back()->with('success', 'Deleted successfully.');
+        }
+
+        $teacher = Teacher::where('userId','=',$userId);
+        $teacher->delete();
         $user=User::where('userId',$request->userId)->first();
         $user->delete();
         $details = Detail::where('userId','=',$request->userId);

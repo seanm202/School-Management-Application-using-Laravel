@@ -105,36 +105,36 @@ public function getStudentDetailsToReassignClassroomByAJAX()
             '=',
             'details.userId'
         )
-        ->join(
-            'class_rooms',
-            'class_rooms.classroomDetailId',
-            '=',
-            'students.studentClassroom'
-        )
-        ->join(
-            'grades',
-            'grades.gradeId',
-            '=',
-            'class_rooms.grade'
-        )
-        ->join(
-            'sections',
-            'sections.sectionId',
-            '=',
-            'class_rooms.section'
-        )
-        ->join(
-            'departments',
-            'departments.departmentId',
-            '=',
-            'class_rooms.departmentId'
-        )
-        ->join(
-            'semesters',
-            'semesters.semesterId',
-            '=',
-            'class_rooms.semester'
-        )
+        // ->join(
+        //     'class_rooms',
+        //     'class_rooms.classroomDetailId',
+        //     '=',
+        //     'students.studentClassroom'
+        // )
+        // ->join(
+        //     'grades',
+        //     'grades.gradeId',
+        //     '=',
+        //     'class_rooms.grade'
+        // )
+        // ->join(
+        //     'sections',
+        //     'sections.sectionId',
+        //     '=',
+        //     'class_rooms.section'
+        // )
+        // ->join(
+        //     'departments',
+        //     'departments.departmentId',
+        //     '=',
+        //     'class_rooms.departmentId'
+        // )
+        // ->join(
+        //     'semesters',
+        //     'semesters.semesterId',
+        //     '=',
+        //     'class_rooms.semester'
+        // )
         ->where(
             'students.status',
             '=',
@@ -143,30 +143,18 @@ public function getStudentDetailsToReassignClassroomByAJAX()
         ->select(
             'students.*',
             'details.*',
-            'users.*',
-            'class_rooms.*',
-            'grades.*',
-            'sections.*',
-            'departments.*',
-            'semesters.*'
+            'users.*'//,
+            // 'class_rooms.*',
+            // 'grades.*',
+            // 'sections.*',
+            // 'departments.*',
+            // 'semesters.*'
         )
         ->get();
 
     return response()->json($students);
 }
 
-    
-
-    //  public function toGetAStudentClassRoomByAJAX()
-    // {
-    //        $students = \App\Models\Student::join('details','details.detailId','=','students.studentDetailsId')
-    //         ->join('users','users.userId','=','details.userId')
-    //       //  ->join('class_rooms','class_rooms.classroomDetailId ','=','students.studentClassroom')
-    //       //  ->join('sections','sections.sectionId','=','class_rooms.section')
-    //       //  ->join('grades','grades.gradeId','=','class_rooms.grade')
-    //        ->all();
-    //       return response()->json($students);
-    // }
 
     public function assignClassRoomForStudent(Request $request)
     {
@@ -188,7 +176,10 @@ public function getStudentDetailsToReassignClassroomByAJAX()
      $details->studentDepartmentId = $request->studentDepartmentId;
      $details->save();
 
-            return 1;
+      return response()->json([
+          'status' => true,
+          'message' => 'The student has been assigned to a class successfuly!'
+          ]);
     }
 
     /**
@@ -267,7 +258,10 @@ public function getStudentDetailsToReassignClassroomByAJAX()
      $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
      $details->save();
 
-            return 1;
+      return response()->json([
+          'status' => true,
+          'message' => 'User has been added to the database!'
+          ]);
     }
 
     /**
@@ -342,18 +336,45 @@ public function getStudentDetailsToReassignClassroomByAJAX()
      'guardianName.required'=> 'Your Guardian\'s name is Required',
      ]
      ]);
-        //     $detail = Detail::where('userId','=',$student->userId);
-        //     $detail = Detail::updateOrCreate(
-        // ['firstname' => $request->, 'lastname' => $request->,
-        // 'age' => $request->, 'dob' => $request->, 'contactNumber' => $request->,
-        // 'alternateContactNumber' => $request->, 'roleId' => $request->, 'address' => $request->,
-        // 'bloodGroup' => $request->, 'identificationMark' => $request->, 'parentNumber' => $request->,
-        // 'homePhoneNumber' => $request->, 'father/SpouseName' => $request->, 'motherName' => $request->,
-        // 'guardianName' => $request->, 'dob' => $request->]
-    // );
-    return 1;
+      
+    
+      return response()->json([
+          'status' => true,
+          'message' => 'Record has been updated successfuly!'
+          ]);
     }
 
+    // To check whether the entity ,here student, is still being used in the system.
+    public function checkStudentIdForLink($studentId)
+    {
+      $messages=[];
+      $student = Student::where('studentId','=', $studentId)->first();
+
+      $checkInUsers = User::where('userId','=', $student->userId)->first();
+      if($checkInUsers)
+        {
+            $messages[]='Student\'s Id is still in the user_info table.Please check the details.';
+        }
+
+      $checkInDetails = Details::where('userId','=', $student->userId)->first();
+      if($checkInDetails)
+        {
+            $messages[]='Student\'s Id is still in the user details table.Please check the details.';
+        }
+
+      $checkIfStudentMarks=StudentMarks::where('studentId','=', $studentId)->first();
+      if($checkIfStudentMarks)
+        {
+          $messages[]='Student\'s Id is still in the subject marks table.Please check the details.';
+        }
+      
+        
+
+      return response()->json([
+    'status' => true,
+    'message' => $messages,
+]);
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -367,6 +388,10 @@ public function getStudentDetailsToReassignClassroomByAJAX()
       $students->delete();
       $detail = Detail::where('userId','=',$student->userId);
       $detail->delete();
-      return 1;
+      
+      return response()->json([
+          'status' => true,
+          'message' => 'Student record has been deleted successfuly.'
+          ]);
     }
 }

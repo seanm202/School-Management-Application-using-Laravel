@@ -24,6 +24,15 @@ return new class extends Migration
             $table->integer('batchId');
             $table->timestamps();
         });
+        DB::table('subject_teacher_for_each_sections')->insert([
+            'subjectForSectionId' => 1,
+            'teacherId' => 1,
+            'classRoomId' => 1,
+            'subjectId' => 1,
+            'semesterId' => 1,
+            'status' => 1,
+            'batchId' => 1,
+        ]);
     }
 
     /**
