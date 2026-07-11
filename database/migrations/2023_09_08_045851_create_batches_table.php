@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('batchName');
             $table->string('batchStartingYear');
             $table->string('batchEndingYear');
-            $table->integer('status');
+            $table->integer('status')->default(67);
             $table->timestamps();
         });
         
@@ -27,7 +27,7 @@ return new class extends Migration
             'batchName' => "2025-2026",
             'batchStartingYear' => "2025",
             'batchEndingYear' => "2026",
-            'status' => 1
+            'status' => 40
         ]);
     }
 

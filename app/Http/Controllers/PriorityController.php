@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Priority;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -165,6 +166,13 @@ public function updatePriority(Request $request)
     public function update(Request $request, Priority $priority)
     {
         //
+    }
+
+    public function getPriorities()
+    {
+      $batches= Batch::where('status','=',40)->first();
+      $prioritys = \App\Models\Priority::all();
+      return response()->json($prioritys);
     }
 
     /**

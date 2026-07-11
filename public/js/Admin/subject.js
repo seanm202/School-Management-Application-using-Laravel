@@ -102,6 +102,10 @@ error: function(xhr) {
 //
 //
 //
+
+//
+//
+//
 $(function () {
 
 $.ajaxSetup({
@@ -110,20 +114,37 @@ headers: {
                 }
                             });
 
-                $('#updateSubjectDetails').click(function (e) {
-                e.preventDefault();
-                  var urlupdateSubject = $('#updateSubject').attr('action');
-      $.ajax({
-            data: $('#updateSubject').serialize(),
-      url: urlupdateSubject,
-type: "POST",
-dataType: 'json',
-       success: function(response)
+              $(document).on('click', '.buttonForUpdatePriority', function () {
+
+const row = $(this).closest('tr');
+
+    const priorityId = row.find('.priorityId').val();
+    const priorityName   = row.find('.priorityName').val();
+    const priorityValue   = row.find('.priorityValue').val();
+   const urleditPriority = $(this).data('url');
+    // alert(urleditPriority);
+    console.log({
+    priorityId: row.find('.priorityId').val(),
+    priorityName: row.find('.priorityName').val(),
+    priorityValue: row.find('.priorityValue').val()
+});
+    $.ajax({
+        data: {
+          priorityId:priorityId,
+          priorityName:priorityName,
+          priorityValue:priorityValue
+        },
+        url: urleditPriority,
+        type: "POST",
+        dataType: "json",
+
+         success: function(response)
 {
     showSuccess(response.message);
     getAllData();
 },
-error: function(xhr) {
+
+      error: function(xhr) {
     var errors = xhr.responseJSON.errors;
 
     // Flatten all error arrays into one array
@@ -131,16 +152,23 @@ error: function(xhr) {
 
     showError(messages);
 }
-      });
-        });
+    });
 });
 
-// 
+
+});
+
 
 // 
 
 // 
 
+// 
+
+
+//
+//
+//
 $(function () {
 
 $.ajaxSetup({
@@ -149,20 +177,41 @@ headers: {
                 }
                             });
 
-               $(document).on('submit', '.updateSubjectName', function (e) {
-                    e.preventDefault();
-                  var urlupdateSubject = $('.updateSubjectName').attr('action');
-      $.ajax({
-            data: $('.updateSubjectName').serialize(),
-      url: urlupdateSubject,
-type: "POST",
-dataType: 'json',
-       success: function(response)
+              $(document).on('click', '.buttonForUpdateSubject', function () {
+
+const row = $(this).closest('tr');
+
+    const subjectId = row.find('.subjectId').val();
+    const subjectName   = row.find('.subjectName').val();
+    const torLab   = row.find('.torLab').val();
+    const subjectCode   = row.find('.subjectCode').val();
+    const subjectMaxMarks   = row.find('.subjectMaxMarks').val();
+   const urlUpdateSubjectDetails = $(this).data('url');
+    // alert(urleditPriority);
+    console.log({
+    subjectId: row.find('.subjectId').val(),
+    subjectCode: row.find('.subjectCode').val(),
+    torLab: row.find('.torLab').val()
+});
+    $.ajax({
+        data: {
+          subjectId:subjectId,
+          subjectName:subjectName,
+          subjectCode:subjectCode,
+          torLab:torLab,
+          subjectMaxMarks:subjectMaxMarks,
+        },
+        url: urlUpdateSubjectDetails,
+        type: "POST",
+        dataType: "json",
+
+         success: function(response)
 {
     showSuccess(response.message);
     getAllData();
 },
-error: function(xhr) {
+
+   error: function(xhr) {
 
     console.log(xhr.responseJSON);
 
@@ -185,8 +234,10 @@ error: function(xhr) {
     }
 }
 
-      });
-        });
+    });
+});
+
+
 });
 
 //

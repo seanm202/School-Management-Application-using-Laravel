@@ -53,7 +53,7 @@ class StudentSubjectAttendanceController extends Controller
         $StudentSubjectAttendanceController->submitted=0;
         $StudentSubjectAttendanceController->status=0;
         $StudentSubjectAttendanceController->dailyTeacherAllocationId=$request->dailyTeacherAllocationId;
-        $StudentSubjectAttendanceController->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+        $StudentSubjectAttendanceController->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
         $StudentSubjectAttendanceController->save();
                 // $StudentSubjectAttendanceController->insertOrIgnore();
       }

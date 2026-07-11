@@ -17,172 +17,6 @@
   </script>
  
 <style>
-
-/*
-
-For showing error
-
-*/
-
-.my-close {
-    border: none;
-    background: transparent;
-    color: inherit;
-    font-size: 22px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 10px;
-    line-height: 1;
-    padding: 0;
-}
-
-.my-close:hover {
-    color: red;
-}
-
-.errorshow-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 420px;
-    max-width: 90vw;
-    max-height: 80vh;
-
-    background: #fff;
-    color: #000;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.25);
-
-    display: none;
-    flex-direction: column;
-
-    z-index: 9999;
-    animation: slideIn .4s ease;
-}
-
-/* Flex layout */
-.errorshow-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-    /*
-
-    For Success
-
-    */
-    .success-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.success-box.show {
-    display: flex;
-}
-#contentOfErrorShowBox {
-    overflow-y: auto;
-    max-height: 65vh;
-    padding: 15px;
-}
-.errorshow-box .close-btn {
-    align-self: flex-end;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 22px;
-    font-weight: bold;
-}
-#contentOfErrorShowBox .alert {
-    margin-bottom: 10px;
-    word-break: break-word;
-    white-space: normal;
-}
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-    /*
-
-    For Delete
-
-    */
-     .delete-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #00000000;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.delete-box.show {
-    display: flex;
-}
-
 /* 
 For table
 */
@@ -237,6 +71,7 @@ tr:nth-child(even) {
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -273,65 +108,6 @@ tr:nth-child(even) {
 
     <div id="contentOfErrorShowBox"></div>
 </div>
-
-
- <script type="text/javascript">
-    const teacherSubjectListModal = document.getElementById('teacherDetailModal');
-// console.log(document.getElementById('subjectListModal'));
-if (teacherSubjectListModal) {
-  teacherSubjectListModal.addEventListener('show.bs.modal', function (event) {
-    // Button that triggered the modal
-    const button = event.relatedTarget;
-    // Extract info from data-* attributes
-    const teacherId = button.getAttribute('data-bs-teacher-id');
-    alert(teacherId);
-    
-$.ajax({
-
-
-
-                url: "{{ route('getTeacherSubjectsList') }}",
-                method: "GET", 
-                data:{
-                            gradeId:gradeId,
-                            departmentId:departmentId,
-                            semesterId:semesterId
-
-                        },
-                dataType: "json", 
-                success: function(data) {
-                    console.log(data); 
-let rowsGetTeacherSubjects = "";
-           data.forEach(function(teacherAssignedSubjectsDetail){
-// let roleupdateurl = "/updateRole";
-               rowsGetTeacherSubjects += `
-                    <tr>
-    <td>${teacherAssignedSubjectsDetail.gradeName} </td>
-    <td>${teacherAssignedSubjectsDetail.departmentName}</td>
-    <td>${teacherAssignedSubjectsDetail.semesterName}</td>
-    <td>${teacherAssignedSubjectsDetail.subjectName} </td>
-            </tr>
-               `;
-           });
-
-           $('#teacherSubjectsList tbody').html(rowsGetTeacherSubjects);                
-        },
-                error: function(jqXHR, ajaxOptions, thrownError) {
-                    // alert('Error fetching data');
-                    // console.log(thrownError);
-                    console.log("Status:", jqXHR.status);
-    console.log("Response:", jqXHR.responseText);
-    console.log("Error:", thrownError);
-                }
-            });
-
-  });
-}  
- </script>
-
-<!-- 
-
--->
 <div class="modal fade" id="teacherDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                <div class="modal-dialog" role="document">
                                  <div class="modal-content">
@@ -367,6 +143,61 @@ let rowsGetTeacherSubjects = "";
     </div>
                  </div>
 </div>
+
+ <script type="text/javascript">
+    const teacherSubjectListModal = document.getElementById('teacherDetailModal');
+// console.log(document.getElementById('subjectListModal'));
+if (teacherSubjectListModal) {
+  teacherSubjectListModal.addEventListener('show.bs.modal', function (event) {
+
+    const button = event.relatedTarget;
+
+    const teacherId = button.getAttribute('data-bs-teacher-id');
+    
+$.ajax({
+
+
+
+                url: "{{ route('getTeacherSubjectsList') }}",
+                method: "GET", 
+                data:{
+                            teacherId:teacherId
+                        },
+                dataType: "json", 
+                success: function(data) {
+                    console.log(data); 
+let rowsGetTeacherSubjects = "";
+           data.forEach(function(teacherAssignedSubjectsDetail){
+// let roleupdateurl = "/updateRole";
+               rowsGetTeacherSubjects += `
+                    <tr>
+    <td>${teacherAssignedSubjectsDetail.gradeName} </td>
+    <td>${teacherAssignedSubjectsDetail.departmentName}</td>
+    <td>${teacherAssignedSubjectsDetail.semesterName}</td>
+    <td>${teacherAssignedSubjectsDetail.subjectName} </td>
+            </tr>
+               `;
+           });
+
+           $('#teacherSubjectsList tbody').html(rowsGetTeacherSubjects);                
+        },
+                error: function(jqXHR, ajaxOptions, thrownError) {
+                    // alert('Error fetching data');
+                    // console.log(thrownError);
+                    console.log("Status:", jqXHR.status);
+    console.log("Response:", jqXHR.responseText);
+    console.log("Error:", thrownError);
+                }
+            });
+
+  });
+}  
+ </script>
+
+<!-- 
+
+-->
+
 
 <!-- 
 

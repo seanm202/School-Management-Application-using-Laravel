@@ -28,9 +28,17 @@ class StatusController extends Controller
 
     public function getStatusDetailsByAJAX()
     {
-      $statuses = \App\Models\Status::join('roles', 'statuses.statusForRoles', '=', 'roles.roleId')->get();
+      $statuses = \App\Models\Status::join('roles', 'roles.roleId', '=', 'statuses.statusForEntity')->get();
       return response()->json($statuses);
     }
+    
+    // public function getStatusesDetailsByAJAX()
+    // {
+    //   $statuses = \App\Models\Status::join('entities', 'entities.entityId', '=', 'statuses.statusForEntity')
+    //   ->select('statuses.*',
+    //   'entities.*')->get();
+    //   return response()->json($statuses);
+    // }
     
     public function createStatus(Request $request)
     {
@@ -45,7 +53,7 @@ class StatusController extends Controller
         ]);
         $statuses=new Status;
         $statuses->statusName=$request->statusName;
-        $statuses->statusForRoles=$request->roleForStatus;
+        $statuses->statusForEntity=$request->roleForStatus;
         $statuses->save();
         return response()->json([
         'status' => true,
@@ -105,7 +113,7 @@ class StatusController extends Controller
         ]);
           $status=Status::where('statusId','=',$request->statusId)->first();
           $status->statusName=$request->statusName;
-          $status->statusForRoles=$request->roleForStatus;
+          $status->statusForEntity=$request->roleForStatus;
           $status->save();
           return response()->json([
           'status' => true,

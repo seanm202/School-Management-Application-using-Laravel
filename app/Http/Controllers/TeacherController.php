@@ -106,14 +106,14 @@ class TeacherController extends Controller
      $details->fatherSpouseName = $request->fatherSpouseName;
      $details->motherName = $request->motherName;
      $details->guardianName = $request->guardianName;
-     $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
+     $details->batchId = Batch::where('status',40)->select('batchId')->first()->batchId;
      $details->save();
 
             return 1;
     }
 
       // To ensure that the person's absense is repopulated by another person,here,a teacher.
-    public funtion checkTeacherIdForLink($teacherId)
+    public function checkTeacherIdForLink($teacherId)
     {
       $messages=[];
       $teacher = Teacher::where('teacherId','=', $teacherId)->first();

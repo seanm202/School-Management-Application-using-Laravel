@@ -29,121 +29,6 @@
 
 <link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
 
-<style>
-  
-    .errorshow-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #B01D1A;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.errorshow-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-    /*
-
-    For Success
-
-    */
-    .success-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.success-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-    /*
-
-    For Delete
-
-    */
-     .delete-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #AD1F34;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.delete-box.show {
-    display: flex;
-}
-</style>
 
   <x-app-layout>
     <x-slot name="header">
@@ -180,6 +65,7 @@
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -654,9 +540,10 @@ let rowsGetSubjectsMarks = "";
     <td>${subjectsList.subjectName} </td>
     <td>${subjectsList.subjectCode}</td>
     <td>${subjectsList.MaxMarks} </td>
-    <td><form method="POST" action="submitSubjectMarks" class="submitSubjectMarks">
+    <td><form method="POST" action="{{route('submitSubjectMarks')}}" class="submitSubjectMarks">
     <input type="hidden" name="studentId" value="${subjectsList.studentId}">
     <input type="hidden" name="subjectId" value="${subjectsList.subjectId}">
+    <input type="hidden" name="student_marksId" value="${subjectsList.student_marksId}">
     <input type="number" name="marksObtained" value="${subjectsList.marks}" class="form-control" placeholder="Enter marks obtained">
     </form>
     </td>

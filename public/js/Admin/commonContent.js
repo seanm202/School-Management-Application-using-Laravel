@@ -1,3 +1,30 @@
+// Go to top button
+// Get the button
+let mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+// 
+
+// 
+
+// 
+
+
 
 function showSuccess(message = "✅ Data saved successfully!") {
     const box = document.getElementById("successBox");
@@ -19,49 +46,6 @@ function closeSuccess() {
 }
 
 
-// function showError(errorMessages) {
-
-//     const box = document.getElementById("errorShowBox");
-//     const content = document.getElementById("contentOfErrorShowBox");
-
-//     clearTimeout(errorTimer);
-
-//     content.innerHTML = "";
-
-//     if (!Array.isArray(errorMessages)) {
-//         errorMessages = [errorMessages];
-//     }
-
-//     errorMessages.forEach(function(message) {
-
-//         const errorDiv = document.createElement("div");
-//         errorDiv.className = "alert alert-danger alert-dismissible fade show mt-2";
-//         errorDiv.setAttribute("role", "alert");
-
-//        errorDiv.innerHTML = `
-//     <span>${message}</span>
-//     <button type="button" class="my-close-btn">&times;</button>
-// `;
-// const closeBtn = errorDiv.querySelector(".my-close-btn");
-
-// closeBtn.onclick = function () {
-//     errorDiv.remove();
-
-//     if (content.children.length === 0) {
-//         box.classList.remove("show");
-//     }
-// };
-
-//         content.appendChild(errorDiv);
-//     });
-
-//     box.classList.add("show");
-
-//     errorTimer = setTimeout(function () {
-//         content.innerHTML = "";
-//         box.classList.remove("show");
-//     }, 5000);
-// }
 let errorTimer;
 
 function showError(errorMessages) {

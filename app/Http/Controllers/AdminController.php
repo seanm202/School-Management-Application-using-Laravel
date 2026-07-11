@@ -112,8 +112,25 @@ class AdminController extends Controller
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
        $details->guardianName = $request->guardianName;
-       $details->status = 22; // "Account created!"
-       $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
+       $details->status = 2;
+       if($request->roleId==1)
+        {
+          $details->status = 9;
+          }
+       else if($request->roleId==2)
+        {
+$details->status = 16;
+        }
+        else if($request->roleId==3)
+          {
+$details->status = 23;
+          }
+          else
+            {
+$details->status = 2;
+            }
+      //  $details->status = 2;
+       $details->batchId = Batch::where('status',40)->select('batchId')->first()->batchId;
        $details->save();
 
        return back()->with('success', 'Added successfully.');
@@ -131,7 +148,7 @@ class AdminController extends Controller
         $days = new Days;
 
        $days->dayName = $request->dayName;
-       $days->status = 23; // "Day created!"
+       $days->status = 62; // "Day created!"
        $days->save();
 
        return response()->json([
@@ -164,7 +181,7 @@ class AdminController extends Controller
         //Store or add admin
         $days = Days::where('dayId',$request->dayId)->first();
         $days->dayName = $request->dayName;
-        $days->status = 1;
+        $days->status = 62;
         $days->save();
 
                return response()->json([
@@ -193,7 +210,7 @@ class AdminController extends Controller
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
        $hours->hourEndingTime = $request->hourEndingTime;
-       $hours->status = 25;
+       $hours->status = 64;
        $hours->save();
 
        return response()->json([
@@ -219,7 +236,7 @@ class AdminController extends Controller
         $hours->hourName = $request->hourName;
         $hours->hourStartingTime = $request->hourStartingTime;
         $hours->hourEndingTime = $request->hourEndingTime;
-        $hours->status = 25;
+        $hours->status = 64;
         $hours->save();
 
         return response()->json([

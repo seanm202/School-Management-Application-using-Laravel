@@ -167,14 +167,15 @@ public function getStudentDetailsToReassignClassroomByAJAX()
                    ]);
       $student = Students::where('studentId','=',$studentId);
 
-     $details->userId = $request->userId;
-     $details->studentDetailsId = $request->studentDetailsId;
-     $details->studentClassroom = $request->studentClassroom;
-     $details->studentGrade = $request->studentGrade;
-     $details->studentSection = $request->studentSection;
-     $details->studentSemester = $request->studentSemester;
-     $details->studentDepartmentId = $request->studentDepartmentId;
-     $details->save();
+     $student->userId = $request->userId;
+     $student->studentDetailsId = $request->studentDetailsId;
+     $student->studentClassroom = $request->studentClassroom;
+     $student->studentGrade = $request->studentGrade;
+     $student->studentSection = $request->studentSection;
+     $student->studentSemester = $request->studentSemester;
+     $student->studentDepartmentId = $request->studentDepartmentId;
+     $student->status = 29;
+     $student->save();
 
       return response()->json([
           'status' => true,
@@ -255,7 +256,7 @@ public function getStudentDetailsToReassignClassroomByAJAX()
      $details->fatherSpouseName = $request->fatherSpouseName;
      $details->motherName = $request->motherName;
      $details->guardianName = $request->guardianName;
-     $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+     $details->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
      $details->save();
 
       return response()->json([

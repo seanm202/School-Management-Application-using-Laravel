@@ -48,10 +48,10 @@ class SectionController extends Controller
              ]
              ]);
            //Add An Entity
-           $batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+           $batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
            $section=new Section;
          $section->sectionName=$request->sectionName;
-       $section->status=1;
+       $section->status=72;
      $section->batchId=$batchId;
    $section->save();
 
@@ -78,8 +78,9 @@ class SectionController extends Controller
                      ]
                      ]);
         $sections = new Section;
-        $sections->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+        $sections->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
        $sections->secionName = $request->secionName;
+       $sections->status = 72;
        $details->save();
 
        return 1;
@@ -127,6 +128,7 @@ class SectionController extends Controller
                  ]);
       $section=Section::where('sections.sectionId','=',$request->sectionId)->first();
       $section->sectionName=$request->sectionName;
+       $section->status = 72;
       $section->save();
     return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
     }
@@ -145,6 +147,7 @@ class SectionController extends Controller
                  ]);
       $section=Section::where('sectionId','=',$request->sectionId)->first();
       $section->sectionName=$request->sectionName;
+       $section->status = 72;
       $section->save();
     
    return response()->json([

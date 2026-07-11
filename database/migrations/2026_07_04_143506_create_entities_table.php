@@ -14,132 +14,143 @@ return new class extends Migration
         Schema::create('entities', function (Blueprint $table) {
             $table->id('entityId');
             $table->string('entityName');
-            $table->integer('statusForEntity');
+            $table->integer('entityForStatus');
             $table->timestamps();
         });
         
-        DB::table('statentitiesuses')->insert([
+        DB::table('entities')->insert([
             'entityId' => 1,
             'entityName' => 'People',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
+        DB::table('entities')->insert([
             'entityId' => 2,
             'entityName' => 'Admin',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
+        DB::table('entities')->insert([
             'entityId' => 3,
             'entityName' => 'Teacher',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 4
+        DB::table('entities')->insert([ 
+            'entityId' => 4,
             'entityName' => 'Student',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
-
-        DB::table('statentitiesuses')->insert([
+        
+        DB::table('entities')->insert([
             'entityId' => 5,
-            'entityName' => 'Department',
-            'statusForEntity' => 1,
-        ]);
-        
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 6,
-            'entityName' => 'Semester',
-            'statusForEntity' => 1,
-        ]);
-        
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 7,
-            'entityName' => 'Grade',
-            'statusForEntity' => 1,
-        ]);
-        
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 8,
-            'entityName' => 'Section',
-            'statusForEntity' => 1,
-        ]);
-        
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 9,
             'entityName' => 'ClassRoom',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
 
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 10,
+        DB::table('entities')->insert([
+            'entityId' => 6,
             'entityName' => 'Subject',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
         
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 11,
-            'entityName' => 'Details',
-            'statusForEntity' => 1,
+        DB::table('entities')->insert([
+            'entityId' => 7,
+            'entityName' => 'Attendance',
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 12,
+        DB::table('entities')->insert([
+            'entityId' => 8,
             'entityName' => 'Student - Marks',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 13,
+        DB::table('entities')->insert([
+            'entityId' => 9,
             'entityName' => 'Subject - Teachers',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 14,
+        DB::table('entities')->insert([
+            'entityId' => 10,
             'entityName' => 'Constants',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 15,
+        DB::table('entities')->insert([
+            'entityId' => 11,
             'entityName' => 'Student Subject Attendance',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 16,
+        DB::table('entities')->insert([
+            'entityId' => 12,
             'entityName' => 'Teacher Daily Allocation',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 17,
+        DB::table('entities')->insert([
+            'entityId' => 13,
             'entityName' => 'Priority',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 18,
+        DB::table('entities')->insert([
+            'entityId' => 14,
             'entityName' => 'Batch',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 19,
+        DB::table('entities')->insert([
+            'entityId' => 15,
             'entityName' => 'Day',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
-        DB::table('statentitiesuses')->insert([
-            'entityId' => 20,
+        DB::table('entities')->insert([
+            'entityId' => 16,
             'entityName' => 'Not - People',
-            'statusForEntity' => 1,
+            'entityForStatus' => 1,
         ]);
         
+        DB::table('entities')->insert([
+            'entityId' => 17,
+            'entityName' => 'Hour',
+            'entityForStatus' => 1,
+        ]);
+        
+        DB::table('entities')->insert([
+            'entityId' => 18,
+            'entityName' => 'Department',
+            'entityForStatus' => 1,
+        ]);
+        
+        DB::table('entities')->insert([
+            'entityId' => 19,
+            'entityName' => 'Grade',
+            'entityForStatus' => 1,
+        ]);
+        
+        DB::table('entities')->insert([
+            'entityId' => 20,
+            'entityName' => 'Role',
+            'entityForStatus' => 1,
+        ]);
+        
+        DB::table('entities')->insert([
+            'entityId' => 21,
+            'entityName' => 'Section',
+            'entityForStatus' => 1,
+        ]);
+        
+        DB::table('entities')->insert([
+            'entityId' => 22,
+            'entityName' => 'Semester',
+            'entityForStatus' => 1,
+        ]);
     }
 
     /**

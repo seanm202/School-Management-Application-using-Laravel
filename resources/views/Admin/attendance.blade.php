@@ -5,6 +5,8 @@
 
 
 
+        <script src="{{ asset('js/Admin/attendance.js') }}" defer></script>
+       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -55,6 +57,7 @@
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -236,6 +239,4 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-        <script src="{{ asset('js/Admin/attendance.js') }}" defer></script>
-       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
 </x-app-layout>

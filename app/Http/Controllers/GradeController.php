@@ -19,7 +19,7 @@ class GradeController extends Controller
         //
     }
     
-    public function getGradeDetailsByAJAX()
+    public function getGradeDetailsByAJAX() 
     {
            $grades = \App\Models\Grade::all();
           return response()->json($grades);
@@ -30,6 +30,13 @@ class GradeController extends Controller
       $grades = \App\Models\Grade::all();
       return view("/Admin/details")->with('grades',$grades);
     }
+    
+    public function getGradeForSubject()
+    {
+      $batches= Batch::where('status','=',40)->first();
+      $grades = \App\Models\Grade::where('batchId','=',$batches->batchId)->get();
+      return response()->json($grades);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -39,8 +46,8 @@ class GradeController extends Controller
      {
 $grade= new Grade;
 $grade->grade=$request->gradeName;
-$grade->status=1;
-$grade->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+$grade->status=70;
+$grade->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
 $grade->save();
            //Add An Entity
 

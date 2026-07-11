@@ -44,7 +44,7 @@ class BatchController extends Controller
           $batch->batchName=$request->batchName;
           $batch->batchStartingYear=$request->batchStartingYear;
           $batch->batchEndingYear=$request->batchEndingYear;
-          $batch->status=23;
+          $batch->status=67;
           $batch->save();
         // return Redirect::back();
         return response()->json([
@@ -54,14 +54,19 @@ class BatchController extends Controller
         }
        public function currentBatch(Request $request)
        {
-
-             $batches= Batch::where('status','=',1)->first();
-             $batches->status=0;
+            $oldActiveBatchId=0;
+             $batches= Batch::where('status','=',40)->first();
+             $batches->status=41;
              $batches->save();
+              $oldActiveBatchId=$batches->batchId;
 
                  $batches= Batch::where('batchId','=',$request->batchId)->first();
-                 $batches->status=1;
+                 $batches->status=40;
                  $batches->save();
+
+                 $batches= Batch::where('batchId','=',$oldActiveBatchId)->first();
+             $batches->status=67;
+             $batches->save();
             return response()->json([
             'status' => true,
             'message' => 'Current batch assigned successfully.'
@@ -71,7 +76,7 @@ class BatchController extends Controller
     
     public function getCurrentBatch()
     {
-      $batches= Batch::where('status','=',1)->first();
+      $batches= Batch::where('status','=',40)->first();
       $currentBatchId= $batches->batchId;
       return response()->json($currentBatchId);
     }
@@ -157,7 +162,7 @@ class BatchController extends Controller
       $batches->batchName=$request->batchName;
       $batches->batchStartingYear=$request->batchStartingYear;
       $batches->batchEndingYear=$request->batchEndingYear;
-      $batches->status=$request->status;
+      $batches->status=67;
       $batches->save();
       // return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
       return response()->json([

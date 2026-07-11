@@ -29,6 +29,7 @@ return new class extends Migration
             'teacherId' => 1,
             'classRoomId' => 1,
             'subjectId' => 1,
+            'departmentId' => 1,
             'semesterId' => 1,
             'status' => 1,
             'batchId' => 1,

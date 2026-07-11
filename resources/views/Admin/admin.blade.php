@@ -17,122 +17,63 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
 <script src="{{ asset('js/sidebar.js') }}"></script>
 <style>
-    
-    .errorshow-box {
+/* Container for the floating buttons */
+.floating-filter-bar {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #B01D1A;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
+    bottom: 24px;
+    left: 0;
+    right: 0;
 
-/* Flex layout */
-.errorshow-box.show {
     display: flex;
+     justify-content: flex-start;
+    gap: 8px;
+
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 8px 12px;
 }
 
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
+/* Individual button styling */
+.filter-btn {
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a5568;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
+/* Hover state */
+.filter-btn:hover {
+  background: #edf2f7;
+  color: #1a202c;
 }
 
-    /*
-
-    For Success
-
-    */
-    .success-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
+/* Active/Selected button state */
+.filter-btn.active {
+  background: #3182ce;    /* Bright accent color */
+  color: white;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
 }
 
-/* Flex layout */
-.success-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-    /*
-
-    For Delete
-
-    */
-     .delete-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #AD1F34;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.delete-box.show {
-    display: flex;
-}
-</style>
+  </style>
 <script type="text/javascript">
-    
+    $(window).on('scroll', function () {
+
+    const triggerTop = $('#statusSection').offset().top;
+    const scrollTop = $(window).scrollTop();
+
+    if (scrollTop >= triggerTop) {
+        $('#forFilterButtons').fadeIn();
+    } else {
+        $('#forFilterButtons').fadeOut();
+    }
+});
+
+
 function getBatches(){
 
     $.ajax({
@@ -184,6 +125,8 @@ function getBatches(){
 //
     //
     //
+    
+//
 </script>
 <x-app-layout>
     <x-slot name="header">
@@ -218,6 +161,8 @@ function getBatches(){
 </div>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -253,7 +198,6 @@ function getBatches(){
 <!--
 
  -->
-
 
 
     <div class="py-12" id="createTheAdmin">
@@ -1035,6 +979,7 @@ let rowsGetHour = "";
     var button = $(event.relatedTarget);
 
     var statusId = button.data('statusid');
+    var entityId = button.data('entityid');
   var statusName = button.data('statusName');
   var statusForRoles = button.data('statusForRoles');
 
@@ -1053,7 +998,63 @@ let rowsGetHour = "";
 
 
  -->
-                <script>
+                <script type="text/javascript">
+
+function filterRowsByClass(targetClass) {
+  // Select all table rows inside the table body
+  const rows = document.querySelectorAll('table tbody tr');
+
+  rows.forEach(row => {
+    // If targetClass is 'all', show everything; otherwise check for the class
+    if (targetClass === 'all' || row.classList.contains(targetClass)) {
+      row.style.display = ''; // Shows the row (restores default display)
+    } else {
+      row.style.display = 'none'; // Hides the row
+    }
+  });
+}
+
+
+
+
+
+
+//
+
+// 
+
+// 
+
+        function roleBasedFilter(){
+            $.ajax({
+                url: "{{ route('getRolesForFilter') }}", // Use the named route
+                method: "GET", // Use GET method for fetching data
+                dataType: "json", // Expect a JSON response
+                success: function(data) {
+ console.log(data); 
+let rowsForFilteringStatus = `
+<button class="filter-btn active" onclick="filterRowsByClass('all')">All</button>
+`;
+
+           data.forEach(function(role){
+              
+               rowsForFilteringStatus += `<button class="filter-btn active" onclick="filterRowsByClass('${role.roleName}')">${role.roleName}</button>`;
+           });
+           $('#forFilterButtons').html(rowsForFilteringStatus);  },                
+           error: function(jqXHR, ajaxOptions, thrownError) {
+                    alert('Error fetching data');
+                    console.log(thrownError);
+                }
+            });
+        }
+
+
+                // 
+
+                // 
+
+                // 
+
         function getStatus(){
             $.ajax({
                 url: "{{ route('getStatus') }}", // Use the named route
@@ -1065,22 +1066,25 @@ let rowsGetStatus = "";
 
            data.forEach(function(status){
                rowsGetStatus += `
-                   <tr><td>${status.statusName}</td>
+                   <tr class="${status.roleName}"><td>${status.statusName}</td>
                         <td>${status.roleName}</td>
                           <td><button type="button"
            class="btn btn-primary form-control"
            data-toggle="modal"
            data-target="#myModalUpdateStatus"
            data-statusid="${status.statusId}"
+           data-entityid="${status.entityId}"
            data-status-name="${status.statusName}"
            data-status-for-roles="${status.statusForRoles}">
            View
        </button></td></td>
                         </tr>
                `;
-           });
-
-           $('#statusTable tbody').html(rowsGetStatus);  },                error: function(jqXHR, ajaxOptions, thrownError) {
+               
+   });
+$('#statusTable tbody').html(rowsGetStatus);
+          },                
+           error: function(jqXHR, ajaxOptions, thrownError) {
                     alert('Error fetching data');
                     console.log(thrownError);
                 }
@@ -1091,10 +1095,16 @@ let rowsGetStatus = "";
           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                   <div class="p-6 text-gray-900">
+                    <div id="statusSection">
+                    <div class="floating-filter-bar" id="forFilterButtons">
+  
+</div>
                     View Status
                     <table class="statusTable table" id="statusTable">
                       <thead><tr>
                         <th>Status Name</th>
+                        <th>Role </th>
+                        <!-- <th>Role Profile </th> -->
                         <th>View </th>
                       </thead>
                       <tbody>
@@ -1102,14 +1112,15 @@ let rowsGetStatus = "";
                     </tbody>
                   </table>
                   </div>
+                  </div>
               </div>
           </div>
-      </div>
+     </div>
 
      <div class="py-12" id="createTheStatus">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                 <div class="p-6 text-gray-900">
+                 <div class="p-6 text-gray-900" id="contentToAddStatus">
                    Add Status
                    <form action="{{route('createStatus')}}" method="POST" name="statusAddAdmin" id="statusAddAdmin">
                      {{ csrf_field() }}{{ method_field('POST') }}
@@ -1144,6 +1155,7 @@ let rowsGetStatus = "";
     getDays();
     getHours();
     getStatus();
+    roleBasedFilter();
     }
     
 </script>

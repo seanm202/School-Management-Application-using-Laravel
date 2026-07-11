@@ -61,7 +61,7 @@ return new class extends Migration
         
         DB::table('details')->insert([
             'detailId' => 2,
-            'firstname' => 'Teacher',
+            'firstname' => 'Default Teacher',
             'lastname' => 'Jr.',
             'age' => 25,
             'dob' => "2001-01-01",
@@ -83,7 +83,7 @@ return new class extends Migration
         
         DB::table('details')->insert([
             'detailId' => 3,
-            'firstname' => 'Student',
+            'firstname' => 'Default Student',
             'lastname' => 'Jr.',
             'age' => 20,
             'dob' => "2001-01-01",

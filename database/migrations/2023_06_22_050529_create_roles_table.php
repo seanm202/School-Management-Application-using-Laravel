@@ -113,42 +113,42 @@ return new class extends Migration
         ]);
         
         DB::table('roles')->insert([
-            'roleId' => 5,
+            'roleId' => 14,
             'roleName' => 'Subject Teachers',
             'status' => 1,
             'entityId' => 11
         ]);
         
         DB::table('roles')->insert([
-            'roleId' => 5,
+            'roleId' => 15,
             'roleName' => 'Constants',
             'status' => 1,
             'entityId' => 12
         ]);
         
         DB::table('roles')->insert([
-            'roleId' => 5,
+            'roleId' => 16,
             'roleName' => 'Student Subject Attendance',
             'status' => 1,
             'entityId' => 13
         ]);
         
         DB::table('roles')->insert([
-            'roleId' => 5,
+            'roleId' => 17,
             'roleName' => 'Daily Teacher Allocation',
             'status' => 1,
             'entityId' => 14
         ]);
         
         DB::table('roles')->insert([
-            'roleId' => 5,
+            'roleId' => 18,
             'roleName' => 'Priority',
             'status' => 1,
             'entityId' => 15
         ]);
         
         DB::table('roles')->insert([
-            'roleId' => 5,
+            'roleId' => 19,
             'roleName' => 'Batch',
             'status' => 1,
             'entityId' => 16

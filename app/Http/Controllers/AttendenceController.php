@@ -45,19 +45,19 @@ class AttendenceController extends Controller
         $attendence->yes_or_no =  0;
         $attendence->userId =  $userd->userId;
         $attendence->userRole = $userd->role;
-        $attendence->status = 1;
+        $attendence->status = 65;
         // $attendence->dailyReg =  0;
         $attendence->todaysDate=date('Y-m-d');
-        $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+        $attendence->batchId=batch::where('status',40)->select('batchId')->first()->batchId;
         $attendence->save();
        }
               $attendence = new attendence;
               $attendence->yes_or_no =  1;
               $attendence->userId =  1;
               $attendence->userRole = $userd->role;
-              $attendence->status = 1;
+              $attendence->status = 65;
               // $attendence->dailyReg =  0;
-              $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+              $attendence->batchId=batch::where('status',40)->select('batchId')->first()->batchId;
               $attendence->todaysDate=date('Y-m-d');
               $attendence->save();
             }
@@ -79,8 +79,9 @@ class AttendenceController extends Controller
        $attendence->userId =  $userd->userId;
        $attendence->userRole =  Auth()->user()->role;
        $attendence->dailyReg =  0;
+       $attendence->status =  65;
        $attendence->todaysDate=date('Y-m-d');
-       $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $attendence->batchId=batch::where('status',40)->select('batchId')->first()->batchId;
        $attendence->save();
       }
              $attendence = new attendence;
@@ -88,7 +89,8 @@ class AttendenceController extends Controller
              $attendence->userId =  1;
              $attendence->userRole = 2;
              $attendence->dailyReg =  0;
-             $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $attendence->status =  65;
+             $attendence->batchId=batch::where('status',40)->select('batchId')->first()->batchId;
              $attendence->todaysDate=date('Y-m-d');
              $attendence->save();
            }
@@ -163,7 +165,7 @@ class AttendenceController extends Controller
                               public function deleteTodaysAttendenceForAllStudentsByTeacher(Request $request)
                               {
                                 $daily_teacher_allocationId=dailyTeacherAllocation::where('daily_Teacher_AllocationId','=',$request->daily_teacher_allocationIdThis)->first();
-                                $daily_teacher_allocationId->status=1;
+                                $daily_teacher_allocationId->status=74;
                                 $daily_teacher_allocationId->save();
                                       $studentSubjectAttendances = studentSubjectAttendance::where('date', '=', $request->dateSelected)->get();
 
@@ -191,7 +193,7 @@ class AttendenceController extends Controller
      $attendences->yes_or_no = $request->yes_or_no;
      $attendences->userId = $request->userId;
      $attendences->dailyReg = $request->dailyReg;
-
+     $attendences->status = 66;
      $attendences->save();
      return 1;
     }
@@ -285,6 +287,7 @@ public function markTodaysAttendance(Request $request)
   $att = attendence::where('attendanceDataId','=',$request->attendanceDataId)
                      ->first();
   $att->yes_or_no = $request->inOrOut;
+  $att->status = 66;
   $att->save();
 return back()->with('success', 'Updated successfully.');
   // return Redirect::back();
@@ -295,6 +298,7 @@ public function markTodaysAttendanceStudent(Request $request)
      $att = studentSubjectAttendance::where('id','=',$request->attendanceDataId)
                         ->first();
      $att->yes_or_no = $request->inOrOut;
+  $att->status = 66;
      $att->save();
 return back()->with('success', 'Updated successfully.');
      // return Redirect::back();

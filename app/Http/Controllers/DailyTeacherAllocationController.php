@@ -21,7 +21,7 @@ class DailyTeacherAllocationController extends Controller
           //Store or add admin
           $SubjectTeacherForEachSections = SubjectTeacherForEachSections::all();
           $days=Days::where('dayName','=',date('l'))->select('dayId')->first();
-          $batchId=Batch::where('status',1)->select('batchId')->first();
+          $batchId=Batch::where('status',40)->select('batchId')->first();
           foreach($SubjectTeacherForEachSections as $SubjectTeacherForEachSection)
           {
             $hours=Hours::all();
@@ -36,14 +36,14 @@ class DailyTeacherAllocationController extends Controller
             $dailyTeacherAllocation->date=$request->dateSelected;
             $dailyTeacherAllocation->subjectForSectionId=$SubjectTeacherForEachSection->subjectId;
             $dailyTeacherAllocation->batchId=$batchId->batchId;
-            $dailyTeacherAllocation->status=1;
+            $dailyTeacherAllocation->status=68;
             $dailyTeacherAllocation->save();
           }
           }
 
           $admins = Admin::all();
           $days=Days::where('dayName','=',date('l'))->select('dayId')->first();
-          $batchId=Batch::where('status',1)->select('batchId')->first();
+          $batchId=Batch::where('status',40)->select('batchId')->first();
           foreach($admins as $admin)
           {
             $hours=Hours::all();
@@ -58,7 +58,7 @@ class DailyTeacherAllocationController extends Controller
             $dailyTeacherAllocation->date=$request->dateSelected;
             $dailyTeacherAllocation->subjectForSectionId=0;
             $dailyTeacherAllocation->batchId=$batchId->batchId;
-            $dailyTeacherAllocation->status=1;
+            $dailyTeacherAllocation->status=68;
             $dailyTeacherAllocation->save();
           }
           }

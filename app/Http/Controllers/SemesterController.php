@@ -64,7 +64,7 @@ public function getSemesterDetailsByAJAX()
     // Add Semester
     $semester = new \App\Models\Semester;
     $semester->semesterName = $request->semesterName;
-    $semester->status = 1;
+    $semester->status = 73;
     $semester->batchId = 1; // You can later make this dynamic
     $semester->save();
 
@@ -127,6 +127,7 @@ public function getSemesterDetailsByAJAX()
                    ]);
         $semester = Semester::where('semesterId',$request->semesterId)->first();
       $semester->semesterName = $request->semesterName;
+      $semester->status = 73;
       $semester->save();
 
 
@@ -135,7 +136,14 @@ public function getSemesterDetailsByAJAX()
       'message' => 'Semester data has been updated successfully.'
       ]);
       }
-
+    
+    
+    public function getSemesterForSubject()
+    {
+      $batches= Batch::where('status','=',40)->first();
+      $semesters = \App\Models\Semester::where('batchId','=',$batches->batchId)->get();
+      return response()->json($semesters);
+    }
 
     // To check whether the entity ,here semester, is still being used in the system.
     public function checkSemesterIdForLink($semesterId)

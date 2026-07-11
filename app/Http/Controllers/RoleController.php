@@ -24,7 +24,12 @@ class RoleController extends Controller
       $roles = \App\Models\Role::all();
       return response()->json($roles);
     }
-
+ 
+    public function getRolesForFilter()
+    {
+        $roles= \App\Models\Role::all();
+      return response()->json($roles);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -35,7 +40,7 @@ class RoleController extends Controller
 
           //Add An Entity
         $roleNameNew=$request->roleName;
-         Role::updateOrCreate(['roleName'=> $roleNameNew]);
+         Role::updateOrCreate(['roleName'=> $roleNameNew,'status'=>71]);
          return view("/Admin/role");
     }
 
@@ -51,6 +56,7 @@ class RoleController extends Controller
       $roles = new Role;
 
      $roles->roleName = $request->roleName;
+     $roles->status = 71;
      $roles->save();
      
       return response()->json([
@@ -61,7 +67,7 @@ class RoleController extends Controller
     
     public function getRoles()
     {
-      $roleLists = Role::all();
+      $roleLists = Role::whereIn('roleId',[1,2,3,4,5])->get();
       return response()->json($roleLists);
     }
 
@@ -98,7 +104,7 @@ class RoleController extends Controller
     public function updateRole(Request $request)
 {
     $role = Role::where('roleId','=', $request->roleId)->first();
-    $role->roleName = $request->roleName;
+    $role->status = 71;
     $role->save();
 
     return response()->json([

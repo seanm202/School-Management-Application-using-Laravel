@@ -85,7 +85,7 @@ class ClassRoomController extends Controller
             'details.*',
             'batches.*'
         )
-        ->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
+        ->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',40)->first())->batchId)
         ->get();
           return response()->json($classrooms);
     }
@@ -113,7 +113,7 @@ class ClassRoomController extends Controller
         //                                                  'class_rooms.classroomDetailId AS classroomDetailId',
         //                                                  'class_rooms.batchId AS batchId',
         //                                                  'class_rooms.classTeacher AS classTeacher'
-        //                                                  )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
+        //                                                  )->where('class_rooms.batchId','=',(\App\Models\Batch::where('batches.status','=',40)->first())->batchId)
         //                                                  ->get();
         return response()->json($classRooms);
 // return view('Admin.classRoom');
@@ -122,7 +122,7 @@ class ClassRoomController extends Controller
     public function getCompatibleTeachersDetails()
     {
         $teachers=\App\Models\Teacher::all();
-        // $teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',1)->first())->batchId)
+        // $teachers=\App\Models\Teacher::where('teachers.batchId','=',(\App\Models\Batch::where('batches.status','=',40)->first())->batchId)
         //                                                                            ->join('details','details.detailId','=','teachers.teacherDetailId')
         //                                                                            ->select('details.lastname AS lastName',
         //                                                                            'details.firstname AS firstName',
@@ -169,9 +169,9 @@ $request->validate(
                $classRoom->classTeacher =    $request->classTeacher;
                $classRoom->description =$request->classDescription;
                $classRoom->capacity =$request->classCapacity;
-               $classRoom->status =1;
+               $classRoom->status =48;
                $classRoom->classTimeTableId = 1; //$request->classTimeTableId ? $request->classTimeTableId;
-               $classRoom->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+               $classRoom->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
                $classRoom->save();
 
       return response()->json([
@@ -237,7 +237,9 @@ $request->validate(
 
        //Update A Classroom
        Student::where('studentId', $request->studentId)
-     ->update(['studentClassroom' => $request->classroomDetailId]);
+     ->update(['studentClassroom' => $request->classroomDetailId,
+     'status' => 29
+     ]);
        // return redirect()->route('AdminStudent');
        return redirect()->route('AdminClassRoom',['id'=>'viewEditClassrooms'])->with('success', 'Updated successfully.');
     }
@@ -262,11 +264,11 @@ $request->validate(
     {
 
        //Update A Classroom
-        $batch= Batch::where('status',1)->select('batchId')->first();
+        $batch= Batch::where('status',40)->select('batchId')->first();
        $student= Student::where('students.studentId','=',$request->studentIdForAssignClassRoom)
         ->where('students.batchId', $batch->batchId)->first();
         $student->studentClassroom=$request->classRoomId;
-        $student->status=6;
+        $student->status=29;
         $student->save();
        //return redirect()->route('AdminStudent');
         return response()->json([

@@ -44,15 +44,7 @@
 
 Add students
  -->
-
-
- <div class="py-12" id="teacherStudentAddStudent">
-     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-             <div class="p-6 text-gray-900">
-               Add Students
-
-        @if(Session::has('success'))
+@if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -61,6 +53,14 @@ Add students
             @endphp
         </div>
         @endif
+
+ <!-- <div class="py-12" id="teacherStudentAddStudent">
+     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+             <div class="p-6 text-gray-900">
+               Add Students
+
+        
 
                <form action="{{route('createStudentTeacher')}}" method="POST" name="formIdNow" id="formIdNow">
               {{ csrf_field() }}{{ method_field('POST') }}
@@ -79,7 +79,7 @@ Add students
                  <td>{{Form::text('email',NULL,array('placeholder'=>'Enter Email Id','class'=>'form-control','id'=>'email'))}} </td></tr>
                  <tr>
                    <th>Phone</th>
-                 <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','class'=>'form-control','id'=>'phone'))}} </td></tr>{{Form::hidden('password','abcd1234")}}
+                 <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','class'=>'form-control','id'=>'phone'))}} </td></tr>{{Form::hidden('password','abcd1234')}}
                    <tr>
                    <th>Age</th>
                  <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','class'=>'form-control','id'=>'age'))}}</td></tr>
@@ -120,7 +120,7 @@ Add students
   <tr>
       <th>Status</th>
       <td><select name="statusId" class="form-control">
-        @foreach($statuses=\App\Models\Status::where('statusForRoles',3)->get() as $status)
+        @foreach($statuses=\App\Models\Status::where('statusForEntity',3)->get() as $status)
         <option value="{{$status->statusId}}">{{$status->statusName}}</option>
       @endforeach
     </select>
@@ -128,13 +128,13 @@ Add students
     </tr>
                  </thead>
                </table>
-               <!-- {{Form::submit('Save',array('class'=>'btn btn-primary'))}} -->
-  <button type="submit" class="btn btn-primary form-control" >Submit</button>
+              {{Form::submit('Save',array('class'=>'btn btn-primary'))}} -->
+  <!-- <button type="submit" class="btn btn-primary form-control" >Submit</button>
                                      </form>
              </div>
          </div>
      </div>
- </div>
+ </div>  -->
 
 <!--
 Edit student details

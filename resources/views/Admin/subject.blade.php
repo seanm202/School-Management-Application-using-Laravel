@@ -28,137 +28,6 @@
  -->
 
 <style>
-
-/*
-
-For showing error
-
-*/
-
-    .errorshow-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #B01D1A;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.errorshow-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-    /*
-
-    For Success
-
-    */
-    .success-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.success-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-    /*
-
-    For Delete
-
-    */
-     .delete-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #AD1F34;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.delete-box.show {
-    display: flex;
-}
-
 /* 
 For table
 */
@@ -230,6 +99,7 @@ tr:nth-child(even) {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <div class="table-responsive">
         <!-- Data will be placed inside these elements -->
         <table id="tableForDisplayingSubjectList">
             <thead>
@@ -238,6 +108,7 @@ tr:nth-child(even) {
                     <th>Subject Type</th>
                     <th>Subject Code</th>
                     <th>Subject Max. Marks</th>
+                    <th>Update Subject</th>
                     <th>Delete Subject</th>
                 </tr>
             </thead>
@@ -245,7 +116,7 @@ tr:nth-child(even) {
 
             </tbody>
         </table>
-        
+      </div>
         <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                          </div>
@@ -268,7 +139,18 @@ function getAllData()
     {
         listSubjectCategories();
         toDisplayPriorityValues();
-        //  getSubjects();
+        getGrades(function(options) {
+    $("#subjectGradeToAddSubject").html(options);
+});
+getDepartments(function(options) {
+    $("#departmentIdForAddingSubject").html(options);
+});
+getPriorities(function(options) {
+    $("#priorityIdForAddingSubject").html(options);
+});
+getSemesters(function(options) {
+    $("#semesterIdToAddSubject").html(options);
+});
     }
     
     function listSubjectCategories()
@@ -406,16 +288,26 @@ let rowsGetSubjects = "";
 // let roleupdateurl = "/updateRole";
                rowsGetSubjects += `
                     <tr>
-    <td><form method="post" action="{{ route('updateSubjectName') }}" class="updateSubjectName">
+    <td>
     @csrf
-    <input type="hidden" name="subjectId" value="${subjectsLists.subjectId}">
+    <input type="hidden" name="subjectId" class="subjectId" value="${subjectsLists.subjectId}">
     @csrf
-    <input type="text" name="subjectName" value="${subjectsLists.subjectName}">
-    <button type="submit" class="btn btn-danger" id="buttonForUpdateSubject">Update</button>
-    </form> </td>
-    <td>${subjectsLists.torlab}</td>
-    <td>${subjectsLists.subjectCode}</td>
-    <td>${subjectsLists.subjectMaxMarks} </td>
+    <input type="text" name="subjectName" class="subjectName" value="${subjectsLists.subjectName}"></td>
+   <td>
+    <select name="torLab" class="torLab">
+        <option value="Theory" ${subjectsLists.torlab === 'Theory' ? 'selected' : ''}>
+            Theory
+        </option>
+        <option value="Lab" ${subjectsLists.torlab === 'Lab' ? 'selected' : ''}>
+            Lab
+        </option>
+    </select>
+</td>
+    <td><input type="text" name="subjectCode" class="subjectCode" value="${subjectsLists.subjectCode}"></td>
+    <td><input type="text" name="subjectMaxMarks" class="subjectMaxMarks" value="${subjectsLists.subjectMaxMarks}"></td>
+    
+                <td><button type="submit" class="btn btn-danger buttonForUpdateSubject" data-url="updateSubjectDetails">Update</button>
+    </td>
     <td><form method="post" action="{{ route('destroysubject') }}" class="deleteSubject">
     @csrf
     <input type="hidden" name="subjectId" value="${subjectsLists.subjectId}">
@@ -442,11 +334,14 @@ let rowsGetSubjects = "";
     </script>
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
           <a href="#createASubject" class="list-group-item list-group-item-action bg-light">Add Subjects</a>
           <a href="#updateForSubject" class="list-group-item list-group-item-action bg-light">Update Subjects</a>
+          <a href="#createAPriorityValue" class="list-group-item list-group-item-action bg-light">Add Pririty Level</a>
+          <a href="#updateAPriorityValue" class="list-group-item list-group-item-action bg-light">Update Pririty Level</a>
         </li>
           </ul>
       </div>
@@ -472,7 +367,106 @@ let rowsGetSubjects = "";
 <!--
 
  -->
+<script type="text/javascript">
 
+function getGrades(callback){
+
+  $.ajax({
+        url: "/getGrades",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(grade) {
+                options += `
+                    <option value="${grade.gradeId}">
+                        ${grade.grade}
+                    </option>`;
+            });
+            callback(options);
+        }
+    });
+
+
+
+}
+
+function getDepartments(callback){
+
+  $.ajax({
+        url: "/getDepartments",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(department) {
+                options += `
+                    <option value="${department.departmentId}">
+                        ${department.departmentName}
+                    </option>`;
+            });
+            callback(options);
+        }
+    });
+
+
+
+}
+
+function getSemesters(callback){
+
+  $.ajax({
+        url: "/getSemesters",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(semester) {
+                options += `
+                    <option value="${semester.semesterId}">
+                        ${semester.semesterName}
+                    </option>`;
+            });
+            callback(options);
+        }
+    });
+
+
+
+}
+
+
+function getPriorities(callback){
+
+  $.ajax({
+        url: "/getPriorities",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(priority) {
+                options += `
+                    <option value="${priority.priorityId}">
+                        ${priority.priorityName}
+                    </option>`;
+            });
+            callback(options);
+        }
+    });
+
+
+
+}
+
+  </script>
     <div class="py-12" id="createASubject">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -487,34 +481,21 @@ let rowsGetSubjects = "";
  <thead>
 <tr>
 <th>Grade : </th>
-<td><select name="subjectGrade" id="subjectGrade" class="form-control">
+<td><select name="subjectGrade" id="subjectGradeToAddSubject" class="form-control">
     <option value="0">Select Grade : </option>
-@if(count($grades = \App\Models\Grade::where('grades.batchId','=',1)->get())>0)
- @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',1)->get()) as  $grade)
-     <option value="{{$grade->gradeId}}">{{$grade->grade}}</option>
- @endforeach
-@endif
 </select></td></tr>
    <tr>
 <th>Department : </th>
-<td><select name="departmentId" id="departmentId" class="form-control">
+<td><select name="departmentId" id="departmentIdForAddingSubject" class="form-control">
     <option value="0">Select Department : </option>
-@if(count($departments = \App\Models\Department::all())>0)
- @foreach(($departments = \App\Models\Department::all()) as  $department)
-    <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
- @endforeach
-@endif
+
 </select></td></tr>
 
          <tr>
      <th>Semester : </th>
-   <td><select name="semesterId" id="semesterId" class="form-control">
+   <td><select name="semesterId" id="semesterIdToAddSubject" class="form-control">
       <option value="0">Select Semester : </option>
-     @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get())>0)
-       @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get()) as  $semester)
-        <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
-       @endforeach
-     @endif
+     
      </select></td></tr>
    <tr>
        <th>Subject Name : </th>
@@ -537,10 +518,8 @@ let rowsGetSubjects = "";
                 </select></td></tr>
            <tr>
              <th>Subject Priority : </th>
-             <td><select name="subjectPriority" class="form-control">
-             @foreach(($priorities = \App\Models\Priority::all()) as $priority)
-               <option value="{{$priority->priorityId}}">{{$priority->priorityName}} ( {{$priority->priorityValue}} ) </option>
-             @endforeach
+             <td><select name="subjectPriority" id="priorityIdForAddingSubject" class="form-control">
+            
            </select></td></tr>
            <tr>
              <th>Submit</th>
@@ -574,8 +553,7 @@ let rowsGetSubjects = "";
                         <br>
 
                         Subjects<br>
-              @if(count($subjects = \App\Models\Subject::where('subjects.batchId','=',1)->get())>0)
-                <table class="table" id="getSubjectsList">
+              <table class="table" id="getSubjectsList">
                   <thead>
                     <tr>
                       <th>Grade : </th>
@@ -589,9 +567,6 @@ let rowsGetSubjects = "";
                     </tbody>
                          
                     </table>
-                @else
-                   <h3 style="color:red;">List is empty</h3>
-                @endif
                     </div>
                 </div>
             </div>
@@ -601,128 +576,18 @@ let rowsGetSubjects = "";
 
  -->
 
- <script>
- $(document).ready(function () {
-
-   $('#myModalUpdateSubjects').on('show.bs.modal', function (event) {
-
-   var button = $(event.relatedTarget);
-
-   var subjectid = button.data('subjectid');
-   var subjectName = button.data('subjectName');
-   var subjectGradeid = button.data('subjectGradeid');
-   var departmentid = button.data('departmentid');
-   var semesterid = button.data('semesterid');
-   var maxMarks = button.data('maxMarks');
-   var subjectTextName = button.data('subjectTextName');
-   var subjectCode = button.data('subjectCode');
-   var theoryLab = button.data('theoryLab');
-   var priority = button.data('priority');
-
-   var modal = $(this);
-
-   modal.find('#updateSubjectId').val(subjectid);
-   modal.find('#updateSubjectName').val(subjectName);
-   modal.find('#subjectGradeUpdate').val(subjectGradeid).trigger('change');
-   modal.find('#subjectDepartmentUpdate').val(departmentid).trigger('change');
-   modal.find('#subjectSemesterUpdate').val(semesterid).trigger('change');
-   modal.find('#subjectMaxMarksUpdate').val(maxMarks);
-   modal.find('#subjectTextBookNameUpdate').val(subjectTextName);
-   modal.find('#subjectCodeUpdate').val(subjectCode);
-   modal.find('#subjectTypeUpdate').val(theoryLab);
-   modal.find('#subjectPriorityUpdate').val(priority);
-
-   modal.find('#deleteSubjectId').val(subjectid);
-});
-
- });
- </script>
 
  <!--
 
  -->
 
- <div class="modal fade" id="myModalUpdateSubjects" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                               <div class="modal-dialog" role="document">
-                                 <div class="modal-content">
-                                   <div class="modal-header">
-                                     <h5 class="modal-title" id="exampleModalLongTitle">Subject List</h5>
-
-                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                       <span aria-hidden="true">&times;</span>
-                                     </button>
-                                   </div>
-                                   <div class="modal-body" id="subjectsList">
-
-                                     <form action="{{route('updatesubject')}}" method="POST" name="updateSubject" id="updateSubject">
-                                     {{ csrf_field() }}{{ method_field('POST') }}
-           {{Form::hidden('subjectId',null,array('id' => 'updateSubjectId'))}}
-              <h2>Subject Name : </h2>
-           {{Form::text('subjectName',null,array('placeholder'=>'Enter Subject Name ','id' =>'updateSubjectName'))}}
-           <h2>Subject Grade : </h2>
-           <select name="subjectGrade" class="form-control" id="subjectGradeUpdate">
-             <option value="0">Select Grade : </option class="form-control">
-             @foreach(($grades = \App\Models\Grade::where('grades.batchId','=',1)->get()) as  $grade)
-               <option value={{$grade->gradeId}}>{{$grade->grade}}</option>
-             @endforeach
-           </select>
-           <h2>Department : </h2>
-           <select name="departmentId" id="subjectDepartmentUpdate">
-               <option value="0">Select Department : </option class="form-control">
-           @if(count($departments = \App\Models\Department::all())>0)
-            @foreach(($departments = \App\Models\Department::all()) as  $department)
-             <option value={{$department->departmentId}}>{{$department->departmentName}}</option>
-            @endforeach
-           @endif
-           </select>
-           <h2>Semester : </h2><select name="semesterId" class="form-control" id="subjectSemesterUpdate">
-              <option value="0">Select Semester : </option>
-             @if(count($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get())>0)
-               @foreach(($semesters = \App\Models\Semester::where('semesters.batchId','=',1)->get()) as  $semester)
-                <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
-               @endforeach
-             @endif
-             </select><br>
-          <h2>Subject Maximum Marks : </h2>
-           {{Form::number('subjectMaxMarks',null,array('placeholder'=>'Subject Maximum Marks','class'=>'form-control','id'=>'subjectMaxMarksUpdate'))}}<br>
-          <h2>Subject Textbook Name : </h2>
-          {{Form::text('subjectTextName',null,array('placeholder'=>'Textbook Name','class'=>'form-control','id'=>'subjectTextBookNameUpdate'))}}<br>
-         <h2>Subject Code : </h2>
-         {{Form::text('subjectCode',null,array('placeholder'=>'Subject Code','class'=>'form-control','id' =>'subjectCodeUpdate'))}}<br>
-        <h2>Choose Theory/Lab : </h2>
-        <select name="theoryOrlab" id="subjectTypeUpdate">
-          <option value="Theory">Theory</option>
-            <option value="Lab">Lab</option>')
-         </select>
-            <br>
-         <h2>Subject Priority : </h2>
-         <select name="subjectPriority" class="form-control" id="subjectPriorityUpdate">
-         @foreach(($priorities = \App\Models\Priority::all()) as $priority)
-           <option value="{{$priority->priorityId}}">{{$priority->priorityName}} ( {{$priority->priorityValue}} ) </option>
-         @endforeach
-       </select> <br>
-         <h2>Update Subject : </h2><button type="button" id="updateSubjectDetails" class="btn btn-primary form-control">Save</button><br>
-             {{Form::close()}}<br>
-          <h2>Delete</h2>
-           <form action="{{route('destroysubject')}}" method="POST" name="deleteSubject" id="deleteSubject">
-           {{ csrf_field() }}{{ method_field('POST') }}
- {{Form::hidden('subjectId',null,array('id' => 'deleteSubjectId'))}}  <button type="button" id="buttonForSubjectDelete" class="btn btn-primary form-control">Delete</button>
- {{Form::close()}}<br>
- <hr><hr>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-          </div>
-
-                                                         </div>
-                                                       </div>
-                                                     </div>
-                                                   </div>
-
+ 
 <!--
 
  -->
-<div class="py-12" id="createASubject">
+
+
+<div class="py-12" id="createAPriorityValue">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -740,27 +605,27 @@ let rowsGetSubjects = "";
           </div>
 
 
-          <div class="py-12" id="createASubject">
+          <div class="py-12" id="updateAPriorityValue">
                   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                           <div class="p-6 text-gray-900">
                             <h3>Edit Priority Data</h3>
-            <table class="table" id="toDisplayPriorityValues">
-<thead>
-            <tr>
-    <th>Priority Id</th>
-    <th>Priority Name</th>
-    <th>Priority Value</th>
-    <th>Update</th>
-</tr>
-</thead>
-<tbody>
+                            <table class="table" id="toDisplayPriorityValues">
+                              <thead>
+                                  <tr>
+                                      <th>Priority Id</th>
+                                      <th>Priority Name</th>
+                                      <th>Priority Value</th>
+                                      <th>Update</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
 
-</tbody>
+                                </tbody>
 
-</table>
+                              </table>
 
-          </div>
+                          </div>
                         </div>
                       </div>
                     </div>

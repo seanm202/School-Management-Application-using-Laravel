@@ -62,6 +62,7 @@
     <div class="d-flex" id="wrapper">
       <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
         <div class="sidebar-heading">MySchool </div>
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
         <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
           <ul>
             <li>

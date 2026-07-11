@@ -135,6 +135,7 @@ return;
        'fatherSpouseName' => $request->fatherSpouseName,
        'motherName' => $request->motherName,
        'guardianName'=> $request->guardianName,
+       'status'=> 8,
        'batchId'=> $batchId
         ]
         );
@@ -156,6 +157,7 @@ return;
        $currentBatchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        if($role==1)
        {
+        //Created
         Admin::updateOrCreate(
             [
               'userId'=>$userId,
@@ -166,13 +168,29 @@ return;
               'notifications_Posted'=>0,
               'adminDetailId'=>$detailsId,
               'batchId'=>$currentBatchId,
-              'status'=>1
+              'status'=>9
             ]
         );
+         //Active
+
          
+        Admin::updateOrCreate(
+            [
+              'userId'=>$userId,
+              'batchId'=>$currentBatchId,
+            ],
+            [
+              'userId'=>$userId,
+              'notifications_Posted'=>0,
+              'adminDetailId'=>$detailsId,
+              'batchId'=>$currentBatchId,
+              'status'=>10
+            ]
+        );
        }
        else if($role==2)
        {
+        //Created
          Teacher::updateOrCreate(
           [
               'userId'=>$userId,
@@ -182,12 +200,26 @@ return;
               'userId'=>$userId,
               'teacherDetailId'=>$detailsId,
               'batchId'=>$currentBatchId,
-              'status'=>1
+              'status'=>16
+            ]
+         );
+         //Active
+         Teacher::updateOrCreate(
+          [
+              'userId'=>$userId,
+              'batchId'=>$currentBatchId,
+            ],
+            [
+              'userId'=>$userId,
+              'teacherDetailId'=>$detailsId,
+              'batchId'=>$currentBatchId,
+              'status'=>17
             ]
          );
        }
        else if($role==3)
        {
+        //Created
          Student::updateOrCreate(
          [
             'userId'=>$userId,
@@ -202,7 +234,25 @@ return;
               'studentSemester'=>0,
               'studentSemstudentDepartmentIdester'=>0,
               'batchId'=>$currentBatchId,
-              'status'=>1
+              'status'=>23
+         ]
+         );
+         //Active
+         Student::updateOrCreate(
+         [
+            'userId'=>$userId,
+            'batchId'=>$currentBatchId,
+         ],
+         [
+              'userId'=>$userId,
+              'studentDetailsId'=>$detailsId,
+              'studentClassroom'=>0,
+              'studentGrade'=>0,
+              'studentSection'=>0,
+              'studentSemester'=>0,
+              'studentSemstudentDepartmentIdester'=>0,
+              'batchId'=>$currentBatchId,
+              'status'=>24
          ]
          );
        }
@@ -212,6 +262,10 @@ return;
         'message' => 'User data updated successfully.'
         ]);
        }
+
+       $detailObject=Detail::where('detailId','=',$detailsId)->first();
+       $detailObject->status=3;
+       $detailObject->save();
 
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$request->userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
@@ -305,201 +359,201 @@ return;
       return;
     }
 
-    public function updateAdminDetails(Request $request)
-    {
-        //Updating classroom details
-        $validated = $request->validate([
+//     public function updateAdminDetails(Request $request)
+//     {
+//         //Updating classroom details
+//         $validated = $request->validate([
 
-                  'salutation' => ['required'],
-                  'firstName' => ['required'],
-                  'lastName' => ['required'],
-                  'age' => ['required', 'numeric'],
-                  'dob' => ['required', 'date'],
-                  'contactNumber' => ['required', 'numeric'],
-                  'alternateContactNumber' => ['required','numeric'],
-                  'address' => ['required'],
-                  'bloodGroup' => ['required'],
-                  'identificationMark' => ['required'],
-                  'parentNumber' => ['required', 'numeric'],
-                  'homePhoneNumber' => ['required', 'numeric'],
-                  'fatherSpouseName' => ['required'],
-                  'motherName' => ['required'],
-                  'guardianName' => ['required'],
-   [
-    'firstName.required'=> 'Your First Name is Required',
-    'lastName.required'=> 'Your Last Name is Required',
-    'age.numeric'=> 'Age should be numeric',
-    'dob.required'=> 'Your date of birth is Required',
-    'contactNumber.required'=> 'Your Contact Number is Required',
-    'contactNumber.numeric'=> 'Contact Number Should be numeric',
-    'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
-    'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
-    'address.required'=> 'Address is required',
-    'bloodGroup.required'=> 'Your blood group is Required',
-    'identificationMark.required'=> 'Please provide an identification mark',
-    'parentNumber.required'=> 'Parent\'s contact number is required',
-    'homePhoneNumber.required'=> 'Home phone number is required',
-    'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
-    'motherName.required'=> 'Your Mother\'s name is Required',
-    'guardianName.required'=> 'Your Guardian\'s name is Required',
-   ]
-    ]);
-        $detail = Detail::where('detailId', $request->detailId)->first();
-        $detail->sal=$request->salutation;
-        $detail->firstname = $request->firstName;
-        $detail->lastname = $request->lastName;
-        $detail->age = $request->age;
-        $detail->dob = $request->dob;
-        $detail->contactNumber = $request->contactNumber;
-        $detail->alternateContactNumber = $request->alternateContactNumber;
-        $detail->userId = $request->userId;
-        $detail->roleId = 1;
-        $detail->address = $request->address;
-        $detail->bloodGroup = $request->bloodGroup;
-        $detail->identificationMark = $request->identificationMark;
-        $detail->parentNumber = $request->parentNumber;
-        $detail->homePhoneNumber = $request->homePhoneNumber;
-        $detail->fatherSpouseName = $request->fatherSpouseName;
-        $detail->motherName = $request->motherName;
-        $detail->guardianName = $request->guardianName;
-        $detail->save();
-        $detailsId=$detail->detailId;
-        $userId=$request->userId;
-        \App\Http\Controllers\DetailController::addToAdminTable($userId,$detailsId);
- \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
+//                   'salutation' => ['required'],
+//                   'firstName' => ['required'],
+//                   'lastName' => ['required'],
+//                   'age' => ['required', 'numeric'],
+//                   'dob' => ['required', 'date'],
+//                   'contactNumber' => ['required', 'numeric'],
+//                   'alternateContactNumber' => ['required','numeric'],
+//                   'address' => ['required'],
+//                   'bloodGroup' => ['required'],
+//                   'identificationMark' => ['required'],
+//                   'parentNumber' => ['required', 'numeric'],
+//                   'homePhoneNumber' => ['required', 'numeric'],
+//                   'fatherSpouseName' => ['required'],
+//                   'motherName' => ['required'],
+//                   'guardianName' => ['required'],
+//    [
+//     'firstName.required'=> 'Your First Name is Required',
+//     'lastName.required'=> 'Your Last Name is Required',
+//     'age.numeric'=> 'Age should be numeric',
+//     'dob.required'=> 'Your date of birth is Required',
+//     'contactNumber.required'=> 'Your Contact Number is Required',
+//     'contactNumber.numeric'=> 'Contact Number Should be numeric',
+//     'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+//     'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+//     'address.required'=> 'Address is required',
+//     'bloodGroup.required'=> 'Your blood group is Required',
+//     'identificationMark.required'=> 'Please provide an identification mark',
+//     'parentNumber.required'=> 'Parent\'s contact number is required',
+//     'homePhoneNumber.required'=> 'Home phone number is required',
+//     'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
+//     'motherName.required'=> 'Your Mother\'s name is Required',
+//     'guardianName.required'=> 'Your Guardian\'s name is Required',
+//    ]
+//     ]);
+//         $detail = Detail::where('detailId', $request->detailId)->first();
+//         $detail->sal=$request->salutation;
+//         $detail->firstname = $request->firstName;
+//         $detail->lastname = $request->lastName;
+//         $detail->age = $request->age;
+//         $detail->dob = $request->dob;
+//         $detail->contactNumber = $request->contactNumber;
+//         $detail->alternateContactNumber = $request->alternateContactNumber;
+//         $detail->userId = $request->userId;
+//         $detail->roleId = 1;
+//         $detail->address = $request->address;
+//         $detail->bloodGroup = $request->bloodGroup;
+//         $detail->identificationMark = $request->identificationMark;
+//         $detail->parentNumber = $request->parentNumber;
+//         $detail->homePhoneNumber = $request->homePhoneNumber;
+//         $detail->fatherSpouseName = $request->fatherSpouseName;
+//         $detail->motherName = $request->motherName;
+//         $detail->guardianName = $request->guardianName;
+//         $detail->save();
+//         $detailsId=$detail->detailId;
+//         $userId=$request->userId;
+//         \App\Http\Controllers\DetailController::addToAdminTable($userId,$detailsId);
+//  \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
 
-  // return Redirect::back();
-    return redirect()->route('AdminDetails',['id'=>'createOrUpdateAdminDetails'])->with('success', 'User details updated successfully.');
-    }
+//   // return Redirect::back();
+//     return redirect()->route('AdminDetails',['id'=>'createOrUpdateAdminDetails'])->with('success', 'User details updated successfully.');
+//     }
 
-    public function updateTeacherDetails(Request $request)
-    {
-        //Updating classroom details
-        $validated = $request->validate([
+  //   public function updateTeacherDetails(Request $request)
+  //   {
+  //       //Updating classroom details
+  //       $validated = $request->validate([
 
-                  'firstName' => ['required'],
-                  'lastName' => ['required'],
-                  'age' => ['required', 'numeric'],
-                  'dob' => ['required', 'date'],
-                  'contactNumber' => ['required', 'numeric'],
-                  'alternateContactNumber' => ['required','numeric'],
-                  'address' => ['required'],
-                  'bloodGroup' => ['required'],
-                  'identificationMark' => ['required'],
-                  'parentNumber' => ['required', 'numeric'],
-                  'homePhoneNumber' => ['required', 'numeric'],
-                  'fatherSpouseName' => ['required'],
-                  'motherName' => ['required'],
-                  'guardianName' => ['required'],
-   [
-    'firstName.required'=> 'Your First Name is Required',
-    'lastName.required'=> 'Your Last Name is Required',
-    'age.numeric'=> 'Age should be numeric',
-    'dob.required'=> 'Your date of birth is Required',
-    'contactNumber.required'=> 'Your Contact Number is Required',
-    'contactNumber.numeric'=> 'Contact Number Should be numeric',
-    'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
-    'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
-    'address.required'=> 'Address is required',
-    'bloodGroup.required'=> 'Your blood group is Required',
-    'identificationMark.required'=> 'Please provide an identification mark',
-    'parentNumber.required'=> 'Parent\'s contact number is required',
-    'homePhoneNumber.required'=> 'Home phone number is required',
-    'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
-    'motherName.required'=> 'Your Mother\'s name is Required',
-    'guardianName.required'=> 'Your Guardian\'s name is Required',
-   ]
-    ]);
-        $detail = Detail::where('detailId', $request->detailId)->first();
-        $detail->sal=$request->salutation;
-        $detail->firstname = $request->firstName;
-        $detail->lastname = $request->lastName;
-        $detail->age = $request->age;
-        $detail->dob = $request->dob;
-        $detail->contactNumber = $request->contactNumber;
-        $detail->alternateContactNumber = $request->alternateContactNumber;
-        $detail->userId = $request->userId;
-        $detail->roleId = 2;
-        $detail->address = $request->address;
-        $detail->bloodGroup = $request->bloodGroup;
-        $detail->identificationMark = $request->identificationMark;
-        $detail->parentNumber = $request->parentNumber;
-        $detail->homePhoneNumber = $request->homePhoneNumber;
-        $detail->fatherSpouseName = $request->fatherSpouseName;
-        $detail->motherName = $request->motherName;
-        $detail->guardianName = $request->guardianName;
-        $detail->status = 1;
-        $detail->save();
-        \App\Http\Controllers\DetailController::addToTeacherTable($request->userId,$request->detailId);
+  //                 'firstName' => ['required'],
+  //                 'lastName' => ['required'],
+  //                 'age' => ['required', 'numeric'],
+  //                 'dob' => ['required', 'date'],
+  //                 'contactNumber' => ['required', 'numeric'],
+  //                 'alternateContactNumber' => ['required','numeric'],
+  //                 'address' => ['required'],
+  //                 'bloodGroup' => ['required'],
+  //                 'identificationMark' => ['required'],
+  //                 'parentNumber' => ['required', 'numeric'],
+  //                 'homePhoneNumber' => ['required', 'numeric'],
+  //                 'fatherSpouseName' => ['required'],
+  //                 'motherName' => ['required'],
+  //                 'guardianName' => ['required'],
+  //  [
+  //   'firstName.required'=> 'Your First Name is Required',
+  //   'lastName.required'=> 'Your Last Name is Required',
+  //   'age.numeric'=> 'Age should be numeric',
+  //   'dob.required'=> 'Your date of birth is Required',
+  //   'contactNumber.required'=> 'Your Contact Number is Required',
+  //   'contactNumber.numeric'=> 'Contact Number Should be numeric',
+  //   'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+  //   'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+  //   'address.required'=> 'Address is required',
+  //   'bloodGroup.required'=> 'Your blood group is Required',
+  //   'identificationMark.required'=> 'Please provide an identification mark',
+  //   'parentNumber.required'=> 'Parent\'s contact number is required',
+  //   'homePhoneNumber.required'=> 'Home phone number is required',
+  //   'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
+  //   'motherName.required'=> 'Your Mother\'s name is Required',
+  //   'guardianName.required'=> 'Your Guardian\'s name is Required',
+  //  ]
+  //   ]);
+  //       $detail = Detail::where('detailId', $request->detailId)->first();
+  //       $detail->sal=$request->salutation;
+  //       $detail->firstname = $request->firstName;
+  //       $detail->lastname = $request->lastName;
+  //       $detail->age = $request->age;
+  //       $detail->dob = $request->dob;
+  //       $detail->contactNumber = $request->contactNumber;
+  //       $detail->alternateContactNumber = $request->alternateContactNumber;
+  //       $detail->userId = $request->userId;
+  //       $detail->roleId = 2;
+  //       $detail->address = $request->address;
+  //       $detail->bloodGroup = $request->bloodGroup;
+  //       $detail->identificationMark = $request->identificationMark;
+  //       $detail->parentNumber = $request->parentNumber;
+  //       $detail->homePhoneNumber = $request->homePhoneNumber;
+  //       $detail->fatherSpouseName = $request->fatherSpouseName;
+  //       $detail->motherName = $request->motherName;
+  //       $detail->guardianName = $request->guardianName;
+  //       $detail->status = 1;
+  //       $detail->save();
+  //       \App\Http\Controllers\DetailController::addToTeacherTable($request->userId,$request->detailId);
 
-     \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
+  //    \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
 
-      return redirect()->route('AdminDetails',['id'=>'createOrUpdateTeacherDetails'])->with('success', 'User details updated successfully.');
-    }
+  //     return redirect()->route('AdminDetails',['id'=>'createOrUpdateTeacherDetails'])->with('success', 'User details updated successfully.');
+  //   }
 
-    public function updateStudentDetails(Request $request)
-    {
-        //Updating classroom details
-         $validated = $request->validate([
+  //   public function updateStudentDetails(Request $request)
+  //   {
+  //       //Updating classroom details
+  //        $validated = $request->validate([
 
-        'firstName' => ['required'],
-        'lastName' => ['required'],
-        'age' => ['required', 'numeric'],
-        'dob' => ['required', 'date'],
-        'contactNumber' => ['required', 'numeric'],
-        'alternateContactNumber' => ['required','numeric'],
-        'address' => ['required'],
-        'bloodGroup' => ['required'],
-        'identificationMark' => ['required'],
-        'parentNumber' => ['required', 'numeric'],
-        'homePhoneNumber' => ['required', 'numeric'],
-        'fatherSpouseName' => ['required'],
-        'motherName' => ['required'],
-        'guardianName' => ['required'],
-   [
-    'firstName.required'=> 'Your First Name is Required',
-    'lastName.required'=> 'Your Last Name is Required',
-    'age.numeric'=> 'Age should be numeric',
-    'dob.required'=> 'Your date of birth is Required',
-    'contactNumber.required'=> 'Your Contact Number is Required',
-    'contactNumber.numeric'=> 'Contact Number Should be numeric',
-    'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
-    'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
-    'address.required'=> 'Address is required',
-    'bloodGroup.required'=> 'Your blood group is Required',
-    'identificationMark.required'=> 'Please provide an identification mark',
-    'parentNumber.required'=> 'Parent\'s contact number is required',
-    'homePhoneNumber.required'=> 'Home phone number is required',
-    'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
-    'motherName.required'=> 'Your Mother\'s name is Required',
-    'guardianName.required'=> 'Your Guardian\'s name is Required',
-   ]
-    ]);
-        $detail = Detail::where('detailId',$request->detailId)->first();
-        $detail->sal=$request->salutation;
-        $detail->firstname = $request->firstName;
-        $detail->lastname = $request->lastName;
-        $detail->age = $request->age;
-        $detail->dob = $request->dob;
-        $detail->contactNumber = $request->contactNumber;
-        $detail->alternateContactNumber = $request->alternateContactNumber;
-        $detail->userId = $request->userId;
-        $detail->roleId = 3;
-        $detail->address = $request->address;
-        $detail->bloodGroup = $request->bloodGroup;
-        $detail->identificationMark = $request->identificationMark;
-        $detail->parentNumber = $request->parentNumber;
-        $detail->homePhoneNumber = $request->homePhoneNumber;
-        $detail->fatherSpouseName = $request->fatherSpouseName;
-        $detail->motherName = $request->motherName;
-        $detail->guardianName = $request->guardianName;
-        $detail->save();
-        $detailsId=$detail->detailId;
-        \App\Http\Controllers\DetailController::addToStudentTable($request->userId,$detailsId);
-    \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
+  //       'firstName' => ['required'],
+  //       'lastName' => ['required'],
+  //       'age' => ['required', 'numeric'],
+  //       'dob' => ['required', 'date'],
+  //       'contactNumber' => ['required', 'numeric'],
+  //       'alternateContactNumber' => ['required','numeric'],
+  //       'address' => ['required'],
+  //       'bloodGroup' => ['required'],
+  //       'identificationMark' => ['required'],
+  //       'parentNumber' => ['required', 'numeric'],
+  //       'homePhoneNumber' => ['required', 'numeric'],
+  //       'fatherSpouseName' => ['required'],
+  //       'motherName' => ['required'],
+  //       'guardianName' => ['required'],
+  //  [
+  //   'firstName.required'=> 'Your First Name is Required',
+  //   'lastName.required'=> 'Your Last Name is Required',
+  //   'age.numeric'=> 'Age should be numeric',
+  //   'dob.required'=> 'Your date of birth is Required',
+  //   'contactNumber.required'=> 'Your Contact Number is Required',
+  //   'contactNumber.numeric'=> 'Contact Number Should be numeric',
+  //   'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+  //   'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+  //   'address.required'=> 'Address is required',
+  //   'bloodGroup.required'=> 'Your blood group is Required',
+  //   'identificationMark.required'=> 'Please provide an identification mark',
+  //   'parentNumber.required'=> 'Parent\'s contact number is required',
+  //   'homePhoneNumber.required'=> 'Home phone number is required',
+  //   'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
+  //   'motherName.required'=> 'Your Mother\'s name is Required',
+  //   'guardianName.required'=> 'Your Guardian\'s name is Required',
+  //  ]
+  //   ]);
+  //       $detail = Detail::where('detailId',$request->detailId)->first();
+  //       $detail->sal=$request->salutation;
+  //       $detail->firstname = $request->firstName;
+  //       $detail->lastname = $request->lastName;
+  //       $detail->age = $request->age;
+  //       $detail->dob = $request->dob;
+  //       $detail->contactNumber = $request->contactNumber;
+  //       $detail->alternateContactNumber = $request->alternateContactNumber;
+  //       $detail->userId = $request->userId;
+  //       $detail->roleId = 3;
+  //       $detail->address = $request->address;
+  //       $detail->bloodGroup = $request->bloodGroup;
+  //       $detail->identificationMark = $request->identificationMark;
+  //       $detail->parentNumber = $request->parentNumber;
+  //       $detail->homePhoneNumber = $request->homePhoneNumber;
+  //       $detail->fatherSpouseName = $request->fatherSpouseName;
+  //       $detail->motherName = $request->motherName;
+  //       $detail->guardianName = $request->guardianName;
+  //       $detail->save();
+  //       $detailsId=$detail->detailId;
+  //       \App\Http\Controllers\DetailController::addToStudentTable($request->userId,$detailsId);
+  //   \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
 
-      return redirect()->route('AdminDetails',['id'=>'createOrUpdateTeacherDetails'])->with('success', 'Student details updated successfully.');
-    }
+  //     return redirect()->route('AdminDetails',['id'=>'createOrUpdateTeacherDetails'])->with('success', 'Student details updated successfully.');
+  //   }
 
 
     public function createTeacher(Request $request)
@@ -579,7 +633,7 @@ return;
        $details->homePhoneNumber = $request->homePhoneNumber;
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
-       $details->status = 1;
+       $details->status = 16;
        $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        $details->guardianName = $request->guardianName;
        $details->save();
@@ -588,11 +642,20 @@ return;
        $teachers=new Teacher;
        $teachers->userId=$userId;
        $teachers->teacherDetailId=$detailsId;
-       $teachers->status = 1;
+       $teachers->status = 16;
        $teachers->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
        $teachers->save();
+       $lastTeachersId=$teachers->teacherId;
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($userId,2);
+
+       $detailsNow = Detail::where('detailId','=',$detailsId)->first();
+       $detailsNow->status = 17;
+       $detailsNow->save();
+       $teachers=Teacher::where('teacherId','=',$lastTeachersId)->first();
+       $teachers->status = 17;
+       $teachers->save();
+
        return response()->json([
        'status' => true,
        'message' => 'Teacher created successfully.'
@@ -709,7 +772,7 @@ $fullName=$request->firstName.$request->lastName;
       $user->password=Hash::make($passwords->constantValue);
       $user->phone=$request->phone;
       $user->role=1;
-      $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+      $user->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
       $user->save();
       $userId=$user->userId;
       event(new Registered($user));
@@ -732,8 +795,8 @@ $fullName=$request->firstName.$request->lastName;
        $details->homePhoneNumber = $request->homePhoneNumber;
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
-       $details->status = 1;
-       $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+       $details->status = 9;
+       $details->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
        $details->guardianName = $request->guardianName;
        $details->save();
        $detailsId=$details->detailId;
@@ -742,17 +805,26 @@ $fullName=$request->firstName.$request->lastName;
        $admin->userId=$userId;
        $admin->notifications_Posted=0;
        $admin->adminDetailId=$detailsId;
-       $admin->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
-       $admin->status = 1;
+       $admin->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
+       $admin->status = 9;
        $admin->save();
+       $newAdminId=$admin->adminId;
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($userId,1);
-        // return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
+        
+       $theadmin=Admin::where('adminId','=',$newAdminId)->first();
+       $theadmin->status=10;
+       $theadmin->save();
+
+       $theNewDetail=Detail::where('detailsId','=',$detailsId)->first();
+       $theNewDetail->status=10;
+       $theNewDetail->save();
         return response()->json([
       'status' => true,
       'message' => 'Admin account created successfully.'
   ]);
     }
+
 
     public function createStudentTeacher(Request $request)
     {
@@ -805,7 +877,7 @@ $fullName=$request->firstName.$request->lastName;
         $user->password=Hash::make($request->password);
         $user->detailsId=0;
         $user->phone=$request->phone;
-        $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+        $user->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
         $user->role=3;
         $user->save();
         $userId=$user->userId;
@@ -830,8 +902,8 @@ $fullName=$request->firstName.$request->lastName;
          $details->fatherSpouseName = $request->fatherSpouseName;
          $details->motherName = $request->motherName;
          $details->guardianName = $request->guardianName;
-         $details->status = 1;
-         $details->batchId = Batch::where('status',1)->select('batchId')->first()->batchId;
+         $details->status = 23;
+         $details->batchId = Batch::where('status',40)->select('batchId')->first()->batchId;
          $details->save();
          $detailsId=$details->detailId;
          $roleIdForRoleDetailIdUpdation=3;
@@ -843,11 +915,21 @@ $fullName=$request->firstName.$request->lastName;
          $student->studentSection=0;
          $student->studentSemester=0;
          $student->studentDepartmentId=0;
-         $student->status=5;
-         $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
+         $student->status=23;
+         $student->batchId= Batch::where('status',40)->select('batchId')->first()->batchId;
          $student->save();
+         $nowStudentId=$student->studentId;
          \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
          \App\Http\Controllers\DetailController::updateRoleInUsers($userId,3);
+        
+         $newDetails=Detail::where('detailId','=',$detailsId)->first();
+        $newDetails->status=24;
+         $newDetails->save();
+
+         $newStudent=Student::where('studentId','=',$nowStudentId);
+         $student->status=24;
+         $student->save();
+
          return redirect()->route('TeacherStudent',['id'=>'teacherStudentAddStudent'])->with('success', 'Student added successfully.');
 
     }
@@ -902,7 +984,7 @@ $fullName=$request->firstName.$request->lastName;
           $user->detailsId=0;
           $user->phone=$request->phone;
           $user->role=3;
-          $user->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+          $user->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
           $user->save();
           $userId=$user->userId;
           event(new Registered($user));
@@ -926,8 +1008,8 @@ $fullName=$request->firstName.$request->lastName;
            $details->fatherSpouseName = $request->fatherSpouseName;
            $details->motherName = $request->motherName;
            $details->guardianName = $request->guardianName;
-           $details->status = 1;
-           $details->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+           $details->status = 23;
+           $details->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
            $details->save();
            $detailsId=$details->detailId;
            $roleIdForRoleDetailIdUpdation=3;
@@ -943,11 +1025,21 @@ $fullName=$request->firstName.$request->lastName;
            $student->studentSection=1; //'Registered'
            $student->studentSemester=1; //'Registered'
            $student->studentDepartmentId=1; //'Registered'
-           $student->status=5;
-           $student->batchId= Batch::where('status',1)->select('batchId')->first()->batchId;
+           $student->status=23;
+           $student->batchId= Batch::where('status',40)->select('batchId')->first()->batchId;
            $student->save();
+           $newStudentId=$student->studentId;
            \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
            \App\Http\Controllers\DetailController::updateRoleInUsers($userId,3);
+
+           
+           $latStudent=Student::where('studentId','=',$newStudentId)->first();
+           $latStudent->status=24;
+           $latStudent->save();
+
+           $latdetails-=Detail::where('detailId','=',$detailsId)->first();
+           $latdetails->status=24;
+           $latdetails->save();
            return response()->json([
            'status' => true,
            'message' => 'Student details submitted successfully!'
@@ -1075,6 +1167,15 @@ $fullName=$request->firstName.$request->lastName;
          return back()->with('success', 'Deleted successfully.');
     }
 
+    public function getStaffContactDetails()
+    {
+      $contactDetails=Detail::join('users','users.detailsId','=','details.detailId')
+      ->join('roles','roles.roleId','=','users.role')
+      ->where('roles.roleId','=',[2,3])
+      ->select('roles.*','details.*','users.*')
+      ->get();
+      return response()->json($contactDetails);
+    }
 
    public function getDetailsAboutId()
    {
@@ -1082,4 +1183,39 @@ $fullName=$request->firstName.$request->lastName;
          $infoDetails = Detail::all();
          return $infoDetails;
    }
+
+  public function getStudentFullDetailsByAJAX()
+  {
+    $userId = Auth::id();
+    $studentUserDetails=Detail::join('users','users.detailsId','=','details.detailId')
+    ->join('students','students.userId','=','users.userId')
+    ->join('departments','departments.departmentId','=','students.studentDepartmentId')
+    ->join('semesters','semesters.semesterId','=','students.studentSemester')
+    ->join('grades','grades.gradeId','=','students.studentGrade')
+    ->join('sections','sections.sectionId','=','students.studentSection')
+    ->join('batches','batches.batchId','=','students.batchId')
+    ->where('users.userId','=',$userId)
+    ->where('users.role','=',3)
+    ->select('details.*','sections.*','semesters.*','departments.*','grades.*','batches.*','students.*','users.*')
+    ->get();
+
+    
+      return response()->json($studentUserDetails);
+  }
+
+
+  public function getTeacherFullDetailsByAJAX()
+  {
+    $userId = Auth::id();
+    $studentUserDetails=Detail::join('users','users.detailsId','=','details.detailId')
+    ->join('teachers','teachers.userId','=','users.userId')
+    ->join('batches','batches.batchId','=','teachers.batchId')
+    ->where('users.userId','=',$userId)
+    ->where('users.role','=',2)
+    ->select('details.*','batches.*','teachers.*','users.*')
+    ->get();
+
+    
+      return response()->json($studentUserDetails);
+  }
 }

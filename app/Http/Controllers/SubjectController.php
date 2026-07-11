@@ -115,7 +115,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
 
     public function getCurrentBatchId()
     {
-        $batch = Batch::where('status',1)->select('batchId')->first()->batchId;
+        $batch = Batch::where('status',40)->select('batchId')->first()->batchId;
     return $batch;
     }
 
@@ -166,7 +166,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
             'torlab' => $request->torLab,
             'priority' => $request->subjectPriority,
             'status' => 1,
-            'batchId' => Batch::where('status',1)->select('batchId')->first()->batchId,
+            'batchId' => Batch::where('status',40)->select('batchId')->first()->batchId,
         ]);
         
         $lastInsertedId = $subject->subjectId; 
@@ -336,6 +336,20 @@ foreach ($classRooms as $classRoom) {
       return response()->json([
         'status' => true,
         'message' => "Subject Name updated successfully to ".$request->subjectName,
+    ]);
+    }
+    
+    public function updateSubjectDetails(Request $request)
+    {
+      $subject = Subject::where('subjectId','=',$request->subjectId)->first();
+      $subject->subjectName = $request->subjectName;
+      $subject->subjectCode = $request->subjectCode;
+      $subject->torlab = $request->torLab;
+      $subject->subjectMaxMarks = $request->subjectMaxMarks;
+      $subject->save();
+      return response()->json([
+        'status' => true,
+        'message' => "Subject Name updated successfully".$request->subjectName,
     ]);
     }
     /**

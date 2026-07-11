@@ -1,0 +1,199 @@
+<!-- resources/views/student/dashboard.blade.php -->
+@extends('layouts.app') {{-- Remove this line if you don't use a master layout --}}
+
+@section('content')
+<div class="container-fluid py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+
+            <div class="card shadow-sm border-0 rounded-4">
+
+                {{-- Header --}}
+                <div class="card-header bg-primary text-white rounded-top-4 py-4">
+                    <div class="d-flex flex-column flex-sm-row align-items-center gap-3">
+                        <img src="{{ $student->photo_url ?? asset('images/default-avatar.png') }}"
+                             alt="Student Photo"
+                             class="rounded-circle border border-3 border-white"
+                             style="width: 90px; height: 90px; object-fit: cover;">
+                        <div class="text-center text-sm-start">
+                            <h3 class="mb-0">{{ $student->full_name ?? 'N/A' }}</h3>
+                            <p class="mb-0 opacity-75">Student ID: {{ $student->student_id ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Body --}}
+                <div class="card-body p-4">
+
+                    {{-- Personal Information --}}
+                    <h5 class="text-primary border-bottom pb-2 mb-3">
+                        <i class="bi bi-person-fill me-1"></i> Personal Information
+                    </h5>
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Full Name</label>
+                            <p class="fw-semibold mb-0">{{ $student->full_name ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Student ID</label>
+                            <p class="fw-semibold mb-0">{{ $student->student_id ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Date of Birth</label>
+                            <p class="fw-semibold mb-0">
+                                {{ $student->dob ? \Carbon\Carbon::parse($student->dob)->format('d M, Y') : 'N/A' }}
+                            </p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Gender</label>
+                            <p class="fw-semibold mb-0">{{ $student->gender ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Blood Group</label>
+                            <p class="fw-semibold mb-0">{{ $student->blood_group ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Nationality</label>
+                            <p class="fw-semibold mb-0">{{ $student->nationality ?? 'N/A' }}</p>
+                        </div>
+
+                    </div>
+
+                    {{-- Contact Information --}}
+                    <h5 class="text-primary border-bottom pb-2 mb-3">
+                        <i class="bi bi-telephone-fill me-1"></i> Contact Information
+                    </h5>
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Email</label>
+                            <p class="fw-semibold mb-0 text-break">{{ $student->email ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Phone Number</label>
+                            <p class="fw-semibold mb-0">{{ $student->phone ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Address</label>
+                            <p class="fw-semibold mb-0">{{ $student->address ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">City</label>
+                            <p class="fw-semibold mb-0">{{ $student->city ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">State</label>
+                            <p class="fw-semibold mb-0">{{ $student->state ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Country</label>
+                            <p class="fw-semibold mb-0">{{ $student->country ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Postal Code</label>
+                            <p class="fw-semibold mb-0">{{ $student->postal_code ?? 'N/A' }}</p>
+                        </div>
+
+                    </div>
+
+                    {{-- Academic Information --}}
+                    <h5 class="text-primary border-bottom pb-2 mb-3">
+                        <i class="bi bi-mortarboard-fill me-1"></i> Academic Information
+                    </h5>
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Course / Program</label>
+                            <p class="fw-semibold mb-0">{{ $student->course ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Department</label>
+                            <p class="fw-semibold mb-0">{{ $student->department ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Batch / Year</label>
+                            <p class="fw-semibold mb-0">{{ $student->batch_year ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Current Semester</label>
+                            <p class="fw-semibold mb-0">{{ $student->semester ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Roll Number</label>
+                            <p class="fw-semibold mb-0">{{ $student->roll_number ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Admission Date</label>
+                            <p class="fw-semibold mb-0">
+                                {{ $student->admission_date ? \Carbon\Carbon::parse($student->admission_date)->format('d M, Y') : 'N/A' }}
+                            </p>
+                        </div>
+
+                    </div>
+
+                    {{-- Guardian Information --}}
+                    <h5 class="text-primary border-bottom pb-2 mb-3">
+                        <i class="bi bi-people-fill me-1"></i> Guardian Information
+                    </h5>
+                    <div class="row g-3">
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Guardian Name</label>
+                            <p class="fw-semibold mb-0">{{ $student->guardian_name ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Guardian Phone</label>
+                            <p class="fw-semibold mb-0">{{ $student->guardian_phone ?? 'N/A' }}</p>
+                        </div>
+
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <label class="text-muted small mb-1">Relation</label>
+                            <p class="fw-semibold mb-0">{{ $student->guardian_relation ?? 'N/A' }}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {{-- Footer --}}
+                <div class="card-footer bg-light rounded-bottom-4 text-end py-3">
+                    <a href="{{ route('student.edit', $student->id ?? '') }}" class="btn btn-primary rounded-pill px-4">
+                        <i class="bi bi-pencil-square me-1"></i> Edit Profile
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@endsection
+
+{{-- Bootstrap 5 + Bootstrap Icons CDN (skip if already loaded in your layout) --}}
+@push('styles')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+@endpush

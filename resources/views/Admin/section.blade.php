@@ -27,121 +27,7 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
-  <style>
-    
-    .errorshow-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #B01D1A;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
 
-/* Flex layout */
-.errorshow-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-    /*
-
-    For Success
-
-    */
-    .success-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.success-box.show {
-    display: flex;
-}
-
-/* Close button */
-.close-btn {
-    margin-left: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* Hover effect */
-.close-btn:hover {
-    opacity: 0.7;
-}
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-    /*
-
-    For Delete
-
-    */
-     .delete-box {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #AD1F34;
-    color: #fff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    font-family: Arial, sans-serif;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 250px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.4s ease;
-}
-
-/* Flex layout */
-.delete-box.show {
-    display: flex;
-}
-</style>
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -191,6 +77,7 @@
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
       <div class="sidebar-heading">MySchool </div>
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -284,7 +171,7 @@ function getAllData()
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    Create sections
+                    Create section
 
                     <form action="{{route('createSection')}}" method="POST" name="createSectionByAdmin" id="createSectionByAdmin">
                     {{ csrf_field() }}{{ method_field('POST') }}

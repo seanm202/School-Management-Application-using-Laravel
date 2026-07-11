@@ -20,7 +20,7 @@ class StudentMarksController extends Controller
      */
     public function createMarkEntry(Request $request)
     {
-        $batchId=Batch::where('status','=',1)->select('batchId')->first();
+        $batchId=Batch::where('status','=',40)->select('batchId')->first();
       $students = student::where('students.batchId','=',$batchId->batchId)
       ->where('students.studentId','!=',1)  
       ->get();
@@ -68,13 +68,13 @@ class StudentMarksController extends Controller
 
     public function getCurrentBatch()
     {
-      $batches= Batch::where('status','=',1)->first();
+      $batches= Batch::where('status','=',40)->first();
       $currentBatchId= $batches->batchId;
       return $currentBatchId;
     }
     public function getSubjectsListForAddingStudentMarks(Request $request)
     {
-      $batches= Batch::where('status','=',1)->first();
+      $batches= Batch::where('status','=',40)->first();
       $currentBatchId= $batches->batchId;
         $subjectsLists=StudentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
         ->where('student_marks.batchId','=',$currentBatchId)
@@ -84,6 +84,7 @@ class StudentMarksController extends Controller
         'student_marks.subjectId AS subjectId',
         'subjects.subjectMaxMarks AS MaxMarks',
         'student_marks.studentId AS studentId',
+        'student_marks.student_marksId AS student_marksId',
         'student_marks.marks AS marks')
         ->get();
         
@@ -134,7 +135,7 @@ class StudentMarksController extends Controller
       $studentMarks->subjectId =  $request->subjectId;
       $studentMarks->marks = $request->subjectMarks;
       $studentMarks->status = 9;
-      $studentMarks->batchId=Batch::where('status',1)->select('batchId')->first()->batchId;
+      $studentMarks->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
       $studentMarks->save();
       return redirect()->route('AdminStudent');
     }
@@ -223,6 +224,17 @@ class StudentMarksController extends Controller
 
       return redirect()->route('TeacherStudent',['id'=>'teacherStudentAddStudentMarks']);
     }
+
+    public function submitSubjectMarks(Request $request)
+    {
+      $studentMarkDetails=StudentMarks::where('student_marksId','=',$request->student_marksId)->first();
+      $studentMarkDetails->marks=$request->marksObtained;
+      $studentMarkDetails->save();
+       
+      return response()->json([
+    'status' => true,
+    'message' => "Mark Updated",
+]);
 
     /**
      * Remove the specified resource from storage.

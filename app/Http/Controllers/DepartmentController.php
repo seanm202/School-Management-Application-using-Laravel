@@ -59,7 +59,7 @@ public function getDepartmentDetailsByAJAX()
           $department = new Department;
           $department->departmentName = $request->departmentName;
           $department->batchId = 1;
-          $department->status = 1;
+          $department->status = 69;
           $department->save();
 
           return response()->json([
@@ -134,6 +134,14 @@ public function getDepartmentDetailsByAJAX()
     }
     
     
+    
+    public function getDepartmentForSubject()
+    {
+      $batches= Batch::where('status','=',40)->first();
+      $departments = \App\Models\Department::where('batchId','=',$batches->batchId)->get();
+      return response()->json($departments);
+    }
+
     public function getListOfDepartments()
     {
         $subjectDepartmentsForEachClassRooms = \App\Models\Department::all();
