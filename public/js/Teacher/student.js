@@ -1,70 +1,402 @@
+$(function () {
 
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
 
-$(document).ready(function(){
+              
+                $(document).on('submit', '#addStudentTeacher', function (e) {
+                e.preventDefault();
+                  var url = $('#addStudentTeacher').attr('action');
+              
+                //   console.log($('#addStudentTeacher').serialize());
+      $.ajax({
+            data: $('#addStudentTeacher').serialize(),
+      url: url,
+type: "POST",
+dataType: 'json',
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
 
-    var form = '#formIdNow';
- $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+    console.log(xhr);
+console.log(xhr.responseJSON);
+console.log(xhr.responseText);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
         }
-    });
 
-    $(form).on('submit', function(event){
-        event.preventDefault();
-        var url = $(this).attr('action');
+        let messages = Object.values(errors).flat();
+        showError(messages);
 
-        $.ajax({
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-                alert("Success");
-            },
-            error: function(response) {
-            }
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+      });
         });
-    });
+});
 
+// 
+
+// 
+
+// 
+$(function () {
+
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
+
+              
+                $(document).on('submit', '#teacherUpdateStudentDetails', function (e) {
+                e.preventDefault();
+                  var url = $('#teacherUpdateStudentDetails').attr('action');
+              
+                
+      $.ajax({
+            data: $('#teacherUpdateStudentDetails').serialize(),
+      url: url,
+type: "POST",
+dataType: 'json',
+       success: function(response)
+{
+   $('#teacherModalLongStudentUserId').modal('hide');
+    showSuccess(response.message);
+    getAllData();
+},
+error: function(xhr) {
+
+//     console.log(xhr);
+// console.log(xhr.responseJSON);
+// console.log(xhr.responseText);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+      });
+        });
+});
+
+// 
+
+// 
+
+// 
+
+
+$(function () {
+
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
+
+                $(document).on('submit', '#createMarkEntry', function (e) {
+                e.preventDefault();
+                  var url = $('#createMarkEntry').attr('action');
+                
+      $.ajax({
+            data: $('#createMarkEntry').serialize(),
+      url: url,
+type: "POST",
+dataType: 'json',
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+   
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+      });
+        });
 });
 
 
+// 
 
-$(document).ready(function(){
+// 
 
-    var form = '#updateMarksTeacher';
- $.ajaxSetup({
+// 
+
+$(function () {
+
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
+
+                $(document).on('submit', '.assignClassroomIdForStudent', function (e) {
+                 
+                e.preventDefault();
+                  var url = $('.assignClassroomIdForStudent').attr('action');
+                 
+                 
+      $.ajax({
+            data: $('.assignClassroomIdForStudent').serialize(),
+      url: url,
+type: "POST",
+dataType: 'json',
+       success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+  
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+      });
+        });
+});
+
+// 
+
+// 
+
+//
+
+$(document).ready(function () {
+
+                        $.ajaxSetup({
+                               headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                             }
+                         });
+
+                                    // ✅ delegated event (works for all rows)
+                                    $(document).on('click', '.submitSubjectMarksButton', function (e) {
+                                     e.preventDefault();
+                                        const row = $(this).closest('tr');
+
+    const student_marksId = row.find('.student_marksId').val();
+    const marksObtained   = row.find('.marksObtained').val();
+
+    const url = $(this).data('url');
+                                     
+                                      $.ajax({
+                                          url: url,
+                                          type: "POST",
+                                          data:{
+                                            student_marksId: student_marksId,
+                                            marksObtained: marksObtained,
+                                          },
+                                          dataType: 'json',
+                                           success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+        
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+                                      });
+                                  });
+                                });
+
+
+//
+
+//
+
+//
+
+$(function () {
+
+    $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    $(form).on('submit', function(event){
-        event.preventDefault();
-        var url = $(this).attr('action');
+    $(document).on('click', '.selectForAssignClassRoomAStudent', function () {
+
+
+        var studentId = $(this).data('bs-studentid');
+        var studentFirstName = $(this).data('bs-first-name');
+        var studentLastName = $(this).data('bs-last-name');
+        var studentEmail = $(this).data('bs-email');
+        var studentPhone = $(this).data('bs-phone');
 
         $.ajax({
-             headers: {
-        'X-CSRF-TOKEN': $('input[name="_token"]').val()
-    },
-            url: url,
-            method: 'POST',
-            data: new FormData(this),
-            dataType: 'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            success:function(response)
-            {
-                 alert("Success");
+            url: "toGetAStudentClassRoomByAJAX",
+            method: "GET",
+            dataType: "json",
+
+            success: function(data) {
+
+                let rowsGetForAssignClassRoomToStudent = "";
+                let classroomassignurl = "/assignClassroomStudent";
+
+                $("#exampleModalStudentFullName").html(
+                    "Name : " + studentFirstName + " " + studentLastName
+                );
+
+                $("#exampleModalStudentEmail").html(
+                    "Email : " + studentEmail
+                );
+
+                $("#exampleModalStudentPhone").html(
+                    "Phone : " + studentPhone
+                );
+
+                data.forEach(function(classroom) {
+
+                    rowsGetForAssignClassRoomToStudent += `
+                        <tr>
+                            <td>${classroom.grade}</td>
+                            <td>${classroom.sectionName}</td>
+                            <td>${classroom.roomNo}</td>
+                            <td>${classroom.departmentName}</td>
+                            <td>${classroom.semesterName}</td>
+                            <td>${classroom.teacherFirstName} ${classroom.teacherLastName}</td>
+                            <td>${classroom.capacity}</td>
+                            <td>
+                                <form action="${classroomassignurl}"
+                                      method="POST"
+                                      class="assignClassroomIdForStudent">
+
+                                    <input type="hidden"
+                                    id="classRoomId"
+                                           name="classRoomId"
+                                           value="${classroom.classroomDetailId}">
+
+                                    <input type="hidden"
+                                    id="studentIdForAssignClassRoom"
+                                           name="studentIdForAssignClassRoom"
+                                           value="${studentId}">
+
+                                    <button type="submit"
+                                            class="btn btn-primary form-control" data-bs-dismiss="modal"
+                                            class="selectedForAssignClassRoomAStudent">
+                                        Choose
+                                    </button>
+
+                                </form>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                $('#tableForModalForAssignClassRoom tbody')
+                    .html(rowsGetForAssignClassRoomToStudent);
             },
-            error: function(response) {
-            }
+
+
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
         });
+
     });
 
 });

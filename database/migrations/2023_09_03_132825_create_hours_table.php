@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('hourName');
             $table->time('hourStartingTime');
             $table->time('hourEndingTime');
-            $table->integer('status');
+            $table->integer('status')->default(64);
             $table->timestamps();
         });
         
@@ -27,7 +27,7 @@ return new class extends Migration
             'hourName' => "1st Hour",
             'hourStartingTime' => "08:00:00",
             'hourEndingTime' => "09:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
         
         DB::table('hours')->insert([
@@ -35,7 +35,7 @@ return new class extends Migration
             'hourName' => "2nd Hour",
             'hourStartingTime' => "09:00:00",
             'hourEndingTime' => "10:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
         
         DB::table('hours')->insert([
@@ -43,7 +43,7 @@ return new class extends Migration
             'hourName' => "3rd Hour",
             'hourStartingTime' => "10:00:00",
             'hourEndingTime' => "11:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
         
         DB::table('hours')->insert([
@@ -51,7 +51,7 @@ return new class extends Migration
             'hourName' => "4th Hour",
             'hourStartingTime' => "11:00:00",
             'hourEndingTime' => "12:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
         
         DB::table('hours')->insert([
@@ -59,7 +59,7 @@ return new class extends Migration
             'hourName' => "5th Hour",
             'hourStartingTime' => "12:00:00",
             'hourEndingTime' => "13:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
         
         DB::table('hours')->insert([
@@ -67,7 +67,7 @@ return new class extends Migration
             'hourName' => "6th Hour",
             'hourStartingTime' => "13:00:00",
             'hourEndingTime' => "14:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
         
         DB::table('hours')->insert([
@@ -75,7 +75,7 @@ return new class extends Migration
             'hourName' => "7th Hour",
             'hourStartingTime' => "14:00:00",
             'hourEndingTime' => "15:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
         
         DB::table('hours')->insert([
@@ -83,7 +83,7 @@ return new class extends Migration
             'hourName' => "8th Hour",
             'hourStartingTime' => "15:00:00",
             'hourEndingTime' => "16:00:00",
-            'status' => 1,
+            'status' => 64,
         ]);
     }
 

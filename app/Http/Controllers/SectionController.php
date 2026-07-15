@@ -164,14 +164,24 @@ class SectionController extends Controller
      */
     public function destroySection(Request $request)
     {
-      //Delete self - details
-      $section = Section::where('sections.sectionId','=',$request->sectionId)->first();
-      $section->delete();
+      if($request->sectionId!=1 || $request->sectionId!=2)
+        {
+        //Delete self - details
+        $section = Section::where('sections.sectionId','=',$request->sectionId)->first();
+        $section->delete();
 
-      return response()->json([
-   'status' => true,
-   'message' => 'Section data has been deleted successfully!'
-   ]);
+        return response()->json([
+          'status' => true,
+          'message' => 'Section data has been deleted successfully!'
+          ]);
+      }
+      else
+        {
+          return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+        }
     }
 
 

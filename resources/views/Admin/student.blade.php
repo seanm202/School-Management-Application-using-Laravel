@@ -222,9 +222,9 @@ let rowsGetStudent = "";
                       <td>
                       <select name="salutation">
                            <option value="Mr./Ms." selected>Mr./Ms.</option>
-                           <option value="Mr">Mr.</option>
-                           <option value="Ms">Ms.</option>
-                           <option value="Mrs">Mrs.</option>
+                           <option value="Mr.">Mr.</option>
+                           <option value="Ms.">Ms.</option>
+                           <option value="Mrs.">Mrs.</option>
                       </select></td>
                     </tr>
                     <tr>
@@ -337,7 +337,7 @@ Create Mark table for all the students
                                 <table class="table" id="tableForAssignClassRoom">
                                   <thead>
                                           <tr>
-                                            <th>User ID</th>
+                                            <th>Student ID</th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
@@ -480,7 +480,7 @@ let rowsGetStudentsToEnterMarks = "";
         data-bs-grade-id="${studentsMark.gradeId}"
         data-bs-section-id="${studentsMark.sectionId}"
          data-bs-target="#saveMarkDetailsCreation">
-                                              Select classroom
+                                              Add Marks
                                             </button></td>
             </tr>
                `;
@@ -540,14 +540,14 @@ let rowsGetSubjectsMarks = "";
     <td>${subjectsList.subjectName} </td>
     <td>${subjectsList.subjectCode}</td>
     <td>${subjectsList.MaxMarks} </td>
-    <td><form method="POST" action="{{route('submitSubjectMarks')}}" class="submitSubjectMarks">
+    <td>
     <input type="hidden" name="studentId" value="${subjectsList.studentId}">
     <input type="hidden" name="subjectId" value="${subjectsList.subjectId}">
-    <input type="hidden" name="student_marksId" value="${subjectsList.student_marksId}">
-    <input type="number" name="marksObtained" value="${subjectsList.marks}" class="form-control" placeholder="Enter marks obtained">
-    </form>
+    <input type="hidden" name="student_marksId" class="student_marksId" value="${subjectsList.student_marksId}">
+    <input type="number" name="marksObtained" class="marksObtained" value="${subjectsList.marks}" class="form-control" placeholder="Enter marks obtained">
+    
     </td>
-    <td><button type="submit" class="btn btn-primary form-control submitSubjectMarksButton">Submit</button></td>
+    <td><button type="button" class="btn btn-primary form-control submitSubjectMarksButton" data-url="submitSubjectMarks">Submit</button></td>
     </form>
             </tr>
                `;

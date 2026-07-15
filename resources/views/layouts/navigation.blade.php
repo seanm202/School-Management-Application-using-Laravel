@@ -17,7 +17,7 @@
                     <div class="flex">
                         <div class="shrink-0 flex items-center">
                             <a href="{{ route('Admindashboard') }}">
-                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                            <x-application-logo class="block h-20 w-auto fill-current text-gray-800" />
                             </a>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                     <div class="flex">
                         <div class="shrink-0 flex items-center">
                             <a href="{{ route('Teacherdashboard') }}">
-                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                            <x-application-logo class="block h-20 w-auto fill-current text-gray-800" />
                             </a>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="flex">
                         <div class="shrink-0 flex items-center">
                             <a href="{{ route('Studentdashboard') }}">
-                            <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                            <x-application-logo class="block h-20 w-auto fill-current text-gray-800" />
                             </a>
                         </div>
                     </div>
@@ -157,11 +157,11 @@
                     </x-nav-link>
                 </div>
 
-                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <!-- <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentAttendance')" :active="request()->routeIs('StudentAttendance')">
                         {{ __('Attendance') }}
                     </x-nav-link>
-                </div>
+                </div> -->
 
                 <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentMarks')" :active="request()->routeIs('StudentMarks')">
@@ -304,9 +304,9 @@
                           <x-responsive-nav-link :href="route('StudentTeachersDetails')" :active="request()->routeIs('StudentTeachersDetails')">
                             {{ __('Contact Us') }}
                           </x-responsive-nav-link>
-                          <x-responsive-nav-link :href="route('StudentAttendance')" :active="request()->routeIs('StudentAttendance')">
+                          <!-- <x-responsive-nav-link :href="route('StudentAttendance')" :active="request()->routeIs('StudentAttendance')">
                             {{ __('Attendance') }}
-                          </x-responsive-nav-link>
+                          </x-responsive-nav-link> -->
                           <x-responsive-nav-link :href="route('StudentMarks')" :active="request()->routeIs('StudentMarks')">
                             {{ __('Marks') }}
                           </x-responsive-nav-link>

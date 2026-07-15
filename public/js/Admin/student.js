@@ -6,9 +6,11 @@ headers: {
                 }
                             });
 
-                $('#buttonForAddStudentAdmin').click(function (e) {
+              
+                $(document).on('submit', '#addStudentAdmin', function (e) {
                 e.preventDefault();
                   var url = $('#addStudentAdmin').attr('action');
+                  
       $.ajax({
             data: $('#addStudentAdmin').serialize(),
       url: url,
@@ -19,13 +21,28 @@ dataType: 'json',
     showSuccess(response.message);
     getAllData();
 },
-   error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
+error: function(xhr) {
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr);
+console.log(xhr.responseJSON);
+console.log(xhr.responseText);
+    if (xhr.status === 422) {
 
-    showError(messages);
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
       });
         });
@@ -60,13 +77,28 @@ dataType: 'json',
     showSuccess(response.message);
     getAllData();
 },
-   error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
+   
+error: function(xhr) {
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
       });
         });
@@ -91,7 +123,7 @@ headers: {
                  
                 e.preventDefault();
                   var url = $('.assignClassroomIdForStudent').attr('action');
-                 alert(url);
+                 
                  
       $.ajax({
             data: $('.assignClassroomIdForStudent').serialize(),
@@ -103,13 +135,28 @@ dataType: 'json',
     showSuccess(response.message);
     getAllData();
 },
-  error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
+  
+error: function(xhr) {
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
       });
         });
@@ -119,7 +166,73 @@ dataType: 'json',
 
 // 
 
-// 
+//
+
+$(document).ready(function () {
+
+                        $.ajaxSetup({
+                               headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                             }
+                         });
+
+                                    // ✅ delegated event (works for all rows)
+                                    $(document).on('click', '.submitSubjectMarksButton', function (e) {
+                                     e.preventDefault();
+                                        const row = $(this).closest('tr');
+
+    const student_marksId = row.find('.student_marksId').val();
+    const marksObtained   = row.find('.marksObtained').val();
+
+    const url = $(this).data('url');
+                                     
+                                      $.ajax({
+                                          url: url,
+                                          type: "POST",
+                                          data:{
+                                            student_marksId: student_marksId,
+                                            marksObtained: marksObtained,
+                                          },
+                                          dataType: 'json',
+                                           success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+        
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+                                      });
+                                  });
+                                });
+
+
+//
+
+//
+
+//
+
 $(function () {
 
     $.ajaxSetup({
@@ -201,13 +314,28 @@ $(function () {
                     .html(rowsGetForAssignClassRoomToStudent);
             },
 
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
         });
 

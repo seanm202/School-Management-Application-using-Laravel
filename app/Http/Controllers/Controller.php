@@ -12,10 +12,6 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct()
   {
-    //its just a dummy data object.
-    $currentBatchId =\App\Models\batch::where('batches.status','=',1)->select('batchId')->first();
-
-    // Sharing is caring
-    \View::share('currentBatchId', $currentBatchId);
+   
   }
 }

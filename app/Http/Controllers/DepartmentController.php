@@ -124,13 +124,23 @@ public function getDepartmentDetailsByAJAX()
     public function destroyDepartment(Request $request)
     {
         //
-        $department = Department::where('departmentId', $request->departmentId)->first();
+        if($request->departmentId!=1 || $request->departmentId!=2)
+        {
+            $department = Department::where('departmentId', $request->departmentId)->first();
          $department->delete();
 
          return response()->json([
          'status' => true,
          'message' => 'Department deleted successfully.'
          ]);
+        }
+         else
+            {
+            return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+         }
     }
     
     

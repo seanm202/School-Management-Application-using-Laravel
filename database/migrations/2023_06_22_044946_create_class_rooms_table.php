@@ -17,15 +17,15 @@ return new class extends Migration
             $table->id('classroomDetailId');
             $table->string('grade')->default(NULL);
             $table->string('roomNo')->default(NULL);
-            $table->string('section')->default(0);
+            $table->string('section')->default(1);
             $table->integer('departmentId')->default(NULL);
             $table->integer('semester')->default(NULL);
-            $table->string('classTeacher')->default(0);
+            $table->integer('classTeacher')->default(1);
             $table->string('description')->default(NULL);
             $table->integer('capacity')->default(0);
             $table->integer('classTimeTableId')->default(0);
             $table->integer('status')->default(1);
-            $table->integer('batchId')->default(0);
+            $table->integer('batchId')->default(1);
             $table->timestamps();
         });
         

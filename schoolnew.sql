@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '11e6f0d0-67f3-11f1-aba6-4a651d608c9d:1-2946';
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '11e6f0d0-67f3-11f1-aba6-4a651d608c9d:1-3905';
 
 --
 -- Table structure for table `admins`
@@ -123,15 +123,15 @@ CREATE TABLE `class_rooms` (
   `classroomDetailId` bigint unsigned NOT NULL AUTO_INCREMENT,
   `grade` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `roomNo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `section` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `section` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
   `departmentId` int NOT NULL,
   `semester` int NOT NULL,
-  `classTeacher` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `classTeacher` int NOT NULL DEFAULT '1',
   `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `capacity` int NOT NULL DEFAULT '0',
   `classTimeTableId` int NOT NULL DEFAULT '0',
   `status` int NOT NULL DEFAULT '1',
-  `batchId` int NOT NULL DEFAULT '0',
+  `batchId` int NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`classroomDetailId`)
@@ -144,7 +144,7 @@ CREATE TABLE `class_rooms` (
 
 LOCK TABLES `class_rooms` WRITE;
 /*!40000 ALTER TABLE `class_rooms` DISABLE KEYS */;
-INSERT INTO `class_rooms` VALUES (1,'1','0','1',1,1,'1','Registered',1,1,1,1,NULL,NULL);
+INSERT INTO `class_rooms` VALUES (1,'1','0','1',1,1,1,'Registered',1,1,1,1,NULL,NULL);
 /*!40000 ALTER TABLE `class_rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ DROP TABLE IF EXISTS `days`;
 CREATE TABLE `days` (
   `dayId` bigint unsigned NOT NULL AUTO_INCREMENT,
   `dayName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` int NOT NULL,
+  `status` int NOT NULL DEFAULT '63',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`dayId`)
@@ -231,7 +231,7 @@ CREATE TABLE `days` (
 
 LOCK TABLES `days` WRITE;
 /*!40000 ALTER TABLE `days` DISABLE KEYS */;
-INSERT INTO `days` VALUES (1,'Monday',1,NULL,NULL),(2,'Tuesday',1,NULL,NULL),(3,'Wednesday',1,NULL,NULL),(4,'Thursday',1,NULL,NULL),(5,'Friday',1,NULL,NULL),(6,'Saturday',1,NULL,NULL);
+INSERT INTO `days` VALUES (1,'Monday',63,NULL,NULL),(2,'Tuesday',63,NULL,NULL),(3,'Wednesday',63,NULL,NULL),(4,'Thursday',63,NULL,NULL),(5,'Friday',63,NULL,NULL),(6,'Saturday',63,NULL,NULL);
 /*!40000 ALTER TABLE `days` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,7 +403,7 @@ CREATE TABLE `hours` (
   `hourName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `hourStartingTime` time NOT NULL,
   `hourEndingTime` time NOT NULL,
-  `status` int NOT NULL,
+  `status` int NOT NULL DEFAULT '64',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`hourId`)
@@ -416,7 +416,7 @@ CREATE TABLE `hours` (
 
 LOCK TABLES `hours` WRITE;
 /*!40000 ALTER TABLE `hours` DISABLE KEYS */;
-INSERT INTO `hours` VALUES (1,'1st Hour','08:00:00','09:00:00',1,NULL,NULL),(2,'2nd Hour','09:00:00','10:00:00',1,NULL,NULL),(3,'3rd Hour','10:00:00','11:00:00',1,NULL,NULL),(4,'4th Hour','11:00:00','12:00:00',1,NULL,NULL),(5,'5th Hour','12:00:00','13:00:00',1,NULL,NULL),(6,'6th Hour','13:00:00','14:00:00',1,NULL,NULL),(7,'7th Hour','14:00:00','15:00:00',1,NULL,NULL),(8,'8th Hour','15:00:00','16:00:00',1,NULL,NULL);
+INSERT INTO `hours` VALUES (1,'1st Hour','08:00:00','09:00:00',64,NULL,NULL),(2,'2nd Hour','09:00:00','10:00:00',64,NULL,NULL),(3,'3rd Hour','10:00:00','11:00:00',64,NULL,NULL),(4,'4th Hour','11:00:00','12:00:00',64,NULL,NULL),(5,'5th Hour','12:00:00','13:00:00',64,NULL,NULL),(6,'6th Hour','13:00:00','14:00:00',64,NULL,NULL),(7,'7th Hour','14:00:00','15:00:00',64,NULL,NULL),(8,'8th Hour','15:00:00','16:00:00',64,NULL,NULL);
 /*!40000 ALTER TABLE `hours` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -681,7 +681,7 @@ CREATE TABLE `statuses` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`statusId`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -690,7 +690,7 @@ CREATE TABLE `statuses` (
 
 LOCK TABLES `statuses` WRITE;
 /*!40000 ALTER TABLE `statuses` DISABLE KEYS */;
-INSERT INTO `statuses` VALUES (1,1,'Registered',NULL,NULL),(2,1,'Created',NULL,NULL),(3,1,'Active',NULL,NULL),(4,1,'Inactive',NULL,NULL),(5,1,'Suspended',NULL,NULL),(6,1,'Deleted',NULL,NULL),(7,1,'Flagged',NULL,NULL),(8,2,'Registered',NULL,NULL),(9,2,'Created',NULL,NULL),(10,2,'Active',NULL,NULL),(11,2,'Inactive',NULL,NULL),(12,2,'Suspended',NULL,NULL),(13,2,'Deleted',NULL,NULL),(14,2,'Flagged',NULL,NULL),(15,3,'Registered',NULL,NULL),(16,3,'Created',NULL,NULL),(17,3,'Active',NULL,NULL),(18,3,'Inactive',NULL,NULL),(19,3,'Suspended',NULL,NULL),(20,3,'Deleted',NULL,NULL),(21,3,'Flagged',NULL,NULL),(22,4,'Registered',NULL,NULL),(23,4,'Created',NULL,NULL),(24,4,'Active',NULL,NULL),(25,4,'Inactive',NULL,NULL),(26,4,'Suspended',NULL,NULL),(27,4,'Deleted',NULL,NULL),(28,4,'Flagged',NULL,NULL),(29,4,'Assigned to a classroom',NULL,NULL),(30,4,'Not added to attendance table',NULL,NULL),(31,4,'Marklist not created',NULL,NULL),(32,4,'Absent',NULL,NULL),(33,4,'On leave',NULL,NULL),(34,5,'Created!',NULL,NULL),(35,5,'Active',NULL,NULL),(36,5,'Inactive!',NULL,NULL),(37,6,'Created!',NULL,NULL),(38,6,'Active',NULL,NULL),(39,6,'Inactive!',NULL,NULL),(40,14,'Batch Assigned CURRENT status',NULL,NULL),(41,14,'Batch removed CURRENT status',NULL,NULL),(42,5,'Classroom not assigned Room No',NULL,NULL),(43,5,'Classroom not assigned section',NULL,NULL),(44,5,'Classroom not assigned Grade',NULL,NULL),(45,5,'Classroom not assigned Semester',NULL,NULL),(46,5,'Classroom not assigned Department',NULL,NULL),(47,5,'Classroom not assigned Class Teacher',NULL,NULL),(48,7,'Classroom daily attendance list not generated',NULL,NULL),(49,7,'Attendance details not submitted',NULL,NULL),(50,7,'Daily attendance table not generated for student',NULL,NULL),(51,7,'Daily teacher/staff attendance list not generated',NULL,NULL),(52,8,'Student marklist table not generated',NULL,NULL),(53,8,'Student marklist table generated',NULL,NULL),(54,8,'Student marklist table filled and submitted',NULL,NULL),(55,11,'Student subjectwise attendance table not generated',NULL,NULL),(56,11,'Student subjectwise attendance table generated',NULL,NULL),(57,11,'Student subjectwise attendance table filled and submitted',NULL,NULL),(58,3,'Teacher assigned to each classoom',NULL,NULL),(59,9,'Subject teachers not assigned to each classes.',NULL,NULL),(60,4,'Student details not filled completely',NULL,NULL),(61,3,'Teacher details not filled completely',NULL,NULL),(62,2,'Admin details not filled completely',NULL,NULL),(63,15,'Day active',NULL,NULL),(64,17,'Hour active',NULL,NULL),(65,7,'Attendance details created',NULL,NULL),(66,7,'Attendance details submitted',NULL,NULL),(67,14,'Batch active',NULL,NULL),(68,7,'Daily teacher/staff attendance list generated',NULL,NULL),(69,18,'Department active',NULL,NULL),(70,19,'Grade active',NULL,NULL),(71,20,'Role active',NULL,NULL),(72,21,'Section active',NULL,NULL),(73,22,'Semester active',NULL,NULL),(74,7,'Daily teacher/staff attendance list deleted.',NULL,NULL);
+INSERT INTO `statuses` VALUES (1,1,'Registered',NULL,NULL),(2,1,'Created',NULL,NULL),(3,1,'Active',NULL,NULL),(4,1,'Inactive',NULL,NULL),(5,1,'Suspended',NULL,NULL),(6,1,'Deleted',NULL,NULL),(7,1,'Flagged',NULL,NULL),(8,2,'Registered',NULL,NULL),(9,2,'Created',NULL,NULL),(10,2,'Active',NULL,NULL),(11,2,'Inactive',NULL,NULL),(12,2,'Suspended',NULL,NULL),(13,2,'Deleted',NULL,NULL),(14,2,'Flagged',NULL,NULL),(15,3,'Registered',NULL,NULL),(16,3,'Created',NULL,NULL),(17,3,'Active',NULL,NULL),(18,3,'Inactive',NULL,NULL),(19,3,'Suspended',NULL,NULL),(20,3,'Deleted',NULL,NULL),(21,3,'Flagged',NULL,NULL),(22,4,'Registered',NULL,NULL),(23,4,'Created',NULL,NULL),(24,4,'Active',NULL,NULL),(25,4,'Inactive',NULL,NULL),(26,4,'Suspended',NULL,NULL),(27,4,'Deleted',NULL,NULL),(28,4,'Flagged',NULL,NULL),(29,4,'Assigned to a classroom',NULL,NULL),(30,4,'Not added to attendance table',NULL,NULL),(31,4,'Marklist created',NULL,NULL),(32,4,'Absent',NULL,NULL),(33,4,'On leave',NULL,NULL),(34,5,'Created!',NULL,NULL),(35,5,'Active',NULL,NULL),(36,5,'Inactive!',NULL,NULL),(37,6,'Created!',NULL,NULL),(38,6,'Active',NULL,NULL),(39,6,'Inactive!',NULL,NULL),(40,14,'Batch Assigned CURRENT status',NULL,NULL),(41,14,'Batch removed CURRENT status',NULL,NULL),(42,5,'Classroom not assigned Room No',NULL,NULL),(43,5,'Classroom not assigned section',NULL,NULL),(44,5,'Classroom not assigned Grade',NULL,NULL),(45,5,'Classroom not assigned Semester',NULL,NULL),(46,5,'Classroom not assigned Department',NULL,NULL),(47,5,'Classroom not assigned Class Teacher',NULL,NULL),(48,7,'Classroom daily attendance list not generated',NULL,NULL),(49,7,'Attendance details not submitted',NULL,NULL),(50,7,'Daily attendance table not generated for student',NULL,NULL),(51,7,'Daily teacher/staff attendance list not generated',NULL,NULL),(52,8,'Student marklist table not generated',NULL,NULL),(53,8,'Student marklist table generated',NULL,NULL),(54,8,'Student marklist table filled and submitted',NULL,NULL),(55,11,'Student subjectwise attendance table not generated',NULL,NULL),(56,11,'Student subjectwise attendance table generated',NULL,NULL),(57,11,'Student subjectwise attendance table filled and submitted',NULL,NULL),(58,3,'Teacher assigned to each classoom',NULL,NULL),(59,9,'Subject teachers not assigned to each classes.',NULL,NULL),(60,4,'Student details not filled completely',NULL,NULL),(61,3,'Teacher details not filled completely',NULL,NULL),(62,2,'Admin details not filled completely',NULL,NULL),(63,15,'Day active',NULL,NULL),(64,17,'Hour active',NULL,NULL),(65,7,'Attendance details created',NULL,NULL),(66,7,'Attendance details submitted',NULL,NULL),(67,14,'Batch active',NULL,NULL),(68,7,'Daily teacher/staff attendance list generated',NULL,NULL),(69,18,'Department active',NULL,NULL),(70,19,'Grade active',NULL,NULL),(71,20,'Role active',NULL,NULL),(72,21,'Section active',NULL,NULL),(73,22,'Semester active',NULL,NULL),(74,7,'Daily teacher/staff attendance list deleted.',NULL,NULL),(75,3,'Assigned to work',NULL,NULL),(76,5,'ClassRoom Active',NULL,NULL),(77,6,'Subject list assigned to each classes.',NULL,NULL),(78,15,'Day inactive',NULL,NULL),(79,17,'Hour inactive',NULL,NULL),(80,12,'Daily Teacher Attendance generated.',NULL,NULL),(81,12,'Daily Teacher Attendance - Absent.',NULL,NULL);
 /*!40000 ALTER TABLE `statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -741,7 +741,7 @@ CREATE TABLE `student_subject_attendances` (
   `subjectId` int NOT NULL,
   `dayId` int NOT NULL,
   `hourId` int NOT NULL,
-  `presentOrAbsent` int NOT NULL,
+  `presentOrAbsent` int NOT NULL DEFAULT '0',
   `daily_Teacher_AllocationId` int NOT NULL,
   `status` int NOT NULL,
   `batchId` int NOT NULL,
@@ -878,7 +878,7 @@ CREATE TABLE `teachers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`teacherId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -887,7 +887,7 @@ CREATE TABLE `teachers` (
 
 LOCK TABLES `teachers` WRITE;
 /*!40000 ALTER TABLE `teachers` DISABLE KEYS */;
-INSERT INTO `teachers` VALUES (1,2,2,1,1,NULL,NULL);
+INSERT INTO `teachers` VALUES (1,2,2,1,1,NULL,NULL),(2,1,1,1,1,NULL,NULL);
 /*!40000 ALTER TABLE `teachers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -979,7 +979,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','admin@admin.com','2026-07-11 03:05:24','$2y$10$CEUNGqPaYQId5pg7I0l7iOcTcq4cTe0WPLwcPQh1uSCeN5sz61Ibe',1,'9845632151',1,1,'2026-07-11 03:05:24','2026-07-11 03:05:24',NULL),(2,'Teacher','teacher@teacher.com','2026-07-11 03:05:24','$2y$10$01WK5dP7VzC7Tlvz7F/gkO0zDO1NaeL9zLt701cbcrkVhwq3k9J3G',2,'9845632151',2,1,'2026-07-11 03:05:25','2026-07-11 03:05:25',NULL),(3,'Student','student@student.com','2026-07-11 03:05:25','$2y$10$WMvu4KCbZ2nsvsz9Hj.cTOMqYCUZHIJGeYUAXAbTsn5JWfII2b0yS',3,'9845632151',3,1,'2026-07-11 03:05:25','2026-07-11 03:05:25',NULL),(4,'Guest','guest@guest.com','2026-07-11 03:05:25','$2y$10$1sKaBkqMwdXsWu4EBT56CuT1FmRjvhLslkJDJnNZzxAPqv2Q0ySTW',4,'9845632151',4,1,'2026-07-11 03:05:25','2026-07-11 03:05:25',NULL);
+INSERT INTO `users` VALUES (1,'Admin','admin@admin.com','2026-07-15 08:27:09','$2y$10$yeNhBdRHWcirOfrfZqrbu.jQPiEslYdmLQwB0RPYfTJPxoHta9Zn6',1,'9845632151',1,1,'2026-07-15 08:27:09','2026-07-15 08:27:09',NULL),(2,'Teacher','teacher@teacher.com','2026-07-15 08:27:09','$2y$10$460DT84bUNK0FER6CcHWNeCl/nvLXYHLM3PL.2jP54F9OorIulsMS',2,'9845632151',2,1,'2026-07-15 08:27:09','2026-07-15 08:27:09',NULL),(3,'Student','student@student.com','2026-07-15 08:27:09','$2y$10$SHJKEuxCp3/zG87KhznzbuycErAgXeO4X0.oKJlYWJ.RFyWft1a.O',3,'9845632151',3,1,'2026-07-15 08:27:09','2026-07-15 08:27:09',NULL),(4,'Guest','guest@guest.com','2026-07-15 08:27:09','$2y$10$XjqNTOWC9c1adi/ap9Bqk.uLXm8zNBa4JBZIHGm4J.loznFLNOFJS',4,'9845632151',4,1,'2026-07-15 08:27:09','2026-07-15 08:27:09',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
@@ -993,4 +993,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-07-11 14:06:39
+-- Dump completed on 2026-07-15 19:30:09

@@ -1,38 +1,38 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-  <script src="https://malsup.github.io/jquery.form.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
-<link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet" />
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('css/errorStyle.css') }}" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script src="{{ asset('js/sidebar.js') }}"></script>
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<script src="{{ asset('js/Admin/dashboard.js') }}" defer></script>
+<script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
+  <style>
+.setup-steps {
+    list-style-type: decimal !important;
+    padding-left: 30px !important;
+    margin-left: 20px;
+}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
-  
+.setup-steps li {
+    display: list-item !important;
+}
+    </style>
   <x-app-layout>
+    
+<div id="successBox" class="success-box">
+    <span id="successMessage" class="message">✅ Data saved successfully!</span>
+    <span class="close-btn" onclick="closeSuccess()">&times;</span>
+</div>
+<div id="errorShowBox" class="errorshow-box">
+    <div id="contentOfErrorShowBox"></div>
+    <span class="close-btn" onclick="closeError()">&times;</span>
+</div>
+
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
            {{ __('Dashboard') }}
@@ -66,7 +66,7 @@
         <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
           <ul>
             <li>
-            <a href="#markAttendance" class="list-group-item list-group-item-action bg-light">Mark attendance</a>
+            <a href="#markAttendanceLocation" class="list-group-item list-group-item-action bg-light">Mark attendance</a>
           </li>
             </ul>
         </div>
@@ -101,53 +101,113 @@
    -->
 
 
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <u>Instructions</u><br> <br>
+                    <h3>Order of flow :</h3> <br>
+                    <ol type="1" class="setup-steps">
+                      <li>Add the details regarding admins,batches,grades,etc in the Admin section</li>
+                      <li>Add Grade and Section details in their respective sections</li>
+                      <li>Create classroom in the Classroom section</li>
+                      <li>Add subjects in the Subjects section</li>
+                      <li>Assign  students to classes in the Students section</li>
+                      <li>Assign subject teachers to the necessary classrooms in the Subject Teachers section</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+
+ $(document).ready(function () {
+   getAllData();
+});
+ function getAllData()
+    {
+getRowsForAttendenceButton();
+}
+
+function getRowsForAttendenceButton(){
+    $.ajax({
+        url: "{{ route('getCurrentAttendanceDataId') }}",
+        method: "GET",
+        dataType: "json",
+        success: function(attendanceDataId) {
+if(attendanceDataId==0)
+{
+let rowsForStudentDetails = `<h3>Attendence submitted.</h3>`;
+$("#forMarkingTodaysAttendence").html(rowsForStudentDetails);
+}
+else
+    {
+    let rowsForStudentDetails = `
+        <form action="{{ route('markTodaysAttendance') }}" method="POST" id="markAttendance">
+            @csrf
+
+            <label>
+                <input type="radio" name="inOrOut" value="1">
+                Present
+            </label>
+            <br>
+
+            <label>
+                <input type="radio" name="inOrOut" value="0" checked>
+                Absent
+            </label>
+
+            <input type="hidden" name="userRole" value="1">
+            <input type="hidden" name="attendanceDataId" value="${attendanceDataId}">
+
+            <br>
+
+            <button type="submit" class="btn btn-primary form-control">
+                Submit
+            </button>
+        </form>
+    `;
+
+    $("#forMarkingTodaysAttendence").html(rowsForStudentDetails);
+ }
+}
+                ,
+
+                
+
+            });
+
+        }
+</script>
 
 
-        <div class="py-12" id="markAttendance">
+        <div class="py-12" id="markAttendanceLocation">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
+                  <div>
+                          </div>
                       <h2>Mark Attendence</h2>
-                @if(($att = \App\Models\Attendence::where('userId','=',Auth()->user()->userId)->where('todaysDate','=',"2026-03-14")->first())==NULL)
-                    @foreach(($att = \App\Models\Attendence::where('userId','=',Auth()->user()->userId)->where('todaysDate','=',"2026-03-14")->get()) as $attendance)
-                          <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
-                              {{ csrf_field() }}{{ method_field('POST') }}
-                              {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
-                              <br>
-                              {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,array('class'=>'form-control','id'=>'inOrOut','checked'=>'checked'))}}
-                              {{Form::hidden('userRole',3)}}
-                              {{Form::hidden('attendanceDataId',$attendance->attendanceDataId)}}
-                              <br>
-                              <button type="submit" class="btn btn-primary form-control">Submit</button>
-                              {{ Form::close() }}
-                      @endforeach
-                @elseif(($att = \App\Models\Attendence::where('attendences.batchId','=',1)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',"2026-03-14")->first())->yes_or_no == 0)
-                      @foreach(($att= \App\Models\Attendence::where('attendences.batchId','=',1)
-                          ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',"2026-03-14")->get()) as $attendance)
-                        <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
-                                {{ csrf_field() }}{{ method_field('POST') }}
-                                {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
-                                <br>
-                                {{Form::hidden('userRole',3)}}
-                                {{Form::hidden('attendanceDataId',$attendance->attendanceDataId)}}
-                                {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,array('class'=>'form-control','id'=>'inOrOut','checked'=>'checked'))}}
-                                <br>
-                                <button type="submit" class="btn btn-primary form-control">Submit</button>
-                                {{ Form::close() }}
-                      @endforeach
-                  @else
-                        {{ Form::open() }}
-                        {{ Form::label('attendance', 'Attendance Marked ? ');}}<input type="checkbox" name="loggedInOrOut" class="form-control" checked="checked;" disabled="false"/>
-                        {{ Form::close() }}
-                  @endif
+                            <div id="forMarkingTodaysAttendence">
 
-                    </div>
+                            </div>
+                      </div>
                 </div>
             </div>
         </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="{{ asset('js/Admin/dashboard.js') }}" defer></script>
-       <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
+        <div class="py-12" id="generateAttendanceListForStudents">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                      <h2>Generate Attendence List For Students</h2>
+                            <form action="{{route('createStudentsAttendanceList') }}" method="POST" enctype="multipart/form-data" id="createStudentsAttendanceList">
+                              {{ csrf_field() }}{{ method_field('POST') }}
+                              <button type="submit" class="btn btn-primary form-control">Generate</button>
+                            </form>
+                      </div>
+                </div>
+            </div>
+        </div>
+
 </x-app-layout>

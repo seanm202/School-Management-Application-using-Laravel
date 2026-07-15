@@ -143,14 +143,27 @@ const row = $(this).closest('tr');
     showSuccess(response.message);
     getAllData();
 },
+error: function(xhr) {
 
-      error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
+    console.log(xhr.responseJSON);
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    if (xhr.status === 422) {
 
-    showError(messages);
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
     });
 });
@@ -328,13 +341,28 @@ dataType: 'json',
     showSuccess(response.message);
     getAllData();
 },
-    error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+error: function(xhr) {
 
-    showError(messages);
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
       });
         });
@@ -383,13 +411,27 @@ const row = $(this).closest('tr');
     getAllData();
 },
 
-      error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
+error: function(xhr) {
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
     });
 });

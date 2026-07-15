@@ -4,6 +4,7 @@ namespace App\Providers;
 use App\Models\Batch;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,15 +23,14 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+   public function boot(): void
 {
-    if (Schema::hasTable('batches')) {
+    if (request()->hasHeader('X-Forwarded-Host')) {
+        URL::forceRootUrl(
+            request()->header('X-Forwarded-Proto') . '://' . request()->header('X-Forwarded-Host')
+        );
 
-        $currentBatch = Batch::where('status',1)->select('batchId')->first();
-
-        $currentBatchIdNow = $currentBatch ? $currentBatch->batchId : null;
-
-        view()->share('currentBatchId', $currentBatchIdNow);
+        URL::forceScheme('https');
     }
 }
 }

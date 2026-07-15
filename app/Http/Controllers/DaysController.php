@@ -113,7 +113,21 @@ public function getDayDetailsByAJAX()
      */
     public function destroy(Request $request)
     {
-        $deleted = DB::table('days')->where('dayId', '=', $request->dayId)->delete();
+        if($request->dayId!=1 || $request->dayId!=2 || $request->dayId!=3 || $request->dayId!=4 || $request->dayId!=5 || $request->dayId!=6 || $request->dayId!=7)
+        {
+            $deleted = DB::table('days')->where('dayId', '=', $request->dayId)->delete();
+            return response()->json([
+        'status' => true,
+        'message' => 'Deleted successfully!'
+        ]);
+        }
+         else
+        {
+            return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+        }
         return redirect()->route('\Admindashboard')->with('success', 'Deleted successfully.');
     }
 }

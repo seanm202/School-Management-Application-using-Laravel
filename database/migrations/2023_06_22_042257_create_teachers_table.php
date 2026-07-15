@@ -22,11 +22,18 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        
         DB::table('teachers')->insert([
             'teacherId' => 1,
             'userId' => 2,
             'teacherDetailId' => 2,
+            'status' => 1,
+            'batchId' => 1
+        ]);
+
+        DB::table('teachers')->insert([
+            'teacherId' => 2,
+            'userId' => 1,
+            'teacherDetailId' => 1,
             'status' => 1,
             'batchId' => 1
         ]);

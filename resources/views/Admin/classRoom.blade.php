@@ -195,6 +195,7 @@ display:none;
         <ul>
           <li>
           <a href="#generateTimetablesection" class="list-group-item list-group-item-action bg-light">Generate Timetable</a>
+          <a href="#generateSubjectsForEachClassroom" class="list-group-item list-group-item-action bg-light">Generate Classroom Subjects</a>
           <a href="#viewEditClassrooms" class="list-group-item list-group-item-action bg-light">View classrooms</a>
           <a href="#createClassRoom" class="list-group-item list-group-item-action bg-light">Create Classrooms</a>
         </li>
@@ -250,8 +251,25 @@ getTeachersList(function(options) {
                                                {{ csrf_field() }}{{ method_field('POST') }}
     					<label for="oddOrEven">Choose odd or even semester</label><br>
                                                <input type="radio" name="oddOrEven" value="1">Odd</input><br><input type="radio" name="oddOrEven" value="2">Even</input>
-                                               <td><button type="submit" class="btn btn-primary form-control">Generate Timetable</button>
+                                               <button type="submit" class="btn btn-primary form-control">Generate Timetable</button>
                                              {{ Form::close()}}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-12" id="generateSubjectsForEachClassroom">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                      Generate teacher allotting data for each classroom
+
+
+                                             <form action="{{route('generateSubjectsDataForEachClassroom')}}" method="POST" name="generateSubjectsDataForEachClassroom" id="generateSubjectsDataForEachClassroom">
+                                               {{ csrf_field() }}{{ method_field('POST') }}
+                                               <button type="submit" class="btn btn-primary form-control">Generate Subject Data</button>
+                                            </form>
 
                     </div>
                 </div>

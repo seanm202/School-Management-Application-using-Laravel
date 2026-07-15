@@ -1,0 +1,247 @@
+.btn-primary {
+    background-color: #BD3C3C !important;
+    border-color: #BD3C3C !important;
+    color: white;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #BD3C3C !important;
+    border-color: #BD3C3C !important;
+    color: white;
+}
+.updateDayDetails {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.day-input {
+    flex: 1;
+    min-width: 220px;
+}
+
+.daysTable td {
+    vertical-align: middle;
+}
+@media only screen and (min-width: 768px) {
+
+#createTheAdmin{
+  width:100%;
+}
+
+  }
+
+
+#parentMod > * {
+    margin: 30px 20;
+}
+
+.hourNamesNow{
+  font-size:10px;
+   width:100px;
+   height: 100px;
+   border: 1px solid green;
+}
+.dayNames{
+  font-size:10px;
+   width:100px;
+   height: 100px;
+   border: 1px solid green;
+ }
+ .timeTablesNames{
+   font-size:10px;
+    width:100px;
+    height: 100px;
+    border: 1px solid red;
+  }
+
+    body {
+overflow-x: scroll;
+}
+
+#sidebar-wrapper {
+min-height: 100vh;
+margin-left: -15rem;
+-webkit-transition: margin .25s ease-out;
+-moz-transition: margin .25s ease-out;
+-o-transition: margin .25s ease-out;
+transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+padding: 0.875rem 1.25rem;
+font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+width: 15rem;
+}
+
+#page-content-wrapper {
+min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+margin-left: 0;
+}
+
+@media (min-width: 768px) {
+#sidebar-wrapper {
+    margin-left: 0;
+}
+
+#page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+}
+
+#wrapper #sidebar-wrapper {
+    margin-left: -15rem;
+}
+}
+
+/* 
+
+For error messages and success messages
+
+*/
+   
+    .errorshow-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #B01D1A;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.errorshow-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+    /*
+
+    For Success
+
+    */
+    .success-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.success-box.show {
+    display: flex;
+}
+
+/* Close button */
+.close-btn {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Hover effect */
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+    /*
+
+    For Delete
+
+    */
+     .delete-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #AD1F34;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease;
+}
+
+/* Flex layout */
+.delete-box.show {
+    display: flex;
+}
+/* 
+
+Go to top button CSS
+
+*/
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: #CC5139;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #ED8A77;
+}

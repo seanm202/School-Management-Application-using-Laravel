@@ -23,6 +23,7 @@ class Student extends Model
           'studentSection',
             'studentSemester',
             'studentDepartmentId',
+            'status',
             'batchId'
     ];
 }

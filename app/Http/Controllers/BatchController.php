@@ -180,8 +180,21 @@ class BatchController extends Controller
      */
     public function destroybatch(Request $request)
     {
-      $batches = Batch::where('batchId','=',$request->batchId)->first();
+      if($request->batchId!=1)
+      {
+        $batches = Batch::where('batchId','=',$request->batchId)->first();
       $batches->delete();
-      return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
-    }
+       return response()->json([
+        'status' => true,
+        'message' => 'Deleted successfully!'
+        ]);
+      }
+      else
+        {
+           return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+        }
+       }
 }

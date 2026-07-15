@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('attendences', function (Blueprint $table) {
-            $table->id('attendanceDataId')->default(NULL);
+            $table->id('attendanceDataId');
             $table->integer('yes_or_no')->default(NULL);
             $table->integer('userId')->default(NULL);
             $table->integer('userRole')->default(NULL);

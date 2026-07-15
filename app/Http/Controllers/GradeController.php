@@ -143,12 +143,22 @@ $grade->save();
     public function destroyGrade(Request $request)
     {
       //Retrieve  details about grade
-      $grade= Grade::where('gradeId','=',$request->gradeId)->first();
+      if($request->gradeId!=1 || $request->gradeId!=2 || $request->gradeId!=3)
+      {
+        $grade= Grade::where('gradeId','=',$request->gradeId)->first();
       $grade->delete();
       return response()->json([
       'status' => true,
       'message' => 'Grade details has been deleted!'
       ]);
+    }
+    else
+      {
+         return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+      }
     }
 
 

@@ -160,11 +160,23 @@ $details->status = 2;
         public function deleteDay(Request $request)
         {
             //Store or add admin
+            if($request->dayId!=1)
+              {
             $days = Days::where('dayId',$request->dayId)->first();
            $days->delete();
 
-          return redirect()->route('Admin',['id'=>'editDayName'])
-    ->with('success', 'Day deleted successfully!');
+           return response()->json([
+        'status' => true,
+        'message' => 'Day deleted successfully!'
+        ]);
+        }
+        else
+          {
+            return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+          }
         }
 
 
@@ -249,6 +261,8 @@ $details->status = 2;
     public function deleteHour(Request $request)
     {
         //Store or add admin
+        if($request->hourId!=1)
+        {
         $hour =Hours::where('hourId','=',$request->hourId)->first();
 
         $hour->delete();
@@ -257,7 +271,14 @@ $details->status = 2;
         'status' => true,
         'message' => 'Hour details deleted successfully!'
         ]);
-
+        }
+        else
+          {
+            return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+          }
     }
 
 
@@ -314,10 +335,26 @@ return 1;
     public function destroy(Request $request)
     {
       //Delete self - admin
-      $admins = Admin::where('adminId',$request->userId)->first();
+      if($request->userId!=1)
+      {
+        $admins = Admin::where('adminId',$request->userId)->first();
       $admins->delete();
       $detail = Detail::where('userId',$request->userId)->first();
       $detail->delete();
+      
+            return response()->json([
+        'status' => true,
+        'message' => 'Admin deleted successfully!'
+        ]);
+      }
+      else
+      {
+
+            return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+      }
       return 1;
     }
 

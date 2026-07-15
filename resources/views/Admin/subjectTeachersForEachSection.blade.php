@@ -120,6 +120,7 @@ function getTeachersList(callback) {
         dataType: "json",
         success: function(data) {
 
+            console.log(data);
             let html = '<select name="teacherId" class="form-select">';
 
             data.forEach(function(teacher) {
@@ -130,7 +131,6 @@ function getTeachersList(callback) {
             });
 
             html += '</select>';
-
             callback(html);
         },
         error: function(jqXHR) {
@@ -147,8 +147,7 @@ function getTeachersList(callback) {
    var button = $(event.relatedTarget);
 
    var classRoomDetailId = button.attr('data-bs-class-room-id');
-//    var gradeId = button.attr('data-bs-grade-room-id');
-//    var sectionId = button.attr('data-bs-section-room-id');
+   
 $.ajax({
                 url: "{{ route('getSubjectsForClassroomForAssigningTeachers') }}", // Use the named route
                 method: "GET", // Use GET method for fetching data
@@ -159,14 +158,16 @@ $.ajax({
                 },
                 dataType: "json", // Expect a JSON response
                 success: function(data) { 
-                    console.log(data); // You can view the data in the browser console
+                  
 getTeachersList(function(selectTeacherHtml) {
 
-    let rowsGetTeacherDetail = "";
-
+    let DetailForAssigningTeachersToSubjects = "";
+    console.log(data);
+console.log(Array.isArray(data));
+console.log(typeof data);
     data.forEach(function(classRoomSubjectsForAssigningTeacher){
-
-        rowsGetTeacherDetail += `
+    // console.log("fdf");
+        DetailForAssigningTeachersToSubjects += `
         <tr>
             <td>${classRoomSubjectsForAssigningTeacher.gradeName}</td>
             <td>${classRoomSubjectsForAssigningTeacher.sectionName}</td>
@@ -176,7 +177,9 @@ getTeachersList(function(selectTeacherHtml) {
             <td colspan="2">
                 <form action="{{ route('assignTeacher') }}" method="POST" class="formForAssigningTeachers d-flex gap-2">
                     @csrf
-
+                    
+                    
+                    <input type="hidden" name="subjectForSectionId" value="${classRoomSubjectsForAssigningTeacher.subjectForSectionId}">
                     <input type="hidden" name="subjectId" value="${classRoomSubjectsForAssigningTeacher.subjectId}">
                     <input type="hidden" name="gradeId" value="${classRoomSubjectsForAssigningTeacher.gradeId}">
                     <input type="hidden" name="classRoomId" value="${classRoomSubjectsForAssigningTeacher.classRoomId}">
@@ -193,7 +196,7 @@ getTeachersList(function(selectTeacherHtml) {
         </tr>`;
     });
 
-    $('#inTheModalClassRoomsForTeacherAssignment tbody').html(rowsGetTeacherDetail);
+    $('#inTheModalClassRoomsForTeacherAssignment tbody').html(DetailForAssigningTeachersToSubjects);
 
 });            
         },
@@ -216,8 +219,6 @@ error: function(xhr) {
 
  -->
 <script type="text/javascript">
-  
- 
       $(document).ready(function () {
    getAllData();
 });
@@ -237,7 +238,7 @@ function listAssignClassRoomTeacherDetails()
                 method: "GET", // Use GET method for fetching data
                 dataType: "json", // Expect a JSON response
                 success: function(data) { 
-                    console.log(data); // You can view the data in the browser console
+                
 let rowsGetTeacherDetail = "";
     
            data.forEach(function(classRoomsForAssigningTeacher){
@@ -322,7 +323,7 @@ getTeachersList(function(selectTeacherHtml) {
             </td>
         </tr>`;
     });
-// console.log(rowsGetTeacherDetails);
+    
     $('#tableForViewingClasswiseSubjectTeachers tbody').html(rowsGetTeacherDetails);
 
 });            
@@ -355,11 +356,10 @@ function listAssignedClassRoomTeacherDetails()
                 method: "GET", // Use GET method for fetching data
                 dataType: "json", // Expect a JSON response
                 success: function(data) { 
-                    // console.log(data); 
 let rowsGetClassRoomDetail = "";
     
            data.forEach(function(classRoomsForAssignedTeacher){
-            // console.log("Class room ID + "+classRoomsForAssignedTeacher.classRoomId);
+            
                rowsGetClassRoomDetail += `
                     <tr>
     <td>${classRoomsForAssignedTeacher.classRoomId}</td>
@@ -381,8 +381,7 @@ let rowsGetClassRoomDetail = "";
            $('#tableShowingAlreadyAssignedSubjects tbody').html(rowsGetClassRoomDetail);                
         },
                 error: function(jqXHR, ajaxOptions, thrownError) {
-                    // alert('Error fetching data');
-                    // console.log(thrownError);
+                    
                     console.log("Status:", jqXHR.status);
     console.log("Response:", jqXHR.responseText); 
     console.log("Error:", thrownError);

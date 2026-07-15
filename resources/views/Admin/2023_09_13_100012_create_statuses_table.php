@@ -199,6 +199,8 @@ return new class extends Migration
             'statusName' => "Flagged",
         ]);
 
+
+
         DB::table('statuses')->insert([
             'statusId' => 29,
             'statusForEntity' => 4,
@@ -511,30 +513,6 @@ return new class extends Migration
             'statusId' => 77,
             'statusForEntity' =>6,
             'statusName' => "Subject list assigned to each classes.",
-        ]);
-        
-        DB::table('statuses')->insert([
-            'statusId' => 78,
-            'statusForEntity' =>15,
-            'statusName' => "Day inactive",
-        ]);
-
-        DB::table('statuses')->insert([
-            'statusId' => 79,
-            'statusForEntity' =>17,
-            'statusName' => "Hour inactive",
-        ]);
-
-        DB::table('statuses')->insert([
-            'statusId' => 80,
-            'statusForEntity' =>12,
-            'statusName' => "Daily Teacher Attendance generated.",
-        ]);
-
-        DB::table('statuses')->insert([
-            'statusId' => 81,
-            'statusForEntity' =>12,
-            'statusName' => "Daily Teacher Attendance - Absent.",
         ]);
     }
 

@@ -72,7 +72,7 @@ class StudentController extends Controller
         ->where(
             'students.status',
             '=',
-            5
+            24
         )
         ->select(
             'students.studentId AS studentId',
@@ -384,15 +384,26 @@ public function getStudentDetailsToReassignClassroomByAJAX()
      */
     public function destroy(Student $student)
     {
-      //Delete self - admin
-      $students = Student::where('adminId','=', $student->userId);
+        $studentHere = Student::where('userId','=', $student->userId)->first();
+      if($studentHere->studentId!=1)
+      {
+        //Delete self - admin
+      $students = Student::where('userId','=', $student->userId)->first();
       $students->delete();
-      $detail = Detail::where('userId','=',$student->userId);
+      $detail = Detail::where('userId','=',$student->userId)->first();
       $detail->delete();
       
       return response()->json([
           'status' => true,
           'message' => 'Student record has been deleted successfuly.'
           ]);
+    }
+    else
+        {
+             return response()->json([
+            'status' => true,
+            'message' => 'This cannot be deleted.'
+            ]);
+        }
     }
 }

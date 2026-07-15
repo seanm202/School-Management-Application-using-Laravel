@@ -122,12 +122,21 @@ class RoleController extends Controller
     public function destroyRole(Request $request)
     {
 
-
-      $role = Role::where('roleId','=',$request->roleId)->delete();
+      if($request->roleId!=1 || $request->roleId!=2 || $request->roleId!=3 || $request->roleId!=4 || $request->roleId!=5)
+      {
+        $role = Role::where('roleId','=',$request->roleId)->delete();
           
     return response()->json([
         'status' => true,
         'message' => 'Role has been Deleted!'
     ]);
+    }
+    else
+        {
+            return response()->json([
+            'status' => true,
+            'message' => 'This cannot be deleted.'
+            ]);
+        }
     }
 }

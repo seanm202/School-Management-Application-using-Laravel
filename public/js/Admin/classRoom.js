@@ -3,8 +3,6 @@
 // 
 
 // 
-
-
 function getTeachersList(callback) {
 
     $.ajax({
@@ -27,13 +25,28 @@ function getTeachersList(callback) {
 
             callback(options);
         },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
     });
 }
@@ -66,13 +79,28 @@ error: function(xhr) {
 
             callback(options);
         },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
     });
 }
@@ -105,13 +133,28 @@ error: function(xhr) {
 
             callback(options);
         },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
     });
 }
@@ -143,13 +186,28 @@ error: function(xhr) {
 
             callback(options);
         },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
     });
 }
@@ -185,6 +243,61 @@ function getGradesList(callback) {
 
 // 
 
+
+$(function () {
+
+$.ajaxSetup({
+headers: {
+'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                            });
+
+                $('#generateSubjectsDataForEachClassroom').click(function (e) {
+                e.preventDefault();
+                  var urlupdateClassRoom = $('#generateSubjectsDataForEachClassroom').attr('action');
+      $.ajax({
+            data: $('#generateSubjectsDataForEachClassroom').serialize(),
+      url: urlupdateClassRoom,
+type: "POST",
+dataType: 'json',
+      success: function(response)
+{
+    showSuccess(response.message);
+    getAllData();
+},
+
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
+}
+      });
+        });
+});
+
+// 
+
+// 
+
+// 
+
 $(function () {
 
 $.ajaxSetup({
@@ -206,13 +319,28 @@ dataType: 'json',
     showSuccess(response.message);
     getAllData();
 },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
       });
         });
@@ -228,7 +356,6 @@ $(document).ready(function(){
 
   $('#deleteClassRoom').ajaxForm(function() {
         event.preventDefault();
-alert('l');
         var url = $(this).attr('data-action');
 
         $.ajax({
@@ -244,13 +371,28 @@ alert('l');
     showSuccess(response.message);
     getAllData();
 },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
         });
     });
@@ -290,15 +432,6 @@ error: function(xhr) {
     showSuccess(response.message);
     getAllData();
 },
-
-// error: function(xhr) {
-//     var errors = xhr.responseJSON.errors;
-
-//     // Flatten all error arrays into one array
-//     var messages = Object.values(errors).flat();
-
-//     showError(messages);
-// }
 error: function(xhr) {
 
     console.log("Status:", xhr.status);
@@ -352,13 +485,28 @@ dataType: 'json',
     showSuccess(response.message);
     getAllData();
 },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
       });
         });
@@ -389,13 +537,28 @@ dataType: 'json',
     showSuccess(response.message);
     getAllData();
 },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
       });
         });
@@ -483,13 +646,28 @@ $(function () {
                 $('#createClassRoomPart')
                     .html(rowsGetForAssignClassRoomToStudent);
             },
+
 error: function(xhr) {
-    var errors = xhr.responseJSON.errors;
 
-    // Flatten all error arrays into one array
-    var messages = Object.values(errors).flat();
+    console.log(xhr.responseJSON);
 
-    showError(messages);
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        console.log(xhr.responseText);
+        showError("Something went wrong.");
+
+    }
 }
         });
 

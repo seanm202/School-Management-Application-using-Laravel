@@ -1,16 +1,11 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 
 
         <script src="{{ asset('js/Admin/attendance.js') }}" defer></script>
        <script src="{{ asset('js/Admin/commonContent.js') }}" defer></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
@@ -20,16 +15,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -80,11 +65,273 @@
       </script>
     @endif
 
-    <div class="py-12" id="todaysAbsentees">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    Show today's absentees   @if(Session::has('success'))
+
+    <!-- 
+    
+    
+    -->
+
+    <div class="modal fade" id="dailyAbsentees" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="absenteeToday">
+        <table class="table responsive" id="forShowingAbsentees">
+                        <thead>
+                          <tr>
+                            <th>Student Id</th>
+                            <th>Student Name</th>
+                            <th>SubjectName</th>
+                            <th>Day</th>
+                            <th>Hour</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                        </tbody>    
+                    </table>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 
+
+Absentees on a date
+
+-->
+<div class="modal fade" id="dateAbsentees" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="absenteeDate">
+        <table class="table responsive" id="forShowingDateAbsentees">
+                        <thead>
+                          <tr>
+                            <th>Student Id</th>
+                            <th>Student Name</th>
+                            <th>SubjectName</th>
+                            <th>Day</th>
+                            <th>Hour</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                        </tbody>    
+                    </table>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 
+
+
+-->
+<div class="modal fade" id="betweenDateAbsentees" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="absenteeBetweenDate">
+        <table class="table responsive" id="forShowingBetweenDateAbsentees">
+                        <thead>
+                          <tr>
+                            <th>Student Id</th>
+                            <th>Student Name</th>
+                            <th>SubjectName</th>
+                            <th>Day</th>
+                            <th>Hour</th>
+                          </tr>
+                        </thead>  
+                        <tbody>
+                        </tbody>    
+                    </table>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- 
+    
+    
+    -->
+  <script type="text/javascript">
+ $(document).ready(function () {
+
+   $('#dailyAbsentees').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+   var newUserId = button.attr('data-user-id');
+$.ajax({
+                url: "{{ route('getDataForOfTodaysAbsentees') }}", // Use the named route
+                method: "GET", 
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                if (data.length === 0) {
+                  $('#absenteeToday').html("<h2 style='color:red;'>No record found!</h2>");
+    }
+                else
+                  {
+        let rowsOfDailyAbsenteesDetail="";
+data.forEach(function(todaysAbsentee) {
+                    rowsOfDailyAbsenteesDetail += `
+                        <tr>
+                            <td>${todaysAbsentee.studentId}</td>
+                            <td>${todaysAbsentee.sal} ${todaysAbsentee.firstName} ${todaysAbsentee.lastName}</td>
+                            <td>${todaysAbsentee.subjectName}</td>
+                            <td>${todaysAbsentee.dayName}</td>
+                            <td>${todaysAbsentee.hourName}</td>
+                        </tr>`;
+                });
+        
+       
+
+    $('#forShowingAbsentees tbody').html(rowsOfDailyAbsenteesDetail);
+                }
+        },
+                   error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+
+      }
+            });
+
+ });
+  });
+
+  
+ $(document).ready(function () {
+
+   $('#dateAbsentees').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+  const absentDate = document.getElementById("dateOfAbsent").value;
+$.ajax({
+                url: "{{ route('getDataForOfAbsenteesOnDate') }}", // Use the named route
+                method: "GET", 
+                data:
+                {
+                  dateOfAbsent:absentDate,
+                },
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+                if (data.length === 0) {
+                  $('#absenteeDate').html("<h2 style='color:red;'>No record found!</h2>");
+    }
+                else
+                  {
+        let rowsOfDateAbsenteesDetail="";
+data.forEach(function(dateAbsentee) {
+                    rowsOfDateAbsenteesDetail += `
+                        <tr>
+                            <td>${dateAbsentee.studentId}</td>
+                            <td>${dateAbsentee.sal} ${dateAbsentee.firstName} ${dateAbsentee.lastName}</td>
+                            <td>${dateAbsentee.subjectName}</td>
+                            <td>${dateAbsentee.dayName}</td>
+                            <td>${dateAbsentee.hourName}</td>
+                        </tr>`;
+                });
+        
+       
+
+    $('#forShowingDateAbsentees tbody').html(rowsOfDateAbsenteesDetail);
+                  }
+        },
+                   error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+
+      }
+            });
+
+ });
+  });
+
+  
+ $(document).ready(function () {
+
+   $('#betweenDateAbsentees').on('show.bs.modal', function (event) {
+
+   var button = $(event.relatedTarget);
+  const absentFirstDate = document.getElementById("startingDateOfAbsent").value;
+  const absentLastDate = document.getElementById("endingDateOfAbsent").value;
+$.ajax({
+                url: "{{ route('getDataForOfAbsenteesOnBetweenDates') }}", // Use the named route
+                method: "GET", 
+                data:
+                {
+                  firstDateOfAbsent:absentFirstDate,
+                  lastDateOfAbsent:absentLastDate,
+                },
+                dataType: "json", // Expect a JSON response
+                success: function(data) { 
+          
+                if (data.length === 0) {
+                  $('#absenteeBetweenDate').html("<h2 style='color:red;'>No record found!</h2>");
+    }
+                else
+                  {
+        let rowsOfBetweenDateAbsenteesDetail="";
+data.forEach(function(betweenDateAbsentee) {
+                    rowsOfBetweenDateAbsenteesDetail += `
+                        <tr>
+                            <td>${betweenDateAbsentee.studentId}</td>
+                            <td>${betweenDateAbsentee.sal} ${betweenDateAbsentee.firstName} ${betweenDateAbsentee.lastName}</td>
+                            <td>${betweenDateAbsentee.subjectName}</td>
+                            <td>${betweenDateAbsentee.dayName}</td>
+                            <td>${betweenDateAbsentee.hourName}</td>
+                        </tr>`;
+                });
+        
+       
+
+    $('#forShowingBetweenDateAbsentees tbody').html(rowsOfBetweenDateAbsenteesDetail);
+                  }
+        },
+                   error: function (xhr) {
+  console.log(xhr.responseText);
+var errors = xhr.responseJSON.errors;
+jsdisplaycustomerrors(errors);
+
+      }
+            });
+
+ });
+  });
+
+  
+ $(document).ready(function () {
+   getAllData();
+});
+ function getAllData()
+    {
+// getNewUsers();
+}
+
+</script>
+ @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -93,39 +340,15 @@
             @endphp
         </div>
         @endif
-
-                    <form action="{{route('showTodaysAbsentees')}}" method="POST" name="showTodaysAbsentees" id="showTodaysAbsentees">
-                    {{ csrf_field() }}{{ method_field('POST') }}
-                  <button type="submit" class="btn btn-primary form-control">Submit</button>
-                    {{ Form::close() }}
-<br>
-
-                    <hr>
-
-                      @isset($todaysAttendences)
-                        @if(count($todaysAttendences)>0)
-                          <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Name</th>
-                                  <th>Role</th>
-                                  <th>Email</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                  @foreach($todaysAttendences as $todaysAttendence)
-                                    <tr>
-                                      <td>{{$todaysAttendence->Name}}</td>
-                                      <td>{{$todaysAttendence->roleName}}</td>
-                                      <td>{{$todaysAttendence->Email}}</td>
-                                    </tr>
-                                  @endforeach
-                              </tbody>
-                          </table>
-                        @else
-                          <h3 style="color:red;">List is empty</h3>
-                        @endif
-                      @endisset
+    <div class="py-12" id="todaysAbsentees">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    Show today's absentees  
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dailyAbsentees">
+                                View
+                            </button>
+                    
 
                 </div>
             </div>
@@ -142,40 +365,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Show absentees on :
+                    <label for="selectDateAbsent">Select date : </label>
+                    <input type="date" name="selectDateAbsent" id="dateOfAbsent" />
+                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dateAbsentees">
+                                View
+                            </button>
 
-                    <form action="{{route('showAbsenteesOn')}}" method="POST" name="showAbsenteesOn" id="showAbsenteesOn">
-                    {{ csrf_field() }}{{ method_field('POST') }}
-                    {{Form::date('selectedDate', 'Select date : ',array('class'=>'form-control'))}}
-                    <button type="submit" class="btn btn-primary form-control">Show</button>
-                    {{ Form::close() }}
-
-                    <br>
-                                        <hr>
-
-                                      @isset($attendences)
-                                          @if(count($attendences)>0)
-                                            <table class="table">
-                                              <thead>
-                                                <tr>
-                                                  <th>Name</th>
-                                                  <th>Role</th>
-                                                  <th>Email</th>
-                                                </tr>
-                                              </thead>
-                                              <tbody>
-                                                  @foreach($attendences as $attendence)
-                                                    <tr>
-                                                      <td>{{$attendence->Name}}</td>
-                                                      <td>{{$attendence->roleName}}</td>
-                                                      <td>{{$attendence->Email}}</td>
-                                                    </tr>
-                                                  @endforeach
-                                              </tbody>
-                                          </table>
-                                        @else
-                                          <h3 style="color:red;">List is empty</h3>
-                                        @endif
-                                      @endisset
+                    
                   </div>
             </div>
         </div>
@@ -190,45 +386,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    Show absentees between two days :
+                    Show absentees between two dates :
 
-                    <form action="{{route('showAbsenteesBetween')}}" method="POST" name="showAbsenteesBetween" id="showAbsenteesBetween">
-                    {{ csrf_field() }}{{ method_field('POST') }}
-                    {{Form::label('fromDate', 'From :')}}
-                    {{Form::date('fromDate',NULL,array('class'=>'form-control'))}}<br><br>
-                    {{Form::label('tillDate','To :')}}
-                    {{Form::date('tillDate',NULL,array('class'=>'form-control'))}}
-                <button type="submit" class="btn btn-primary form-control">Submit</button>
-                    {{ Form::close() }}
-<br>
-                                        <hr>
+                  <label for="selectFirstDateAbsent">Select starting date : </label>
+                    <input type="date" name="selectFirstDateAbsent" id="startingDateOfAbsent" />
+                  <label for="selectLastDateAbsent">Select starting date : </label>
+                    <input type="date" name="selectLastDateAbsent" id="endingDateOfAbsent" />
+                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#betweenDateAbsentees">
+                                View
+                            </button>
 
-                                      @isset($attendencesBetweens)
-                                        @if(count($attendencesBetweens)>0)
-                                          <table class="table">
-                                              <thead>
-                                                <tr>
-                                                  <th>Name</th>
-                                                  <th>Role</th>
-                                                  <th>Email</th>
-                                                  <th>Date</th>
-                                                </tr>
-                                              </thead>
-                                              <tbody>
-                                                  @foreach($attendencesBetweens as $attendencesBetween)
-                                                    <tr>
-                                                      <td>{{$attendencesBetween->Name}}</td>
-                                                      <td>{{$attendencesBetween->roleName}}</td>
-                                                      <td>{{$attendencesBetween->Email}}</td>
-                                                      <td>{{$attendencesBetween->todaysDate}}</td>
-                                                    </tr>
-                                                  @endforeach
-                                              </tbody>
-                                          </table>
-                                        @else
-                                          <h3 style="color:red;">List is empty</h3>
-                                        @endif
-                                      @endisset
                 </div>
             </div>
         </div>
@@ -238,5 +405,5 @@
     </div>
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+       
 </x-app-layout>

@@ -99,6 +99,7 @@ Route::resource('batch', 'BatchController');
 ////Generate daily teacher enabled attendance
 Route::post('createDailyAttendanceForAllTeachers', [DailyTeacherAllocationController::class, 'createDailyAttendanceForAllTeachers'])->name('createDailyAttendanceForAllTeachers');
 Route::resource('dailyTeacherAllocation', 'dailyTeacherAllocationController');
+Route::post('createStudentsAttendanceList', [DailyTeacherAllocationController::class, 'createStudentsAttendanceList'])->name('createStudentsAttendanceList');
 
 ////Generate daily teacher enabled attendance for students
 Route::get('indexstudentSubjectAttendance', [App\Http\Controllers\StudentSubjectAttendanceController::class, 'indexstudentSubjectAttendance'])->name('indexstudentSubjectAttendance');
@@ -125,6 +126,21 @@ Route::resource('admin', 'AdminController');
 
 Route::post('setCurrentHour', [HoursController::class, 'setCurrentHour'])->name('setCurrentHour');
 
+
+Route::get('getDataForOfAbsenteesOnBetweenDates', [StudentSubjectAttendanceController::class, 'getDataForOfAbsenteesOnBetweenDates'])->name('getDataForOfAbsenteesOnBetweenDates');
+
+Route::get('getDataForOfAbsenteesOnDate', [StudentSubjectAttendanceController::class, 'getDataForOfAbsenteesOnDate'])->name('getDataForOfAbsenteesOnDate');
+
+
+Route::get('getDataForOfTodaysAbsentees', [StudentSubjectAttendanceController::class, 'getDataForOfTodaysAbsentees'])->name('getDataForOfTodaysAbsentees');
+
+Route::post('markStudentEachAttendance', [StudentSubjectAttendanceController::class, 'markStudentEachAttendance'])->name('markStudentEachAttendance');
+
+Route::get('getStudentsAttendanceList', [StudentSubjectAttendanceController::class, 'getStudentsAttendanceList'])->name('getStudentsAttendanceList');
+
+Route::get('getCurrentTeacherAttendanceDataId', [AttendenceController::class, 'getCurrentTeacherAttendanceDataId'])->name('getCurrentTeacherAttendanceDataId');
+
+Route::get('getCurrentAttendanceDataId', [AttendenceController::class, 'getCurrentAttendanceDataId'])->name('getCurrentAttendanceDataId');
 
 Route::post('showDaysAbsentees', [AttendenceController::class, 'showDaysAbsentees'])->name('showAbsenteesOn');
 Route::post('showAbsenteesBetweenDays', [AttendenceController::class, 'showAbsenteesBetweenDays'])->name('showAbsenteesBetween');
@@ -183,10 +199,17 @@ Route::get('getDataForAddingDetailsOfTeacher', [DetailController::class, 'getDat
 
 Route::get('getDataForAddingDetailsOfStudent', [DetailController::class, 'getDataForAddingDetailsOfStudent'])->name('getDataForAddingDetailsOfStudent');
 
+Route::get('getDataForAddingDetailsOfStudentByTeacher', [DetailController::class, 'getDataForAddingDetailsOfStudentByTeacher'])->name('getDataForAddingDetailsOfStudentByTeacher');
+
 Route::get('getAdmins', [DetailController::class, 'getAdmins'])->name('getAdmins');
 Route::get('getNewUsers', [DetailController::class, 'getNewUsers'])->name('getNewUsers');
 Route::get('getTeachers', [DetailController::class, 'getTeachers'])->name('getTeachers');
 Route::get('getStudents', [DetailController::class, 'getStudents'])->name('getStudents');
+Route::get('getStudentsAccordingToSubjectTeacher', [DetailController::class, 'getStudentsAccordingToSubjectTeacher'])->name('getStudentsAccordingToSubjectTeacher');
+
+
+
+Route::post('generateSubjectsDataForEachClassroom', [SubjectTeacherForEachSectionsController::class, 'generateSubjectsDataForEachClassroom'])->name('generateSubjectsDataForEachClassroom');
 
 Route::get('getListOfTeachers', [SubjectTeacherForEachSectionsController::class, 'getListOfTeachers'])->name('getListOfTeachers');
 Route::get('getSubjectsForClassroomForAssigningTeachers', [SubjectTeacherForEachSectionsController::class, 'getSubjectsForClassroomForAssigningTeachers'])->name('getSubjectsForClassroomForAssigningTeachers');
@@ -196,6 +219,7 @@ Route::get('getTeacherDetails', [TeacherController::class, 'getTeacherDetails'])
 Route::get('getStudentDetailsByAJAX', [StudentController::class, 'getStudentDetailsByAJAX'])->name('getStudentDetailsByAJAX');
 Route::get('getAdminAllDetails', [DetailController::class, 'getAdminAllDetails'])->name('getAdminAllDetails');
 Route::post('storeDetails', [DetailController::class, 'storeDetails'])->name('storeDetails');
+Route::post('storeDetailsByTeacher', [DetailController::class, 'storeDetailsByTeacher'])->name('storeDetailsByTeacher');
 Route::post('updateAdminDetails', [DetailController::class, 'updateAdminDetails'])->name('updateAdminDetails');
 Route::post('updateTeacherDetails', [DetailController::class, 'updateTeacherDetails'])->name('updateTeacherDetails');
 Route::post('updateStudentDetails', [DetailController::class, 'updateStudentDetails'])->name('updateStudentDetails');
@@ -293,7 +317,17 @@ Route::resource('semester', 'SemesterController');
 //////StudentMarks//////////
 
 
+Route::get('getStudentMarkList', [StudentMarksController::class, 'getStudentMarkList'])->name('getStudentMarkList');
+
+
+//  For teachers
+
+Route::get('getStudentsListToAddMarksForTeacher', [StudentMarksController::class, 'getStudentsListToAddMarksForTeacher'])->name('getStudentsListToAddMarksForTeacher');
+
+
 Route::post('submitSubjectMarks', [StudentMarksController::class, 'submitSubjectMarks'])->name('submitSubjectMarks');
+
+Route::get('getListForAddingStudentMarksByATeacher', [StudentMarksController::class, 'getListForAddingStudentMarksByATeacher'])->name('getListForAddingStudentMarksByATeacher');
 
 Route::get('getSubjectsListForAddingStudentMarks', [StudentMarksController::class, 'getSubjectsListForAddingStudentMarks'])->name('getSubjectsListForAddingStudentMarks');
 Route::get('getStudentsListToAddMarks', [StudentMarksController::class, 'getStudentsListToAddMarks'])->name('getStudentsListToAddMarks');

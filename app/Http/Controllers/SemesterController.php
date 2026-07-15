@@ -190,9 +190,19 @@ public function getSemesterDetailsByAJAX()
        */
        public function destroy(Request $request)
        {
-         //Delete Subject
-        $semester = Semester::where('semesterId', $request->semesterId)->first();
-         $semester->delete();
-         return redirect()->route('Admin');
+          if($request->semesterId!=1 || $request->semesterId!=2 || $request->semesterId!=3)
+          {
+            //Delete Subject
+            $semester = Semester::where('semesterId', $request->semesterId)->first();
+            $semester->delete();
+            return redirect()->route('Admin');
+          }
+          else
+          {
+            return response()->json([
+            'status' => true,
+            'message' => 'This cannot be deleted.'
+            ]);
+          }
        }
 }

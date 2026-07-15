@@ -169,7 +169,7 @@ $request->validate(
                $classRoom->classTeacher =    $request->classTeacher;
                $classRoom->description =$request->classDescription;
                $classRoom->capacity =$request->classCapacity;
-               $classRoom->status =48;
+               $classRoom->status =76;
                $classRoom->classTimeTableId = 1; //$request->classTimeTableId ? $request->classTimeTableId;
                $classRoom->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
                $classRoom->save();
@@ -285,12 +285,22 @@ $request->validate(
      */
     public function destroyclassRoom(Request $request)
     {
-        $classRoom=ClassRoom::where('classroomDetailId','=',$request->classroomId)->first();
+        if($request->classroomId!=1)
+        {
+            $classRoom=ClassRoom::where('classroomDetailId','=',$request->classroomId)->first();
         $classRoom->delete();
         return response()->json([
         'status' => true,
         'message' => 'ClassRoom Deleted!'
         ]);
+        }
+        else
+            {
+                return response()->json([
+        'status' => true,
+        'message' => 'This cannot be deleted.'
+        ]);
+            }
     }
 
 

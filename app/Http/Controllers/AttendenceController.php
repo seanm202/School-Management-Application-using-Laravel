@@ -7,9 +7,9 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\batch;
 use App\Models\attendence;
+use App\Models\StudentSubjectAttendance;
 use Illuminate\Http\Request;
 use App\Models\dailyTeacherAllocation;
-use App\Models\studentSubjectAttendance;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use Redirect;
@@ -38,13 +38,13 @@ class AttendenceController extends Controller
        {
          $users = User::whereIn('role',[2,3])->get();
 
-       foreach ($users as $userd) {
+       foreach ($users as $user) {
 
          $attendence = new attendence;
 
         $attendence->yes_or_no =  0;
-        $attendence->userId =  $userd->userId;
-        $attendence->userRole = $userd->role;
+        $attendence->userId =  $user->userId;
+        $attendence->userRole = $user->role;
         $attendence->status = 65;
         // $attendence->dailyReg =  0;
         $attendence->todaysDate=date('Y-m-d');
@@ -54,7 +54,7 @@ class AttendenceController extends Controller
               $attendence = new attendence;
               $attendence->yes_or_no =  1;
               $attendence->userId =  1;
-              $attendence->userRole = $userd->role;
+              $attendence->userRole = $user->role;
               $attendence->status = 65;
               // $attendence->dailyReg =  0;
               $attendence->batchId=batch::where('status',40)->select('batchId')->first()->batchId;
@@ -119,7 +119,8 @@ class AttendenceController extends Controller
 
                         $attendences = attendence::where('todaysDate', '=', $request->dateSelected)->where('userRole', '=', 2)->get();
 
-                        $attendences->each->delete();
+                        $attendences->status=74;
+                        $attendences->save();
 
                         return response()->json([
                         'status' => true,
@@ -245,6 +246,8 @@ class AttendenceController extends Controller
         //
     }
 
+
+
    public function showTodaysAbsentees(Request $request)
    {
      //View attendence details
@@ -280,7 +283,89 @@ class AttendenceController extends Controller
       return view("/Admin/attendance")->with('attendences',$attendences);
    }
 
+public function getCurrentAttendanceDataId()
+{
+  
+  $userId=Auth::id();
+  $exists = attendence::where('userId', $userId)
+              ->where('status',66)
+              ->where('todaysDate',date('Y-m-d'))
+              ->exists();
 
+if ($exists) {
+   return response()->json(0);
+}
+else{
+  $existHere = attendence::where('userId', $userId)
+              ->where('status',65)
+              ->where('todaysDate',date('Y-m-d'))
+              ->exists();
+ if($existHere)
+  { 
+ $existHere = attendence::where('userId', $userId)
+              ->where('status',65)
+              ->where('todaysDate',date('Y-m-d'))
+              ->first();
+              return response()->json($existHere->attendanceDataId);
+}
+else{
+$todayAttendenceId=new attendence;
+  $todayAttendenceId->userId=$userId;
+  $todayAttendenceId->yes_or_no=0;
+  $todayAttendenceId->status=65;
+  $todayAttendenceId->userRole=1;
+  $todayAttendenceId->todaysDate=date('Y-m-d');
+  $todayAttendenceId->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
+  $todayAttendenceId->save();
+  return response()->json($todayAttendenceId->attendanceDataId);
+}
+}
+
+}
+
+
+public function getCurrentTeacherAttendanceDataId()
+{
+  $attendanceDataIds=0;
+  $userId=Auth::id();
+  $exists = attendence::where('userId', $userId)
+              ->where('status',66)
+              ->where('todaysDate',date('Y-m-d'))
+              ->exists();
+
+if ($exists) {
+   return response()->json(0);
+}
+else{
+  $existHere = attendence::where('userId', $userId)
+              ->where('status',65)
+              ->where('todaysDate',date('Y-m-d'))
+              ->exists();
+ if($existHere)
+  { 
+ $existHere = attendence::where('userId', $userId)
+              ->where('status',65)
+              ->where('todaysDate',date('Y-m-d'))
+              ->first();
+  $attendanceDataIds=$existHere->attendanceDataId;
+              return response()->json($attendanceDataIds);
+}
+else{
+$todayAttendenceId=new attendence;
+  $todayAttendenceId->userId=$userId;
+  $todayAttendenceId->yes_or_no=0;
+  $todayAttendenceId->status=65;
+  $todayAttendenceId->userRole=2;
+  $todayAttendenceId->todaysDate=date('Y-m-d');
+  $todayAttendenceId->batchId=Batch::where('status',40)->select('batchId')->first()->batchId;
+  $todayAttendenceId->save();
+
+  $attendanceDataIds=$todayAttendenceId->attendanceDataId;
+  return response()->json($attendanceDataIds);
+}
+}
+
+}
 public function markTodaysAttendance(Request $request)
 {
   //View attendence details
@@ -289,8 +374,10 @@ public function markTodaysAttendance(Request $request)
   $att->yes_or_no = $request->inOrOut;
   $att->status = 66;
   $att->save();
-return back()->with('success', 'Updated successfully.');
-  // return Redirect::back();
+   return response()->json([
+        'status' => true,
+        'message' => 'Updated successfully.'
+    ]);
 }
 public function markTodaysAttendanceStudent(Request $request)
    {

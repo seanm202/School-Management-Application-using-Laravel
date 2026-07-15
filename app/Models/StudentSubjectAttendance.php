@@ -25,8 +25,7 @@ class StudentSubjectAttendance extends Model
         'dayId',
         'hourId',
         'presentOrAbsent',
-        'submitted',
-        'dailyTeacherAllocationId',
+        'daily_Teacher_AllocationId',
         'status',
           'batchId'
     ];

@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\StudentMarks;
 use Illuminate\Http\Request;
 use App\Models\Batch;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DomPdfController;
 
 class StudentMarksController extends Controller
@@ -22,7 +23,8 @@ class StudentMarksController extends Controller
     {
         $batchId=Batch::where('status','=',40)->select('batchId')->first();
       $students = student::where('students.batchId','=',$batchId->batchId)
-      ->where('students.studentId','!=',1)  
+      ->where('students.studentId','!=',1) 
+      ->where('students.status','=',24)  
       ->get();
       $i=1;
       $createdCount=0;
@@ -48,7 +50,7 @@ class StudentMarksController extends Controller
             'subjectId'    => $subject->subjectId,
             'classRoomId'   => $student->studentClassroom,
             'marks' => 0,
-            'status'    => 8,
+            'status'    => 31,
             'batchId'   => $batchId->batchId
         ]
         );
@@ -90,6 +92,40 @@ class StudentMarksController extends Controller
         
       return response()->json($subjectsLists);
     }
+    public function getStudentMarkList()
+    {
+      $studentsMarks=StudentMarks::join('students','students.studentId','=','student_marks.studentId')
+      ->join('subjects','subjects.subjectId','=','student_marks.subjectId')
+      ->where('students.userId','=',Auth::id())
+      ->select('student_marks.*','students.*','subjects.*')
+      ->get();
+
+      return response()->json($studentsMarks);
+    }
+    
+    public function getListForAddingStudentMarksByATeacher(Request $request)
+    {
+      $batches= Batch::where('status','=',40)->first();
+      $currentBatchId= $batches->batchId;
+        $subjectsLists=StudentMarks::join('students','students.studentId','=','student_marks.studentId')
+        ->join('subjects','subjects.subjectId','=','student_marks.subjectId')
+        ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.subjectId','=','student_marks.subjectId')
+        ->join('teachers','teachers.teacherId','=','subject_teacher_for_each_sections.teacherId')
+        ->where('student_marks.batchId','=',$currentBatchId)
+        ->where('teachers.userId','=',Auth::id())
+        ->where('student_marks.studentId','=',$request->studentId)
+        ->select('subjects.subjectName AS subjectName',
+        'subjects.subjectCode AS subjectCode',
+        'student_marks.subjectId AS subjectId',
+        'subjects.subjectMaxMarks AS MaxMarks',
+        'student_marks.studentId AS studentId',
+        'student_marks.student_marksId AS student_marksId',
+        'student_marks.marks AS marks')
+        ->get();
+        
+      return response()->json($subjectsLists);
+    }
+
     public function getStudentsListToAddMarks()
     {
       $currentBatchId=$this->getCurrentBatch();
@@ -116,6 +152,43 @@ class StudentMarksController extends Controller
                         'sections.sectionName AS sectionName',
                         'sections.sectionId AS sectionId'
                       )
+                    ->where('students.status','=',29)
+                    ->where('student_marks.batchId','=',$currentBatchId)
+                    ->get();
+      return response()->json($studentsMarks);
+    }
+
+    //  For teacher makrs entry option
+    public function getStudentsListToAddMarksForTeacher()
+    {
+      $currentBatchId=$this->getCurrentBatch();
+      $studentsMarks = StudentMarks::join('students','students.studentId','=','student_marks.studentId')
+                      ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.classRoomId','=','students.studentClassroom')
+                      ->join('class_rooms','class_rooms.classroomDetailId','=','subject_teacher_for_each_sections.classRoomId')
+                      ->join('departments','departments.departmentId','=','subject_teacher_for_each_sections.departmentId')
+                      ->join('semesters','semesters.semesterId','=','subject_teacher_for_each_sections.semesterId')
+                      ->join('sections','sections.sectionId','=','class_rooms.section')
+                      ->join('grades','grades.gradeId','=','class_rooms.grade')
+                      ->join('teachers','teachers.teacherId','=','subject_teacher_for_each_sections.teacherId')
+                      ->join('details','details.userId','=','student_marks.userId')
+                      ->select(
+                        'student_marks.student_marksId AS student_marksId',
+                        'students.studentId AS studentId',
+                        'details.userId AS userId',
+                        'details.sal AS sal',
+                        'details.firstName AS firstName',
+                        'details.lastName AS lastName',
+                        'semesters.semesterName AS semesterName',
+                        'semesters.semesterId AS semesterId',
+                        'departments.departmentName AS departmentName',
+                        'departments.departmentId AS departmentId',
+                        'grades.grade AS gradeName',
+                        'grades.gradeId AS gradeId',
+                        'sections.sectionName AS sectionName',
+                        'sections.sectionId AS sectionId'
+                      )
+                    ->where('students.status','=',29)
+                    ->where('teachers.userId','=',Auth::id())
                     ->where('student_marks.batchId','=',$currentBatchId)
                     ->get();
       return response()->json($studentsMarks);
@@ -205,9 +278,23 @@ class StudentMarksController extends Controller
    public function deleteMarkEntry(Request $request)
    {
 
-     $studentMarks = StudentMarks::where('student_marksId','=',$request->subjectMarkIdDelete)->first();
+        if($request->subjectMarkIdDelete!=1)
+          {
+            $studentMarks = StudentMarks::where('student_marksId','=',$request->subjectMarkIdDelete)->first();
          $studentMarks->delete();
-      return redirect()->route('AdminStudent',['id'=>'adminStudentAddStudentMarks']);
+      return response()->json([
+            'status' => true,
+            'message' => 'Deleted successfully!'
+            ]);
+            
+   }
+   else
+    {
+      return response()->json([
+            'status' => true,
+            'message' => 'This cannot be deleted.'
+            ]);
+    }
    }
 
     public function updateMarksTeacher(Request $request, studentMarks $studentMarks)
@@ -235,6 +322,7 @@ class StudentMarksController extends Controller
     'status' => true,
     'message' => "Mark Updated",
 ]);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -245,8 +333,22 @@ class StudentMarksController extends Controller
      public function destroy(StudentMarks $studentMark)
      {
        //Delete self - admin
-       $studentMark = StudentMarks::where('student_marksId','=',$studentMark->student_marksId);
+       
+       if($studentMark->student_marksId==1)
+        {
+            return response()->json([
+            'status' => true,
+            'message' => 'This cannot be deleted.'
+            ]);
+        }
+        else
+          {
+            $studentMark = StudentMarks::where('student_marksId','=',$studentMark->student_marksId);
        $studentMark->delete();
-       return redirect()->route('AdminStudent');
+       return response()->json([
+            'status' => true,
+            'message' => 'Deleted successfully!'
+            ]);
+     }
      }
 }

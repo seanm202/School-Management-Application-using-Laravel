@@ -61,16 +61,19 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
   </style>
 <script type="text/javascript">
-    $(window).on('scroll', function () {
+$(window).on('scroll', function () {
 
     const triggerTop = $('#statusSection').offset().top;
     const scrollTop = $(window).scrollTop();
 
-    if (scrollTop >= triggerTop) {
-        $('#forFilterButtons').fadeIn();
-    } else {
-        $('#forFilterButtons').fadeOut();
-    }
+    // console.log("triggerTop:", triggerTop);
+    // console.log("scrollTop :", scrollTop);
+
+if ($(window).scrollTop() >= triggerTop - 20) {
+    $('#forFilterButtons').fadeIn();
+} else {
+    $('#forFilterButtons').fadeOut();
+}
 });
 
 
@@ -89,7 +92,7 @@ function getBatches(){
 
             data.forEach(function(batch){
                 rows += `
-                    <tr style="background-color:${batch.status == 1 ? "green;color:white" : 'white;'};">
+                    <tr style="background-color:${batch.status == 40 ? "green;color:white" : 'white;'};">
                         <td>${batch.batchName}</td>
                         <td>
                             <button type="button"
@@ -177,7 +180,7 @@ function getBatches(){
           <a href="#addTheDay" class="list-group-item list-group-item-action bg-light">Add Day Name</a>
           <a href="#editTheHourName" class="list-group-item list-group-item-action bg-light">Edit Hour</a>
           <a href="#addTheHour" class="list-group-item list-group-item-action bg-light">Add Hour</a>
-          <a href="#generateAttendanceForTeachers" class="list-group-item list-group-item-action bg-light">Generate Timetable</a>
+          <a href="#generateAttendanceForTeachers" class="list-group-item list-group-item-action bg-light">Generate Attendance Data</a>
           <a href="#deleteTodaysAttendence" class="list-group-item list-group-item-action bg-light">Delete Attendance</a>
           <a href="#updateTheStatus" class="list-group-item list-group-item-action bg-light">Edit Status</a>
           <a href="#createTheStatus" class="list-group-item list-group-item-action bg-light">Add Status</a>
@@ -223,9 +226,9 @@ function getBatches(){
                       <td>
                       <select name="salutation">
                            <option value="Mr./Ms." selected>Mr./Ms.</option>
-                           <option value="Mr">Mr.</option>
-                           <option value="Mrs">Mrs.</option>
-                           <option value="Ms">Ms.</option>
+                           <option value="Mr.">Mr.</option>
+                           <option value="Mrs.">Mrs.</option>
+                           <option value="Ms.">Ms.</option>
                       </select></td>
                     </tr>
                     <tr>
@@ -877,7 +880,7 @@ let rowsGetHour = "";
                {{ csrf_field() }}{{ method_field('POST') }}
                 {{Form::label('Select date to generate attendance : ') }}
                 {{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}<br><br><hr><br>
-                <button type="button" id="buttonForCreateDailyAttendance" class="btn btn-primary form-control">Generate</button>{{Form::close()}}
+                <button type="submit" id="buttonForCreateDailyAttendance" class="btn btn-primary form-control">Generate</button>{{Form::close()}}
 
              </div>
          </div>
@@ -943,7 +946,7 @@ let rowsGetHour = "";
            {{ csrf_field() }}{{ method_field('POST') }}
        {{Form::hidden('statusId',null,array('id'=>'updateStatusId'))}}
            {{Form::text('statusName',null,array('placeholder'=>'Enter Status Name','class'=>'form-control','id'=>'statusName'))}}
-            <select name="roleForStatus" id="roleForStatus" class="form-control">
+            <select name="roleForStatus" id="chosenRoleForStatus" class="form-control">
             @foreach(($roles=\App\Models\Role::all()) as $role)
                 <option value="{{$role->roleId}}">{{$role->roleName}}</option>
              @endforeach
@@ -983,13 +986,16 @@ let rowsGetHour = "";
   var statusName = button.data('statusName');
   var statusForRoles = button.data('statusForRoles');
 
-
     var modal = $(this);
 
     $('#updateStatusId').val(statusId);
     $('#deleteStatusId').val(statusId);
     modal.find('#statusName').val(statusName);
-    modal.find('#roleForStatus').val(statusForRoles);
+    getRoles(function(options) {
+    $('#chosenRoleForStatus').html(options);
+    $('#chosenRoleForStatus').val(statusForRoles);
+});
+    
   });
 
   });
@@ -1006,10 +1012,11 @@ function filterRowsByClass(targetClass) {
 
   rows.forEach(row => {
     // If targetClass is 'all', show everything; otherwise check for the class
-    if (targetClass === 'all' || row.classList.contains(targetClass)) {
+    if (targetClass === 'all' || row.dataset.role === targetClass) {
       row.style.display = ''; // Shows the row (restores default display)
     } else {
       row.style.display = 'none'; // Hides the row
+    //   $('#statusSection').html('<h2 style="color:red;">Empty!!</h2>');
     }
   });
 }
@@ -1018,6 +1025,27 @@ function filterRowsByClass(targetClass) {
 
 
 
+function getRoles(callback) {
+
+    $.ajax({
+        url: "/getRoles",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+
+            let options = '';
+
+            data.forEach(function(roleList) {
+                options += `
+                    <option value="${roleList.roleId}">
+                        ${roleList.roleName}
+                    </option>`;
+            });
+            callback(options);
+        }
+    });
+
+}
 
 //
 
@@ -1066,7 +1094,7 @@ let rowsGetStatus = "";
 
            data.forEach(function(status){
                rowsGetStatus += `
-                   <tr class="${status.roleName}"><td>${status.statusName}</td>
+                   <tr data-role="${status.roleName}" class="${status.roleName}"><td>${status.statusName}</td>
                         <td>${status.roleName}</td>
                           <td><button type="button"
            class="btn btn-primary form-control"
@@ -1075,7 +1103,7 @@ let rowsGetStatus = "";
            data-statusid="${status.statusId}"
            data-entityid="${status.entityId}"
            data-status-name="${status.statusName}"
-           data-status-for-roles="${status.statusForRoles}">
+           data-status-for-roles="${status.statusForEntity}">
            View
        </button></td></td>
                         </tr>
@@ -1092,19 +1120,20 @@ $('#statusTable tbody').html(rowsGetStatus);
         }
     </script>
       <div class="py-12" id="updateTheStatus">
+        
+    <div class="floating-filter-bar" id="forFilterButtons">
+  
+</div>
           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
               <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                   <div class="p-6 text-gray-900">
                     <div id="statusSection">
-                    <div class="floating-filter-bar" id="forFilterButtons">
-  
-</div>
-                    View Status
+                    
+                    View Status (Slide up and down to view the filter buttons)
                     <table class="statusTable table" id="statusTable">
                       <thead><tr>
                         <th>Status Name</th>
                         <th>Role </th>
-                        <!-- <th>Role Profile </th> -->
                         <th>View </th>
                       </thead>
                       <tbody>

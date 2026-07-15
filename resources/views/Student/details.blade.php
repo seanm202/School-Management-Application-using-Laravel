@@ -132,7 +132,13 @@ function getAllData()
                 method: "GET", // Use GET method for fetching data
                 dataType: "json", // Expect a JSON response
                 success: function(data) {
-// alert(JSON.stringify(data));
+                     if (data.length === 0) {
+        alert("No student found.");
+        return;
+    }
+console.log(data);
+    console.log(typeof data);
+    console.log(Array.isArray(data));
 document.getElementById("fullName").textContent = data[0].sal+" "+data[0].firstname+" "+data[0].lastname;
 document.getElementById("studentId").textContent = data[0].studentId;
 document.getElementById("personalFullName").textContent =  data[0].sal+" "+data[0].firstname+" "+data[0].lastname;

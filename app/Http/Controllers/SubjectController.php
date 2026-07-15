@@ -169,6 +169,8 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
             'batchId' => Batch::where('status',40)->select('batchId')->first()->batchId,
         ]);
         
+        $message=[];
+        $message[]='Subject has been created successfully.';
         $lastInsertedId = $subject->subjectId; 
         
     $classRooms = ClassRoom::where('departmentId','=', $request->departmentId)
@@ -180,14 +182,14 @@ foreach ($classRooms as $classRoom) {
 
     SubjectTeacherForEachSections::updateOrCreate(
         [
-            'semesterId'  => $request->semesterId,
-            'departmentId'=> $request->departmentId,
+            'semesterId'  => $classRoom->semester,
+            'departmentId'=> $classRoom->departmentId,
             'subjectId'   => $lastInsertedId,
             'classRoomId' => $classRoom->classroomDetailId,
         ],
         [
             'teacherId' => 1,
-            'status'    => 5,
+            'status'    => 59, // Teacher NOT assigned to this classroom
             'batchId'   => 1,
         ]
     );
@@ -223,12 +225,64 @@ foreach ($classRooms as $classRoom) {
         }
 
 }
+        $this->generateSubjectsDataForClassroom();
+        $message[]='Subject data has been created successfully.';
 
          return response()->json([
          'status' => true,
-         'message' => 'Subject has been created successfully.'
+         'message' => $message
          ]);
     }
+
+    
+    public function generateSubjectsDataForClassroom()
+        {
+            $batchId = \App\Models\Batch::where('status','=',40)->first()->batchId;
+            $classRooms=\App\Models\ClassRoom::all();
+            foreach($classRooms as $classRoom)
+                {
+                    $classRoomId=$classRoom->classroomDetailId;
+                    $grade=$classRoom->grade;
+                    $section=$classRoom->section;
+                    $department=$classRoom->departmentId;
+                    $semester=$classRoom->semester;
+                    $subjects=Subject::where('subjectGrade','=',$grade)
+                        ->where('semesterId','=',$semester)
+                        ->where('departmentId','=',$department)
+                        ->where('batchId','=',$batchId)
+                        ->get();
+
+                    foreach($subjects as $subject)
+                        {
+                            \App\Models\SubjectTeacherForEachSections::updateOrCreate(
+        [   
+           'teacherId' => 1,
+            'classRoomId' => $classRoomId,
+            'subjectId' => $subject->subjectId,
+            'departmentId' => $department,
+            'semesterId' => $semester,
+        ],
+        [
+           'teacherId' => 1,
+            'classRoomId' => $classRoomId,
+            'subjectId' => $subject->subjectId,
+            'departmentId' => $department,
+            'semesterId' => $semester,
+            'status' => 77,
+            'batchId' => $batchId,
+        ]
+        );
+                        }
+
+
+                }
+
+
+             return response()->json([
+        'status' => true,
+        'message' => 'Subject Data has been generated.'
+    ]);   
+        }
 
     /**
      * Display the specified resource.
@@ -361,12 +415,21 @@ foreach ($classRooms as $classRoom) {
      public function destroysubject(Request $request)
      {
        //Delete Subject
-      $subject = Subject::where('subjectId','=',$request->subjectId)->first();
+        if($request->subjectId!=1)
+       {$subject = Subject::where('subjectId','=',$request->subjectId)->first();
        $subject->delete();
        
     return response()->json([
     'status' => true,
     'message' => 'Subject has been deleted succesfully!'
     ]);
+     }
+     else
+        {
+             return response()->json([
+            'status' => true,
+            'message' => 'This cannot be deleted.'
+            ]);
+        }
      }
 }

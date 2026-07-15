@@ -104,49 +104,7 @@
             @endphp
         </div>
         @endif
-                      @if(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourId)
-                                                                      ->select('id')->first())!=NULL)
-
-                        @foreach(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                        ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourId)
-                                                                        ->select('id')->get()) as $atst)
-
-                      <form action="{{route('markTodaysAttendanceStudent')}}" method="POST" name="markTodaysAttendanceStudent" id="markTodaysAttendanceStudent">
-                      {{ csrf_field() }}{{ method_field('POST') }}
-                        {{Form::label('inOrOut', 'Present')}}{{ Form::radio('inOrOut', 1, false, ['class'=>'form-control']) }}
-                        <br>
-                        {{Form::hidden('userRole',4)}}
-                        {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,'checked',array('class'=>'form-control'))}}
-                        <br>
-                        <input type="hidden" name="attendanceDataId" value="{{$atst->id}}"></input>
-                        <button class="btn btn-success btn-addAdminAdmin form-control">Mark Attendance</button>
-                        {{ Form::close() }}
-                      @endforeach
-                      @elseif(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                      ->where('student_subject_attendances.date','=',date('Y-m-d'))
-                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourId)
-                                                                      ->select('id')->first())==0)
-                                                                      @foreach(($att = \App\Models\StudentSubjectAttendance::where('student_subject_attendances.studentId','=',(\App\Models\Student::where('userId','=',Auth()->user()->userId)->select('studentId')->first()))
-                                                                                                                      ->where('student_subject_attendances.date','=',date('Y-m-d'))
-                                                                                                                      ->where('student_subject_attendances.hourId','=',(\App\Models\Hours::where('hours.status','=',1)->first())->hourId)
-                                                                                                                      ->select('id')->get()) as $atst)
-                      <form action="{{route('markTodaysAttendance')}}" method="POST" name="markAttendance" id="markAttendance">
-                      {{ csrf_field() }}{{ method_field('POST') }}
-                        {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1)}}
-                        <br>
-                        {{Form::hidden('userRole',4)}}
-                        <input type="hidden" name="attendanceDataId" value="{{$atst->id}}"></input>
-                        {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,'checked',array('class'=>'form-control'))}}
-                        <br>
-                        <button class="btn btn-success btn-addAdminAdmin form-control">Mark Attendance</button>
-                        {{ Form::close() }}
-                      @endforeach
-                      @else
-                        {{ Form::open() }}
-                        {{ Form::label('attendance', 'Attendance Marked ? ');}}<input type="checkbox" name="loggedInOrOut" checked="checked;" class="form-control" disabled="false"/>
-                        {{ Form::close() }}
-                      @endif
+                      
                     </div>
                 </div>
             </div>

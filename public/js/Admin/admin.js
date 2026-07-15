@@ -763,6 +763,51 @@ error: function(xhr) {
 
                                     });
 
+                                    $(document).ready(function(){
+
+$(document).on('submit', '#createDailyAttendance', function(event) {
+    // alert("Here");
+    event.preventDefault();
+        var url = $(this).attr('action');
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: new FormData(this),
+            dataType: 'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+             success: function(response)
+{ 
+    showSuccess(response.message);
+    getAllData();
+},
+
+error: function(xhr) {
+
+    console.log(xhr.responseJSON);
+
+    if (xhr.status === 422) {
+
+        let errors = xhr.responseJSON.errors;
+
+        for (let field in errors) {
+            console.log(field + " : " + errors[field][0]);
+        }
+
+        let messages = Object.values(errors).flat();
+        showError(messages);
+
+    } else {
+
+        showError("Something went wrong.");
+
+    }
+}
+        });
+    });
+
+});
 
 $(function () {
 

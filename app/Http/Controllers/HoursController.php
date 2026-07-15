@@ -131,11 +131,21 @@ $currentDBHourId=0;
      */
     public function destroy(Request $request)
     {
-      $deleted = DB::table('hours')->where('hourId', '=', $request->hourId)->delete();
+        if($request->hourId!=1 || $request->hourId!=2 )
+        {  
+            $deleted = DB::table('hours')->where('hourId', '=', $request->hourId)->delete();
       
-      return response()->json([
-          'status' => true,
-          'message' => 'Hour has been deleted successfuly!'
-          ]);
+            return response()->json([
+            'status' => true,
+            'message' => 'Hour has been deleted successfuly!'
+            ]);
+        }
+        else
+        {
+             return response()->json([
+            'status' => true,
+            'message' => 'This cannot be deleted.'
+            ]);
+        }
     }
 }

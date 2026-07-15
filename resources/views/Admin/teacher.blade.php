@@ -315,6 +315,7 @@ data-bs-target="#teacherDetailModal">
                              <option value="Mr./Ms." selected>Mr./Ms.</option>
                              <option value="Mr.">Mr.</option>
                              <option value="Ms.">Ms.</option>
+                             <option value="Mrs.">Ms.</option>
                         </select></td>
                       </tr>
                     <tr>
