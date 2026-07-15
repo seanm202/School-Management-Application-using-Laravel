@@ -6,6 +6,7 @@ use Response;
 use App\Models\Days;
 use App\Models\Batch;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DaysController extends Controller
 {
@@ -14,32 +15,17 @@ class DaysController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request) {}
+    public function getDayDetailsByAJAX()
     {
-            $validated = $request->validate([
-              'dayName' => ['required'],
-          [
-          'dayName.required'=> 'A name must be specified for the day.',
-          ]
-          ]);
-      $days = new Days;
-
-     $days->dayDate = $request->dayDate;
-
-     $days->save();
-
-     return redirect()->route('Admindashboard')->with('success', 'Created successfully.');
-    }
-public function getDayDetailsByAJAX()
-    {
-      // $days = \App\Models\Days::all();
-      // return response()->json($days);
+        // $days = \App\Models\Days::all();
+        // return response()->json($days);
         try {
-        $days = \App\Models\Days::all();
-        return response()->json($days);
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()]);
-    }
+            $days = \App\Models\Days::all();
+            return response()->json($days);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
     /**
      * Show the form for creating a new resource.
@@ -91,19 +77,7 @@ public function getDayDetailsByAJAX()
      * @param  \App\Models\Days  $days
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Days $days)
-    {
-            $validated = $request->validate([
-              'dayName' => ['required'],
-          [
-          'dayName.required'=> 'A name must be specified for the day.',
-          ]
-          ]);
-      $day=\App\Models\Days::where('dayId','=',$request->dayId)->first();
-      $day->dayName=$request->dayName;
-      $day->save();
-      return redirect()->route('\Admindashboard')->with('success', 'Updated successfully.');
-    }
+    public function update(Request $request, Days $days) {}
 
     /**
      * Remove the specified resource from storage.
@@ -113,20 +87,17 @@ public function getDayDetailsByAJAX()
      */
     public function destroy(Request $request)
     {
-        if($request->dayId!=1 || $request->dayId!=2 || $request->dayId!=3 || $request->dayId!=4 || $request->dayId!=5 || $request->dayId!=6 || $request->dayId!=7)
-        {
+        if ($request->dayId != 1 || $request->dayId != 2 || $request->dayId != 3 || $request->dayId != 4 || $request->dayId != 5 || $request->dayId != 6 || $request->dayId != 7) {
             $deleted = DB::table('days')->where('dayId', '=', $request->dayId)->delete();
             return response()->json([
-        'status' => true,
-        'message' => 'Deleted successfully!'
-        ]);
-        }
-         else
-        {
+                'status' => true,
+                'message' => 'Deleted successfully!'
+            ]);
+        } else {
             return response()->json([
-        'status' => true,
-        'message' => 'This cannot be deleted.'
-        ]);
+                'status' => true,
+                'message' => 'This cannot be deleted.'
+            ]);
         }
         return redirect()->route('\Admindashboard')->with('success', 'Deleted successfully.');
     }

@@ -7,6 +7,7 @@ use Response;
 use App\Models\Batch;
 use App\Models\Hours;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HoursController extends Controller
 {
@@ -19,53 +20,36 @@ class HoursController extends Controller
     {
         //
     }
-public function getHourDetailsByAJAX()
+    public function getHourDetailsByAJAX()
     {
-      $hours = \App\Models\Hours::all();
-      return response()->json($hours);
+        $hours = \App\Models\Hours::all();
+        return response()->json($hours);
     }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-            $validated = $request->validate([
-              'hourName' => ['required'],
-          [
-          'hourName.required'=> 'A name must be specified for the hour.',
-          ]
-          ]);
-      $hours = new Hours;
-
-     $hours->hourName = $request->hourName;
-
-     $hours->save();
-
-     return redirect()->route('Admindashboard');
-    }
 
 
     public static function setCurrentHour()
     {
-      $currentHour= Carbon::now();
-      $crhour=$currentHour->toTimeString();
-$currentDBHourId=0;
-            $hours =  Hours::orderBy('hourStartingTime','asc')->where('hourStartingTime','>',$crhour)->first();
+        $currentHour = Carbon::now();
+        $crhour = $currentHour->toTimeString();
+        $currentDBHourId = 0;
+        $hours =  Hours::orderBy('hourStartingTime', 'asc')->where('hourStartingTime', '>', $crhour)->first();
 
-              $hours->status=1;
-              $currentDBHourId=$hours->hourId;
-              $hours->save();
+        $hours->status = 1;
+        $currentDBHourId = $hours->hourId;
+        $hours->save();
 
-              $hoursOthers =  Hours::where('hourId','!=',$currentDBHourId)->get();
-              foreach($hoursOthers as $hoursOther)
-              {
-                $hoursOther->status=0;
-                $hoursOther->save();
-              }
+        $hoursOthers =  Hours::where('hourId', '!=', $currentDBHourId)->get();
+        foreach ($hoursOthers as $hoursOther) {
+            $hoursOther->status = 0;
+            $hoursOther->save();
+        }
 
-     return ;
+        return;
     }
 
     /**
@@ -108,19 +92,19 @@ $currentDBHourId=0;
      * @param  \App\Models\Hours  $hours
      * @return \Illuminate\Http\Response
      */
-     public function update(Request $request, Hours $hours)
-     {
-             $validated = $request->validate([
-               'hourName' => ['required'],
-           [
-           'hourName.required'=> 'A name must be specified for the hour.',
-           ]
-           ]);
-       $hour=\App\Models\Hours::where('hourId','=',$request->dayId)->first();
-       $hour->hourName=$request->hourName;
-       $hour->save();
-       return redirect()->route('\Admindashboard');
-     }
+    public function update(Request $request, Hours $hours)
+    {
+        $validated = $request->validate([
+            'hourName' => ['required'],
+            [
+                'hourName.required' => 'A name must be specified for the hour.',
+            ]
+        ]);
+        $hour = \App\Models\Hours::where('hourId', '=', $request->dayId)->first();
+        $hour->hourName = $request->hourName;
+        $hour->save();
+        return redirect()->route('\Admindashboard');
+    }
 
 
     /**
@@ -131,20 +115,17 @@ $currentDBHourId=0;
      */
     public function destroy(Request $request)
     {
-        if($request->hourId!=1 || $request->hourId!=2 )
-        {  
+        if ($request->hourId != 1 || $request->hourId != 2) {
             $deleted = DB::table('hours')->where('hourId', '=', $request->hourId)->delete();
-      
+
             return response()->json([
-            'status' => true,
-            'message' => 'Hour has been deleted successfuly!'
+                'status' => true,
+                'message' => 'Hour has been deleted successfuly!'
             ]);
-        }
-        else
-        {
-             return response()->json([
-            'status' => true,
-            'message' => 'This cannot be deleted.'
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => 'This cannot be deleted.'
             ]);
         }
     }

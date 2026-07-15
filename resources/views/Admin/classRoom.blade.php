@@ -194,7 +194,7 @@ display:none;
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
-          <a href="#generateTimetablesection" class="list-group-item list-group-item-action bg-light">Generate Timetable</a>
+          <!-- <a href="#generateTimetablesection" class="list-group-item list-group-item-action bg-light">Generate Timetable</a> -->
           <a href="#generateSubjectsForEachClassroom" class="list-group-item list-group-item-action bg-light">Generate Classroom Subjects</a>
           <a href="#viewEditClassrooms" class="list-group-item list-group-item-action bg-light">View classrooms</a>
           <a href="#createClassRoom" class="list-group-item list-group-item-action bg-light">Create Classrooms</a>
@@ -240,7 +240,7 @@ getTeachersList(function(options) {
       </script>
     @endif
 
-    <div class="py-12" id="generateTimetablesection">
+    <!-- <div class="py-12" id="generateTimetablesection">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
@@ -257,7 +257,7 @@ getTeachersList(function(options) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="py-12" id="generateSubjectsForEachClassroom">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

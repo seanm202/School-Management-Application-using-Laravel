@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class EntityController extends Controller
 {
-    //
-    
-    public function getEntityDetailsByAJAX()
-    {
-      $entities = \App\Models\Entity::all();
-      return response()->json($entities);
-    }
+  //
+
+  public function getEntityDetailsByAJAX()
+  {
+    $entities = \App\Models\Entity::all();
+    return response()->json($entities);
+  }
 }

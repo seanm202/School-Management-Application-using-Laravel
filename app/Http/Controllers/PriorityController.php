@@ -21,8 +21,8 @@ class PriorityController extends Controller
 
     public function getPriorityList()
     {
-      $subjectPriority=Priority::all();
-      return view('/Admin/subject');
+        $subjectPriority = Priority::all();
+        return view('/Admin/subject');
     }
 
     /**
@@ -59,28 +59,28 @@ class PriorityController extends Controller
 
     public function createPriority(Request $request)
     {
-    $validated = $request->validate(
-    [
-        'priorityValue' => ['required', 'unique:priority,priorityValue'],
-        'priorityName'  => ['required'],
-    ],
-    [
-        'priorityValue.required' => 'Priority Value must be filled in',
-        'priorityValue.unique'   => 'Priority Value already exists',
-        'priorityName.required'  => 'Priority Name must be selected',
-    ]
-);
+        $validated = $request->validate(
+            [
+                'priorityValue' => ['required', 'unique:priority,priorityValue'],
+                'priorityName'  => ['required'],
+            ],
+            [
+                'priorityValue.required' => 'Priority Value must be filled in',
+                'priorityValue.unique'   => 'Priority Value already exists',
+                'priorityName.required'  => 'Priority Name must be selected',
+            ]
+        );
 
         $priority = new Priority;
-             $priority->priorityValue = $request->priorityValue;
-             $priority->priorityName = $request->priorityName;
-   $priority->save();
+        $priority->priorityValue = $request->priorityValue;
+        $priority->priorityName = $request->priorityName;
+        $priority->save();
 
-   return response()->json([
-   'status' => true,
-   'message' =>'Data added to the database successfully.'
-   ]);
-}
+        return response()->json([
+            'status' => true,
+            'message' => 'Data added to the database successfully.'
+        ]);
+    }
 
     public function toDisplayPriorityValues()
     {
@@ -100,61 +100,36 @@ class PriorityController extends Controller
     }
 
 
-public function updatePriority(Request $request)
-{
-    $validated = $request->validate(
-        [
-            'priorityValue' => [
-                'required',
-                Rule::unique('priority', 'priorityValue')
-                    ->ignore($request->priorityId, 'priorityId')
+    public function updatePriority(Request $request)
+    {
+        $validated = $request->validate(
+            [
+                'priorityValue' => [
+                    'required',
+                    Rule::unique('priority', 'priorityValue')
+                        ->ignore($request->priorityId, 'priorityId')
+                ],
+                'priorityName' => ['required'],
             ],
-            'priorityName' => ['required'],
-        ],
-        [
-            'priorityValue.required' => 'Priority Value must be filled in',
-            'priorityValue.unique'   => 'Priority Value already exists',
-            'priorityName.required'  => 'Priority Name must be selected',
-        ]
-    );
+            [
+                'priorityValue.required' => 'Priority Value must be filled in',
+                'priorityValue.unique'   => 'Priority Value already exists',
+                'priorityName.required'  => 'Priority Name must be selected',
+            ]
+        );
 
-    $priority = Priority::where('priorityId', $request->priorityId)->first();
+        $priority = Priority::where('priorityId', $request->priorityId)->first();
 
-    $priority->priorityValue = $request->priorityValue;
-    $priority->priorityName  = $request->priorityName;
+        $priority->priorityValue = $request->priorityValue;
+        $priority->priorityName  = $request->priorityName;
 
-    $priority->save();
+        $priority->save();
 
-    return response()->json([
-        'status' => true,
-        'message' => 'Data updated successfully.'
-    ]);
-}
-
-//     public function updatePriority(Request $request)
-//     {
-//         $validated = $request->validate(
-//     [
-//         'priorityValue' => ['required', 'unique:priority,priorityValue'],
-//         'priorityName'  => ['required'],
-//     ],
-//     [
-//         'priorityValue.required' => 'Priority Value must be filled in',
-//         'priorityValue.unique'   => 'Priority Value already exists',
-//         'priorityName.required'  => 'Priority Name must be selected',
-//     ]
-// );
-//       $priority = Priority::where('priorityId',$request->priorityId)->first();
-//       $priority->priorityValue = $request->priorityValue;
-//       $priority->priorityName = $request->priorityName;
-
-//     $priority->save();
-//     return response()->json([
-//     'status' => true,
-//     'message' =>'Priority updated successfully.'
-//     ]);
-//     }
-
+        return response()->json([
+            'status' => true,
+            'message' => 'Data updated successfully.'
+        ]);
+    }
 
     /**
      * Update the specified resource in storage.
@@ -170,9 +145,9 @@ public function updatePriority(Request $request)
 
     public function getPriorities()
     {
-      $batches= Batch::where('status','=',40)->first();
-      $prioritys = \App\Models\Priority::all();
-      return response()->json($prioritys);
+        $batches = Batch::where('status', '=', 40)->first();
+        $prioritys = \App\Models\Priority::all();
+        return response()->json($prioritys);
     }
 
     /**

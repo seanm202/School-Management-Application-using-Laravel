@@ -14,21 +14,17 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-
-
-    }
+    public function index() {}
     public function getRoleDetails()
     {
-      $roles = \App\Models\Role::all();
-      return response()->json($roles);
+        $roles = \App\Models\Role::all();
+        return response()->json($roles);
     }
- 
+
     public function getRolesForFilter()
     {
-        $roles= \App\Models\Role::all();
-      return response()->json($roles);
+        $roles = \App\Models\Role::all();
+        return response()->json($roles);
     }
     /**
      * Show the form for creating a new resource.
@@ -38,10 +34,10 @@ class RoleController extends Controller
     public function createRole(Request $request)
     {
 
-          //Add An Entity
-        $roleNameNew=$request->roleName;
-         Role::updateOrCreate(['roleName'=> $roleNameNew,'status'=>71]);
-         return view("/Admin/role");
+        //Add An Entity
+        $roleNameNew = $request->roleName;
+        Role::updateOrCreate(['roleName' => $roleNameNew, 'status' => 71]);
+        return view("/Admin/role");
     }
 
     /**
@@ -52,23 +48,23 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-      //Add An Entity
-      $roles = new Role;
+        //Add An Entity
+        $roles = new Role;
 
-     $roles->roleName = $request->roleName;
-     $roles->status = 71;
-     $roles->save();
-     
-      return response()->json([
-          'status' => true,
-          'message' => 'Role has been added to the database successfuly!'
-          ]);
+        $roles->roleName = $request->roleName;
+        $roles->status = 71;
+        $roles->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Role has been added to the database successfuly!'
+        ]);
     }
-    
+
     public function getRoles()
     {
-      $roleLists = Role::whereIn('roleId',[1,2,3,4,5])->get();
-      return response()->json($roleLists);
+        $roleLists = Role::whereIn('roleId', [1, 2, 3, 4, 5])->get();
+        return response()->json($roleLists);
     }
 
     /**
@@ -102,16 +98,16 @@ class RoleController extends Controller
      */
 
     public function updateRole(Request $request)
-{
-    $role = Role::where('roleId','=', $request->roleId)->first();
-    $role->status = 71;
-    $role->save();
+    {
+        $role = Role::where('roleId', '=', $request->roleId)->first();
+        $role->status = 71;
+        $role->save();
 
-    return response()->json([
-        'status' => true,
-        'message' => 'Role data has been updated successfully!'
-    ]);
-}
+        return response()->json([
+            'status' => true,
+            'message' => 'Role data has been updated successfully!'
+        ]);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -122,20 +118,17 @@ class RoleController extends Controller
     public function destroyRole(Request $request)
     {
 
-      if($request->roleId!=1 || $request->roleId!=2 || $request->roleId!=3 || $request->roleId!=4 || $request->roleId!=5)
-      {
-        $role = Role::where('roleId','=',$request->roleId)->delete();
-          
-    return response()->json([
-        'status' => true,
-        'message' => 'Role has been Deleted!'
-    ]);
-    }
-    else
-        {
+        if ($request->roleId != 1 || $request->roleId != 2 || $request->roleId != 3 || $request->roleId != 4 || $request->roleId != 5) {
+            $role = Role::where('roleId', '=', $request->roleId)->delete();
+
             return response()->json([
-            'status' => true,
-            'message' => 'This cannot be deleted.'
+                'status' => true,
+                'message' => 'Role has been Deleted!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => 'This cannot be deleted.'
             ]);
         }
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use Illuminate\Support\Facades\DB;
 return new class extends Migration
 {
     /**
@@ -34,7 +34,7 @@ return new class extends Migration
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('admin1234'),
+            'password' => bcrypt('abcd1234'),
             'detailsId' => 1,
             'phone' => '9845632151',
             'role' => 1,
@@ -48,7 +48,7 @@ return new class extends Migration
             'name' => 'Teacher',
             'email' => 'teacher@teacher.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('teacher1234'),
+            'password' => bcrypt('abcd1234'),
             'detailsId' => 2,
             'phone' => '9845632151',
             'role' => 2,
@@ -62,7 +62,7 @@ return new class extends Migration
             'name' => 'Student',
             'email' => 'student@student.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('student1234'),
+            'password' => bcrypt('abcd1234'),
             'detailsId' => 3,
             'phone' => '9845632151',
             'role' => 3,

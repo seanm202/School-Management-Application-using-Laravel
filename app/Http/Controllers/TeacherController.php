@@ -52,64 +52,64 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-      //Store or add admin
-      $validated = $request->validate([
+    //   //Store or add admin
+    //   $validated = $request->validate([
 
-          'firstName' => ['required', 'confirmed'],
-          'lastName' => ['required', 'confirmed'],
-          'age' => ['required', 'numeric', 'confirmed'],
-          'dob' => ['required', 'date', 'confirmed'],
-          'contactNumber' => ['required', 'numeric', 'confirmed'],
-          'alternateContactNumber' => ['required','numeric', 'confirmed'],
-          'address' => ['required',  'confirmed'],
-          'bloodGroup' => ['required',  'confirmed'],
-          'identificationMark' => ['required', Password::defaults(), 'confirmed'],
-          'parentNumber' => ['required', 'numeric', 'confirmed'],
-          'homePhoneNumber' => ['required', 'numeric', 'confirmed'],
-          'fatherSpouseName' => ['required', 'confirmed'],
-          'motherName' => ['required',  'confirmed'],
-          'guardianName' => ['required', 'confirmed'],
-     [
-      'firstName.required'=> 'Your First Name is Required',
-      'lastName.required'=> 'Your Last Name is Required',
-      'age.numeric'=> 'Age should be numeric',
-      'dob.required'=> 'Your date of birth is Required',
-      'contactNumber.required'=> 'Your Contact Number is Required',
-      'contactNumber.numeric'=> 'Contact Number Should be numeric',
-      'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
-      'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
-      'address.required'=> 'Address is required',
-      'bloodGroup.required'=> 'Your blood group is Required',
-      'identificationMark.required'=> 'Please provide an identification mark',
-      'parentNumber.required'=> 'Parent\'s contact number is required',
-      'homePhoneNumber.required'=> 'Home phone number is required',
-      'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
-      'motherName.required'=> 'Your Mother\'s name is Required',
-      'guardianName.required'=> 'Your Guardian\'s name is Required',
-     ]
-      ]);
-      $details = new Detail;
+    //       'firstName' => ['required', 'confirmed'],
+    //       'lastName' => ['required', 'confirmed'],
+    //       'age' => ['required', 'numeric', 'confirmed'],
+    //       'dob' => ['required', 'date', 'confirmed'],
+    //       'contactNumber' => ['required', 'numeric', 'confirmed'],
+    //       'alternateContactNumber' => ['required','numeric', 'confirmed'],
+    //       'address' => ['required',  'confirmed'],
+    //       'bloodGroup' => ['required',  'confirmed'],
+    //       'identificationMark' => ['required', Password::defaults(), 'confirmed'],
+    //       'parentNumber' => ['required', 'numeric', 'confirmed'],
+    //       'homePhoneNumber' => ['required', 'numeric', 'confirmed'],
+    //       'fatherSpouseName' => ['required', 'confirmed'],
+    //       'motherName' => ['required',  'confirmed'],
+    //       'guardianName' => ['required', 'confirmed'],
+    //  [
+    //   'firstName.required'=> 'Your First Name is Required',
+    //   'lastName.required'=> 'Your Last Name is Required',
+    //   'age.numeric'=> 'Age should be numeric',
+    //   'dob.required'=> 'Your date of birth is Required',
+    //   'contactNumber.required'=> 'Your Contact Number is Required',
+    //   'contactNumber.numeric'=> 'Contact Number Should be numeric',
+    //   'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+    //   'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+    //   'address.required'=> 'Address is required',
+    //   'bloodGroup.required'=> 'Your blood group is Required',
+    //   'identificationMark.required'=> 'Please provide an identification mark',
+    //   'parentNumber.required'=> 'Parent\'s contact number is required',
+    //   'homePhoneNumber.required'=> 'Home phone number is required',
+    //   'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
+    //   'motherName.required'=> 'Your Mother\'s name is Required',
+    //   'guardianName.required'=> 'Your Guardian\'s name is Required',
+    //  ]
+    //   ]);
+    //   $details = new Detail;
 
-     $details->firstname = $request->firstname;
-     $details->lastname = $request->lastname;
-     $details->age = $request->age;
-     $details->dob = $request->dob;
-     $details->contactNumber = $request->contactNumber;
-     $details->alternateContactNumber = $request->alternateContactNumber;
-     $details->roleId = $request->roleId;
-     $details->userId = $request->userId;
-     $details->address = $request->address;
-     $details->bloodGroup = $request->bloodGroup;
-     $details->identificationMark = $request->identificationMark;
-     $details->parentNumber = $request->parentNumber;
-     $details->homePhoneNumber = $request->homePhoneNumber;
-     $details->fatherSpouseName = $request->fatherSpouseName;
-     $details->motherName = $request->motherName;
-     $details->guardianName = $request->guardianName;
-     $details->batchId = Batch::where('status',40)->select('batchId')->first()->batchId;
-     $details->save();
+    //  $details->firstname = $request->firstname;
+    //  $details->lastname = $request->lastname;
+    //  $details->age = $request->age;
+    //  $details->dob = $request->dob;
+    //  $details->contactNumber = $request->contactNumber;
+    //  $details->alternateContactNumber = $request->alternateContactNumber;
+    //  $details->roleId = $request->roleId;
+    //  $details->userId = $request->userId;
+    //  $details->address = $request->address;
+    //  $details->bloodGroup = $request->bloodGroup;
+    //  $details->identificationMark = $request->identificationMark;
+    //  $details->parentNumber = $request->parentNumber;
+    //  $details->homePhoneNumber = $request->homePhoneNumber;
+    //  $details->fatherSpouseName = $request->fatherSpouseName;
+    //  $details->motherName = $request->motherName;
+    //  $details->guardianName = $request->guardianName;
+    //  $details->batchId = Batch::where('status',40)->select('batchId')->first()->batchId;
+    //  $details->save();
 
-            return 1;
+    //         return 1;
     }
 
       // To ensure that the person's absense is repopulated by another person,here,a teacher.
@@ -118,25 +118,25 @@ class TeacherController extends Controller
       $messages=[];
       $teacher = Teacher::where('teacherId','=', $teacherId)->first();
 
-      $checkInUsers = User::where('userId','=', $teacher->userId)->first();
+      $checkInUsers = \App\Models\User::where('userId','=', $teacher->userId)->first();
       if($checkInUsers)
         {
             $messages[]='Teachers Id is still in the user_info table.Please check the details.';
         }
 
-      $checkInDetails = Details::where('userId','=', $teacher->userId)->first();
+      $checkInDetails = \App\Models\Detail::where('userId','=', $teacher->userId)->first();
       if($checkInDetails)
         {
             $messages[]='Teachers Id is still in the user details table.Please check the details.';
         }
 
-      $checkIfSubjects=SubjectTeacherForEachSections::where('teacherId','=', $teacherId)->first();
+      $checkIfSubjects=\App\Models\SubjectTeacherForEachSections::where('teacherId','=', $teacherId)->first();
       if($checkIfSubjects)
         {
           $messages[]='Teachers Id is still assigned to subjects.Please check the details.';
         }
       
-      $classTeacherCheck = ClassRoom::where('classTeacherId','=', $teacherId)->first();
+      $classTeacherCheck = \App\Models\ClassRoom::where('classTeacherId','=', $teacherId)->first();
       if($classTeacherCheck)
         {
           $messages[]='Teachers Id is still assigned to a class.Please check the details.';
@@ -154,7 +154,7 @@ class TeacherController extends Controller
      * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function show(Teacher $teacher)
+    public function show($id)
     {
       return view('user.profile', [
          'user' => Teacher::findOrFail($id)

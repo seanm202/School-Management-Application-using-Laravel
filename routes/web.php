@@ -86,8 +86,6 @@ Route::resource('Status', 'StatusController');
 ////Create Batches
 
 
-
-
 Route::get('getCurrentBatch', [BatchController::class, 'getCurrentBatch'])->name('getCurrentBatch');
 
 Route::get('getDetailsOfAdmins', [BatchController::class, 'getDetailsOfAdmins'])->name('getDetailsOfAdmins');
@@ -347,6 +345,10 @@ Route::get('/loginpage', function () {
     return view('auth.login');
 })->name('loginpage');
 
+
+Route::get('/loginforReal', function () {
+    return view('auth.loginforReal');
+})->name('loginforReal');
 
 Route::get('/register', function () {
     return view('auth.register');

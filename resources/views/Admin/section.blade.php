@@ -191,7 +191,7 @@ function getAllData()
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Update sections
-                  @if(count($sections=App\Models\Section::where('sections.batchId','=',$currentBatchId)->get())>0)
+                 
                   <table class="table" id="tableForSectionAJAX">
     <thead>
         <tr>
@@ -204,9 +204,6 @@ function getAllData()
     <tbody>
     </tbody>
 </table>
-                  @else
-                    <h3 style="color:red;">List is empty</h3>
-                  @endif
                 </div>
             </div>
         </div>

@@ -29,6 +29,14 @@ return new class extends Migration
             'batchEndingYear' => "2026",
             'status' => 40
         ]);
+        
+        DB::table('batches')->insert([
+            'batchId' => 2,
+            'batchName' => "2026-2027",
+            'batchStartingYear' => "2026",
+            'batchEndingYear' => "2027",
+            'status' => 67
+        ]);
     }
 
     /**

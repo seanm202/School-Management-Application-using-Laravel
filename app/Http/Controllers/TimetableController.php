@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Timetable;
 use App\Models\Hours;
-use App\Models\Hays;
+use App\Models\Days;
 use App\Models\Hubject;
 use App\Models\Heacher;
 use App\Models\Hlassrooms;
@@ -136,7 +136,7 @@ return;
 
   public function regenerateTimetable()
   {
-    $priorityOfSubjects = Subjects::join('priority','priority.priorityId','=','subjects.priority')
+    $priorityOfSubjects = \App\Models\Subject::join('priority','priority.priorityId','=','subjects.priority')
                           ->select('priority.priorityValue AS priorityValue')
                           ->select('subjects.subjectId AS subjectId')->get();
     $timetables=Timetable::join('subjects','subjects.priority','=','timetables.subjectId')
@@ -168,73 +168,73 @@ return;
 
   public function generateTimetable(Request $request)
   {
-    $timetableToDelete=TimeTable::where('oddOrEven','=',$request->oddOrEven);
-    $timetableToDelete->delete();
-    $days=Days::all();
-    $hours=Hours::all();
-    for($i=0;$i<7;$i++)
-    {
-      $l=1;
-    foreach($days as $day)
-    {
-        foreach($hours as $hour)
-        {
-          foreach(($teachers=TimetableController::distinctTeacherId()) as $teacher)
-          {
-            foreach(($classrooms=TimetableController::distinctClassroomIdOfATeacher($teacher->teacherId)) as $classroom)
-            {
-              foreach(($distinctSemesterIdOfATeachers=TimetableController::distinctSemesterIdOfATeacher($teacher->teacherId,$request->oddOrEven)) as $distinctSemesterIdOfATeacher)
-              {
-                foreach(($distinctSubjectsOfTeachers = TimetableController::distinctSubjectIdOfATeacher($teacher->teacherId)) as $distinctSubjectsOfTeacher)
-                {
-                $timetables =    new Timetable;
-                $timetables->dayId =   $day->dayId;
-                $timetables->hourId =   $hour->hourId;
-                $timetables->classroomId =   $classroom->classRoomId;
-                $timetables->oddOrEven =   $request->oddOrEven;
-                $timetables->semesterId =    $distinctSemesterIdOfATeacher->semesterId;
-                $timetables->teacherId =   $teacher->teacherId;
-                $timetables->subjectId =   $distinctSubjectsOfTeacher->subjectId;
-                $timetables->save();
-              }
-            }
-            }
-            if(TimetableController::repeatingPossibilities($teacher->teacherId,$request->oddOrEven)==1)
-            {
-              $l=0;
-              $timetables=\App\Models\Timetable::all();
-              foreach($timetables as $timetable)
-              {
-                $timetable->delete();
-              }
-              break;
-            }
-        }
-        if((regenerateTimetable()==1)||(perSubjectMoreThanOneClassChecks()==1))
-        {
-          $i=$i-2;
-        }
-        else {
-          continue;
-        }
-        if($l==0)
-        {
-          break;
-        }
-        }
+  //   $timetableToDelete=TimeTable::where('oddOrEven','=',$request->oddOrEven);
+  //   $timetableToDelete->delete();
+  //   $days=Days::all();
+  //   $hours=Hours::all();
+  //   for($i=0;$i<7;$i++)
+  //   {
+  //     $l=1;
+  //   foreach($days as $day)
+  //   {
+  //       foreach($hours as $hour)
+  //       {
+  //         foreach(($teachers=TimetableController::distinctTeacherId()) as $teacher)
+  //         {
+  //           foreach(($classrooms=TimetableController::distinctClassroomIdOfATeacher($teacher->teacherId)) as $classroom)
+  //           {
+  //             foreach(($distinctSemesterIdOfATeachers=TimetableController::distinctSemesterIdOfATeacher($teacher->teacherId,$request->oddOrEven)) as $distinctSemesterIdOfATeacher)
+  //             {
+  //               foreach(($distinctSubjectsOfTeachers = TimetableController::distinctSubjectIdOfATeacher($teacher->teacherId)) as $distinctSubjectsOfTeacher)
+  //               {
+  //               $timetables =    new Timetable;
+  //               $timetables->dayId =   $day->dayId;
+  //               $timetables->hourId =   $hour->hourId;
+  //               $timetables->classroomId =   $classroom->classRoomId;
+  //               $timetables->oddOrEven =   $request->oddOrEven;
+  //               $timetables->semesterId =    $distinctSemesterIdOfATeacher->semesterId;
+  //               $timetables->teacherId =   $teacher->teacherId;
+  //               $timetables->subjectId =   $distinctSubjectsOfTeacher->subjectId;
+  //               $timetables->save();
+  //             }
+  //           }
+  //           }
+  //           if(TimetableController::repeatingPossibilities($teacher->teacherId,$request->oddOrEven)==1)
+  //           {
+  //             $l=0;
+  //             $timetables=\App\Models\Timetable::all();
+  //             foreach($timetables as $timetable)
+  //             {
+  //               $timetable->delete();
+  //             }
+  //             break;
+  //           }
+  //       }
+  //       if((regenerateTimetable()==1)||(perSubjectMoreThanOneClassChecks()==1))
+  //       {
+  //         $i=$i-2;
+  //       }
+  //       else {
+  //         continue;
+  //       }
+  //       if($l==0)
+  //       {
+  //         break;
+  //       }
+  //       }
 
-        if($l==0)
-        {
-          break;
-        }
-    }
+  //       if($l==0)
+  //       {
+  //         break;
+  //       }
+  //   }
 
-    if($l==0)
-    {
-      $i=0;
-    }
+  //   if($l==0)
+  //   {
+  //     $i=0;
+  //   }
 
-  }
+  // }
   }
 
 

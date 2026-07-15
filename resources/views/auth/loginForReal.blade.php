@@ -176,67 +176,6 @@
             max-width:100%;
         }
     }
-    /* 
-    
-    For login select dropdown
-
-    */
-
-    /* Container to help position a custom arrow indicator */
-.select-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 300px;
-}
-
-/* Base style for the native select element */
-.custom-select {
-  appearance: none; /* Removes default browser styles and arrow */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  
-  width: 100%;
-  padding: 12px 40px 12px 16px; /* Extra right padding avoids text overlapping the arrow */
-  font-size: 16px;
-  font-family: sans-serif;
-  color: #333333;
-  background-color: #ffffff;
-  border: 2px solid #cccccc;
-  border-radius: 8px;
-  cursor: pointer;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Focus state styling */
-.custom-select:focus {
-  border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
-}
-
-/* Create a custom arrow indicator using a pseudo-element */
-.select-wrapper::after {
-  content: "";
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  
-  /* Creates a clean, CSS-only downward chevron arrow */
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid #666666;
-  
-  pointer-events: none; /* Allows clicks to pass through to the select element */
-}
-
-/* Change arrow color on hover/focus */
-.select-wrapper:hover::after {
-  border-top-color: #333333;
-}
-
 </style>
 
 
@@ -263,23 +202,18 @@
     <!-- ADMIN LOGIN -->
     <div class="card">
 
-        <h2>Login For Demo</h2>
-        
+        <h2>Login</h2>
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div class="field">
-                <label>Choose user</label>
-                <select name="email" class="custom-select">
-                    <option value="admin@admin.com">Admin</option>
-                    <option value="teacher@teacher.com">Teacher</option>
-                    <option value="student@student.com">Student</option>
-                </select>
+                <label>Email</label>
+                <input type="email" name="email" required>
             </div>
 
             <div class="field">
                 <label>Password</label>
-                <input type="password" name="password" value="abcd1234" readonly/>
+                <input type="password" name="password" required>
             </div>
 
             <div class="remember">
@@ -297,7 +231,7 @@
                 Login
             </button>
         </form>
-        <h2>Live Login <a href="{{route('loginforReal')}}">Click Here</a></h2>
+            <h2>For Demo <a href="{{route('loginpage')}}">Click Here</a></h2>
     </div>
 
 </div>

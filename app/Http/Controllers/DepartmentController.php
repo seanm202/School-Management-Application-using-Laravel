@@ -15,11 +15,7 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function getDepartmentDetails()
-     {
-       $departments = \App\Models\Department::all();
-       return view("/Admin/admin")->with('departments',$departments);
-     }
+
 
     public function index()
     {
@@ -36,37 +32,37 @@ class DepartmentController extends Controller
         //
     }
 
-public function getDepartmentDetailsByAJAX()
-{
-          $departments = \App\Models\Department::all();
-          return response()->json($departments);
-        }
+    public function getDepartmentDetailsByAJAX()
+    {
+        $departments = \App\Models\Department::all();
+        return response()->json($departments);
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     public function storeDepartment(Request $request)
-     {
-             $validated = $request->validate([
-               'departmentName' => ['required'],
-           [
-           'departmentName.required'=> 'A name must be specified for the department.',
-           ]
-           ]);
-       //Add A Subject
-          $department = new Department;
-          $department->departmentName = $request->departmentName;
-          $department->batchId = 1;
-          $department->status = 69;
-          $department->save();
+    public function storeDepartment(Request $request)
+    {
+        $validated = $request->validate([
+            'departmentName' => ['required'],
+            [
+                'departmentName.required' => 'A name must be specified for the department.',
+            ]
+        ]);
+        //Add A Subject
+        $department = new Department;
+        $department->departmentName = $request->departmentName;
+        $department->batchId = 1;
+        $department->status = 69;
+        $department->save();
 
-          return response()->json([
-          'status' => true,
-          'message' => 'Department created successfully.'
-          ]);
-     }
+        return response()->json([
+            'status' => true,
+            'message' => 'Department created successfully.'
+        ]);
+    }
 
     /**
      * Display the specified resource.
@@ -87,20 +83,20 @@ public function getDepartmentDetailsByAJAX()
      */
     public function editDepartment(Request $request)
     {
-            $validated = $request->validate([
-              'departmentName' => ['required'],
-          [
-          'departmentName.required'=> 'A name must be specified for the department.',
-          ]
-          ]);
-      $department = Department::where('departmentId','=',$request->departmentId)->first();
-      $department->departmentName = $request->departmentName;
-      $department->save();
+        $validated = $request->validate([
+            'departmentName' => ['required'],
+            [
+                'departmentName.required' => 'A name must be specified for the department.',
+            ]
+        ]);
+        $department = Department::where('departmentId', '=', $request->departmentId)->first();
+        $department->departmentName = $request->departmentName;
+        $department->save();
 
-      return response()->json([
-      'status' => true,
-      'message' => 'Department data has been updated successfully.'
-      ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Department data has been updated successfully.'
+        ]);
     }
 
     /**
@@ -124,32 +120,29 @@ public function getDepartmentDetailsByAJAX()
     public function destroyDepartment(Request $request)
     {
         //
-        if($request->departmentId!=1 || $request->departmentId!=2)
-        {
+        if ($request->departmentId != 1 || $request->departmentId != 2) {
             $department = Department::where('departmentId', $request->departmentId)->first();
-         $department->delete();
+            $department->delete();
 
-         return response()->json([
-         'status' => true,
-         'message' => 'Department deleted successfully.'
-         ]);
-        }
-         else
-            {
             return response()->json([
-        'status' => true,
-        'message' => 'This cannot be deleted.'
-        ]);
-         }
+                'status' => true,
+                'message' => 'Department deleted successfully.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => 'This cannot be deleted.'
+            ]);
+        }
     }
-    
-    
-    
+
+
+
     public function getDepartmentForSubject()
     {
-      $batches= Batch::where('status','=',40)->first();
-      $departments = \App\Models\Department::where('batchId','=',$batches->batchId)->get();
-      return response()->json($departments);
+        $batches = Batch::where('status', '=', 40)->first();
+        $departments = \App\Models\Department::where('batchId', '=', $batches->batchId)->get();
+        return response()->json($departments);
     }
 
     public function getListOfDepartments()
@@ -158,5 +151,4 @@ public function getDepartmentDetailsByAJAX()
 
         return response()->json($subjectDepartmentsForEachClassRooms);
     }
-    
 }
