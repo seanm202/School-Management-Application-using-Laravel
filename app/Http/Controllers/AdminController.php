@@ -42,13 +42,10 @@ class AdminController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-    // public function create()
-    // {
-    //     //Create an add admin form
-    //     $roles=Role::where('roleName', 'admin')
-    //            ->get();
-    //     return back()->with('success', 'Role created successfully.');
-    // }
+    public function create()
+    {
+
+    }
 
   /**
    * Store a newly created resource in storage.
