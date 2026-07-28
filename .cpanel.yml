@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/mqrimiee/public_html
-    - /bin/cp -R public/* $DEPLOYPATH
+    - /bin/echo "Deployment ran on $(date)" > /home/mqrimiee/deploy-test.txt
