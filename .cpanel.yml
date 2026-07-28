@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/mqrimiee/public_html/
+    - export DEPLOYPATH=/home/mqrimiee/public_html
     - /bin/cp -R public/* $DEPLOYPATH
