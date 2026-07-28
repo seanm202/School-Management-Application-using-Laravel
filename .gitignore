@@ -16,9 +16,8 @@ yarn-error.log
 .fleet/
 .idea/
 .vscode/
-composer.phar*.7z
+composer.phar
+*.7z
 *.zip
 *.sql
-.env
 Images/
-.cpanel.yml
