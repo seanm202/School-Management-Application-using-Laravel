@@ -489,8 +489,9 @@ $.ajaxSetup({
             }, 800); // allow user to see the message
         },
         error: function (xhr) {
+            showError(message);
     let message = "Login failed.";
-
+showError(message);
             if (xhr.responseJSON && xhr.responseJSON.message) {
                 message = xhr.responseJSON.message;
             }
