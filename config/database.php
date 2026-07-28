@@ -59,6 +59,22 @@ return [
     'strict' => true,
     'engine' => null,
 ],
+//  'mysql' => [
+//     'driver' => 'mysql',
+//     'url' => 'mysql://mqrimiee_rootuser:%]GQXGrRvSh-fmEL@localhost:3306/mqrimiee_school',
+//     'host' => 'localhost',
+//     'port' => '3306',
+//     'database' => 'mqrimiee_school',
+//     'username' => 'mqrimiee_rootuser',
+//     'password' => '%]GQXGrRvSh-fmEL',
+//     'unix_socket' => env('DB_SOCKET', ''),
+//     'charset' => 'utf8mb4',
+//     'collation' => 'utf8mb4_unicode_ci',
+//     'prefix' => '',
+//     'prefix_indexes' => true,
+//     'strict' => true,
+//     'engine' => null,
+// ],
 
 //         'mysql' => [
 //     'driver' => 'mysql',
