@@ -20,3 +20,4 @@ composer.phar*.7z
 *.sql
 .env
 Images/
+.cpanel.yml
