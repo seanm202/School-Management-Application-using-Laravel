@@ -610,7 +610,7 @@ $.ajaxSetup({
                 Login
             </button>
         </form>
-            <h2>For Demo <a href="{{route('loginpage')}}">Click Here</a></h2>
+            <h2>For Live <a href="{{route('loginforReal')}}">Click Here</a></h2>
     </div>
 
 </div>
