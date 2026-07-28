@@ -393,7 +393,7 @@ class SubjectController extends Controller
     public function destroysubject(Request $request)
     {
         //Delete Subject
-        if ($request->subjectId != 1) {
+        if ($request->subjectId != 1 || $request->subjectId != 2) {
             $subject = Subject::where('subjectId', '=', $request->subjectId)->first();
             $subject->delete();
 

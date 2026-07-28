@@ -48,7 +48,7 @@ class BatchController extends Controller
     $batchesCount = Batch::all();
     $oldActiveBatchId = 0;
     $batches = Batch::where('status', '=', 40)->first();
-    if(count($batchesCount)!=2 && count($batchesCount)!=1)
+    if(count($batchesCount)!=1)
     {
     $batches->status = 41;
     $batches->save();
@@ -151,7 +151,8 @@ class BatchController extends Controller
    */
   public function updatebatch(Request $request)
   {
-    $countOfBatches=$batches = Batch::all();
+    $batches = Batch::all();
+    $countOfBatches=count($batches);
     $validated = $request->validate(
       [
         'batchName' => ['required'],

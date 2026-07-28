@@ -177,11 +177,22 @@ class StatusController extends Controller
   public function destroyStatus(Request $request)
   {
 
-    $statuses = Status::where('statusId', '=', $request->statusId)->first();
+    if($request->statusId>=7)
+      {
+          $statuses = Status::where('statusId', '=', $request->statusId)->first();
     $statuses->delete();
     return response()->json([
       'status' => true,
       'message' => 'Status Record Deleted Successfuly.'
     ]);
+      }
+      else
+        {
+            return response()->json([
+      'status' => true,
+      'message' => 'This cannot be deleted.'
+    ]);
+        }
+    
   }
 }
