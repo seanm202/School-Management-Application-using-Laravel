@@ -24,31 +24,73 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
 
-        $request->session()->regenerate();
-        $role =  DB::table('users')
-        ->select('role')
-        ->where('email','=',$request->email)
-        ->first();
-        if($role->role==1)
-        {
-          return redirect(RouteServiceProvider::ADMIN);
-        }
-        else if($role->role==2)
-        {
-          return redirect(RouteServiceProvider::TEACHER);
-        }
-        else if($role->role==3)
-        {
-          return redirect(RouteServiceProvider::STUDENT);
-        }
-        else {
-        return redirect()->route('dashboard');
-      }
+    //     $request->session()->regenerate();
+    //     $role =  DB::table('users')
+    //     ->select('role')
+    //     ->where('email','=',$request->email)
+    //     ->first();
+    //     if($role->role==1)
+    //     {
+    //       return redirect(RouteServiceProvider::ADMIN);
+    //     }
+    //     else if($role->role==2)
+    //     {
+    //       return redirect(RouteServiceProvider::TEACHER);
+    //     }
+    //     else if($role->role==3)
+    //     {
+    //       return redirect(RouteServiceProvider::STUDENT);
+    //     }
+    //     else {
+    //     return redirect()->route('dashboard');
+    //   }
+    // }
+
+    use Illuminate\Validation\ValidationException;
+
+public function store(LoginRequest $request)
+{
+    try {
+        $request->authenticate();
+    } catch (ValidationException $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Incorrect email or password.'
+        ], 422);
     }
+
+    $request->session()->regenerate();
+
+    $role = DB::table('users')
+        ->where('email', $request->email)
+        ->value('role');
+
+    switch ($role) {
+        case 1:
+            $redirect = route('Admindashboard');
+            break;
+
+        case 2:
+            $redirect = route('Teacherdashboard');
+            break;
+
+        case 3:
+            $redirect = route('Studentdashboard');
+            break;
+
+        default:
+            $redirect = route('dashboard');
+    }
+
+    return response()->json([
+        'success' => true,
+        'redirect' => $redirect
+    ]);
+}
 
     /**
      * Destroy an authenticated session.
