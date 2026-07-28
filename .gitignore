@@ -20,4 +20,8 @@ composer.phar
 *.7z
 *.zip
 *.sql
+<<<<<<< HEAD
 Images/
+=======
+Images/
+>>>>>>> 4e3d51fc11473275203089cb2dd2e899e6546b9d
