@@ -347,7 +347,7 @@ Route::get('/loginpage', function () {
 
 
 Route::get('/loginforReal', function () {
-    return view('auth.loginforReal');
+    return view('auth.loginForReal');
 })->name('loginforReal');
 
 Route::get('/register', function () {
