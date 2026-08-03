@@ -472,6 +472,10 @@ $.ajaxSetup({
     $('#realLoginForm').on('submit', function (e) {
 
         e.preventDefault();
+<<<<<<< HEAD
+=======
+        console.log("Submit intercepted");
+>>>>>>> 00744b4281039a370de7053f5d2c6581b029e803
 
 
         $.ajax({
@@ -488,16 +492,24 @@ $.ajaxSetup({
             }, 800); // allow user to see the message
         },
         error: function (xhr) {
+<<<<<<< HEAD
             let message = "Login failed.";
+=======
+    let message = "Login failed.";
+showError(message);
+>>>>>>> 00744b4281039a370de7053f5d2c6581b029e803
             if (xhr.responseJSON && xhr.responseJSON.message) {
                 message = xhr.responseJSON.message;
             }
 
             showError(message);
 
+<<<<<<< HEAD
             setTimeout(function () {
                 console.log(message);
             }, 800);
+=======
+>>>>>>> 00744b4281039a370de7053f5d2c6581b029e803
             console.log(xhr);
 }
 
