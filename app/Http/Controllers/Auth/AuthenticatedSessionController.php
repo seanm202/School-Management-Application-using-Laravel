@@ -87,10 +87,10 @@ public function store(LoginRequest $request)
     }
 
     return response()->json([
-            'success' => true,
-            'message' => 'Logged-in succesfully.',
+        'success' => true,
+        'message' => 'Login successful',
         'redirect_url' => $redirect
-        ], 200);
+    ]);
 }
 
     /**

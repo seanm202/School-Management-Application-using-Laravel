@@ -31,8 +31,8 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 |
 */
 
-// require __DIR__.'/../vendor/autoload.php';
-require '/home/mqrimiee/repositories/School-Management-Application-using-Laravel/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
+// require '/home/mqrimiee/repositories/School-Management-Application-using-Laravel/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -45,8 +45,8 @@ require '/home/mqrimiee/repositories/School-Management-Application-using-Laravel
 |
 */
 
-// $app = require_once __DIR__.'/../bootstrap/app.php';
-$app = require_once '/home/mqrimiee/repositories/School-Management-Application-using-Laravel/bootstrap/app.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+// $app = require_once '/home/mqrimiee/repositories/School-Management-Application-using-Laravel/bootstrap/app.php';
 $kernel = $app->make(Kernel::class);
 
 $response = $kernel->handle(

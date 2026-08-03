@@ -501,12 +501,9 @@ $.ajaxSetup({
 
             showError(message);
 
-<<<<<<< HEAD
             setTimeout(function () {
                 console.log(message);
             }, 800);
-=======
->>>>>>> 00744b4281039a370de7053f5d2c6581b029e803
             console.log(xhr);
 }
 

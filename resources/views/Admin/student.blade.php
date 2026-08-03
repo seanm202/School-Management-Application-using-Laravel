@@ -214,7 +214,7 @@ let rowsGetStudent = "";
                   Add Students
 
                   <form action="{{route('createStudentAdmin')}}" method="POST" enctype="multipart/form-data" id="addStudentAdmin">
-                  {{ csrf_field() }}{{ method_field('POST') }}
+                            {{ csrf_field() }}{{ method_field('POST') }}
                     <table class="table">
                   <thead>
                     <tr>
@@ -289,7 +289,7 @@ let rowsGetStudent = "";
                     </tr>
                     </thead>
                   </table>
-                  <button type="button" id="buttonForAddStudentAdmin" class="btn btn-primary form-control">Add</button>
+                  <button type="submit" id="buttonForAddStudentAdmin" class="btn btn-primary form-control">Add</button>
 
                                        </form>
                 </div>

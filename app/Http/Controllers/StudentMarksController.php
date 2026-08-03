@@ -24,7 +24,7 @@ class StudentMarksController extends Controller
     $batchId = Batch::where('status', '=', 40)->select('batchId')->first();
     $students = student::where('students.batchId', '=', $batchId->batchId)
       ->where('students.studentId', '!=', 1)
-      ->where('students.status', '=', 24)
+      ->where('students.status', '=', 29)
       ->get();
     $i = 1;
     $createdCount = 0;
@@ -155,7 +155,7 @@ class StudentMarksController extends Controller
         'sections.sectionId AS sectionId'
       )
       ->where('students.status', '=', 29)
-      ->where('student_marks.batchId', '=', $currentBatchId)
+      ->where('student_marks.batchId', '=', 1)
       ->get();
     return response()->json($studentsMarks);
   }

@@ -93,7 +93,7 @@ function getRoles(callback) {
 // 
 
 
-function allotValues(newUserData,firstNameIdName,lastNameIdName,emailId,,salutationIdName,ageIdName,dobIdName,contactNumberIdName,
+function allotValues(newUserData,firstNameIdName,lastNameIdName,emailId,salutationIdName,ageIdName,dobIdName,contactNumberIdName,
 alternateContactNumberIdName,addressIdName,exampleModalFullNameIdName,exampleModalPhoneIdName,
 bloodGroupIdName,identificationMarkIdName,parentNumberIdName,homePhoneNumberIdName,fatherSpouseNameIdName,
 motherNameIdName,guardianNameIdName,detailIdFor,userIdFor,idforroleForId)
@@ -105,8 +105,8 @@ motherNameIdName,guardianNameIdName,detailIdFor,userIdFor,idforroleForId)
     var salutation=newUserData.sal;
 
 $('#'+salutationIdName).val(salutation);
-var emailID=newUserData.email;
-    document.getElementById(emailId).value=emailID;
+// var emailID=document.getElementById(emailId).value;
+//     document.getElementById(emailId).value=emailID;
 
     var age=newUserData.age;
     document.getElementById(ageIdName).value=age;
@@ -162,6 +162,7 @@ $(document).ready(function () {
 
    var button = $(event.relatedTarget);
    var newTeacherUserId = button.attr('data-user-id');
+   var newTeacherEmailId = button.attr('data-email-id');
 $.ajax({
                 url: "{{ route('getDataForAddingDetailsOfTeacher') }}", // Use the named route
                 method: "GET", // Use GET method for fetching data
@@ -196,7 +197,7 @@ $.ajax({
                                       <td><input type="text" name="lastName" id="teacherlastName" placeholder="Enter last name" class="form-control"/> </td></tr>
                                         <tr>
                                         <th>Email</th>
-                                      <td><input type="email" name="email" id="teacheremailId" placeholder="Enter your email" class="form-control"/></td></tr>
+                                      <td><input type="email" name="email" id="teacheremailId" placeholder="Enter your email" class="form-control" value="${newTeacherEmailId}"/></td></tr>
                                          <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="teacherageId" placeholder="Enter your age" class="form-control"/></td></tr>
@@ -288,6 +289,7 @@ $(document).ready(function () {
 
    var button = $(event.relatedTarget);
    var newAdminUserId = button.attr('data-user-id');
+   var newAdminEmailId = button.attr('data-email-id');
 $.ajax({
                 url: "{{ route('getDataForAddingDetailsOfAdmin') }}", // Use the named route
                 method: "GET", // Use GET method for fetching data
@@ -323,7 +325,7 @@ $.ajax({
                                         
                                       <tr>
                                         <th>Email</th>
-                                      <td><input type="email" name="email" id="adminemailId" placeholder="Enter your email" class="form-control"/> </td></tr>
+                                      <td><input type="email" name="email" id="adminemailId" placeholder="Enter your email" class="form-control" value="${newAdminEmailId}"/> </td></tr>
                                         <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="adminageId" placeholder="Enter your age" class="form-control"/></td></tr>
@@ -412,6 +414,7 @@ error: function(xhr) {
 
    var button = $(event.relatedTarget);
    var newUserId = button.attr('data-user-id');
+   var emailId = button.attr('data-email-id');
    
 $.ajax({
                 url: "{{ route('getDataForAddingDetailsOfNewUser') }}", // Use the named route
@@ -448,7 +451,7 @@ console.log(newUserData);
                                         <tr>
                                       <tr>
                                         <th>Email Id</th>
-                                      <td><input type="email" name="email" id="newemailId" placeholder="Enter email Id" class="form-control"/> </td></tr>
+                                      <td><input type="email" name="email" id="newemailId" placeholder="Enter email Id" class="form-control" value="${emailId}"/> </td></tr>
                                         <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="newageId" placeholder="Enter your age" class="form-control"/></td></tr>
@@ -537,6 +540,7 @@ $(document).ready(function () {
 
    var button = $(event.relatedTarget);
    var newStudentUserId = button.attr('data-user-id');
+   var studentemailId = button.attr('data-email-id');
 $.ajax({
                 url: "{{ route('getDataForAddingDetailsOfStudent') }}", // Use the named route
                 method: "GET", // Use GET method for fetching data
@@ -572,7 +576,7 @@ $.ajax({
                                         
                                       <tr>
                                         <th>Email</th>
-                                      <td><input type="email" name="email" id="studentemailId" placeholder="Enter your email" class="form-control"/> </td></tr>
+                                      <td><input type="email" name="email" id="studentemailId" placeholder="Enter your email" class="form-control" value="${studentemailId}"/> </td></tr>
                                         <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="studentageId" placeholder="Enter your age" class="form-control"/></td></tr>
@@ -676,7 +680,8 @@ data.forEach(function(newUser) {
                                 class="btn btn-primary form-control"
                                 data-toggle="modal"
                                 data-target="#exampleModalLongNewUserUserId"
-                                data-user-id="${newUser.userId}">
+                                data-user-id="${newUser.userId}"
+                                data-email-id="${newUser.email}">
                                 View
                             </button>
                             </td>
@@ -709,7 +714,8 @@ data.forEach(function(adminUser) {
                                 class="btn btn-primary form-control"
                                 data-toggle="modal"
                                 data-target="#exampleModalLongAdminUserId"
-                                data-user-id="${adminUser.userId}">
+                                data-user-id="${adminUser.userId}"
+                                data-email-id="${adminUser.email}">
                                 View
                             </button>
 
@@ -745,7 +751,8 @@ data.forEach(function(teacherUser) {
                                 class="btn btn-primary form-control"
                                 data-toggle="modal"
                                 data-target="#exampleModalLongTeacherUserId"
-                                data-user-id="${teacherUser.userId}">
+                                data-user-id="${teacherUser.userId}"
+                                data-email-id="${teacherUser.email}">
                                 View
                             </button>
 
@@ -781,7 +788,8 @@ data.forEach(function(studentUser) {
                                 class="btn btn-primary form-control"
                                 data-toggle="modal"
                                 data-target="#exampleModalLongStudentUserId"
-                                data-user-id="${studentUser.userId}">
+                                data-user-id="${studentUser.userId}"
+                                data-email-id="${studentUser.email}">
                                 View
                             </button>
 
