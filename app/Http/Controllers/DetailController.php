@@ -87,6 +87,7 @@ public function getAdminAllDetails()
   {
     $validated = $request->validate([
       'firstName' => ['required'],
+      'email' => ['required', 'email'],
       'lastName' => ['required'],
       'age' => ['required', 'numeric'],
       'dob' => ['required', 'date'],
@@ -119,7 +120,7 @@ public function getAdminAllDetails()
         'guardianName.required' => 'Your Guardian\'s name is Required',
       ]
     ]);
-    $batchId = Batch::where('status', 40)->select('batchId')->first()->batchId;
+    $batchId = batch::where('status', 40)->select('batchId')->first()->batchId;
     //Add An Entity
     $detailIds = Detail::updateOrCreate(
       [
@@ -130,6 +131,7 @@ public function getAdminAllDetails()
         'sal' => $request->salutation,
         'firstname' => $request->firstName,
         'lastname' => $request->lastName,
+        'lastname' => $request->email,
         'age' => $request->age,
         'dob' => $request->dob,
         'contactNumber' => $request->contactNumber,

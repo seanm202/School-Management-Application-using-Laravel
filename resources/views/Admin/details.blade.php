@@ -193,6 +193,9 @@ $.ajax({
                                         <th>Last name</th>
                                       <td><input type="text" name="lastName" id="teacherlastName" placeholder="Enter last name" class="form-control"/> </td></tr>
                                         <tr>
+                                        <th>Email</th>
+                                      <td><input type="email" name="email" id="teacheremailId" placeholder="Enter your email" class="form-control"/></td></tr>
+                                         <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="teacherageId" placeholder="Enter your age" class="form-control"/></td></tr>
                                         <tr>
@@ -248,7 +251,7 @@ $.ajax({
 // console.log(rowsGetTeacherDetail);
     $('#forAddingNewDetailsOfTeacherUser').html(rowsGetTeacherDetail);
 
-allotValues(newTeacherUserData,"teacherfirstName","teacherlastName","teacherforSalutationId","teacherageId","teacherdobId","teachercontactNumber",
+allotValues(newTeacherUserData,"teacherfirstName","teacherlastName","teacheremailId","teacherforSalutationId","teacherageId","teacherdobId","teachercontactNumber",
 "teacheralternateContactNumber","teacheraddress","teacherexampleModalFullName","teacherexampleModalPhone",
 "teacherbloodGroup","teacheridentificationMark","teacherparentNumber","teacherhomePhoneNumber","teacherfatherSpouseName",
 "teachermotherName","teacherguardianName","teacherdetailIdFor","teacheruserIdFor","teacherroleForId");
@@ -315,6 +318,10 @@ $.ajax({
                                       <tr>
                                         <th>Last name</th>
                                       <td><input type="text" name="lastName" id="adminlastName" placeholder="Enter last name" class="form-control"/> </td></tr>
+                                        
+                                      <tr>
+                                        <th>Email</th>
+                                      <td><input type="email" name="email" id="adminemailId" placeholder="Enter your email" class="form-control"/> </td></tr>
                                         <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="adminageId" placeholder="Enter your age" class="form-control"/></td></tr>
@@ -370,7 +377,7 @@ $.ajax({
 </form>`;
     $('#forAddingNewDetailsOfAdminUser').html(rowsGetAdminDetail);
 
-allotValues(newUserData,"adminfirstName","adminlastName","adminforSalutationId","adminageId","admindobId","admincontactNumber",
+allotValues(newUserData,"adminfirstName","adminlastName","adminemailId","adminforSalutationId","adminageId","admindobId","admincontactNumber",
 "adminalternateContactNumber","adminaddress","adminexampleModalFullName","adminexampleModalPhone",
 "adminbloodGroup","adminidentificationMark","adminparentNumber","adminhomePhoneNumber","adminfatherSpouseName",
 "adminmotherName","adminguardianName","admindetailIdFor","adminuserIdFor","adminroleForId");
@@ -437,6 +444,10 @@ console.log(newUserData);
                                         <th>Last name</th>
                                       <td><input type="text" name="lastName" id="newlastName" placeholder="Enter last name" class="form-control"/> </td></tr>
                                         <tr>
+                                      <tr>
+                                        <th>Email Id</th>
+                                      <td><input type="email" name="email" id="newemailId" placeholder="Enter email Id" class="form-control"/> </td></tr>
+                                        <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="newageId" placeholder="Enter your age" class="form-control"/></td></tr>
                                         <tr>
@@ -491,7 +502,7 @@ console.log(newUserData);
 </form>`;
     $('#forAddingNewDetailsOfUser').html(rowsGetNewUserDetail); 
 
-allotValues(newUserData,"newfirstName","newlastName",'newforSalutationId',"newageId","newdobId","newcontactNumber",
+allotValues(newUserData,"newfirstName","newlastName","newemailId",'newforSalutationId',"newageId","newdobId","newcontactNumber",
 "newalternateContactNumber","newaddress","newexampleModalFullName","newexampleModalPhone",
 "newbloodGroup","newidentificationMark","newparentNumber","newhomePhoneNumber","newfatherSpouseName",
 "newmotherName","newguardianName","newdetailIdFor","newuserIdFor","newroleForId");
@@ -556,6 +567,10 @@ $.ajax({
                                       <tr>
                                         <th>Last name</th>
                                       <td><input type="text" name="lastName" id="studentlastName" placeholder="Enter last name" class="form-control"/> </td></tr>
+                                        
+                                      <tr>
+                                        <th>Email</th>
+                                      <td><input type="email" name="email" id="studentemailId" placeholder="Enter your email" class="form-control"/> </td></tr>
                                         <tr>
                                         <th>Age</th>
                                       <td><input type="number" name="age" id="studentageId" placeholder="Enter your age" class="form-control"/></td></tr>
@@ -611,7 +626,7 @@ $.ajax({
 </form>`;
     $('#forAddingNewDetailsOfStudentUser').html(rowsGetStudentUserDetail);
 
-allotValues(studentUserData,"studentfirstName","studentlastName","studentforSalutationId","studentageId","studentdobId","studentcontactNumber",
+allotValues(studentUserData,"studentfirstName","studentlastName","studentemailId","studentforSalutationId","studentageId","studentdobId","studentcontactNumber",
 "studentalternateContactNumber","studentaddress","studentexampleModalFullName","studentexampleModalPhone",
 "studentbloodGroup","studentidentificationMark","studentparentNumber","studenthomePhoneNumber","studentfatherSpouseName",
 "studentmotherName","studentguardianName","studentdetailIdFor","studentuserIdFor","studentroleForId");
@@ -927,34 +942,34 @@ getStudents();
             @endif
 
     <div class="py-12" id="detailsToNewUser">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    Add details to new user
-                    <br>
-                    New Users<br>
-                          <table class="table" id="addNewDetailsToNewUser">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Email</th>
-                                <th>Edit Details</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                         </tbody>
-                      </table>
-
-
-                            
-
-                            
-
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900">
+                Add details to new user
+                <br>
+                New Users<br>
+                <!-- START OF RESPONSIVE WRAPPER -->
+                <div style="overflow-x:scroll;">
+                    <table class="w-full text-left border-collapse" id="addNewDetailsToNewUser">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="pb-3 pt-2 px-4 font-semibold text-sm">Name</th>
+                                <th class="pb-3 pt-2 px-4 font-semibold text-sm">Phone</th>
+                                <th class="pb-3 pt-2 px-4 font-semibold text-sm">Email</th>
+                                <th class="pb-3 pt-2 px-4 font-semibold text-sm">Edit Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic rows go here -->
+                        </tbody>
+                    </table>
                 </div>
-              </div>
+                <!-- END OF RESPONSIVE WRAPPER -->
             </div>
-          </div>
+        </div>
+    </div>
+</div>
+
 <!--
 
 
@@ -968,13 +983,14 @@ getStudents();
                      View/Edit details
                      <br>
                      Admins<br>
-           <table class="table" id="idForViewingAdminDetailsInAModal">
+                <div style="overflow-x:scroll;">
+                          <table class="w-full text-left border-collapse" id="idForViewingAdminDetailsInAModal">
                          <thead>
                            <tr>
-                             <th>Name</th>
-                             <th>Phone</th>
-                             <th>Email</th>
-                             <th>View</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Name</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Phone</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Email</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">View</th>
                            </tr>
                          </thead>
                          <tbody>
@@ -983,6 +999,7 @@ getStudents();
                        </tbody>
                        </table>
 
+                 </div>
                  </div>
              </div>
          </div>
@@ -994,13 +1011,14 @@ getStudents();
                      View/Edit details
                      <br>
                      Teachers<br>
-           <table class="table" id="idForViewingTeacherDetailsInAModal">
+                <div style="overflow-x:scroll;">
+                          <table class="w-full text-left border-collapse" id="idForViewingTeacherDetailsInAModal">
                          <thead>
                            <tr>
-                             <th>Name</th>
-                             <th>Phone</th>
-                             <th>Email</th>
-                             <th>View</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Name</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Phone</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Email</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">View</th>
                            </tr>
                          </thead>
                          <tbody>
@@ -1009,6 +1027,7 @@ getStudents();
                        </tbody>
                        </table>
 
+                 </div>
                  </div>
              </div>
          </div>
@@ -1023,13 +1042,14 @@ getStudents();
                      View/Edit details
                      <br>
                      Students<br>
-           <table class="table" id="idForViewingStudentDetailsInAModal">
+                <div style="overflow-x:scroll;">
+                          <table class="w-full text-left border-collapse" id="idForViewingStudentDetailsInAModal">
                          <thead>
                            <tr>
-                             <th>Name</th>
-                             <th>Phone</th>
-                             <th>Email</th>
-                             <th>View</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Name</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Phone</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">Email</th>
+                             <th class="pb-3 pt-2 px-4 font-semibold text-sm">View</th>
                            </tr>
                          </thead>
                          <tbody>
@@ -1038,6 +1058,7 @@ getStudents();
                        </tbody>
                        </table>
 
+                 </div>
                  </div>
              </div>
          </div>

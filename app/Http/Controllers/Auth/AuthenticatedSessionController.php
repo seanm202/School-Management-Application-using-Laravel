@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
 use DB;
 
 class AuthenticatedSessionController extends Controller
@@ -50,7 +51,6 @@ class AuthenticatedSessionController extends Controller
     //   }
     // }
 
-    use Illuminate\Validation\ValidationException;
 
 public function store(LoginRequest $request)
 {
@@ -87,9 +87,10 @@ public function store(LoginRequest $request)
     }
 
     return response()->json([
-        'success' => true,
-        'redirect' => $redirect
-    ]);
+            'success' => true,
+            'message' => 'Logged-in succesfully.',
+        'redirect_url' => $redirect
+        ], 200);
 }
 
     /**
