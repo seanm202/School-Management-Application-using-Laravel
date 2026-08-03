@@ -93,7 +93,7 @@ function getRoles(callback) {
 // 
 
 
-function allotValues(newUserData,firstNameIdName,lastNameIdName,salutationIdName,ageIdName,dobIdName,contactNumberIdName,
+function allotValues(newUserData,firstNameIdName,lastNameIdName,emailId,,salutationIdName,ageIdName,dobIdName,contactNumberIdName,
 alternateContactNumberIdName,addressIdName,exampleModalFullNameIdName,exampleModalPhoneIdName,
 bloodGroupIdName,identificationMarkIdName,parentNumberIdName,homePhoneNumberIdName,fatherSpouseNameIdName,
 motherNameIdName,guardianNameIdName,detailIdFor,userIdFor,idforroleForId)
@@ -105,6 +105,8 @@ motherNameIdName,guardianNameIdName,detailIdFor,userIdFor,idforroleForId)
     var salutation=newUserData.sal;
 
 $('#'+salutationIdName).val(salutation);
+var emailID=newUserData.email;
+    document.getElementById(emailId).value=emailID;
 
     var age=newUserData.age;
     document.getElementById(ageIdName).value=age;
