@@ -472,13 +472,7 @@ $.ajaxSetup({
     $('#loginForm').on('submit', function (e) {
 
         e.preventDefault();
-<<<<<<< HEAD
  
-=======
-        console.log("Submit intercepted");
-
-
->>>>>>> 00744b4281039a370de7053f5d2c6581b029e803
         $.ajax({
             url: this.action,
             type: 'POST',
